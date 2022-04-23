@@ -1,0 +1,244 @@
+%v1
+\documentclass{amsart}
+\usepackage{amssymb, amsmath, amsfonts, amsthm}
+\usepackage{graphics, enumerate, mathrsfs, mathtools,tikz-cd,soul,csquotes}
+\usetikzlibrary{positioning,arrows,scopes}
+%\usepackage[left=1.25in,
+%			right=1.25in,
+%			top=1.25in,
+%			bottom=1.25in]{geometry}
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+
+% COMMENT OUT FOR FINAL VERSION
+\usepackage{showkeys}
+
+\newtheorem{thm}{Theorem}
+\newtheorem*{thm*}{Theorem}
+\newtheorem{obs}[thm]{Observation}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{prob}[thm]{Problem}
+\newtheorem{dfn}[thm]{Definition}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{rmk}[thm]{Remark}
+\newtheorem{conj}[thm]{Conjecture}
+
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cE}{\mathcal{E}}
+
+%\newcommand{\energy}{\cE}
+\DeclareMathOperator{\energy}{\cE}
+\DeclareMathOperator{\supp}{supp}
+%%%% capacity
+\DeclareMathOperator{\Capacity}{\textsc{cap}}
+\newcommand{\posCap}{c_{pos}}
+\DeclareMathOperator{\argmax}{argmax}
+\DeclareMathOperator{\argmin}{argmin}
+\DeclareMathOperator{\val}{val}
+%topological interior
+\DeclareMathOperator{\interior}{int}
+
+\DeclareMathOperator{\trop}{trop}
+\DeclareMathOperator{\rspan}{row.span}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Div}{Div}
+\DeclareMathOperator{\Eff}{Eff}
+\DeclareMathOperator{\indeg}{indeg}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\Jac}{Jac}
+%\DeclareMathOperator{\ker}{ker}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\PL}{PL}
+%%% use either \Delta or Div %%%
+\DeclareMathOperator{\Divisor}{\Delta}
+\DeclareMathOperator{\zspan}{span}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Br}{Brk}
+\DeclareMathOperator{\ev}{ev}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\coeff}{coeff}
+
+\renewcommand{\Re}{\mathrm{Re}}
+\newcommand{\dsp}{\displaystyle}
+\newcommand{\pderiv}[1]{\frac{\partial}{\partial{#1}}}
+\newcommand{\angles}[1]{\langle {#1} \rangle}
+
+% for comments
+\newcommand{\note}[1]{{\color{red} \sf $\diamondsuit$  {#1} $\diamondsuit$ }}
+\newcommand{\todo}[1]{\note{#1}}
+\newcommand{\harry}[1]{{\color{red} \sf $\diamondsuit$  Harry: {#1} $\diamondsuit$ }}
+
+\begin{document}
+\title[Tree distance minors]{Minors of tree distance matrices}
+\author{Harry Richman}
+\author{Farbod Shokrieh}
+\author{Chenxi Wu}
+\date{v1, \today  \,(Preliminary draft, not for circulation).}
+%\thanks{This work was partially supported by ....}
+
+
+\begin{abstract}
+We prove a formula for the determinant of 
+a principal minor of
+the distance matrix of a weighted tree.pr
+\end{abstract}
+\maketitle
+
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\section{Introduction}
+
+\cite{graham-hoffman-hosoya}
+
+Special case: $\Gamma$ is a metric tree.
+\begin{thm}\label{thm:max-measure}
+Suppose $\Gamma = (G,\ell)$ is a metric tree,
+and $A \subset V(G)$ a finite subset of vertices.
+The measure in $Meas^1(A)$
+which maximizes distance energy is given by
+\begin{equation}\label{eq:max-measure}
+\mu_A = \frac1{\displaystyle \sum_{\mathcal F} w(F)} \sum_{\mathcal F} w(F) \sum_{x \in A}  \mu_{can}(F_x) \,\delta_x
+= \sum_{x\in A} \left( \frac{\sum_{\mathcal F} w(F) \mu_{can}(F_x)}{\sum_{\mathcal F} w(F)} \right) \delta_x
+\end{equation}
+where $\delta_x$ is the Dirac measure at $x$,
+$\mathcal F = \mathcal F(A,G)$ denotes the set of $A$-rooted spanning forests of $G$,
+$w(F)= \prod_{e \not \in F} \ell(e) $
+is the weight of $F$,
+$F_x$ denotes the $x$-component of the forest $F$
+and
+$$
+\mu_{can}(F_x) = \sum_{y \in V(F_x)} \frac{2 - \val(y)}{2}.
+$$
+\end{thm}
+
+Equivalently, the optimal measure is
+$$
+\mu_A = \sum_{x \in A} \delta_x\left( \frac{2 - \val(x)}{2} +  \sum_{y \in \Gamma \setminus A} \frac{2 - \val(y)}{2} c(y,x;\Gamma) \right)
+$$
+where
+% $\delta_x$ denotes the Dirac measure at $x$,
+$c(y,x;\Gamma)$ denotes the current to $x \in A$ when unit current flows from $y$ to $A$.
+In particular,
+\begin{equation}
+c(y,x;\Gamma) = \frac{\sum_F \epsilon(y,x,F) w(F)}{ \sum_F w(F)}
+\end{equation}
+where both sums are taken over $A$-rooted spanning forests $F$ of $\Gamma$,
+%$w(F) = \prod_{e \not \in F} \ell(e) $
+%is the weight of $F$,
+and
+\begin{equation*}
+\epsilon(y,x,F) = \begin{cases}
+1 &\text{if $x$-component of $F$ contains $y$} \\
+0 &\text{otherwise.}
+\end{cases}
+\end{equation*}
+
+\begin{thm}\label{thm:max-capacity}
+Suppose $\Gamma = (G,\ell)$ is a metric tree, $A \subset V(G)$ is a finite subset,
+and $\mu_A$ is the measure \eqref{eq:max-measure}.
+Then
+\begin{equation}\label{eq:max-capacity}
+\energy(\mu_A) = \frac14 \ell(\Gamma) - \left( \frac{ \sum_{\mathcal F^*} \mu_{can}(F_{2,*})^2 w(F_2)}{\sum_{\mathcal F} w(F_1) } \right).
+\end{equation}
+where 
+$F_1$ varies over $A$-rooted spanning forests of $G$,
+$F_2$ varies over all $(A,*)$-rooted spanning forests of $G$,
+$F_{2,*}$ denotes the $*$-component of $F_2$, 
+and
+\begin{equation}
+\mu_{can}(F_{2,*}) 
+= \frac12 \sum_{x \in V( F_{2,*})} {2 - \val_\Gamma(x)}.
+\end{equation}
+\end{thm}
+In other words, 
+$\mu_{can}$ denotes the canonical measure on $\Gamma$.
+
+
+\subsection{Previous work} 
+
+
+
+\subsection{Notation}
+
+$\Gamma$ a compact metric graph
+
+$G$ a finite graph, 
+loops and parallel edges allowed,
+possibly disconnected
+
+$E(G)$ edge set of $G$
+
+$V(G)$ vertex set of $G$
+
+$(G,\ell)$ a combinatorial model for a metric graph,
+where 
+%$G$ is a combinatorial graph and 
+
+$\ell : E(G) \to \RR_{>0}$
+is a length function on edges of $G$
+
+$\cC(\Gamma)$ continuous $\RR$-valued functions on $\Gamma$
+
+$Meas(\Gamma)$ signed Borel measures on $\Gamma$
+
+$Meas_{\geq 0}(\Gamma)$ positive Borel measures on $\Gamma$
+
+\section{Background}
+
+
+\section{Proofs}
+
+
+
+\section{Examples}
+\begin{eg}
+Suppose $\Gamma$ is a tripod with lengths $a,b,c$ and corresponding leaf vertices $u,v,w$.
+\[
+\begin{tikzpicture}
+	\draw (0,0) -- (-2,0);
+	\draw (2,1) -- (0,0) -- (2,-1);
+	\filldraw[black] (-2,0) circle (2pt);
+	\filldraw[black] (2,1) circle (2pt);
+	\filldraw[black] (2,-1) circle (2pt);
+
+	\node[above] at (-1,0) {$a$};
+	\node[above] at (1,0.5) {$b$};
+	\node[below] at (1,-0.5) {$c$};
+
+	\node[left] at (-2,0) {$u$};
+	\node[right] at (2,1) {$v$};
+	\node[right] at (2,-1) {$w$};
+\end{tikzpicture}
+\]
+Let $A = \{u,v,w\}$.
+Then 
+\begin{align*}
+\mu_A &= \frac{ab(\frac12\delta_u + \frac12\delta_v) + ac(\frac12\delta_u + \frac12\delta_w) + bc(\frac12\delta_v + \frac12\delta_w) }{ab + ac + bc} \\
+&= \frac12 \left( \frac{ab + ac}{ab + ac + bc}\delta_u + \frac{ab + bc}{ab + ac + bc} \delta_v + \frac{ac + bc}{ab + ac + bc} \delta_w \right) .
+\end{align*}
+\end{eg}
+
+
+\section*{Acknowledgements}
+The authors would like to thank ...
+
+
+\bibliography{tree-distance-ref} 
+\bibliographystyle{abbrv}
+
+\end{document}
