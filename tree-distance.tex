@@ -40,7 +40,8 @@
 \newcommand{\cC}{\mathcal{C}}
 \newcommand{\cE}{\mathcal{E}}
 
-%\newcommand{\energy}{\cE}
+% sum of cofactors
+\DeclareMathOperator{\cof}{cof}
 \DeclareMathOperator{\energy}{\cE}
 \DeclareMathOperator{\supp}{supp}
 %%%% capacity
@@ -94,7 +95,7 @@
 \begin{abstract}
 We prove a formula for the determinant of 
 a principal minor of
-the distance matrix of a weighted tree.pr
+the distance matrix of a weighted tree.
 \end{abstract}
 \maketitle
 
@@ -103,75 +104,61 @@ the distance matrix of a weighted tree.pr
 
 \section{Introduction}
 
-\cite{graham-hoffman-hosoya}
+Suppose $T$ is a tree with $n$ vertices and $m=n-1$ edges.
+let $D$ denote the distance matrix of $T$.
+In
+\cite{graham-pollak},
+Graham and Pollak proved that
+\begin{equation}
+\det(D) = (-1)^{n-1} 2^{n-2} (n-1). 
+\end{equation}
+
+\cite{graham-hoffman-hosoya}, 
 
 Special case: $\Gamma$ is a metric tree.
-\begin{thm}\label{thm:max-measure}
-Suppose $\Gamma = (G,\ell)$ is a metric tree,
-and $A \subset V(G)$ a finite subset of vertices.
-The measure in $Meas^1(A)$
-which maximizes distance energy is given by
-\begin{equation}\label{eq:max-measure}
-\mu_A = \frac1{\displaystyle \sum_{\mathcal F} w(F)} \sum_{\mathcal F} w(F) \sum_{x \in A}  \mu_{can}(F_x) \,\delta_x
-= \sum_{x\in A} \left( \frac{\sum_{\mathcal F} w(F) \mu_{can}(F_x)}{\sum_{\mathcal F} w(F)} \right) \delta_x
-\end{equation}
-where $\delta_x$ is the Dirac measure at $x$,
-$\mathcal F = \mathcal F(A,G)$ denotes the set of $A$-rooted spanning forests of $G$,
-$w(F)= \prod_{e \not \in F} \ell(e) $
-is the weight of $F$,
-$F_x$ denotes the $x$-component of the forest $F$
-and
-$$
-\mu_{can}(F_x) = \sum_{y \in V(F_x)} \frac{2 - \val(y)}{2}.
-$$
-\end{thm}
-
-Equivalently, the optimal measure is
-$$
-\mu_A = \sum_{x \in A} \delta_x\left( \frac{2 - \val(x)}{2} +  \sum_{y \in \Gamma \setminus A} \frac{2 - \val(y)}{2} c(y,x;\Gamma) \right)
-$$
-where
-% $\delta_x$ denotes the Dirac measure at $x$,
-$c(y,x;\Gamma)$ denotes the current to $x \in A$ when unit current flows from $y$ to $A$.
-In particular,
-\begin{equation}
-c(y,x;\Gamma) = \frac{\sum_F \epsilon(y,x,F) w(F)}{ \sum_F w(F)}
-\end{equation}
-where both sums are taken over $A$-rooted spanning forests $F$ of $\Gamma$,
-%$w(F) = \prod_{e \not \in F} \ell(e) $
-%is the weight of $F$,
-and
-\begin{equation*}
-\epsilon(y,x,F) = \begin{cases}
-1 &\text{if $x$-component of $F$ contains $y$} \\
-0 &\text{otherwise.}
-\end{cases}
-\end{equation*}
 
 \begin{thm}\label{thm:max-capacity}
-Suppose $\Gamma = (G,\ell)$ is a metric tree, $A \subset V(G)$ is a finite subset,
-and $\mu_A$ is the measure \eqref{eq:max-measure}.
+Suppose $G$ is a finite (weighted?) tree, and $A \subset V(G)$ is a subset of vertices.
 Then
 \begin{equation}\label{eq:max-capacity}
-\energy(\mu_A) = \frac14 \ell(\Gamma) - \left( \frac{ \sum_{\mathcal F^*} \mu_{can}(F_{2,*})^2 w(F_2)}{\sum_{\mathcal F} w(F_1) } \right).
+\det D[A] = \frac14 \ell(\Gamma)\left( \sum_{\mathcal T} w(T) \right) - \frac14 \left( \sum_{\mathcal F^*} \mu_{can}(F_{2,*})^2 w(F_2) \right).
 \end{equation}
 where 
-$F_1$ varies over $A$-rooted spanning forests of $G$,
+$\mathcal T(G/A)$ denotes the set of $A$-rooted spanning forests of $G$,
 $F_2$ varies over all $(A,*)$-rooted spanning forests of $G$,
 $F_{2,*}$ denotes the $*$-component of $F_2$, 
 and
 \begin{equation}
 \mu_{can}(F_{2,*}) 
-= \frac12 \sum_{x \in V( F_{2,*})} {2 - \val_\Gamma(x)}.
+= \sum_{x \in V( F_{2,*})} {2 - \deg(x)}.
 \end{equation}
 \end{thm}
 In other words, 
 $\mu_{can}$ denotes the canonical measure on $\Gamma$.
 
 
+\begin{thm}[Monotonicity of principal minors]
+Suppose $G = (V,E)$ is a finite, weighted tree with distance matrix $D$.
+If $A,B \subset V$
+are vertex subsets with
+$A \subset B$,
+then
+\begin{equation*}
+\left| \frac{\det D[A]}{\cof D[A]} \right| \leq \left| \frac{\det D[B]}{\cof D[B]} \right| .
+\end{equation*}
+\end{thm}
+
 \subsection{Previous work} 
 
-
+\begin{thm}[\cite{bapat-sivasubramanian}]
+Let $T$ be a tree with $m+1$ vertices and $m$ edges.
+Let $D$ be the distance matrix of $T$, and $L$ the Laplacian matrix.
+Let $S \subset V(T)$ be a subset of vertices of $T$. 
+Then
+\begin{equation*}
+\cof D[S] = (-2)^{|S|-1} \det L[V \setminus S] .
+\end{equation*}
+\end{thm}
 
 \subsection{Notation}
 
@@ -227,9 +214,17 @@ Suppose $\Gamma$ is a tripod with lengths $a,b,c$ and corresponding leaf vertice
 \]
 Let $A = \{u,v,w\}$.
 Then 
+$$
+D[A] = \begin{bmatrix}
+0 & a + b & a + c \\
+a + b & 0 & b + c \\
+a + c & b + c & 0
+\end{bmatrix}.
+$$
+and
 \begin{align*}
-\mu_A &= \frac{ab(\frac12\delta_u + \frac12\delta_v) + ac(\frac12\delta_u + \frac12\delta_w) + bc(\frac12\delta_v + \frac12\delta_w) }{ab + ac + bc} \\
-&= \frac12 \left( \frac{ab + ac}{ab + ac + bc}\delta_u + \frac{ab + bc}{ab + ac + bc} \delta_v + \frac{ac + bc}{ab + ac + bc} \delta_w \right) .
+\det D[A] &= 2(a+b)(a+c)(b+c) 
+= 2\left( (a+b+c)(ab + ac + bc) - abc \right).
 \end{align*}
 \end{eg}
 
