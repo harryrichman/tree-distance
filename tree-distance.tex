@@ -96,6 +96,7 @@
 We prove a formula for the determinant of 
 a principal minor of
 the distance matrix of a weighted tree.
+This generalizes a result of Graham and Pollak.
 \end{abstract}
 \maketitle
 
@@ -105,7 +106,7 @@ the distance matrix of a weighted tree.
 \section{Introduction}
 
 Suppose $T$ is a tree with $n$ vertices and $m=n-1$ edges.
-let $D$ denote the distance matrix of $T$.
+Let $D$ denote the distance matrix of $T$.
 In
 \cite{graham-pollak},
 Graham and Pollak proved that
@@ -113,6 +114,7 @@ Graham and Pollak proved that
 \det(D) = (-1)^{n-1} 2^{n-2} (n-1). 
 \end{equation}
 
+A weighted version was proved by Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann}.
 \begin{thm}
 \label{thm:main}
 Suppose $G$ is a tree with $n$ vertices, and $S \subset V(G)$ is a subset of vertices.
@@ -120,7 +122,7 @@ Let $D$ denote the distance matrix of $G$,
 and $D[S]$ the principal minor that includes the $S$-indexed rows and columns.
 Then
 \begin{equation}\label{eq:main}
-\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( (n-1) \kappa(G/S)  - \sum_{\mathcal F_2(G/S)} k(F_{*})^2  \right).
+\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( (n-1)\, \kappa(G/S)  - \sum_{\mathcal F_2(G/S)} k(F_{*})^2  \right).
 \end{equation}
 where 
 $G/S$ denotes the quotient graph that identifies together vertices in $S$,
@@ -129,7 +131,7 @@ $F_{*}$ denotes the $*$-component of $F$,
 and
 \begin{equation*}
 k(F_{*}) 
-= \sum_{x \in V( F_{*})} {2 - \deg(x)}.
+= \sum_{x \in V( F_{*})} {2 - \deg(x)} = 2 - c(F,*).
 \end{equation*}
 \end{thm}
 
@@ -139,17 +141,12 @@ Weighted version:
 Suppose $G$ is a finite, weighted tree, and $A \subset V(G)$ is a subset of vertices.
 Then
 \begin{equation}\label{eq:w-max-capacity}
-\det D[A] = \frac14 \ell(\Gamma)\left( \sum_{\mathcal T} w(T) \right) - \frac14 \left( \sum_{\mathcal F^*} \mu_{can}(F_{2,*})^2 w(F_2) \right).
+\det D[A] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{e}\ell(e) \sum_{\mathcal T} w(T) - \sum_{\mathcal F^*} k(F_{2,*})^2 w(F_2) \right).
 \end{equation}
 where 
 $\mathcal T(G/A)$ denotes the set of $A$-rooted spanning forests of $G$,
 $F_2$ varies over all $(A,*)$-rooted spanning forests of $G$,
-$F_{2,*}$ denotes the $*$-component of $F_2$, 
-and
-\begin{equation}
-\mu_{can}(F_{2,*}) 
-= \sum_{x \in V( F_{2,*})} {2 - \deg(x)}.
-\end{equation}
+$F_{2,*}$ denotes the $*$-component of $F_2$.
 \end{thm}
 
 
@@ -164,18 +161,26 @@ then
 \end{equation*}
 \end{thm}
 
+\begin{thm}[Nonsingular minors]
+Let $G$ be a finite, weighted tree
+with distance matrix $D$,
+and let $S \subset V(G)$ be a subset of vertices.
+If $|S|\geq 2$ then $\det D[S] \neq 0$.
+\end{thm}
+
 \subsection{Previous work} 
 
 The following theorem is due to Kirchhoff.
-
+For any graph $G$, let $\kappa(G)$ denote the number of spanning trees of $G$.
 \begin{thm}[All-minors matrix tree theorem]
 Let $G = (V,E)$ be a finite graph.
 Let $L$ denote the Laplacian matrix of $G$.
-Then for any vertex subset $S \subset V(G)$,
+Then for any nonempty vertex set $S \subset V(G)$,
 \begin{equation}
 \det L[V \setminus S] = \kappa( G / S) .
 \end{equation}
 \end{thm}
+Note that $\kappa(G/S)$ is also the number of $S$-rooted spanning forests of $G$.
 
 
 \begin{thm}[\cite{bapat-sivasubramanian}]
@@ -190,7 +195,7 @@ Then
 
 \subsection{Notation}
 
-$\Gamma$ a compact metric graph
+% $\Gamma$ a compact metric graph
 
 $G$ a finite graph, 
 loops and parallel edges allowed,
@@ -200,27 +205,168 @@ $E(G)$ edge set of $G$
 
 $V(G)$ vertex set of $G$
 
-$(G,\ell)$ a combinatorial model for a metric graph,
-where 
-%$G$ is a combinatorial graph and 
+%$\ell : E(G) \to \RR_{>0}$
+%is a length function on edges of $G$
 
-$\ell : E(G) \to \RR_{>0}$
-is a length function on edges of $G$
+% $\cC(\Gamma)$ continuous $\RR$-valued functions on $\Gamma$
 
-$\cC(\Gamma)$ continuous $\RR$-valued functions on $\Gamma$
+% $Meas(\Gamma)$ signed Borel measures on $\Gamma$
 
-$Meas(\Gamma)$ signed Borel measures on $\Gamma$
-
-$Meas_{\geq 0}(\Gamma)$ positive Borel measures on $\Gamma$
+% $Meas_{\geq 0}(\Gamma)$ positive Borel measures on $\Gamma$
 
 \section{Background}
 
 
 \section{Proofs}
 
+Outline of proof: given subset $S$ and distance matrix minor $D[S]$, we will
+\begin{enumerate}
+\item 
+Find vector $\mathbf{m}$ such that $D[S]\mathbf{m} = \lambda \mathbf{1}$.
+
+\item 
+Compute the sum of entries of $\mathbf{m}$, i.e. $\mathbf{1}^T\mathbf{m}$.
+
+\item 
+Note the identity
+$$ \mathbf{1}^T \mathbf{m} 
+= \lambda (\mathbf{1}^T D[S]^{-1} \mathbf{1}) 
+= \lambda \frac{\cof D[S]}{\det D[S]} .$$
+where $\cof D[S]$ is the sum of cofactors of $D[S]$.
+
+\item 
+Use known expression for $\cof D[S]$ to compute
+$$
+\det D[S] = \lambda (\cof D[S]) \left( \mathbf{1}^T \mathbf{m} \right)^{-1}.
+$$
+\end{enumerate}
+The interesting part will be hidden in the constant $\lambda$.
+
+\begin{eg}
+Suppose $G$ is a tree consisting of three paths joined at a central vertex.
+Let $S$ consist of the central vertex, and the three endpoints of the paths. 
+The corresponding minor of the distance matrix is
+$$
+D[S] = \begin{bmatrix}
+0 & a & b & c \\
+a & 0 & a + b & a + c \\
+b & a + b & 0 & b + c \\
+c & a + c & b + c & 0
+\end{bmatrix}.
+$$
+Following the steps outlined above:
+\begin{enumerate}
+\item 
+The vector $\mathbf{m} = \begin{bmatrix} -1 \\ 1 \\ 1 \\ 1 \end{bmatrix}$ satisfies
+$
+D[S] \mathbf{m} = (a+b+c) \mathbf{1}
+$
+
+\item 
+The sum of entries of $\mathbf{m}$ is $\mathbf{1}^T \mathbf{m} = 2$.
+
+\item 
+We have 
+$$2 = \mathbf{1}^T \mathbf{m} = \lambda (\mathbf{1}^T D[S] \mathbf{1}) = \displaystyle \lambda \frac{\cof D[S]}{\det D[S]}.$$
+
+\item 
+The cofactor sum is 
+$\cof D[S] = -8 abc$,
+so the determinant is
+\begin{align*}
+\det D[S] 
+= \lambda \frac{\cof A}{\mathbf{1}^T \mathbf{m}}
+= (a+b+c) (-8 abc)\frac{1}{2}
+= -4(a+b+c)abc.
+\end{align*}
+
+\end{enumerate}
+\end{eg}
+
+\begin{prop}
+Let $T = (V,E)$ a tree, and consider the vector $\mathbf{m} \in \RR^V$
+defined by 
+\begin{equation*}
+\mathbf{m}(v) = 2 - \deg v,
+\end{equation*}
+where $\deg v$ denote the degree of $v$ in $T$.
+Then $\mathbf{1}^T \mathbf{m} = \sum_{v \in V} (2-\deg v) = 2$.
+\end{prop}
+
+Let $\mathbf{1}$ denote the all-ones vector.
+\begin{thm}
+Let $T$ be a tree, $S$ a subset of vertices,
+and $D[S]$ the corresponding minor of the distance matrix.
+Suppose $\mathbf{m} \in \RR^{S}$ is defined by
+\begin{equation*}
+\mathbf{m}(v) = \sum_{T \in \mathcal T(T/S)} \sum_{w \in T_v} (2 - \deg w) 
+\end{equation*}
+Then
+$D[S] \mathbf{m} = \lambda \mathbf{1}$
+for some constant $\lambda$.
+\end{thm}
+\begin{proof}
+For any $u,v \in S$, 
+we must show that $(D[S] \mathbf{m})(u) = (D[S] \mathbf{m})(v)$.
+We have
+\begin{align*}
+ (D[S] \mathbf{m})(v) &= \sum_{w \in S} d(v,w) \mathbf{m}(w) \\
+ &= \sum_{w \in S} d(v,w) \sum_{T \in \mathcal T(G/S)} \sum_{z \in T(w)} (2 - \deg z) \\
+ &= \sum_{T \in \mathcal T(G/S)} \sum_{w \in S} \sum_{z \in T(w)} (2 - \deg z) d(v,w) \\
+ &= \sum_{T \in \mathcal T(G/S)} \sum_{w \in S} (2 - c(T,w)) d(v,w).
+\end{align*}
+where $c(T,w)$ is the ``cut index'' of the $w$-component of $T$ (as a spanning forest).
+
+Note that we can express the tree distance $d(v,w)$ as a sum over edges
+\begin{equation*}
+d(v,w) = \sum_{e \in E(G)} \delta(e; v,w)
+\qquad\text{where } \delta(e; v,w) = \begin{cases}
+1 &\text{if $e$ lies on $v\sim w$ path}, \\
+%\text{if }v,w \text{ are on opposite sides of }e, \\
+0 &\text{otherwise}.
+\end{cases}
+\end{equation*}
+Thus
+\begin{align*}
+(D[S] \mathbf{m})(v) &= \sum_{T \in \mathcal T(G/S)} \sum_{w \in S} (2 - c(T,w))  \sum_{e \in E(G)} \delta(e;v,w) \\
+&= \sum_{T \in \mathcal T(G/S)} \sum_{e \in E(G)} \left( \sum_{w \in S}(2 - c(T,w))   \delta(e;v,w) \right)
+\end{align*}
+\end{proof}
 
 
 \section{Examples}
+
+\begin{eg}
+Suppose $G$ is a tree consisting of three paths joined at a central vertex.
+Let $S$ consist of the central vertex, and the three endpoints of the paths. 
+The corresponding minor of the distance matrix is
+$$
+D[S] = \begin{bmatrix}
+0 & a & b & c \\
+a & 0 & a + b & a + c \\
+b & a + b & 0 & b + c \\
+c & a + c & b + c & 0
+\end{bmatrix}
+\sim \begin{bmatrix}
+0 & a & b & c \\
+a & -a & a  & a \\
+b & b & -b & b \\
+c & c & c & -c
+\end{bmatrix}.
+\sim \begin{bmatrix}
+0 & a & b & c \\
+a & -2a & 0 & 0 \\
+b & 0 & -2b & 0 \\
+c & 0 & 0 & -2c
+\end{bmatrix}.
+$$
+The determinant is
+\begin{align*}
+\det D[S] 
+= -4(a+b+c)abc.
+\end{align*}
+\end{eg}
+
 \begin{eg}
 Suppose $\Gamma$ is a tripod with lengths $a,b,c$ and corresponding leaf vertices $u,v,w$.
 \[
@@ -254,11 +400,12 @@ and
 \det D[A] &= 2(a+b)(a+c)(b+c) 
 = 2\left( (a+b+c)(ab + ac + bc) - abc \right).
 \end{align*}
+The ``special vector'' in this example is $\mathbf{m}^T = \begin{bmatrix} a(b + c) & b(a + c) & c(a + b) \end{bmatrix}$.
 \end{eg}
 
 
 \section*{Acknowledgements}
-The authors would like to thank ...
+The authors would like to thank Ravindra Bapat for helpful discussion.
 
 
 \bibliography{tree-distance-ref} 
