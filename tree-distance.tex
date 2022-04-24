@@ -113,14 +113,32 @@ Graham and Pollak proved that
 \det(D) = (-1)^{n-1} 2^{n-2} (n-1). 
 \end{equation}
 
-\cite{graham-hoffman-hosoya}, 
-
-Special case: $\Gamma$ is a metric tree.
-
-\begin{thm}\label{thm:max-capacity}
-Suppose $G$ is a finite (weighted?) tree, and $A \subset V(G)$ is a subset of vertices.
+\begin{thm}
+\label{thm:main}
+Suppose $G$ is a tree with $n$ vertices, and $S \subset V(G)$ is a subset of vertices.
+Let $D$ denote the distance matrix of $G$,
+and $D[S]$ the principal minor that includes the $S$-indexed rows and columns.
 Then
-\begin{equation}\label{eq:max-capacity}
+\begin{equation}\label{eq:main}
+\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( (n-1) \kappa(G/S)  - \sum_{\mathcal F_2(G/S)} k(F_{*})^2  \right).
+\end{equation}
+where 
+$G/S$ denotes the quotient graph that identifies together vertices in $S$,
+$\mathcal F_2$ is the set of two-component spanning forests,
+$F_{*}$ denotes the $*$-component of $F$, 
+and
+\begin{equation*}
+k(F_{*}) 
+= \sum_{x \in V( F_{*})} {2 - \deg(x)}.
+\end{equation*}
+\end{thm}
+
+Weighted version:
+\begin{thm}
+\label{thm:w-max-capacity}
+Suppose $G$ is a finite, weighted tree, and $A \subset V(G)$ is a subset of vertices.
+Then
+\begin{equation}\label{eq:w-max-capacity}
 \det D[A] = \frac14 \ell(\Gamma)\left( \sum_{\mathcal T} w(T) \right) - \frac14 \left( \sum_{\mathcal F^*} \mu_{can}(F_{2,*})^2 w(F_2) \right).
 \end{equation}
 where 
@@ -133,13 +151,11 @@ and
 = \sum_{x \in V( F_{2,*})} {2 - \deg(x)}.
 \end{equation}
 \end{thm}
-In other words, 
-$\mu_{can}$ denotes the canonical measure on $\Gamma$.
 
 
 \begin{thm}[Monotonicity of principal minors]
 Suppose $G = (V,E)$ is a finite, weighted tree with distance matrix $D$.
-If $A,B \subset V$
+If $A,B \subset V(G)$
 are vertex subsets with
 $A \subset B$,
 then
@@ -149,6 +165,18 @@ then
 \end{thm}
 
 \subsection{Previous work} 
+
+The following theorem is due to Kirchhoff.
+
+\begin{thm}[All-minors matrix tree theorem]
+Let $G = (V,E)$ be a finite graph.
+Let $L$ denote the Laplacian matrix of $G$.
+Then for any vertex subset $S \subset V(G)$,
+\begin{equation}
+\det L[V \setminus S] = \kappa( G / S) .
+\end{equation}
+\end{thm}
+
 
 \begin{thm}[\cite{bapat-sivasubramanian}]
 Let $T$ be a tree with $m+1$ vertices and $m$ edges.
