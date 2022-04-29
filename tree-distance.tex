@@ -1,7 +1,7 @@
 %v1
 \documentclass{amsart}
 \usepackage{amssymb, amsmath, amsfonts, amsthm}
-\usepackage{graphics, enumerate, mathrsfs, mathtools,tikz-cd,soul,csquotes}
+\usepackage{graphics, enumerate, mathrsfs, mathtools,tikz-cd,soul,csquotes,dsfont}
 \usetikzlibrary{positioning,arrows,scopes}
 %\usepackage[left=1.25in,
 %			right=1.25in,
@@ -34,6 +34,8 @@
 \newcommand{\QQ}{\mathbb{Q}}
 \newcommand{\NN}{\mathbb{N}}
 \newcommand{\PP}{\mathbb{P}}
+% indicator function
+\newcommand{\one}{\mathds{1}}
 \newcommand{\cO}{\mathcal{O}}
 \newcommand{\cU}{\mathcal{U}}
 \newcommand{\cL}{\mathcal{L}}
@@ -42,6 +44,8 @@
 
 % sum of cofactors
 \DeclareMathOperator{\cof}{cof}
+% convex hull of vertex set
+\DeclareMathOperator{\conv}{conv}
 \DeclareMathOperator{\energy}{\cE}
 \DeclareMathOperator{\supp}{supp}
 %%%% capacity
@@ -53,19 +57,13 @@
 %topological interior
 \DeclareMathOperator{\interior}{int}
 
-\DeclareMathOperator{\trop}{trop}
 \DeclareMathOperator{\rspan}{row.span}
 \DeclareMathOperator{\Sym}{Sym}
-\DeclareMathOperator{\Div}{Div}
-\DeclareMathOperator{\Eff}{Eff}
 \DeclareMathOperator{\indeg}{indeg}
-\DeclareMathOperator{\Pic}{Pic}
-\DeclareMathOperator{\Jac}{Jac}
 %\DeclareMathOperator{\ker}{ker}
 \DeclareMathOperator{\coker}{coker}
 \DeclareMathOperator{\PL}{PL}
 %%% use either \Delta or Div %%%
-\DeclareMathOperator{\Divisor}{\Delta}
 \DeclareMathOperator{\zspan}{span}
 \DeclareMathOperator{\im}{im}
 \DeclareMathOperator{\Br}{Brk}
@@ -73,6 +71,9 @@
 \DeclareMathOperator{\vol}{vol}
 \DeclareMathOperator{\coeff}{coeff}
 
+% spanning trees
+\newcommand{\trees}{\mathcal{T}}
+\newcommand{\forests}{\mathcal{F}}
 \renewcommand{\Re}{\mathrm{Re}}
 \newcommand{\dsp}{\displaystyle}
 \newcommand{\pderiv}[1]{\frac{\partial}{\partial{#1}}}
@@ -105,60 +106,108 @@ This generalizes a result of Graham and Pollak.
 
 \section{Introduction}
 
-Suppose $T$ is a tree with $n$ vertices and $m=n-1$ edges.
-Let $D$ denote the distance matrix of $T$.
+Suppose $G = (V,E)$ is a tree with $n$ vertices.
+Let $D$ denote the distance matrix of $G$.
 In
 \cite{graham-pollak},
 Graham and Pollak proved that
-\begin{equation}
-\det(D) = (-1)^{n-1} 2^{n-2} (n-1). 
+\begin{equation}\label{eq:full-det}
+\det D = (-1)^{n-1} 2^{n-2} (n-1). 
 \end{equation}
+This identity is remarkable in that the result does not depend on the tree structure,
+beyond the number of vertices.
+This identity was motivated by a problem in data communication,
+and inspired much further research on distance matrices.
+%Self-contained proofs are also given in \cite{du-yeh,yan-yeh}.
 
-A weighted version was proved by Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann}.
+
+The main result of this paper is to generalize \eqref{eq:full-det} by replacing $D$ with any principal submatrix.
+For $S \subset V(G)$, let $D[S]$ denote the principal minor consisting of the $S$-indexed rows and columns.
 \begin{thm}
 \label{thm:main}
-Suppose $G$ is a tree with $n$ vertices, and $S \subset V(G)$ is a subset of vertices.
-Let $D$ denote the distance matrix of $G$,
-and $D[S]$ the principal minor that includes the $S$-indexed rows and columns.
+Suppose $G$ is a tree with $n$ vertices, 
+and distance matrix $D$.
+Let $S \subset V(G)$ be a subset of vertices.
 Then
 \begin{equation}\label{eq:main}
 \det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( (n-1)\, \kappa(G/S)  - \sum_{\mathcal F_2(G/S)} k(F_{*})^2  \right).
 \end{equation}
 where 
 $G/S$ denotes the quotient graph that identifies together vertices in $S$,
-$\mathcal F_2$ is the set of two-component spanning forests,
+$\kappa(G/S)$ is the number of $S$-rooted spanning forests of $G$,
+$\forests_2(G/S)$ is the set of $(S,*)$-rooted spanning forests of $G$,
 $F_{*}$ denotes the $*$-component of $F$, 
 and
 \begin{equation*}
 k(F_{*}) 
-= \sum_{x \in V( F_{*})} {2 - \deg(x)} = 2 - c(F,*).
+%= \sum_{x \in V( F_{*})} {2 - \deg(x)} 
+= 2 - \deg^o(F,*).
 \end{equation*}
 \end{thm}
+Note: the quantities $c(F,*)$, $k(F_*)$ satisfy
+$$
+1 \leq c(F,*) \leq |S|, \qquad
+2 - |S| \leq k(F_*) \leq 1 .
+$$
+When $S = V$ is the full vertex set, the quotient graph $G / V$ consists of a single vertex with $n-1$ loop edges, 
+so $\kappa(G/V) = 1$ and $\forests_2(G/V) = \emptyset$. 
+
 
 Weighted version:
+A weighted version of \eqref{eq:full-det} was proved by Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann}.
+\begin{equation}\label{eq:w-full-det}
+\det D_{\alpha} = (-1)^{n-1} 2^{n-2} \prod_{e \in E} \alpha_e \sum_{e \in E} \alpha_e .
+\end{equation}
 \begin{thm}
-\label{thm:w-max-capacity}
+\label{thm:w-main}
 Suppose $G$ is a finite, weighted tree, and $A \subset V(G)$ is a subset of vertices.
 Then
-\begin{equation}\label{eq:w-max-capacity}
-\det D[A] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{e}\ell(e) \sum_{\mathcal T} w(T) - \sum_{\mathcal F^*} k(F_{2,*})^2 w(F_2) \right).
+\begin{equation}\label{eq:w-main}
+\det D[A] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\ell(e) \sum_{\trees(G/S)} w(T) - \sum_{\forests_2(G/S)} w(F) k(F_{*})^2 \right).
 \end{equation}
 where 
 $\mathcal T(G/A)$ denotes the set of $A$-rooted spanning forests of $G$,
 $F_2$ varies over all $(A,*)$-rooted spanning forests of $G$,
-$F_{2,*}$ denotes the $*$-component of $F_2$.
+$F_{*}$ denotes the $*$-component of $F$.
 \end{thm}
 
+It is worth observing that the distances appearing in $D[S]$ may ignore a large part of the ambient tree $G$.
+We could instead replace $G$ by the subtree consisting of paths between vertices in $S$,
+which we call $\conv(S,G)$, the {\em convex hull} of $S \subset G$.
+To apply formula \eqref{eq:main} ``efficiently'', 
+we should replace $G$ with this convex hull $\conv(S,G)$.
+However, the formula as stated is true even without this replacement due to cancellation of terms.
 
-\begin{thm}[Monotonicity of principal minors]
+\begin{cor}
+\begin{equation}
+\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{E(G)} \ell(e) - \frac{\sum_{\forests_2(G/S)} w(F) k(F_*)^2}{\sum_{\trees(G/S)} w(T)} \right) .
+\end{equation}
+\end{cor}
+
+\begin{thm}[Monotonicity of principal minor ratios]
 Suppose $G = (V,E)$ is a finite, weighted tree with distance matrix $D$.
+\begin{enumerate}
+\item 
+If $S \subset V(G)$ is nonempty,
+\begin{equation*}
+0 \leq \frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{E(G)} \ell(e) .
+\end{equation*}
+
+\item 
+If $\conv(S,G)$ denotes the subtree of $G$ consisting of all paths between points of $S \subset V(G)$,
+\begin{equation*}
+ \frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{E(\conv(S, G))} \ell(e) .
+\end{equation*}
+
+\item 
 If $A,B \subset V(G)$
-are vertex subsets with
+are nonempty subsets with
 $A \subset B$,
 then
 \begin{equation*}
-\left| \frac{\det D[A]}{\cof D[A]} \right| \leq \left| \frac{\det D[B]}{\cof D[B]} \right| .
+ \frac{\det D[A]}{\cof D[A]}  \leq \frac{\det D[B]}{\cof D[B]}  .
 \end{equation*}
+\end{enumerate}
 \end{thm}
 
 \begin{thm}[Nonsingular minors]
@@ -169,29 +218,7 @@ If $|S|\geq 2$ then $\det D[S] \neq 0$.
 \end{thm}
 
 \subsection{Previous work} 
-
-The following theorem is due to Kirchhoff.
-For any graph $G$, let $\kappa(G)$ denote the number of spanning trees of $G$.
-\begin{thm}[All-minors matrix tree theorem]
-Let $G = (V,E)$ be a finite graph.
-Let $L$ denote the Laplacian matrix of $G$.
-Then for any nonempty vertex set $S \subset V(G)$,
-\begin{equation}
-\det L[V \setminus S] = \kappa( G / S) .
-\end{equation}
-\end{thm}
-Note that $\kappa(G/S)$ is also the number of $S$-rooted spanning forests of $G$.
-
-
-\begin{thm}[\cite{bapat-sivasubramanian}]
-Let $T$ be a tree with $m+1$ vertices and $m$ edges.
-Let $D$ be the distance matrix of $T$, and $L$ the Laplacian matrix.
-Let $S \subset V(T)$ be a subset of vertices of $T$. 
-Then
-\begin{equation*}
-\cof D[S] = (-2)^{|S|-1} \det L[V \setminus S] .
-\end{equation*}
-\end{thm}
+A formula for the inverse matrix $D^{-1}$ was found by Graham and Lov\'{a}sz in \cite{graham-lovasz}.
 
 \subsection{Notation}
 
@@ -216,13 +243,42 @@ $V(G)$ vertex set of $G$
 
 \section{Background}
 
+For background on enumeration problems for graphs and trees, see Moon \cite{moon}.
+
+
+
+The following theorem is due to Kirchhoff.
+For any graph $G$, let $\kappa(G)$ denote the number of spanning trees of $G$.
+\begin{thm}[All-minors matrix tree theorem]
+Let $G = (V,E)$ be a finite graph.
+Let $L$ denote the Laplacian matrix of $G$.
+Then for any nonempty vertex set $S \subset V(G)$,
+\begin{equation}
+\det L[V \setminus S] = \kappa( G / S) .
+\end{equation}
+\end{thm}
+Note that $\kappa(G/S)$ is also the number of $S$-rooted spanning forests of $G$.
+
+
+\begin{thm}[\cite{bapat-sivasubramanian}]
+Let $T$ be a tree with $m+1$ vertices and $m$ edges.
+Let $D$ be the distance matrix of $T$, and $L$ the Laplacian matrix.
+Let $S \subset V(T)$ be a subset of vertices of $T$. 
+Then
+\begin{equation*}
+\cof D[S] = (-2)^{|S|-1} \det L[V \setminus S] .
+\end{equation*}
+\end{thm}
+
+\subsection{Trees and forests}
+
 
 \section{Proofs}
 
 Outline of proof: given subset $S$ and distance matrix minor $D[S]$, we will
 \begin{enumerate}
 \item 
-Find vector $\mathbf{m}$ such that $D[S]\mathbf{m} = \lambda \mathbf{1}$.
+Find vector $\mathbf{m} \in \RR^S$ such that $D[S]\mathbf{m} = \lambda \mathbf{1}$.
 
 \item 
 Compute the sum of entries of $\mathbf{m}$, i.e. $\mathbf{1}^T\mathbf{m}$.
@@ -240,7 +296,7 @@ $$
 \det D[S] = \lambda (\cof D[S]) \left( \mathbf{1}^T \mathbf{m} \right)^{-1}.
 $$
 \end{enumerate}
-The interesting part will be hidden in the constant $\lambda$.
+The interesting part  of this expression will be located in the constant $\lambda$.
 
 \begin{eg}
 Suppose $G$ is a tree consisting of three paths joined at a central vertex.
@@ -279,7 +335,6 @@ so the determinant is
 = (a+b+c) (-8 abc)\frac{1}{2}
 = -4(a+b+c)abc.
 \end{align*}
-
 \end{enumerate}
 \end{eg}
 
@@ -289,33 +344,49 @@ defined by
 \begin{equation*}
 \mathbf{m}(v) = 2 - \deg v,
 \end{equation*}
-where $\deg v$ denote the degree of $v$ in $T$.
+where $\deg v$ denotes the degree of $v$ in $T$.
 Then $\mathbf{1}^T \mathbf{m} = \sum_{v \in V} (2-\deg v) = 2$.
 \end{prop}
 
 Let $\mathbf{1}$ denote the all-ones vector.
-\begin{thm}
-Let $T$ be a tree, $S$ a subset of vertices,
-and $D[S]$ the corresponding minor of the distance matrix.
-Suppose $\mathbf{m} \in \RR^{S}$ is defined by
+When we choose a subset $S \subset V(G)$, we no longer have a single ``obvious'' replacement for $\mathbf{m}$ inside $\RR^S$.
+Instead, we can take an average over $S$-rooted spanning forests.
+
+In the outline above, our first goal is to find a ``special'' vector $ \mathbf{m}\in \RR^S$ satisfying $D[S] \mathbf{m} = \lambda \mathbf{1}$.
+We can approach this first goal as follows: 
+consider $\RR^S$ inside the larger vector space $\RR^V = \RR^S \oplus \RR^{V\setminus S}$,
+and we wish to find vectors $\mathbf{n}_i \in \RR^{V}$ satisfying
+$\pi_S( D \mathbf{n}_i) = \lambda_i \mathbf{1}$.
+By finding sufficiently many such vectors $\mathbf{n}_i$,
+we can hope to find a linear combination that lies inside $\RR^S \oplus \{0\}$.
+% $D \mathbf{n} = (\lambda \mathbf{1}_S) \oplus (-)$.
+
+\begin{prop}
+Suppose $v \in V \setminus S$.
+For each $s \in S$, let $\mu(v,s) = $ current flowing to $s$
+when unit current enters $G$ at $v$ and $G$ is grounded at $S$.
+Explicitly,
 \begin{equation*}
-\mathbf{m}(v) = \sum_{T \in \mathcal T(T/S)} \sum_{w \in T_v} (2 - \deg w) 
+\mu(v,s) =  \frac{\text{\# of $S$-rooted spanning forests of $G$ whose $s$-component contains $v$}}{\text{\# of $S$-rooted spanning forests of $G$}}
+% = (\kappa(..))/(\kappa(G/S))
 \end{equation*}
-Then
-$D[S] \mathbf{m} = \lambda \mathbf{1}$
-for some constant $\lambda$.
-\end{thm}
-\begin{proof}
-For any $u,v \in S$, 
-we must show that $(D[S] \mathbf{m})(u) = (D[S] \mathbf{m})(v)$.
-We have
-\begin{align*}
- (D[S] \mathbf{m})(v) &= \sum_{w \in S} d(v,w) \mathbf{m}(w) \\
- &= \sum_{w \in S} d(v,w) \sum_{T \in \mathcal T(G/S)} \sum_{z \in T(w)} (2 - \deg z) \\
- &= \sum_{T \in \mathcal T(G/S)} \sum_{w \in S} \sum_{z \in T(w)} (2 - \deg z) d(v,w) \\
- &= \sum_{T \in \mathcal T(G/S)} \sum_{w \in S} (2 - c(T,w)) d(v,w).
-\end{align*}
-where $c(T,w)$ is the ``cut index'' of the $w$-component of $T$ (as a spanning forest).
+$$
+= \frac{\sum_{\trees(G/S)} \mathds{1}(v \in T(s))}{\kappa(G/S)}
+$$
+Consider the vector $\mathbf{n} \in \RR^V$ defined by
+$$
+\mathbf{n}(v) = 1,\qquad
+\mathbf{n}(s) = -\mu(v,s) \text{ if }s \in S, \qquad
+\mathbf{n}(w) = 0 \text{ if } w \not\in S \cup v
+$$
+Then $\pi_S( D \mathbf{n}) = \lambda \mathbf{1}$ for some $\lambda$.
+\end{prop}
+\begin{proof}[Proof sketch]
+For any $s, s' \in S$, consider tracking value of $D \mathbf{n}$ along path from $s$ to $s'$. 
+The value of $D \mathbf{n}$ changes according to current flow in the corresponding system, i.e. $D \mathbf{n}$ records electrical potential.
+By assumption $S$ is grounded, so $D\mathbf{n}$ takes the same value at $s$ and $s'$.
+\end{proof}
+
 
 Note that we can express the tree distance $d(v,w)$ as a sum over edges
 \begin{equation*}
@@ -326,13 +397,212 @@ d(v,w) = \sum_{e \in E(G)} \delta(e; v,w)
 0 &\text{otherwise}.
 \end{cases}
 \end{equation*}
+\begin{itemize}
+\item 
+If we fix $v$ and $w$, then $\delta(-;v,w) : E(G) \to \{0,1\}$
+is the indicator function for the unique $v~ w$ path in $G$.
+
+\item 
+On the other hand if we fix $e$ and $v$,
+then the deletion $G\setminus e$ has two connected components,
+and $\delta(e;v, -) : V(G) \to \{0,1\}$ 
+is the indicator function for the component of $G \setminus e$ not containing $v$.
+\end{itemize}
+
+
+\begin{thm}
+Let $G$ be a tree, $S$ a subset of vertices,
+and $D[S]$ the corresponding minor of the distance matrix.
+Suppose $\mathbf{m}_S \in \RR^{S}$ is defined by
+\begin{equation*}
+\mathbf{m}_S(v) = \sum_{T \in \mathcal T(G/S)} \sum_{w \in T_v} (2 - \deg w) 
+= \sum_{T \in \trees(G/S)} 2 - c(T,v) .
+\end{equation*}
+Then
+$D[S] \mathbf{m} = \lambda \mathbf{1}$
+for some constant $\lambda$.
+\end{thm}
+\begin{proof}
+Note that
+$$
+\mathbf{m}
+= \kappa(G/S) \left( \sum_{} + 
+\sum_{v \in V \setminus S} ( \deg v - 2) \mathbf{n}_v 
+= \right)
+$$
+\end{proof}
+
+\begin{thm}
+With $\mathbf{m}$ defined as above,
+$D[S] \mathbf{m} = \lambda \mathbf{1}$
+for 
+\begin{equation}
+\lambda = \sum_{\trees(G/S)} w(T) \sum_{E(G)} \ell(e) - \sum_{\forests_2(G/S)} w(F) k(F,*)^2 .
+\end{equation}
+\end{thm}
+where $c(T,w)$ is the ``cut index'' of the $w$-component of $T$ (as a spanning forest).
+\begin{proof}
+We have
+\begin{align*}
+ (D[S] \mathbf{m})(v) &= \sum_{s \in S} d(v,s) \mathbf{m}(s) \\
+ &= \sum_{s \in S} \left( \sum_{e \in E(G)} \ell(e) \delta(e; v,s) \right) \left( \sum_{T \in \mathcal T(G/S)} w(T) (2 - \deg^o(T,s)) \right) \\
+ &= \sum_{T } \sum_{e} \ell(e) w(T) \sum_{s \in S} (2 - \deg^o(T, s)) \delta(e; v,s) \\
+ &= \sum_{T } \sum_{e} \ell(e) w(T) \sum_{s \in S^*(e,v)} (2 - \deg^o(T, s)) .
+\end{align*}
+where
+$$
+S^*(e,v) = \{ s \in S : \text{$e$ lies on path from $v$ to $s$}\}.
+$$
+If $e \in \conv(G,S)$, then $S^*(e,v)$ is nonempty and we have
+\begin{align*}
+\sum_{s \in S^*(e,v)}(2 - c(T,s)) = \begin{cases}
+1 &\text{if }e \not \in T, \\
+1 - (2 - c(T \setminus e, *)) &\text{if } e \in T(s'),\, s'\in S^*(e,v) , \\
+1 + (2 - c(T \setminus e, *)) &\text{if } e \in T(s'),\, s' \not\in S^*(e,v)
+\end{cases}
+\end{align*}
+Here $c(T\setminus e, *)$ refers to the cut index of the ``free'' component of the spanning forest $T \setminus e$.
+
+If $e \not\in \conv(G,S)$ on the other hand,
+$S^*(e,v)$ is empty and we have
+$$ \sum_{s \in S^*(e,v)} 2 - c(T,w) = 0 = 1 - (2 - \deg^o(T\setminus e,*))^2,$$
+since $\deg^o(T\setminus e,*) = 1$ in this case. 
+From \eqref{above} we have
+\begin{align*}
+(D[S] \mathbf{m})(v) &= \sum_{e} \sum_{T }  \ell(e) w(T) ( 1 - f(v,e,T) )\\
+\end{align*}
+where
+$$
+f(v,e,T) = \begin{cases}
+0 &\text{if } e\not\in T\\
+2 - \deg^o(T\setminus e,*) &\text{if }  e \in T(s')\text{ for some } s'\not\in S^*(e,v) \\
+-(2-\deg^o(T\setminus e,*) &\text{if }  e \in T(s')\text{ for some } s'\in S^*(e,v) \\
+\end{cases}
+$$
+(Note that $e \not \in \conv(S,G)$ implies $e \in T$.)
+
+\begin{align*}
+(D[S] \mathbf{m})(v) - \sum_{e} \sum_{T }  \ell(e) w(T) 
+&= - \sum_T \sum_{e \in T\setminus T(S^*)} \ell(e) w(T) ( 2 - \deg^o(T\setminus e,*)) \\
+&\qquad + \sum_T \sum_{e  \in T(S^*)} \ell(e) w(T) (2 - \deg^o(T\setminus e,*) )
+\end{align*}
+
+The deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$,
+so we may rewrite the above expression in terms of $\forests_2(G/S)$.
+\begin{align*}
+(1) &= - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T} \sum_{e \in T\setminus T(S^*)} \one(F = T \setminus e)  \\
+&\qquad +  \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T} \sum_{e \in T(S^*)} \one(F = T \setminus e) 
+\end{align*}
+Finally, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose $e \in \partial F(*)$:
+\begin{align*}
+(1) &= - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  \sum_{e \in \partial F(*)} \one( \delta(e; v, F(*)) = 1)  \\
+&\qquad +  \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{e\in \partial F(*)} \one(\delta(e; v, F(*))=0) 
+\end{align*}
+Finally, we observe that for any forest $F$,
+$$
+\#\{e : e \in \partial F(*), \,\delta(e;v, F(*)) = 0 \} = \deg^o(F,*) - 1
+$$
+and
+$$
+\#\{e : e \in \partial F(*), \,\delta(e;v, F(*)) = 1 \} = 1
+$$
 Thus
 \begin{align*}
-(D[S] \mathbf{m})(v) &= \sum_{T \in \mathcal T(G/S)} \sum_{w \in S} (2 - c(T,w))  \sum_{e \in E(G)} \delta(e;v,w) \\
-&= \sum_{T \in \mathcal T(G/S)} \sum_{e \in E(G)} \left( \sum_{w \in S}(2 - c(T,w))   \delta(e;v,w) \right)
+(1) 
+&= - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  (1)  \\
+&\qquad +  \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) (\deg^o(F,*) - 1) \\
+&= - \!\!\!\sum_{F \in \forests_2(G/S)} w(F) (2 - \deg^o(F,*))^2 .
+\end{align*}
+
+The set $\forests_2(G/S)$ of $(S,*)$-rooted spanning forests of $G$ can be partitioned into two types: ``active'' and ``inactive''.
+$$
+\forests_2(G/S) = \forests_2^{in}(G/S) \sqcup \forests_2^{out}(G/S),
+$$
+where
+$$
+\forests_2^{in}(G/S)  = \{ F \in \forests_2(G/S) \text{ such that } \deg^o(*,F) \geq 2\},
+$$
+$$
+\forests_2^{out}(G/S)  = \{ F \in \forests_2(G/S) \text{ such that } \deg^o(*,F) = 1\}.
+$$
+Moreover, for a given spanning forest
+$F \in \forests_2(G/S, *)$,
+there are exactly $c(F, *)$ choices of pairs $(T,e) \in \trees(G/S) \times E(G)$ such that
+$$
+F = T \setminus e.
+$$
+Consider the map
+$$
+E(G) \times \trees(G/S) \to \forests_2(G/S)
+$$
+defined by ...
+$$
+(e, T) \mapsto T \setminus e .
+$$
+For a forest $F$ in $\forests_2(G/S)$,
+the preimage under this map has $c(F,*)$ elements.
+
+
+Therefore
+(let $\trees = \trees(G/S)$)
+\begin{align*}
+\sum_{T \in \trees} \sum_{e \in E} \left( \cdots)   \right) 
+&= \sum_{T \in \trees} \sum_{e \in E(G)}1 + \sum_{T \in \trees} \sum_{e \in E}\left(  ...  \right)  \\
+&= \sum_{T \in \trees} \sum_{e \in E} 1 - \sum_{T \in \trees} \sum_{e \in E} \mathds{1}( e \in T(v) ) (2 - c(T \setminus e, *)) \\
+& \qquad\qquad + \sum_{T \in \trees} \sum_{e \in E} \mathds{1}( e \in T \setminus T(v) ) (2 - c(T \setminus e, *)) \\
+&= \sum_{T \in \trees} \sum_{e \in E} 1 - \sum_{T \in \trees} \sum_{e \in E} \mathds{1}( e \in T(v) ) \sum_{F \in \forests_2} \mathds{1}(F = T \setminus e)(2 - c(F, *)) \\
+& \qquad\qquad + \sum_{T \in \trees} \sum_{e \in E} \mathds{1}( e \in T \setminus T(v) ) \sum_{F \in \forests_2} \mathds{1}(F = T \setminus e)(2 - c(F, *)) \\
+&= \sum_{F \in \forests_2} (2- c(F,*)) \sum_{T\in \trees} \sum_{e \in E} \one (F=T\backslash e) (\one(e \in T \setminus T(v)) - \one(e \in T(v)) ) \\
+&= \sum_{F \in \forests_2} (2- c(F,*)) \sum_{e \in E} \one (e \not\in F) (\one(e \not\in (F \cup e)(v)) - \one(e \in (F\cup e)(v)) ) \\
+&= \sum_{F \in \forests_2} (2- c(F,*)) ((c(F,*)-1) - 1) \\
+&= - \sum_{F \in \forests_2} (2- c(F,*))^2 .
 \end{align*}
 \end{proof}
 
+\begin{prop}
+Let $G = (V,E)$ be a tree, and $S \subset V$.
+Suppose we label $S = \{s_1, \ldots, s_r\}$
+and $V \setminus S = \{t_1, \ldots, t_{n-r}\}$.
+For each $t_i \in V\setminus S$,
+consider
+$\mathbf{f}_i  \in \RR^V$
+defined by
+\end{prop}
+
+\begin{eg}
+If 
+$$
+D[S \cup t] = \begin{bmatrix}
+0 & a & b & c \\
+a & 0 & a + b & a + c \\
+b & a + b & 0 & b + c \\
+c & a + c & b + c & 0
+\end{bmatrix}
+$$
+then
+$$
+ \begin{bmatrix}
+0 & a & b & c \\
+a & 0 & a + b & a + c \\
+b & a + b & 0 & b + c \\
+c & a + c & b + c & 0
+\end{bmatrix}
+\begin{bmatrix}
+ab + ac + bc \\ -bc \\ -ac \\ -ab 
+\end{bmatrix}
+= \begin{bmatrix}
+-3abc \\ -abc \\ -abc \\ -abc
+\end{bmatrix}
+$$
+\end{eg}
+
+\section{Physical interpretation}
+
+If we consider $G$ as a network of wires with each edge containing a unit resistor,
+which is grounded at all nodes in $S$,
+then $\mathbf{m}_S$ records the currents flowing to $S$
+when current is added on $V\setminus S$ in the amount $2 - \deg v$
+for each $v\not\in S$.
 
 \section{Examples}
 
@@ -352,7 +622,7 @@ c & a + c & b + c & 0
 a & -a & a  & a \\
 b & b & -b & b \\
 c & c & c & -c
-\end{bmatrix}.
+\end{bmatrix}
 \sim \begin{bmatrix}
 0 & a & b & c \\
 a & -2a & 0 & 0 \\
@@ -386,10 +656,10 @@ Suppose $\Gamma$ is a tripod with lengths $a,b,c$ and corresponding leaf vertice
 	\node[right] at (2,-1) {$w$};
 \end{tikzpicture}
 \]
-Let $A = \{u,v,w\}$.
+Let $B = \{u,v,w\}$.
 Then 
 $$
-D[A] = \begin{bmatrix}
+D[B] = \begin{bmatrix}
 0 & a + b & a + c \\
 a + b & 0 & b + c \\
 a + c & b + c & 0
@@ -397,12 +667,15 @@ a + c & b + c & 0
 $$
 and
 \begin{align*}
-\det D[A] &= 2(a+b)(a+c)(b+c) 
+\det D[B] &= 2(a+b)(a+c)(b+c) 
 = 2\left( (a+b+c)(ab + ac + bc) - abc \right).
 \end{align*}
 The ``special vector'' in this example is $\mathbf{m}^T = \begin{bmatrix} a(b + c) & b(a + c) & c(a + b) \end{bmatrix}$.
 \end{eg}
 
+\section{Further work}
+
+See \cite{richman-shokrieh-wu}.
 
 \section*{Acknowledgements}
 The authors would like to thank Ravindra Bapat for helpful discussion.
