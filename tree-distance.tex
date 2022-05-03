@@ -465,7 +465,7 @@ Here $c(T\setminus e, *)$ refers to the cut index of the ``free'' component of t
 
 If $e \not\in \conv(G,S)$ on the other hand,
 $S^*(e,v)$ is empty and we have
-$$ \sum_{s \in S^*(e,v)} 2 - c(T,w) = 0 = 1 - (2 - \deg^o(T\setminus e,*))^2,$$
+$$ \sum_{s \in S^*(e,v)} 2 - c(T,s) = 0 = 1 - (2 - \deg^o(T\setminus e,*))^2,$$
 since $\deg^o(T\setminus e,*) = 1$ in this case. 
 From \eqref{above} we have
 \begin{align*}
@@ -479,7 +479,6 @@ f(v,e,T) = \begin{cases}
 -(2-\deg^o(T\setminus e,*) &\text{if }  e \in T(s')\text{ for some } s'\in S^*(e,v) \\
 \end{cases}
 $$
-(Note that $e \not \in \conv(S,G)$ implies $e \in T$.)
 
 \begin{align*}
 (D[S] \mathbf{m})(v) - \sum_{e} \sum_{T }  \ell(e) w(T) 
@@ -493,18 +492,18 @@ so we may rewrite the above expression in terms of $\forests_2(G/S)$.
 (1) &= - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T} \sum_{e \in T\setminus T(S^*)} \one(F = T \setminus e)  \\
 &\qquad +  \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T} \sum_{e \in T(S^*)} \one(F = T \setminus e) 
 \end{align*}
-Finally, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose $e \in \partial F(*)$:
+Next, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose $e \in \partial F(*)$:
 \begin{align*}
 (1) &= - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  \sum_{e \in \partial F(*)} \one( \delta(e; v, F(*)) = 1)  \\
 &\qquad +  \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{e\in \partial F(*)} \one(\delta(e; v, F(*))=0) 
 \end{align*}
 Finally, we observe that for any forest $F$,
 $$
-\#\{e : e \in \partial F(*), \,\delta(e;v, F(*)) = 0 \} = \deg^o(F,*) - 1
+\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 0 \} = \deg^o(F,*) - 1
 $$
 and
 $$
-\#\{e : e \in \partial F(*), \,\delta(e;v, F(*)) = 1 \} = 1
+\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 1 \} = 1
 $$
 Thus
 \begin{align*}
@@ -513,6 +512,11 @@ Thus
 &\qquad +  \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) (\deg^o(F,*) - 1) \\
 &= - \!\!\!\sum_{F \in \forests_2(G/S)} w(F) (2 - \deg^o(F,*))^2 .
 \end{align*}
+
+\end{proof}
+
+
+Remark: 
 
 The set $\forests_2(G/S)$ of $(S,*)$-rooted spanning forests of $G$ can be partitioned into two types: ``active'' and ``inactive''.
 $$
@@ -525,12 +529,13 @@ $$
 $$
 \forests_2^{out}(G/S)  = \{ F \in \forests_2(G/S) \text{ such that } \deg^o(*,F) = 1\}.
 $$
+
+Remark:
+
 Moreover, for a given spanning forest
 $F \in \forests_2(G/S, *)$,
 there are exactly $c(F, *)$ choices of pairs $(T,e) \in \trees(G/S) \times E(G)$ such that
-$$
-F = T \setminus e.
-$$
+$F = T \setminus e.$
 Consider the map
 $$
 E(G) \times \trees(G/S) \to \forests_2(G/S)
@@ -541,23 +546,6 @@ $$
 $$
 For a forest $F$ in $\forests_2(G/S)$,
 the preimage under this map has $c(F,*)$ elements.
-
-
-Therefore
-(let $\trees = \trees(G/S)$)
-\begin{align*}
-\sum_{T \in \trees} \sum_{e \in E} \left( \cdots)   \right) 
-&= \sum_{T \in \trees} \sum_{e \in E(G)}1 + \sum_{T \in \trees} \sum_{e \in E}\left(  ...  \right)  \\
-&= \sum_{T \in \trees} \sum_{e \in E} 1 - \sum_{T \in \trees} \sum_{e \in E} \mathds{1}( e \in T(v) ) (2 - c(T \setminus e, *)) \\
-& \qquad\qquad + \sum_{T \in \trees} \sum_{e \in E} \mathds{1}( e \in T \setminus T(v) ) (2 - c(T \setminus e, *)) \\
-&= \sum_{T \in \trees} \sum_{e \in E} 1 - \sum_{T \in \trees} \sum_{e \in E} \mathds{1}( e \in T(v) ) \sum_{F \in \forests_2} \mathds{1}(F = T \setminus e)(2 - c(F, *)) \\
-& \qquad\qquad + \sum_{T \in \trees} \sum_{e \in E} \mathds{1}( e \in T \setminus T(v) ) \sum_{F \in \forests_2} \mathds{1}(F = T \setminus e)(2 - c(F, *)) \\
-&= \sum_{F \in \forests_2} (2- c(F,*)) \sum_{T\in \trees} \sum_{e \in E} \one (F=T\backslash e) (\one(e \in T \setminus T(v)) - \one(e \in T(v)) ) \\
-&= \sum_{F \in \forests_2} (2- c(F,*)) \sum_{e \in E} \one (e \not\in F) (\one(e \not\in (F \cup e)(v)) - \one(e \in (F\cup e)(v)) ) \\
-&= \sum_{F \in \forests_2} (2- c(F,*)) ((c(F,*)-1) - 1) \\
-&= - \sum_{F \in \forests_2} (2- c(F,*))^2 .
-\end{align*}
-\end{proof}
 
 \begin{prop}
 Let $G = (V,E)$ be a tree, and $S \subset V$.
