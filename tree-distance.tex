@@ -121,8 +121,8 @@ and inspired much further research on distance matrices.
 %Self-contained proofs are also given in \cite{du-yeh,yan-yeh}.
 
 
-The main result of this paper is to generalize \eqref{eq:full-det} by replacing $D$ with any principal submatrix.
-For $S \subset V(G)$, let $D[S]$ denote the principal minor consisting of the $S$-indexed rows and columns.
+The main result of this paper is to generalize \eqref{eq:full-det} by replacing $D$ with any principal minor.
+For $S \subset V(G)$, let $D[S]$ denote the submatrix consisting of the $S$-indexed rows and columns.
 \begin{thm}
 \label{thm:main}
 Suppose $G$ is a tree with $n$ vertices, 
@@ -174,7 +174,7 @@ $F_{*}$ denotes the $*$-component of $F$.
 It is worth observing that the distances appearing in $D[S]$ may ignore a large part of the ambient tree $G$.
 We could instead replace $G$ by the subtree consisting of paths between vertices in $S$,
 which we call $\conv(S,G)$, the {\em convex hull} of $S \subset G$.
-To apply formula \eqref{eq:main} ``efficiently'', 
+To apply formula \eqref{eq:main} ``efficiently,''
 we should replace $G$ with this convex hull $\conv(S,G)$.
 However, the formula as stated is true even without this replacement due to cancellation of terms.
 
@@ -235,9 +235,11 @@ $V(G)$ vertex set of $G$
 %$\ell : E(G) \to \RR_{>0}$
 %is a length function on edges of $G$
 
-% $\cC(\Gamma)$ continuous $\RR$-valued functions on $\Gamma$
+$\kappa(G)$ number of spanning trees of $G$
 
-% $Meas(\Gamma)$ signed Borel measures on $\Gamma$
+$\trees(G)$ the set of spanning trees of $G$
+
+$\forests_2(G)$ the set of $2$-component forests of $G$
 
 % $Meas_{\geq 0}(\Gamma)$ positive Borel measures on $\Gamma$
 
@@ -426,9 +428,9 @@ for some constant $\lambda$.
 Note that
 $$
 \mathbf{m}
-= \kappa(G/S) \left( \sum_{} + 
+= \kappa(G/S) \left( \sum_{v \in V}(2 - \deg v) \mathbf{\delta}_v + 
 \sum_{v \in V \setminus S} ( \deg v - 2) \mathbf{n}_v 
-= \right)
+\right)
 $$
 \end{proof}
 
@@ -463,10 +465,10 @@ If $e \in \conv(G,S)$, then $S^*(e,v)$ is nonempty and we have
 \end{align*}
 Here $c(T\setminus e, *)$ refers to the cut index of the ``free'' component of the spanning forest $T \setminus e$.
 
-If $e \not\in \conv(G,S)$ on the other hand,
-$S^*(e,v)$ is empty and we have
-$$ \sum_{s \in S^*(e,v)} 2 - c(T,s) = 0 = 1 - (2 - \deg^o(T\setminus e,*))^2,$$
-since $\deg^o(T\setminus e,*) = 1$ in this case. 
+%If $e \not\in \conv(G,S)$ on the other hand,
+%$S^*(e,v)$ is empty and we have
+%$$ \sum_{s \in S^*(e,v)} 2 - \deg^o(T,s) = 0 = 1 - (2 - \deg^o(T\setminus e,*))^2,$$
+%since $\deg^o(T\setminus e,*) = 1$ in this case. 
 From \eqref{above} we have
 \begin{align*}
 (D[S] \mathbf{m})(v) &= \sum_{e} \sum_{T }  \ell(e) w(T) ( 1 - f(v,e,T) )\\
@@ -644,10 +646,10 @@ Suppose $\Gamma$ is a tripod with lengths $a,b,c$ and corresponding leaf vertice
 	\node[right] at (2,-1) {$w$};
 \end{tikzpicture}
 \]
-Let $B = \{u,v,w\}$.
+Let $S = \{u,v,w\}$.
 Then 
 $$
-D[B] = \begin{bmatrix}
+D[S] = \begin{bmatrix}
 0 & a + b & a + c \\
 a + b & 0 & b + c \\
 a + c & b + c & 0
@@ -655,10 +657,11 @@ a + c & b + c & 0
 $$
 and
 \begin{align*}
-\det D[B] &= 2(a+b)(a+c)(b+c) 
+\det D[S] &= 2(a+b)(a+c)(b+c) 
 = 2\left( (a+b+c)(ab + ac + bc) - abc \right).
 \end{align*}
-The ``special vector'' in this example is $\mathbf{m}^T = \begin{bmatrix} a(b + c) & b(a + c) & c(a + b) \end{bmatrix}$.
+The ``special vector'' that satisfies $D[S] \mathbf{m} = \lambda \mathbf{1}$ in this example is 
+$$\mathbf{m}^T = \begin{bmatrix} a(b + c) & b(a + c) & c(a + b) \end{bmatrix} .$$
 \end{eg}
 
 \section{Further work}
