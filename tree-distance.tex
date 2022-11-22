@@ -1428,38 +1428,37 @@ With $\boldm = \boldm(G;S)$ defined as in \eqref{eq:m-vector},
 $D[S] \mathbf{m} = \lambda \mathbf{1}$
 for the constant
 \begin{equation}
-\lambda = \sum_{\trees(G;S)} w(T) \sum_{E(G)} \alpha_e - \sum_{\forests_2(G;S)} w(F) (2 - \degout(F,*) )^2 
+	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (2 - \degout(F,*) )^2 w(F)
 \end{equation}
 where 
 % $k(F,*) = 2 - \degout(F,w)$ and 
 $\degout(F,w)$ is the out-degree of the $w$-component of $F$ (as a spanning forest).
 \end{thm}
 \begin{proof}
-For $e\in E$ and $v,w\in V$, let
-\[
-  \delta(e;v,w) = \begin{cases}
-  1 &\text{if $e$ separates  $v$ from $w$}, \\
-  0 &\text{otherwise}.
-  \end{cases}
-\]
+For $e\in E$ and $v,w\in V$, let $\delta(e;v,w)$ denote the function defined in \note{cite earlier}
+%\[
+%  \delta(e;v,w) = \begin{cases}
+%  1 &\text{if $e$ separates  $v$ from $w$}, \\
+%  0 &\text{otherwise}.
+%  \end{cases}
+%\]
 For any $v \in S$, we have
 \begin{align}
- (D[S] \mathbf{m})_v &= \sum_{s \in S} d(v,s) \mathbf{m}_s \\
- &= \sum_{s \in S} \left( \sum_{e \in E(G)} \alpha_e\, \delta(e; v,s) \right) \left( \sum_{T \in \trees(G;S)} w(T) (2 - \degout(T,s)) \right) \\
- &= \sum_{e\in E} \alpha_e \sum_{T\in \trees } w(T) \sum_{s \in S} (2 - \deg^o(T, s)) \delta(e; v,s) \\
- &= \sum_{e} \alpha_e \sum_{T } w(T) \sum_{s \in S\cap (G\setminus e)^{\overline v}} (2 - \deg^o(T, s)) . \label{eq:14-1}
+  (D[S] \mathbf{m})_v &= \sum_{s \in S} d(v,s) \mathbf{m}_s \\
+  &= \sum_{s \in S} \left( \sum_{e \in E(G)} \alpha_e\, \delta(e; v,s) \right) \left( \sum_{T \in \trees(G;S)} (2 - \degout(T,s)) w(T) \right) \\
+  &= \sum_{e\in E} \alpha_e \sum_{T\in \trees } w(T) \left( \sum_{s \in S} (2 - \deg^o(T, s)) \delta(e; v,s) \right) \\
+  &= \sum_{e} \alpha_e \sum_{T } w(T) \sum_{s \in S \cap (G\setminus e)^{\overline v}} (2 - \deg^o(T, s)) . \label{eq:14-1}
 \end{align}
 where
 \[ 
-S(G\setminus e)^{\overline v} = \{ s \in S : \text{$e$ separates $v$ from $s$}\}
+S \cap (G\setminus e)^{\overline v} = \{ s \in S : \text{$e$ separates $v$ from $s$}\}.
 \]
-$$
-S^*(e,v) = \{ s \in S : \text{$e$ lies on path from $v$ to $s$}\}.
-$$
-\note{MOVE TO REMARK? If $e \in \conv(G,S)$, then $S(G\backslash e)^{\overline v}$ is nonempty and }
+%$$
+%S^*(e,v) = \{ s \in S : \text{$e$ lies on path from $v$ to $s$}\}.
+%$$
 We have
 \begin{align*}
-\sum_{s \in S(G\setminus e)^{\overline v}}(2 - \degout(T,s)) = \begin{cases}
+\sum_{s \in S \cap (G\setminus e)^{\overline v}}(2 - \degout(T,s)) = \begin{cases}
 1 &\text{if }e \not \in T, \\
 1 - (2 - \degout(T \setminus e, *)) &\text{if } e \in T(s'),\, s'\in S(G\setminus e)^{\overline v} , \\
 1 + (2 - \degout(T \setminus e, *)) &\text{if } e \in T(s'),\, s' \in S(G\setminus e)^v
@@ -1467,16 +1466,16 @@ We have
 \end{align*}
 Here 
 $T\setminus e$ is a forest in $\forests_2(G;S)$, and
-$\degout(T\setminus e, *)$ refers to the out-degree of the ``floating'' component of $T \setminus e$.
+$\degout(T\setminus e, *)$ refers to the out-degree of the floating component of $T \setminus e$.
 These cases correspond to 
 \[
 (G \setminus e)^{\overline v} = \begin{cases}
 \displaystyle
-\bigcup_{s \in S(G\setminus e)^{\overline v}} T_s &\text{if } e\not\in T, \\[2em]
+\bigcup_{s \in S \cap (G\setminus e)^{\overline v}} T(s) &\text{if } e\not\in T, \\[2em]
 \displaystyle
-\left( \bigcup_{s \in S(G\setminus e)^{\overline v}} T_s \right) \cup (T\setminus e)_*  &\text{if } e \in T_{s'},\, \delta(e;v,s') = 0 \\[2em]
+\left( \bigcup_{s \in S \cap (G\setminus e)^{\overline v}} T(s) \right) \cup (T\setminus e)_*  &\text{if } e \in T_{s'},\, \delta(e;v,s') = 0 \\[2em]
 \displaystyle
-\left( \bigcup_{s \in S(G\setminus e)^{\overline v}} T_s \right) \setminus (T\setminus e)_*  &\text{if } e \in T_{s'},\, \delta(e;v,s') = 1 . 
+\left( \bigcup_{s \in S \cap (G\setminus e)^{\overline v}} T(s) \right) \setminus (T\setminus e)(*)  &\text{if } e \in T_{s'},\, \delta(e;v,s') = 1 . 
 \end{cases}
 \]
 
@@ -1486,7 +1485,7 @@ These cases correspond to
 %since $\deg^o(T\setminus e,*) = 1$ in this case. 
 From \eqref{eq:14-1} we have
 \begin{align*}
-(D[S] \mathbf{m})_v &= \sum_{e\in E} \sum_{T\in \trees }  \alpha_e w(T) ( 1 - f(v,e,T) )\\
+(D[S] \mathbf{m})_v &= \sum_{e\in E} \alpha_e \sum_{T\in \trees } w(T) ( 1 - f(v,e,T) )\\
 \end{align*}
 where
 $$
@@ -1708,6 +1707,8 @@ as desired.
 \end{tikzpicture}
 \caption{Components rooted in $S(G\setminus e)^{\overline v}$.}
 \end{figure}
+
+\note{MOVE TO REMARK? If $e \in \conv(G,S)$, then $S(G\backslash e)^{\overline v}$ is nonempty and }
 
 \begin{rmk}
 The set $\forests_2(G;S)$ of $(S,*)$-rooted spanning forests of $G$ can be partitioned into two types: ``active'' and ``inactive''.
