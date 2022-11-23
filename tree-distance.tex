@@ -1,14 +1,13 @@
-
 %v1
 \documentclass{amsart}
 \usepackage{amssymb, amsmath, amsfonts, amsthm}
 \usepackage{graphics, enumerate, mathrsfs, mathtools,tikz-cd,soul,csquotes}
 \usepackage{bm,dsfont}
 \usetikzlibrary{positioning,arrows,scopes}
-%\usepackage[left=1.25in,
-%			right=1.25in,
-%			top=1.25in,
-%			bottom=1.25in]{geometry}
+\usepackage[left=1.25in,
+			right=1.25in,
+			top=1.25in,
+			bottom=1.25in]{geometry}
 %\usepackage{fancyhdr}
 %\pagestyle{fancy}
 
@@ -108,10 +107,12 @@
 
 
 \begin{abstract}
-We prove a formula for the determinant of 
+We prove a combinatorial formula for 
+%the determinant of 
 the principal minors of
 the distance matrix of a weighted tree.
 This generalizes a result of Graham and Pollak.
+The identity involves counts of rooted spanning forests of the underlying tree.
 \end{abstract}
 \maketitle
 
@@ -158,7 +159,7 @@ and
 $\degout(F,*)$ denotes the outdegree of the $*$-component of $F$.
 %the number of edges from the $*$-component of $F$ to a different component. 
 \end{thm}
-For definitions of $(S,*)$-rooted spanning forests and other terminology, see \note{TODO: cite section}.
+For definitions of $(S,*)$-rooted spanning forests and other terminology, see Section~\ref{sec:graphs-matrices}.
 Note that the quantity $\degout(F,*)$ 
 % and $(2-\degout(F,*))^2$ 
 satisfies the bounds
@@ -167,54 +168,61 @@ satisfies the bounds
 \]
 %\qquad 0 \leq (2 - \degout(F,*))^2 \leq (2 - |S|)^2 .
 %assuming $|S| \geq 3$.
-When $S = V$ is the full vertex set, the set of $V$-rooted spanning forests is a singleton, consisting of the vertex set with no edges, 
+When $S = V$ is the full vertex set, the set of $V$-rooted spanning forests is a singleton, consisting of the subgraph with no edges, 
 so $\kappa(G; V) = 1$; and moreover the set $\forests_2(G; V)$ of $(V, *)$-rooted spanning forests is empty. 
 Thus \eqref{eq:main} recovers the Graham--Pollak identity \eqref{eq:full-det} when $S = V$.
 
 \subsection{Weighted trees}
 %Weighted version:
-A weighted version of \eqref{eq:full-det} was proved by Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann}.
-If $\{\alpha_e : e\in E\}$ is a collection of positive edge weights,  the $\alpha$-distance matrix $D_\alpha$ takes the distance along edge $e$ to be $\alpha_e$; then
+If $\{\alpha_e : e\in E\}$ is a collection of positive edge weights,  the $\alpha$-distance matrix $D_\alpha$ takes the distance along edge $e$ to be $\alpha_e$.
+Namely, the $(v,w)$-entry of $D_\alpha$ is the sum of the weights $\alpha_e$ along the unique path from $v$ to $w$.
+Then
 \begin{equation}\label{eq:w-full-det}
 	\det D_{\alpha} = (-1)^{n-1} 2^{n-2} \sum_{e \in E} \alpha_e \prod_{e \in E} \alpha_e .
 \end{equation}
+This weighted version of \eqref{eq:full-det} was proved by Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann}.
 The weighted identity \eqref{eq:w-full-det} reduces to \eqref{eq:full-det} when taking all unit weights, $\alpha_e = 1$.
 We also prove the following weighted version of our main theorem.
 \begin{thm}
 \label{thm:w-main}
 Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and corresponding weighted distance matrix $D_\alpha$. For any nonempty subset $S \subset V$, we have
 \begin{equation}\label{eq:w-main}
-\det D_\alpha[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} k(F,{*})^2 w(F) \right).
+\det D_\alpha[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (2 - \degout(F,*))^2 w(F) \right).
 \end{equation}
 where 
 $\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
 $\forests_2(G;S)$ is the set of $(S,*)$-rooted spanning forests of $G$,
 $w(T)$ and $w(F)$ denote the $\alpha$-weights of the forests $T$ and $F$,
 and 
-% $k(F,*)$ is defined as 
-\begin{equation}
-\label{eq:2-minus-deg}
-k(F,*) 
-%= \sum_{x \in V( F_{*})} {2 - \deg(x)} 
-= 2 - \degout(F,*)
-\end{equation}
-where $\degout(F, *)$ is the outdegree of the $*$-component of $F$, as above.
+%\begin{equation}
+%\label{eq:2-minus-deg}
+%k(F,*) 
+%%= \sum_{x \in V( F_{*})} {2 - \deg(x)} 
+%= 2 - \degout(F,*)
+%\end{equation}
+%where 
+$\degout(F, *)$ is the outdegree of the $*$-component of $F$, as above.
 \end{thm}
+Theorem~\ref{thm:w-main} also reduces to Theorem~\ref{thm:main} when taking all unit weights, $\alpha_e = 1$.
 
 It is worth observing that depending on the chosen subset $S \subset V$, the distances appearing in the submatrix $D[S]$ may ignore a large part of the ambient tree $G$.
-We could instead replace $G$ by the subtree consisting of paths between vertices in $S$,
-which we call $\conv(S,G)$, the {\em convex hull} of $S \subset G$.
+We could instead replace $G$ by the subtree  $\conv(S,G)$ consisting of the union of all paths between vertices in $S$,
+which we call the {\em convex hull} of $S \subset G$.
 To apply formula \eqref{eq:main} or \eqref{eq:w-main} ``efficiently,''
-we should replace $G$ with this convex hull $\conv(S,G)$.
+we should replace $G$ with this subtree $\conv(S,G)$.
 However, the formulas as stated are true even without this replacement due to cancellation of terms.
+
+\subsection{Applications of the main theorem}
 
 \begin{cor}
 \begin{equation}
-\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{E(G)} \alpha_e - \frac{\sum_{\forests_2(G/S)} w(F) k(F,*)^2}{\sum_{\trees(G/S)} w(T)} \right) .
+\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{E(G)} \alpha_e - \frac{\sum_{\forests_2(G; S)} w(F) k(F,*)^2}{\sum_{\trees(G; S)} w(T)} \right)
 \end{equation}
+where $k(F,*) = 2 - \degout(F,*)$.
 \end{cor}
 
 \note{add remark / theorem that det/cof is achieved as result of optimization problem}
+
 We remark that the calculation of $\det D[S]$ is related to the following optimization problem: for $ \boldm \in \RR^S$,
 \begin{align*}
 \text{optimize:} &\quad D[S] \boldm \\
@@ -292,7 +300,8 @@ $\forests_2(G;S)$ the set of $(S,*)$-rooted spanning forests of $G$
 
 % $Meas_{\geq 0}(\Gamma)$ positive Borel measures on $\Gamma$
 
-\section{Graph matrices}
+\section{Graphs and matrices}
+\label{sec:graphs-matrices}
 
 For background on enumeration problems for graphs and trees, see Moon \cite{moon}.
 
@@ -330,15 +339,25 @@ Then
 
 \subsection{Distance in trees}
 
+\subsection{Tree distance}
+
+For $e\in E$ and $v,w \in V$, let
+\begin{equation}
+\delta(e;v,w) = \begin{cases}
+  1 &\text{if $e$ separates  $v$ from $w$}, \\
+  0 &\text{otherwise}.
+  \end{cases}
+\end{equation}
+(Note that $\delta(e; v,v) = 0$ for any $e$ and $v$.)
 Given an edge $e\in E$ and vertices $v,w \in V$, let 
 \begin{equation}
 \delta(e; v,w) = \begin{cases}
-1 &\text{if } \\
-0 &\text{if }.
+1 &\text{if $e$ lies on $v\sim w$ path}, \\
+0 &\text{otherwise}.
 \end{cases}
 \end{equation}
 
-Note that we can express the tree distance $d(v,w)$ as a sum over edges
+We can express the tree distance $d(v,w)$ as a sum over edges
 \begin{equation*}
 d(v,w) = \sum_{e \in E(G)} \delta(e; v,w)
 \qquad\text{where } \delta(e; v,w) = \begin{cases}
@@ -347,6 +366,8 @@ d(v,w) = \sum_{e \in E(G)} \delta(e; v,w)
 0 &\text{otherwise}.
 \end{cases}
 \end{equation*}
+
+We have the following perspectives on the function $\delta(e; v,w)$:
 \begin{itemize}
 \item 
 If we fix $v$ and $w$, then $\delta(-;v,w) : E(G) \to \{0,1\}$
@@ -360,21 +381,13 @@ is the indicator function for the component of $G \setminus e$ not containing $v
 \end{itemize}
 
 
-\begin{prop}
+\begin{prop}[Weighted tree distance]
 \label{prop:distance-sum}
-\[ d(v,w) = \sum_{e \in E} \ell(e) \delta(e; v,w) .\]
+For a tree $G = (V,E)$ with weights $\{\alpha_e : e \in E\}$,
+the weighted distance function satisfies
+\[ d_\alpha(v,w) = \sum_{e \in E} \alpha_e \, \delta(e; v,w) .\]
 \end{prop}
 
-\subsection{Tree distance}
-
-For $e\in E$ and $v,w \in V$, let
-\begin{equation}
-\delta(e;v,w) = \begin{cases}
-  1 &\text{if $e$ separates  $v$ from $w$}, \\
-  0 &\text{otherwise}.
-  \end{cases}
-\end{equation}
-(Note that $\delta(e; v,v) = 0$ for any $e$ and $v$.)
 
 \subsection{Principal cuts}
 
@@ -1400,7 +1413,7 @@ Fix a tree $G = (V,E)$ and a subset $S \subset V$.
 Let $\boldm = \boldm(G;S) \in \RR^S$ be defined by
 \begin{equation}
 \label{eq:m-vector}
-\mathbf{m}_v =  \sum_{T \in \trees(G;S)} 2 - \degout(T,v) 
+\mathbf{m}_v =  \sum_{T \in \trees(G;S)} (2 - \degout(T,v)) w(T)
 \qquad\text{for each }v \in S.
 \end{equation}
 where $\degout(T,v)$ is the outdegree of the $v$-component of $T$, \eqref{eq:outdeg}.
@@ -2381,6 +2394,9 @@ $$
 \section{Further work}
 
 See \cite{richman-shokrieh-wu}.
+
+\subsection{Symanzik polynomials}
+
 
 \section*{Acknowledgements}
 The authors would like to thank Ravindra Bapat for helpful discussion.
