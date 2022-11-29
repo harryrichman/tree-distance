@@ -117,7 +117,7 @@ The identity involves counts of rooted spanning forests of the underlying tree.
 \end{abstract}
 \maketitle
 
-%\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{1}
 \tableofcontents
 
 \section{Introduction}
@@ -1510,20 +1510,27 @@ For any $v \in S$, we have
 \begin{align}
   (D[S] \mathbf{m})_v &= \sum_{s \in S} d(v,s) \mathbf{m}_s \\
   &= \sum_{s \in S} \left( \sum_{e \in E(G)} \alpha_e\, \delta(e; v,s) \right) \left( \sum_{T \in \trees(G;S)} (2 - \degout(T,s)) w(T) \right) \\
-  &= \sum_{T\in \trees} w(T) \sum_{e\in E} \alpha_e \left( \sum_{s \in S} (2 - \deg^o(T, s)) \delta(e; v,s) \right) \\
-  &= \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \left( \sum_{s \in S \cap (G\setminus e)^{\overline v}} (2 - \deg^o(T, s)) \right) \\
-  &= \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \left( \sum_{s \in S \cap (G\setminus e)^{\overline v}} \sum_{w \in T(s)} (2 - \deg(w)) \right). \label{eq:14-1}
+  &= \sum_{T\in \trees} w(T) \sum_{e\in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) (2 - \deg^o(T, s)) \right) \\
+  % &= \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \left( \sum_{s \in S \cap (G\setminus e)^{\overline v}} (2 - \deg^o(T, s)) \right) \\
+  &= \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) \sum_{u \in T(s)} (2 - \deg(u)) \right). \label{eq:14-1}
 \end{align}
-where
-\[ 
-S \cap (G\setminus e)^{\overline v} = \{ s \in S : \text{$e$ separates $v$ from $s$}\}.
-\]
-%$$
+%where
+%\[ 
+%	S \cap (G\setminus e)^{\overline v} = \{ s \in S : \text{$e$ separates $v$ from $s$}\}.
 %S^*(e,v) = \{ s \in S : \text{$e$ lies on path from $v$ to $s$}\}.
-%$$
+%\]
+Each $S$-rooted spanning tree $T$ is naturally associated with a surjection $\pi_T: V \to S$, defined by 
+\[
+	\pi_T(u) = s \qquad\text{if and only if}\qquad u \in T(s).
+\]
+Using this,
+\[
+	(D[S] \mathbf{m})_v = \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,\pi_T(u)) \right)
+\]
+
 Regarding the vertex sets that appear in the last summation, we have
 \[
-	\bigcup_{s \in S \cap (G\setminus e)^{\overline v}} \{ w \in T(s)\} = \begin{cases}
+	\bigcup_{\substack{s \in S \\ \delta(e;v,s) = 1}} \{ w \in T(s)\} = \begin{cases}
 	\displaystyle
 	\{ w \in (G \setminus e)^{\overline v} \} &\text{if } e \not\in T, \\[2em]
 	\displaystyle
@@ -1535,18 +1542,25 @@ Regarding the vertex sets that appear in the last summation, we have
 alternative:
 \[
 	\bigcup_{\substack{s \in S \\ \delta(e; v, s) = 1}} \{w \in T(s)\}
-	= 
+	= \begin{cases}
+	\displaystyle
+	\{w \in V : \delta(e; v, w) = 1 \} &\text{if } e \not\in T, \\[2em]
+	\displaystyle
+	\left\{ w \in (G \setminus e)^{\overline v} \right\} \cup (T\setminus e)(*)  &\text{if } e \in T,\, s_0(e, T) \in (G \setminus e)^{v} \\[2em]
+	\displaystyle
+	\left\{ w \in (G \setminus e)^{\overline v} \right\} \setminus (T\setminus e)(*)  &\text{if } e \in T,\, s_0(e,T) \in (G \setminus e)^{\overline v} . 
+	\end{cases}
 \]
 Here 
-$T\setminus e$ is a forest in $\forests_2(G;S)$, and
+$T\setminus e$ is a $(S,*)$-rooted forest, i.e. $T \setminus e \in \forests_2(G;S)$, and
 $\degout(T\setminus e, *)$ refers to the out-degree of the floating component of $T \setminus e$.
 These cases correspond to 
 \begin{align*}
-\sum_{s \in S \cap (G\setminus e)^{\overline v}}(2 - \degout(T,s)) = \begin{cases}
-1 &\text{if }e \not \in T, \\
-1 - (2 - \degout(T \setminus e, *)) &\text{if } e \in T(s_0),\, s_0 \in S(G\setminus e)^{\overline v} , \\
-1 + (2 - \degout(T \setminus e, *)) &\text{if } e \in T(s_0),\, s_0 \in S(G\setminus e)^v
-\end{cases}
+	\sum_{s \in S \cap (G\setminus e)^{\overline v}}(2 - \degout(T,s)) = \begin{cases}
+	1 &\text{if }e \not \in T, \\
+	1 - (2 - \degout(T \setminus e, *)) &\text{if } s_0(e,T) \in (G\setminus e)^{\overline v} , \\
+	1 + (2 - \degout(T \setminus e, *)) &\text{if } s_0(e,T) \in (G\setminus e)^v
+	\end{cases}
 \end{align*}
 
 %If $e \not\in \conv(G,S)$ on the other hand,
@@ -1576,26 +1590,33 @@ Thus
 \end{align}
 
 We now rewrite the above expression in terms of $\forests_2(G;S)$,
-observing that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, if $e \in T$.
+observing that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, if $e \in T$, and that the corresponding weights satisfy
+\[
+	w(F) = \alpha_e \cdot w(T) \qquad\text{if}\qquad F = T \setminus e.
+\]
+Thus
 \begin{align*}
-\eqref{eq:1} &= - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \cdot \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s'),\, \delta(e;v,s') = 0 \} \\
-& \sum_{T\in \trees} \sum_{e \in T\setminus T(S^*)} \one(F = T \setminus e)  \\
-&\qquad +  \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{e \in T(S^*)} \one(F = T \setminus e) 
+	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 1}} \one(F = T \setminus e)  \\
+	&\qquad - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 0}} \one(F = T \setminus e) 
 \end{align*}
-Next, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose $e \in \partial (F,*)$:
 \begin{align*}
-	\eqref{eq:1} &= - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  \sum_{e \in \partial F(*)} \one( \delta(e; v, F(*)) = 1)  \\
-	&\qquad +  \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{e\in \partial F(*)} \one(\delta(e; v, F(*))=0) 
+	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \cdot \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e;v,s_0) = 1 \} \\
+	&\qquad - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \cdot \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e; v,s_0) = 0 \}
+\end{align*}
+Next, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose the edge $e$ to be in the floating boundary $\partial (F,*)$:
+\begin{align*}
+	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  \sum_{e \in \partial F(*)} \one( \delta(e; v, F(*)) = 0)  \\
+	&\qquad - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{e\in \partial F(*)} \one(\delta(e; v, F(*)) = 1) 
 \end{align*}
 Here we let $\delta(e; v, F(*))$ denote
 \[
-\delta(e; v, F(*)) = \begin{cases}
-1 &\text{if $e$ lies on path from $v$ to $F(*)$} \\
-0 &\text{otherwise}
-\end{cases}
+	\delta(e; v, F(*)) = \begin{cases}
+	1 &\text{if $e$ lies on path from $v$ to $F(*)$}, \\
+	0 &\text{otherwise}.
+	\end{cases}
 \]
 Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
-there is exactly one edge $e$ in the boundary $\partial(F, *)$ of the floating component which satisfies $\delta(e; v, F(*)) = 1$, namely the unique boundary edge on the path from $F(*)$ to $v$.
+there is exactly one edge $e$ in the boundary $\partial(F, *)$ of the floating component which satisfies $\delta(e; v, F(*)) = 1$, namely the unique boundary edge on the path from the floating component $F(*)$ to $v$.
 Thus
 \[
 	\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 1 \} = 1
@@ -1606,9 +1627,9 @@ and
 \]
 Thus
 \begin{align*}
-	\eqref{eq:1} &= - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  (1)  \\
-	&\qquad +  \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) (\deg^o(F,*) - 1) \\
-	&= - \!\sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))^2 .
+	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \degout(F,*))  (\degout(F,*) - 1)  \\
+	&\qquad - \sum_{F \in \forests_2} w(F) (2 - \degout(F,*)) (1) \\
+	&= - \!\sum_{F \in \forests_2} w(F) (2 - \degout(F,*))^2 .
 \end{align*}
 as desired.
 \end{proof}
@@ -1698,33 +1719,6 @@ as desired.
 \end{figure}
  
 \begin{figure}[h]
-% LABEL 1345
-\begin{tikzpicture}[scale=0.6]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw (1) -- (A);
-	\draw[dotted] (A) -- (B);
-	\draw (B) -- (C);
-	\draw (C) -- node[above] {$e$} (D);
-	\draw (D) -- (2);
-	\draw[dotted] (B) -- (3);
-
-	\node[above=0.1] at (2) {$v$};
-\end{tikzpicture}
-\qquad
 % LABEL 2356
 \begin{tikzpicture}[scale=0.6]
 	\coordinate (1) at (0,0);
@@ -1743,16 +1737,17 @@ as desired.
 	}
 
 	\draw[dotted] (1) -- (A);
-	\draw (A) -- node[above] {$e$} (B);
+	\draw (A) -- node[below] {$e$} (B);
 	\draw (B) -- (C);
 	\draw[dotted] (C) -- (D);
 	\draw (D) -- (2);
 	\draw (B) -- (3);
 
 	\node[above=0.1] at (2) {$v$};
+	\node[right] at (3) {$s_0$};
 \end{tikzpicture}
-\qquad
-% LABEL 1356
+\qquad\qquad
+% LABEL 2356
 \begin{tikzpicture}[scale=0.6]
 	\coordinate (1) at (0,0);
 	\coordinate (A) at (1,0);
@@ -1769,16 +1764,17 @@ as desired.
 		\draw (\c) circle (3pt);
 	}
 
-	\draw (1) -- (A);
-	\draw[dotted] (A) -- (B);
-	\draw (B) -- (C);
+	\draw[dotted] (1) -- (A);
+	\draw (A) -- (B);
+	\draw (B) -- node[below] {$e$} (C);
 	\draw[dotted] (C) -- (D);
 	\draw (D) -- (2);
-	\draw (B) -- node[left=0.05] {$e$} (3);
+	\draw (B) -- (3);
 
 	\node[above=0.1] at (2) {$v$};
+	\node[right] at (3) {$s_0$};
 \end{tikzpicture}
-\caption{Components rooted in $S(G\setminus e)^{\overline v}$.}
+\caption{Graph with $\delta(e; v, s_0 ) = 0$ (left) and $\delta(e; v, s_0) = 1$ (right).}
 \end{figure}
 
 \note{MOVE TO REMARK? If $e \in \conv(G,S)$, then $S(G\backslash e)^{\overline v}$ is nonempty and }
@@ -1789,9 +1785,9 @@ The set $\forests_2(G;S)$ of $(S,*)$-rooted spanning forests of $G$ can be parti
 	\forests_2(G/S) = \forests_2^{in}(G;S) \sqcup \forests_2^{out}(G;S),
 \]
 where
-$$
-\forests_2^{in}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \deg^o(*,F) \geq 2\},
-$$
+\[
+	\forests_2^{in}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \deg^o(*,F) \geq 2\},
+\]
 $$
 \forests_2^{out}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \deg^o(*,F) = 1\}.
 $$
