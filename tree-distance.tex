@@ -215,7 +215,20 @@ However, the formulas as stated are true even without this replacement due to ca
 
 \subsection{Applications of the main theorem}
 
+Given a matrix $A$, let $\cof A$ denote the {\em sum of cofactors} of $A$, i.e. 
+\[
+	\cof A = \sum_{i = 1}^{|S|} \sum_{j = 1}^{|S|} (-1)^{i + j} \det A_{ij}
+\]
+If $A$ is invertible, then $\cof A$ is related to the sum of entries of the matrix inverse $A^{-1}$ by a factor of $\det A$, i.e. $\cof A = (\det A) (\bone^\tr A^{-1} \bone)$.
+In \cite{bapat-sivasubramanian}, Bapat and Sivasubramanian showed the following identity for the sum of cofactors of $D[S]$.
+\begin{equation}\label{eq:cof-trees}
+	\cof D[S] = (-2)^{|S| - 1} \sum_{T \in \trees(G;S)} w(T) .
+\end{equation}
+Using \eqref{eq:cof-trees}, an immediate corollary to Theorem~\ref{thm:w-main} is the following identity.
+
 \begin{thm}
+Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$. Let $D = D_\alpha$ denote the weighted distance matrix of $G$. 
+For any nonempty subset $S \subset V$, we have
 \begin{equation}
 \frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{E(G)} \alpha_e - \frac{\sum_{\forests_2(G; S)} w(F) k(F,*)^2}{\sum_{\trees(G; S)} w(T)} \right)
 \end{equation}
@@ -225,24 +238,23 @@ where $k(F,*) = 2 - \degout(F,*)$.
 \note{add remark / theorem that det/cof is achieved as result of optimization problem}
 
 We remark that the calculation of $\det D[S]$ is related to the following quadratic optimization problem: for all vectors $ \boldm \in \RR^S$,
-\begin{align*}
-\text{optimize objective function:} &\quad \boldm^\tr D[S] \boldm \\
-\text{with constraint:} &\quad \bone^\tr \boldm = 1.
-\end{align*}
+\begin{align}
+	\text{optimize objective function:} &\quad \boldm^\tr D[S] \boldm \\
+	\text{with constraint:} &\quad \bone^\tr \boldm = 1.
+\end{align}
 The gradient of the objective function is $2 D[S] \boldm$, 
 and the gradient of the constraint is $\bone$.
 By the theory of Lagrange multipliers, the optimal solution $\boldm^*$ is a vector satisfying
 \[
-D[S] \boldm^* = \lambda \bone \qquad\text{for some }\lambda \in \RR,
+	D[S] \boldm^* = \lambda \bone \qquad\text{for some }\lambda \in \RR.
 \]
-or equivalently 
-$ \boldm^* = \lambda (D[S]^{-1} \bone) $.
-Finally, it follows that the optimal objective value is
+It follows that the optimal objective value is
 \[
 	(\boldm^*)^\tr D[S] \boldm^* = (D[S] \boldm^*)^\tr \boldm^* = \lambda (\bone^\tr \boldm^*) = \lambda.
 \]
 (The above computation uses the fact that $D[S]$ is a symmetric matrix, and the given constraint $\bone^\tr \boldm = 1$.)
 On the other hand,
+assuming $D[S]$ is invertible we have $ \boldm^* = \lambda (D[S]^{-1} \bone) $, so that
 \[
 	1 = \bone^\tr \boldm^* = \lambda (\bone^\tr D[S]^{-1} \bone)
 	= \lambda \frac{\cof D[S]}{\det D[S]},
@@ -250,7 +262,10 @@ On the other hand,
 	\lambda = \frac{\det D[S]}{\cof D[S]} .
 \]
 \begin{prop}
-If $D[S]$ is any matrix with rows and columns indexed by $S$, then any critical value of the optimization problem \note{cite above} is equal to $\frac{\det D[S]}{\cof D[S]}$
+If $D[S]$ is any matrix with rows and columns indexed by $S$, then any critical value of the optimization problem \note{cite above} is equal to $\frac{\det D[S]}{\cof D[S]}$, i.e.
+\[
+	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D[S] \boldm : \boldm \in \RR^S,\, \bone^\tr \boldm = 1 \}
+\]
 where $\cof D[S]$ denotes the sum of cofactors,
 \[
 	\cof A = \sum_{i = 1}^{|S|} \sum_{j = 1}^{|S|} (-1)^{i + j} \det A_{ij}
@@ -258,6 +273,16 @@ where $\cof D[S]$ denotes the sum of cofactors,
 \end{prop}
 
 \begin{thm}[Monotonicity of principal minor ratios]
+If $A,B \subset V(G)$
+are nonempty subsets with
+$A \subset B$,
+then
+\begin{equation*}
+	\frac{\det D[A]}{\cof D[A]}  \leq \frac{\det D[B]}{\cof D[B]}.
+\end{equation*}
+\end{thm}
+
+\begin{thm}[Bounds on principal minor ratios]
 Suppose $G = (V,E)$ is a finite, weighted tree with distance matrix $D$.
 \begin{enumerate}
 \item 
@@ -273,12 +298,9 @@ If $\conv(S,G)$ denotes the subtree of $G$ consisting of all paths between point
 \end{equation*}
 
 \item 
-If $A,B \subset V(G)$
-are nonempty subsets with
-$A \subset B$,
-then
+If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
 \begin{equation*}
-	\frac{\det D[A]}{\cof D[A]}  \leq \frac{\det D[B]}{\cof D[B]}.
+	\frac12 \sum_{e \in \gamma} \alpha_e \leq \frac{\det D[S]}{\cof D[S]}
 \end{equation*}
 \end{enumerate}
 \end{thm}
@@ -1289,7 +1311,7 @@ In words, $\degout(F,s)$ is the number of edges which connect the $s$-component 
 $$
 \#\{ e \in E : e \text{ connects the $s$-component of $F$ to a different component}\}
 $$
-If $F$ is a forest in $\forests_2(G/S)$, let $\degout(F,*)$ denote the outdegree of the floating component.
+If $F$ is a forest in $\forests_2(G;S)$, let $\degout(F,*)$ denote the outdegree of the floating component.
 
 \begin{lem}
 \label{lem:outdeg-sum}
@@ -1333,7 +1355,8 @@ Find vector $\mathbf{m} \in \RR^S$ such that $D[S]\mathbf{m} = \lambda \mathbf{1
 Compute the sum of entries of $\mathbf{m}$, i.e. $\mathbf{1}^\tr \mathbf{m}$.
 
 \item 
-Using (i), note the identity
+Using (i), relate the sum $\bone^\tr \boldm$ to the sum of entries of the inverse matrix $D[S]^{-1}$:
+%note the identity
 $$ \mathbf{1}^\tr \mathbf{m} 
 = \lambda (\mathbf{1}^\tr D[S]^{-1} \mathbf{1}) 
 = \lambda \frac{\cof D[S]}{\det D[S]} .$$
@@ -1492,7 +1515,7 @@ With $\boldm = \boldm(G;S)$ defined as in \eqref{eq:m-vector},
 $D[S] \mathbf{m} = \lambda \mathbf{1}$
 for the constant
 \begin{equation}
-	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (2 - \degout(F,*) )^2 w(F)
+	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (2 - \degout(F,*) )^2 \, w(F)
 \end{equation}
 where 
 % $k(F,*) = 2 - \degout(F,w)$ and 
@@ -1523,20 +1546,225 @@ Each $S$-rooted spanning tree $T$ is naturally associated with a surjection $\pi
 \[
 	\pi_T(u) = s \qquad\text{if and only if}\qquad u \in T(s).
 \]
-Using this,
+Using this notation,
 \[
-	(D[S] \mathbf{m})_v = \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,\pi_T(u)) \right)
+	(D[S] \boldm)_v = \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,\pi_T(u)) \right)
 \]
+\[
+	(D[S] \boldm)_v - \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e = \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \left(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \right)
+\]
+We have
+\[
+	\delta(e; v, \pi_T(u)) - \delta(e; v, u) = \begin{cases}
+	0 &\text{if } \delta(e; \pi_T(u), u) = 0 \\
+	1 &\text{if } \delta(e; \pi_T(u), u) = 1 \text{ and } \delta(e; v, \pi_T(u)) = 1 \\
+	-1 &\text{if } \delta(e; \pi_T(u), u) = 1 \text{ and } \delta(e; v, \pi_T(u)) = 0
+	\end{cases}
+\]
+Summing the terms $(2 - \deg(u))$ against the above over all vertices $u$, we have the following cases:
 
+Case 1: if $e \not \in T$, then $u$ and $\pi_T(u)$ are on the same side of the principal cut $G \setminus e$, for every vertex $u$.
+
+Case 2: if $e \in T(s_0)$ and $s_0$ is separated from $v$ by $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the indicator function for the floating component of $T \setminus e$.
+
+Case 3: if $e \in T(s_0)$ and $s_0$ is on the same component as $v$ from $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the negative of the indicator function for the floating component of $T \setminus e$.
+
+\begin{figure}[h]
+% LABEL 2356
+\begin{tikzpicture}[scale=0.6]
+	\coordinate (1) at (0,0);
+	\coordinate (A) at (1,0);
+	\coordinate (B) at (2,0);
+	\coordinate (C) at (3,0);
+	\coordinate (D) at (4,0);
+	\coordinate (2) at (5,0);
+	\coordinate (3) at (2,1);
+	
+	\foreach \c in {1,2,3,A,B,C,D} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3} {
+		\draw (\c) circle (3pt);
+	}
+
+	\draw[dotted] (1) -- (A);
+	\draw (A) -- node[below] {$e$} (B);
+	\draw (B) -- (C);
+	\draw[dotted] (C) -- (D);
+	\draw (D) -- (2);
+	\draw (B) -- (3);
+
+	\node[above=0.1] at (1) {$v$};
+	\node[right] at (3) {$s_0$};
+\end{tikzpicture}
+\qquad\qquad
+% LABEL 2356
+\begin{tikzpicture}[scale=0.6]
+	\coordinate (1) at (0,0);
+	\coordinate (A) at (1,0);
+	\coordinate (B) at (2,0);
+	\coordinate (C) at (3,0);
+	\coordinate (D) at (4,0);
+	\coordinate (2) at (5,0);
+	\coordinate (3) at (2,1);
+	
+	\foreach \c in {1,2,3,A,B,C,D} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3} {
+		\draw (\c) circle (3pt);
+	}
+
+	\draw[dotted] (1) -- (A);
+	\draw (A) -- (B);
+	\draw (B) -- node[below] {$e$} (C);
+	\draw[dotted] (C) -- (D);
+	\draw (D) -- (2);
+	\draw (B) -- (3);
+
+	\node[above=0.1] at (1) {$v$};
+	\node[right] at (3) {$s_0$};
+\end{tikzpicture}
+\caption{Edge $e \in T(s_0)$ with $\delta(e; v, s_0 ) = 1$ (left) and $\delta(e; v, s_0) = 0$ (right).}
+\end{figure}
+
+Thus we obtain
+\[
+	\sum_{u \in V} (2 - \deg(u)) (\delta(e; v, \pi_T(u)) - \delta(e; v, u)) = \begin{cases}
+	0 &\text{if } e \not \in T, \\
+	2 - \degout(T \setminus e, *) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 1, \\
+	-(2 - \degout(T \setminus e, *)) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 0 .
+	\end{cases}
+\]
+Thus
+\begin{multline}\label{eq:1}
+	(D[S] \mathbf{m})(v) - \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \\
+	= \sum_{T\in \trees} w(T) \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} \alpha_e ( 2 - \deg^o(T\setminus e,*)) 
+	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} \alpha_e (2 - \deg^o(T\setminus e,*) ) \right).
+\end{multline}
+
+We now rewrite the above expression in terms of $\forests_2(G;S)$,
+observing that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, if $e \in T$, and that the corresponding weights satisfy
+\[
+	w(F) = \alpha_e \cdot w(T) \qquad\text{if}\qquad F = T \setminus e.
+\]
+Thus
+\begin{align*}
+	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 1}} \one(F = T \setminus e) -  \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 0}} \one(F = T \setminus e) \right) \\
+	&= \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \Bigg( \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e;v,s_0) = 1 \} \\
+	&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad - \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e; v,s_0) = 0 \} \Bigg)
+\end{align*}
+Next, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose the edge $e$ to be in the floating boundary $\partial F(*)$:
+
+\begin{figure}[h]
+% LABEL 2356
+\begin{tikzpicture}[scale=0.6]
+	\coordinate (1) at (0,0);
+	\coordinate (A) at (1,0);
+	\coordinate (B) at (2,0);
+	\coordinate (C) at (3,0);
+	\coordinate (D) at (4,0);
+	\coordinate (2) at (5,0);
+	\coordinate (3) at (2,1);
+	
+	\foreach \c in {1,2,3,A,B,C,D} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3} {
+		\draw (\c) circle (3pt);
+	}
+
+	\draw[dotted] (1) -- (A);
+	\draw[dotted] (A) -- node[below] {$e$} (B);
+	\draw (B) -- (C);
+	\draw[dotted] (C) -- (D);
+	\draw (D) -- (2);
+	\draw (B) -- (3);
+
+	\node[above=0.1] at (1) {$v$};
+	% \node[right] at (3) {$s_0$};
+
+	\draw[color=red, line width=6pt, opacity=0.1] (A) circle (10pt);
+	\draw[color=red, line width=3pt, opacity=0.1] (A) circle (10pt);
+\end{tikzpicture}
+\qquad\qquad
+% LABEL 2356
+\begin{tikzpicture}[scale=0.6]
+	\coordinate (1) at (0,0);
+	\coordinate (A) at (1,0);
+	\coordinate (B) at (2,0);
+	\coordinate (C) at (3,0);
+	\coordinate (D) at (4,0);
+	\coordinate (2) at (5,0);
+	\coordinate (3) at (2,1);
+	
+	\foreach \c in {1,2,3,A,B,C,D} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3} {
+		\draw (\c) circle (3pt);
+	}
+
+	\draw[dotted] (1) -- (A);
+	\draw (A) -- (B);
+	\draw[dotted] (B) -- node[below] {$e$} (C);
+	\draw[dotted] (C) -- (D);
+	\draw (D) -- (2);
+	\draw (B) -- (3);
+
+	\node[above=0.1] at (1) {$v$};
+	% \node[right] at (3) {$s_0$};
+	
+	\draw[color=red, line width=6pt, opacity=0.1] (C) circle (10pt);
+	\draw[color=red, line width=3pt, opacity=0.1] (C) circle (10pt);
+\end{tikzpicture}
+\caption{Edge $e \in \partial F(*)$ with $\delta(e; v, F(*)) = 0$ (left) and $\delta(e; v, F(*)) = 1$ (right). The floating component $F(*)$ is highlighted.}
+\end{figure}
+
+\begin{multline}
+	\eqref{eq:1} = \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  \sum_{e \in \partial F(*)} \Bigg( \sum_{\substack{s_0 \in S \\ \delta(e; v, s_0) = 0}} \; \sum_{\substack{T \in \trees \\ e \in T(s_0)}} \one(T = F \cup e) \\
+	- \sum_{\substack{s_0 \in S \\ \delta(e; v, s_0) = 1}} \; \sum_{\substack{T \in \trees \\ e \in T(s_0)}} \one(T = F \cup e) \Bigg).
+\end{multline}
+\begin{multline}
+	\eqref{eq:1} = \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  \Bigg( \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 0 \}  \\
+	- \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 1 \}  \Bigg).
+\end{multline}
+Here we let $\delta(e; v, F(*)) = \delta(e; v, x)$ for any $x \in F(*)$, i.e.
+\[
+	\delta(e; v, F(*)) = \begin{cases}
+	1 &\text{if $e$ lies on path from $v$ to $F(*)$}, \\
+	0 &\text{otherwise}.
+	\end{cases}
+\]
+Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
+there is exactly one edge $e$ in the boundary $\partial F(*)$ of the floating component which satisfies $\delta(e; v, F(*)) = 1$, namely the unique boundary edge on the path from the floating component $F(*)$ to $v$.
+Thus
+\[
+	\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 1 \} = 1
+\]
+and
+\[
+	\#\{e \in \partial (F,*) : \delta(e;v, F(*)) = 0 \} = \deg^o(F,*) - 1 .
+\]
+Thus
+\begin{align*}
+	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \degout(F,*))  \Big( (\degout(F,*) - 1)  - (1) \Big) \\
+	% &\qquad - \sum_{F \in \forests_2} w(F) (2 - \degout(F,*)) (1) \\
+	&= - \!\sum_{F \in \forests_2} w(F) (2 - \degout(F,*))^2 .
+\end{align*}
+as desired.
+\end{proof}
+
+\begin{proof}[Old proof]
 Regarding the vertex sets that appear in the last summation, we have
 \[
-	\bigcup_{\substack{s \in S \\ \delta(e;v,s) = 1}} \{ w \in T(s)\} = \begin{cases}
+	\bigcup_{\substack{s \in S \\ \delta(e;v,s) = 1}} \{ u \in T(s)\} = \begin{cases}
 	\displaystyle
-	\{ w \in (G \setminus e)^{\overline v} \} &\text{if } e \not\in T, \\[2em]
+	\{ u \in (G \setminus e)^{\overline v} \} &\text{if } e \not\in T, \\[2em]
 	\displaystyle
-	\left\{ w \in (G \setminus e)^{\overline v} \right\} \cup (T\setminus e)(*)  &\text{if } e \in T(s_0),\, \delta(e;v,s_0) = 0 \\[2em]
+	\left\{ u \in (G \setminus e)^{\overline v} \right\} \cup (T\setminus e)(*)  &\text{if } e \in T(s_0),\, \delta(e;v,s_0) = 0 \\[2em]
 	\displaystyle
-	\left\{ w \in (G \setminus e)^{\overline v} \right\} \setminus (T\setminus e)(*)  &\text{if } e \in T(s_0),\, \delta(e;v,s_0) = 1 . 
+	\left\{ u \in (G \setminus e)^{\overline v} \right\} \setminus (T\setminus e)(*)  &\text{if } e \in T(s_0),\, \delta(e;v,s_0) = 1 . 
 	\end{cases}
 \]
 alternative:
@@ -1582,56 +1810,6 @@ f(T, v,e,s_0) = \begin{cases}
 -(2-\deg^o(T\setminus e,*)) &\text{if }  e \in T(s_0)\text{ for some } s_0 \in S \text{ with } \delta(e;v,s_0) = 1 \\
 \end{cases}
 $$
-Thus
-\begin{align}\label{eq:1}
-	(D[S] \mathbf{m})(v) - \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e 
-	&= - \sum_{T\in \trees} w(T) \sum_{s_0 \in S} \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} \alpha_e ( 2 - \deg^o(T\setminus e,*)) \\
-	&\qquad + \sum_{T \in \trees} w(T) \sum_{s_0 \in S} \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} \alpha_e (2 - \deg^o(T\setminus e,*) )
-\end{align}
-
-We now rewrite the above expression in terms of $\forests_2(G;S)$,
-observing that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, if $e \in T$, and that the corresponding weights satisfy
-\[
-	w(F) = \alpha_e \cdot w(T) \qquad\text{if}\qquad F = T \setminus e.
-\]
-Thus
-\begin{align*}
-	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 1}} \one(F = T \setminus e)  \\
-	&\qquad - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 0}} \one(F = T \setminus e) 
-\end{align*}
-\begin{align*}
-	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \cdot \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e;v,s_0) = 1 \} \\
-	&\qquad - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \cdot \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e; v,s_0) = 0 \}
-\end{align*}
-Next, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose the edge $e$ to be in the floating boundary $\partial (F,*)$:
-\begin{align*}
-	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  \sum_{e \in \partial F(*)} \one( \delta(e; v, F(*)) = 0)  \\
-	&\qquad - \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{e\in \partial F(*)} \one(\delta(e; v, F(*)) = 1) 
-\end{align*}
-Here we let $\delta(e; v, F(*))$ denote
-\[
-	\delta(e; v, F(*)) = \begin{cases}
-	1 &\text{if $e$ lies on path from $v$ to $F(*)$}, \\
-	0 &\text{otherwise}.
-	\end{cases}
-\]
-Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
-there is exactly one edge $e$ in the boundary $\partial(F, *)$ of the floating component which satisfies $\delta(e; v, F(*)) = 1$, namely the unique boundary edge on the path from the floating component $F(*)$ to $v$.
-Thus
-\[
-	\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 1 \} = 1
-\]
-and
-\[
-	\#\{e \in \partial (F,*) : \delta(e;v, F(*)) = 0 \} = \deg^o(F,*) - 1
-\]
-Thus
-\begin{align*}
-	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \degout(F,*))  (\degout(F,*) - 1)  \\
-	&\qquad - \sum_{F \in \forests_2} w(F) (2 - \degout(F,*)) (1) \\
-	&= - \!\sum_{F \in \forests_2} w(F) (2 - \degout(F,*))^2 .
-\end{align*}
-as desired.
 \end{proof}
 
 \begin{figure}[h]
@@ -1718,65 +1896,6 @@ as desired.
 \caption{Components rooted in $S(G\setminus e)^{\overline v}$.}
 \end{figure}
  
-\begin{figure}[h]
-% LABEL 2356
-\begin{tikzpicture}[scale=0.6]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- node[below] {$e$} (B);
-	\draw (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-	\draw (B) -- (3);
-
-	\node[above=0.1] at (2) {$v$};
-	\node[right] at (3) {$s_0$};
-\end{tikzpicture}
-\qquad\qquad
-% LABEL 2356
-\begin{tikzpicture}[scale=0.6]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw (B) -- node[below] {$e$} (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-	\draw (B) -- (3);
-
-	\node[above=0.1] at (2) {$v$};
-	\node[right] at (3) {$s_0$};
-\end{tikzpicture}
-\caption{Graph with $\delta(e; v, s_0 ) = 0$ (left) and $\delta(e; v, s_0) = 1$ (right).}
-\end{figure}
-
 \note{MOVE TO REMARK? If $e \in \conv(G,S)$, then $S(G\backslash e)^{\overline v}$ is nonempty and }
 
 \begin{rmk}
@@ -1812,7 +1931,7 @@ For a given spanning forest
 $F \in \forests_2(G;S)$,
 there are exactly $\degout(F, *)$-many choices of pairs $(T,e) \in \trees(G;S) \times E(G)$ such that
 $F = T \setminus e.$
-Consider the map
+Consider the ``deletion'' map
 \[
 	E(G) \times \trees(G;S) \to \forests_2(G;S) \sqcup \trees(G;S)
 \]
@@ -1826,7 +1945,7 @@ defined by ...
 For a forest $F$ in $\forests_2(G;S)$,
 the preimage under this map has $\degout(F,*)$ elements.
 
-There is an associated ``addition'' map 
+There is an associated ``union'' map 
 \[
 	E(G) \times \forests_2(G;S) \longrightarrow \trees(G;S) \sqcup \forests_2(G;S)
 \]
@@ -1943,11 +2062,11 @@ for some constant $\lambda$.
 \begin{proof}
 Note that
 \begin{align}
-\mathbf{m}(G;S)
-&= \kappa(G/S) \left( \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
-- \sum_{v \in V \setminus S} (2 - \deg v) \mathbf{n}(G;S,v) 
-\right) \\
-&= \kappa(G;S) \left( \boldm(G;V) - \sum_{v\in V\setminus S} (2 - \deg v) \boldn(G;S,v) \right)
+	\mathbf{m}(G;S)
+	&= \kappa(G/S) \left( \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
+	- \sum_{v \in V \setminus S} (2 - \deg v) \mathbf{n}(G;S,v) 
+	\right) \\
+	&= \kappa(G;S) \left( \boldm(G;V) - \sum_{v\in V\setminus S} (2 - \deg v) \boldn(G;S,v) \right)
 \end{align}
 \note{TODO: elaborate on this equation}
 From Proposition~\ref{prop:m-distance-warmup} we know that $D \boldm(G;V)$ is constant on $V$,
@@ -1963,30 +2082,29 @@ Hence by linearity, $D \boldm(G;S)$ is constant on $S$.
 Suppose $G$ is a tree consisting of three paths joined at a central vertex.
 Let $S$ consist of the central vertex, and the three endpoints of the paths. 
 The corresponding minor of the distance matrix is
-$$
-D[S] = \begin{bmatrix}
-0 & a & b & c \\
-a & 0 & a + b & a + c \\
-b & a + b & 0 & b + c \\
-c & a + c & b + c & 0
-\end{bmatrix}
-\sim \begin{bmatrix}
-0 & a & b & c \\
-a & -a & a  & a \\
-b & b & -b & b \\
-c & c & c & -c
-\end{bmatrix}
-\sim \begin{bmatrix}
-0 & a & b & c \\
-a & -2a & 0 & 0 \\
-b & 0 & -2b & 0 \\
-c & 0 & 0 & -2c
-\end{bmatrix}.
-$$
+\[
+	D[S] = \begin{bmatrix}
+	0 & a & b & c \\
+	a & 0 & a + b & a + c \\
+	b & a + b & 0 & b + c \\
+	c & a + c & b + c & 0
+	\end{bmatrix}
+	\sim \begin{bmatrix}
+	0 & a & b & c \\
+	a & -a & a  & a \\
+	b & b & -b & b \\
+	c & c & c & -c
+	\end{bmatrix}
+	\sim \begin{bmatrix}
+	0 & a & b & c \\
+	a & -2a & 0 & 0 \\
+	b & 0 & -2b & 0 \\
+	c & 0 & 0 & -2c
+	\end{bmatrix}.
+\]
 The determinant is
 \begin{align*}
-\det D[S] 
-= -4(a+b+c)abc.
+	\det D[S] = -4(a+b+c)abc.
 \end{align*}
 \end{eg}
 
@@ -2022,8 +2140,8 @@ a + c & b + c & 0
 $$
 and
 \begin{align*}
-\det D[S] &= 2(a+b)(a+c)(b+c) 
-= 2\left( (a+b+c)(ab + ac + bc) - abc \right).
+	\det D[S] &= 2(a+b)(a+c)(b+c) 
+	= 2\left( (a+b+c)(ab + ac + bc) - abc \right).
 \end{align*}
 The ``special vector'' that satisfies $D[S] \mathbf{m} = \lambda \mathbf{1}$ in this example is 
 $$
