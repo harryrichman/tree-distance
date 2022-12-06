@@ -1808,63 +1808,6 @@ Thus
 as desired.
 \end{proof}
 
-\begin{proof}[Old proof]
-Regarding the vertex sets that appear in the last summation, we have
-\[
-	\bigcup_{\substack{s \in S \\ \delta(e;v,s) = 1}} \{ u \in T(s)\} = \begin{cases}
-	\displaystyle
-	\{ u \in (G \setminus e)^{\overline v} \} &\text{if } e \not\in T, \\[2em]
-	\displaystyle
-	\left\{ u \in (G \setminus e)^{\overline v} \right\} \cup (T\setminus e)(*)  &\text{if } e \in T(s_0),\, \delta(e;v,s_0) = 0 \\[2em]
-	\displaystyle
-	\left\{ u \in (G \setminus e)^{\overline v} \right\} \setminus (T\setminus e)(*)  &\text{if } e \in T(s_0),\, \delta(e;v,s_0) = 1 . 
-	\end{cases}
-\]
-alternative:
-\[
-	\bigcup_{\substack{s \in S \\ \delta(e; v, s) = 1}} \{w \in T(s)\}
-	= \begin{cases}
-	\displaystyle
-	\{w \in V : \delta(e; v, w) = 1 \} &\text{if } e \not\in T, \\[2em]
-	\displaystyle
-	\left\{ w \in (G \setminus e)^{\overline v} \right\} \cup (T\setminus e)(*)  &\text{if } e \in T,\, s_0(e, T) \in (G \setminus e)^{v} \\[2em]
-	\displaystyle
-	\left\{ w \in (G \setminus e)^{\overline v} \right\} \setminus (T\setminus e)(*)  &\text{if } e \in T,\, s_0(e,T) \in (G \setminus e)^{\overline v} . 
-	\end{cases}
-\]
-Here 
-$T\setminus e$ is a $(S,*)$-rooted forest, i.e. $T \setminus e \in \forests_2(G;S)$, and
-$\degout(T\setminus e, *)$ refers to the out-degree of the floating component of $T \setminus e$.
-These cases correspond to 
-\begin{align*}
-	\sum_{s \in S \cap (G\setminus e)^{\overline v}}(2 - \degout(T,s)) = \begin{cases}
-	1 &\text{if }e \not \in T, \\
-	1 - (2 - \degout(T \setminus e, *)) &\text{if } s_0(e,T) \in (G\setminus e)^{\overline v} , \\
-	1 + (2 - \degout(T \setminus e, *)) &\text{if } s_0(e,T) \in (G\setminus e)^v
-	\end{cases}
-\end{align*}
-
-%If $e \not\in \conv(G,S)$ on the other hand,
-%$S^*(e,v)$ is empty and we have
-%$$ \sum_{s \in S^*(e,v)} 2 - \deg^o(T,s) = 0 = 1 - (2 - \deg^o(T\setminus e,*))^2,$$
-%since $\deg^o(T\setminus e,*) = 1$ in this case. 
-From \eqref{eq:14-1} we have
-\begin{align*}
-	(D[S] \boldm)_v &= \sum_{e\in E} \alpha_e \sum_{T\in \trees } w(T) ( 1 - f(v,e,T) )\\
-	(D[S] \boldm)_v &= \sum_{T\in \trees } w(T) \left( \sum_{e \not\in T} \alpha_e + \sum_{s_0 \in S} \sum_{e \in T(s_0)} \alpha_e ( 1 - f(T, v,e,s_0) ) \right)\\
-\end{align*}
-where
-$$
-f(T, v,e,s_0) = \begin{cases}
-0 &\text{if } e\not\in T\\
-2 - \deg^o(T\setminus e,*) &\text{if }  
-% e \in T(s_0)\text{ for some } s_0 \in S \text{ with } 
-\delta(e;v,s_0) = 0 \\
--(2-\deg^o(T\setminus e,*)) &\text{if }  e \in T(s_0)\text{ for some } s_0 \in S \text{ with } \delta(e;v,s_0) = 1 \\
-\end{cases}
-$$
-\end{proof}
-
 \begin{figure}[h]
 % LABEL 1345
 \begin{tikzpicture}[scale=0.6]
