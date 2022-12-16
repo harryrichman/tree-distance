@@ -108,12 +108,13 @@
 
 
 \begin{abstract}
-We prove a combinatorial formula for 
+We prove an identity that relates 
 %the determinant of 
 the principal minors of
-the distance matrix of a weighted tree.
+the distance matrix of a tree, on one hand,
+to a combinatorial expression involving counts of rooted spanning forests of the underlying tree.
 This generalizes a result of Graham and Pollak.
-The identity involves counts of rooted spanning forests of the underlying tree.
+A variant of this identity applies to the case of edge-weighted trees.
 \end{abstract}
 \maketitle
 
@@ -143,7 +144,7 @@ and distance matrix $D$.
 Let $S \subset V(G)$ be a nonempty subset of vertices.
 Then
 \begin{equation}\label{eq:main}
-\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( (n-1)\, \kappa(G;S)  - \sum_{\mathcal F_2(G;S)} \left(2 - \degout(F,*)\right)^2  \right),
+\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( (n-1)\, \kappa(G;S)  - \sum_{\mathcal F_2(G;S)} \left(\degout(F,*) - 2\right)^2  \right),
 \end{equation}
 where 
 %$G/S$ denotes the quotient graph that identifies together vertices in $S$,
@@ -190,7 +191,7 @@ We also prove the following weighted version of our main theorem.
 \label{thm:w-main}
 Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and corresponding weighted distance matrix $D = D_\alpha$. For any nonempty subset $S \subset V$, we have
 \begin{equation}\label{eq:w-main}
-\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (2 - \degout(F,*))^2 w(F) \right).
+\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(F) \right).
 \end{equation}
 where 
 $\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
@@ -225,7 +226,7 @@ In \cite{bapat-sivasubramanian}, Bapat and Sivasubramanian showed the following 
 \begin{equation}\label{eq:cof-trees}
 	\cof D[S] = (-2)^{|S| - 1} \sum_{T \in \trees(G;S)} w(T) .
 \end{equation}
-Using \eqref{eq:cof-trees}, an immediate corollary to Theorem~\ref{thm:w-main} is the following identity.
+Using the Bapat--Sivasubramanian identity \eqref{eq:cof-trees}, an immediate corollary to Theorem~\ref{thm:w-main} is the following result.
 
 \begin{thm}
 Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$. Let $D = D_\alpha$ denote the weighted distance matrix of $G$. 
@@ -243,38 +244,15 @@ We remark that the calculation of $\det D[S]$ is related to the following quadra
 	\text{optimize objective function:} &\quad \boldm^\tr D[S] \boldm \\
 	\text{with constraint:} &\quad \bone^\tr \boldm = 1.
 \end{align}
-The gradient of the objective function is $2 D[S] \boldm$, 
-and the gradient of the constraint is $\bone$.
-By the theory of Lagrange multipliers, the optimal solution $\boldm^*$ is a vector satisfying
-\[
-	D[S] \boldm^* = \lambda \bone \qquad\text{for some }\lambda \in \RR.
-\]
-The constant $\lambda$ is in fact the optimal objective value, since
-\[
-	(\boldm^*)^\tr D[S] \boldm^* = (D[S] \boldm^*)^\tr \boldm^* = \lambda (\bone^\tr \boldm^*) = \lambda.
-\]
-(The above computation uses the fact that $D[S]$ is a symmetric matrix, and the given constraint $\bone^\tr \boldm = 1$.)
-On the other hand,
-assuming $D[S]$ is invertible we have $ \boldm^* = \lambda (D[S]^{-1} \bone) $, so that
-\[
-	1 = \bone^\tr \boldm^* = \lambda (\bone^\tr D[S]^{-1} \bone)
-	= \lambda \frac{\cof D[S]}{\det D[S]}.
-\]
-Thus the optimal objective value is
-$\displaystyle
-	\lambda = \frac{\det D[S]}{\cof D[S]} .
-$
 \begin{prop}
 If $D[S]$ is a principal submatrix of distance matrix indexed by $S$, then 
 %any critical value of the optimization problem \note{cite above} is equal to ${\det D[S]}/{\cof D[S]}$, i.e.
 \[
 	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D[S] \boldm : \boldm \in \RR^S,\, \bone^\tr \boldm = 1 \}
 \]
-where $\cof D[S]$ denotes the sum of cofactors,
-\[
-	\cof A = \sum_{i = 1}^{|S|} \sum_{j = 1}^{|S|} (-1)^{i + j} \det A_{ij}
-\]
+where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
 \end{prop}
+This result can be shown using Lagrange multipliers; for details, see Section~\ref{sec:optimization}
 
 \begin{thm}[Monotonicity of principal minor ratios]
 If $A,B \subset V(G)$
@@ -334,13 +312,13 @@ $V(G)$ vertex set of $G$
 %$\ell : E(G) \to \RR_{>0}$
 %is a length function on edges of $G$
 
-$\kappa(G)$ number of spanning trees of $G$
+%$\kappa(G)$ number of spanning trees of $G$
 
 % $\kappa_2(G)$ number of $2$-forests of $G$
 
-$\trees(G)$ the set of spanning trees of $G$
-
-$\forests_2(G)$ the set of $2$-component forests of $G$
+%$\trees(G)$ the set of spanning trees of $G$
+%
+%$\forests_2(G)$ the set of $2$-component forests of $G$
 
 $\trees(G;S)$ the set of $S$-rooted spanning forests of $G$
 
@@ -1243,15 +1221,14 @@ the {\em weighted Laplacian matrix} $L_\alpha \in \RR^{V\times V}$ is defined by
 \[
 	(L_{\alpha})_{v,w} = \begin{cases}
 		0 &\text{if } v\neq w \text{ and } (v,w) \not\in E \\
-		\alpha_e^{-1} &\text{if } v\neq w \text{ and } (v,w) = e \in E \\
-		\displaystyle -\sum_{e \in N(v)} \alpha_e^{-1} &\text{if } v = w.
+		- \alpha_e^{-1} &\text{if } v\neq w \text{ and } (v,w) = e \in E \\
+		\displaystyle \sum_{e \in N(v)} \alpha_e^{-1} &\text{if } v = w.
 	\end{cases}
 \]
 \end{dfn}
 
 For any graph $G$, let $\kappa(G)$ denote the number of spanning trees of $G$.
 The following theorem is due to Kirchhoff.
-For any graph $G$, let $\kappa(G)$ denote the number of spanning trees of $G$.
 \begin{thm}[All-minors matrix tree theorem]
 \label{thm:matrix-tree}
 Let $G = (V,E)$ be a finite graph,
@@ -1519,7 +1496,7 @@ The same identity applies to the sum over $(G \setminus e)^+$, so $(D\boldm)_{(e
 \end{proof}
 
 \subsection{General case: $S \subset V$}
-Fix a tree $G = (V,E)$ and a subset $S \subset V$.
+Fix a tree $G = (V,E)$ and a nonempty subset $S \subset V$.
 \begin{dfn}
 \label{dfn:m-vector}
 Let $\boldm = \boldm(G;S) \in \RR^S$ be defined by
@@ -1955,6 +1932,46 @@ defined by
 \end{rmk}
 
 \section{Optimization: quadratic programming}
+\label{sec:optimization}
+
+\begin{prop}
+If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
+%any critical value of the optimization problem \note{cite above} is equal to ${\det D[S]}/{\cof D[S]}$, i.e.
+\[
+	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D[S] \boldm : \boldm \in \RR^S,\, \bone^\tr \boldm = 1 \}
+\]
+where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
+\end{prop}
+
+\begin{prop}
+If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
+\[
+	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D \boldm : \boldm \in \RR^V,\, \bone^\tr \boldm = 1,\, \boldm_v = 0 \text{ if } v \not\in S \}
+\]
+where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
+\end{prop}
+
+The gradient of the objective function is $2 D[S] \boldm$, 
+and the gradient of the constraint is $\bone$.
+By the theory of Lagrange multipliers, the optimal solution $\boldm^*$ is a vector satisfying
+\[
+	D[S] \boldm^* = \lambda \bone \qquad\text{for some }\lambda \in \RR.
+\]
+The constant $\lambda$ is in fact the optimal objective value, since
+\[
+	(\boldm^*)^\tr D[S] \boldm^* = (D[S] \boldm^*)^\tr \boldm^* = \lambda (\bone^\tr \boldm^*) = \lambda.
+\]
+(The above computation uses the fact that $D[S]$ is a symmetric matrix, and the given constraint $\bone^\tr \boldm = 1$.)
+On the other hand,
+assuming $D[S]$ is invertible we have $ \boldm^* = \lambda (D[S]^{-1} \bone) $, so that
+\[
+	1 = \bone^\tr \boldm^* = \lambda (\bone^\tr D[S]^{-1} \bone)
+	= \lambda \frac{\cof D[S]}{\det D[S]}.
+\]
+Thus the optimal objective value is
+$\displaystyle
+	\lambda = \frac{\det D[S]}{\cof D[S]} .
+$
 
 \section{Physical interpretation}
 
