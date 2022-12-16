@@ -215,7 +215,7 @@ To apply formula \eqref{eq:main} or \eqref{eq:w-main} ``efficiently,''
 we should replace $G$ on the right-hand side with the subtree $\conv(S,G)$.
 However, the formulas as stated are true even without this replacement due to cancellation of terms.
 
-\subsection{Applications of the main theorem}
+\subsection{Applications}
 
 Given a matrix $A$, let $\cof A$ denote the {\em sum of cofactors} of $A$, i.e. 
 \[
@@ -1255,10 +1255,22 @@ Then
 
 % \subsection{Distance in trees}
 
+\subsection{Tree splits}
+\label{sec:splits}
+
+Given a tree $G = (V,E)$ and an edge $e \in E$, the edge deletion $G \setminus e$ contains two connected components.
+Using the implicit orientation on $e = (e^+,e^-)$,
+we let $(G \setminus e)^+$ denote the component that contains endpoint $e^+$, respectively $(G\setminus e)^-$ and endpoint $e^-$.
+
+For any $e \in E$ and $v \in V$,
+we let
+$(G \setminus e)^{v}$ denote the component of $G\setminus e$ containing $v$,
+respectively $(G\setminus e)^{\overline v}$ \note{or $(G\setminus e)^{- v}$} for the component not containing $v$.
+
 \subsection{Tree distance}
 \label{sec:tree-distance}
 
-For $e\in E$ and $v,w \in V$, let
+Given an edge $e\in E$ and vertices $v,w \in V$, let 
 \begin{equation}
 \delta(e;v,w) = \begin{cases}
   1 &\text{if $e$ separates  $v$ from $w$}, \\
@@ -1266,7 +1278,6 @@ For $e\in E$ and $v,w \in V$, let
   \end{cases}
 \end{equation}
 (Note that $\delta(e; v,v) = 0$ for any $e$ and $v$.)
-Given an edge $e\in E$ and vertices $v,w \in V$, let 
 \begin{equation}
 \delta(e; v,w) = \begin{cases}
 1 &\text{if $e$ lies on $v\sim w$ path}, \\
@@ -1305,17 +1316,6 @@ the weighted distance function satisfies
 \[ d_\alpha(v,w) = \sum_{e \in E} \alpha_e \, \delta(e; v,w) .\]
 \end{prop}
 
-
-\subsection{Principal cuts}
-
-Given a tree $G = (V,E)$ and an edge $e \in E$, the edge deletion $G \setminus e$ contains two connected components.
-Using the implicit orientation on $e = (e^+,e^-)$,
-we let $(G \setminus e)^+$ denote the component that contains endpoint $e^+$, respectively $(G\setminus e)^-$ and endpoint $e^-$.
-
-For any $e \in E$ and $v \in V$,
-we let
-$(G \setminus e)^{v}$ denote the component of $G\setminus e$ containing $v$,
-respectively $(G\setminus e)^{\overline v}$ \note{or $(G\setminus e)^{- v}$} for the component not containing $v$.
 
 \subsection{Outdegree of rooted forest}
 
@@ -1515,10 +1515,10 @@ For $\boldm$ defined above, $\displaystyle \bone^\tr \boldm = 2 \,\sum_{T \in \t
 \begin{proof}
 We have
 \begin{align}
-\bone^\tr \boldm = \sum_{s\in S} \boldm_s &= \sum_{s \in S} \left( \sum_{T \in \trees(G;S)} (2 - \degout (T,s)) w(T) \right) \\
-&= \sum_{T \in \trees(G;S)} w(T) \left( \sum_{s\in S} \sum_{v \in T(s)} 2 - \deg(v) \right) \\
-&= \sum_{T \in \trees} w(T) \left( \sum_{v \in V} 2 - \deg(v)\right)
-= \sum_{T \in \trees} w(T) \cdot 2 .
+	\bone^\tr \boldm = \sum_{s\in S} \boldm_s &= \sum_{s \in S} \left( \sum_{T \in \trees(G;S)} (2 - \degout (T,s)) w(T) \right) \\
+	&= \sum_{T \in \trees(G;S)} w(T) \left( \sum_{s\in S} \sum_{v \in T(s)} 2 - \deg(v) \right) \\
+	&= \sum_{T \in \trees} w(T) \left( \sum_{v \in V} 2 - \deg(v)\right)
+	= \sum_{T \in \trees} w(T) \cdot 2 .
 \end{align}
 In the second line we apply Lemma~\ref{lem:outdeg-sum} and exchange the outer summations.
 To obtain the third line, we observe that the vertex sets of $T(s)$ for $s \in S$ form a partition of $V$, since $T$ is an $S$-rooted spanning forest. 
