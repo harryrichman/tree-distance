@@ -216,6 +216,7 @@ we should replace $G$ on the right-hand side with the subtree $\conv(S,G)$.
 However, the formulas as stated are true even without this replacement due to cancellation of terms.
 
 \subsection{Applications}
+It is natural to ask, how do the expressions $\det D[S]$ vary as we vary the vertex subset $S$? We have the following result, Theorem~\ref{thm:monotonic}
 
 Given a matrix $A$, let $\cof A$ denote the {\em sum of cofactors} of $A$, i.e. 
 \[
@@ -255,6 +256,7 @@ where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
 This result can be shown using Lagrange multipliers; for details, see Section~\ref{sec:optimization}
 
 \begin{thm}[Monotonicity of principal minor ratios]
+\label{thm:monotonic}
 If $A,B \subset V(G)$
 are nonempty subsets with
 $A \subset B$,
@@ -2614,6 +2616,12 @@ See \cite{richman-shokrieh-wu}.
 
 \subsection{Symanzik polynomials}
 
+We note that the expression in the main theorem \todo{cite} is related to Symanzik polynomials, which we recall here.
+
+Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is
+\[
+	p_G(x_1,\ldots, x_n) = \sum_{T \in G} x^T .
+\]
 
 \section*{Acknowledgements}
 The authors would like to thank Ravindra Bapat for helpful discussion.
