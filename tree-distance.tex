@@ -53,6 +53,8 @@
 \newcommand{\boldn}{\mathbf{n}}
 % weighted distance matrix
 \newcommand{\Da}{D_{\alpha}}
+% weighted laplacian matrix
+\newcommand{\La}{L_{\alpha}}
 
 % matrix transpose
 \newcommand{\tr}{\intercal}
@@ -1226,9 +1228,9 @@ let $L[\overline S]$ denote the matrix obtained from $L$ by removing the rows an
 
 \begin{dfn}[Weighted Laplacian matrix]
 Given a graph $G = (V,E)$ and edge weights $\{ \alpha_e : e \in E\}$,
-the {\em weighted Laplacian matrix} $L_\alpha \in \RR^{V\times V}$ is defined by
+the {\em weighted Laplacian matrix} $\La \in \RR^{V\times V}$ is defined by
 \[
-	(L_{\alpha})_{v,w} = \begin{cases}
+	(\La)_{v,w} = \begin{cases}
 		0 &\text{if } v\neq w \text{ and } (v,w) \not\in E \\
 		- \alpha_e^{-1} &\text{if } v\neq w \text{ and } (v,w) = e \in E \\
 		\displaystyle \sum_{e \in N(v)} \alpha_e^{-1} &\text{if } v = w.
