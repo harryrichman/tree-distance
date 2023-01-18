@@ -51,6 +51,8 @@
 \newcommand{\bolddelta}{\bm{\delta}}
 \newcommand{\boldm}{\mathbf{m}}
 \newcommand{\boldn}{\mathbf{n}}
+% weighted distance matrix
+\newcommand{\Da}{D_{\alpha}}
 
 % matrix transpose
 \newcommand{\tr}{\intercal}
@@ -176,20 +178,21 @@ Thus \eqref{eq:main} recovers the Graham--Pollak identity \eqref{eq:full-det} wh
 
 \subsection{Weighted trees}
 %Weighted version:
-If $\{\alpha_e : e\in E\}$ is a collection of positive edge weights,  the $\alpha$-distance matrix $D_\alpha$ 
+If $\{\alpha_e : e\in E\}$ is a collection of positive edge weights,  the $\alpha$-distance matrix $\Da$ 
 %takes the distance along edge $e$ to be $\alpha_e$.
 %Namely, the $(v,w)$-entry of $D_\alpha$ is 
 is defined by setting the $(u,v)$-entry to the sum of the weights $\alpha_e$ along the unique path from $u$ to $v$.
-Then
+The following weighted version of \eqref{eq:full-det}
+is satisfied by the weighted distance matrix, 
 \begin{equation}\label{eq:w-full-det}
-	\det D_{\alpha} = (-1)^{n-1} 2^{n-2} \sum_{e \in E} \alpha_e \prod_{e \in E} \alpha_e .
+	\det \Da = (-1)^{n-1} 2^{n-2} \sum_{e \in E} \alpha_e \prod_{e \in E} \alpha_e ,
 \end{equation}
-This weighted version of \eqref{eq:full-det} was proved by Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann}.
+which was proved by Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann}.
 The weighted identity \eqref{eq:w-full-det} reduces to \eqref{eq:full-det} when taking all unit weights, $\alpha_e = 1$.
 We also prove the following weighted version of our main theorem.
 \begin{thm}
 \label{thm:w-main}
-Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and corresponding weighted distance matrix $D = D_\alpha$. For any nonempty subset $S \subset V$, we have
+Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and corresponding weighted distance matrix $D = \Da$. For any nonempty subset $S \subset V$, we have
 \begin{equation}\label{eq:w-main}
 \det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(F) \right).
 \end{equation}
@@ -216,6 +219,7 @@ we should replace $G$ on the right-hand side with the subtree $\conv(S,G)$.
 However, the formulas as stated are true even without this replacement due to cancellation of terms.
 
 \subsection{Applications}
+Suppose we fix a tree distance matrix $D$.
 It is natural to ask, how do the expressions $\det D[S]$ vary as we vary the vertex subset $S$? We have the following result, Theorem~\ref{thm:monotonic}
 
 Given a matrix $A$, let $\cof A$ denote the {\em sum of cofactors} of $A$, i.e. 
@@ -235,7 +239,7 @@ For any nonempty subset $S \subset V$, we have
 \begin{equation}
 \frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(F) k(F,*)^2}{\sum_{T \in \trees(G; S)} w(T)} \right)
 \end{equation}
-where $k(F,*) = 2 - \degout(F,*)$.
+where $k(F,*) = \degout(F,*) - 2$.
 \end{thm}
 
 \note{add remark / theorem that det/cof is achieved as result of optimization problem}
@@ -356,7 +360,10 @@ Given a set of vertices $S = \{v_1, v_2, \ldots, v_k\}$,
 an {\em $S$-rooted spanning forest} of $G$ 
 is a spanning forest which has exactly one vertex $v_i$ in each connected component.
 An {\em $(S,*)$-rooted spanning forest} of $G$ is a spanning forest which has $|S|+1$ components, where $|S|$ components each contain one vertex of $S$, and the additional component is disjoint from $S$.
-We call the component disjoint from $S$ the ``floating component.''
+We call the component disjoint from $S$ the {\em floating component}, following terminology in \cite{kassel-kenyon-wu}.
+
+Let $\trees(G;S)$ denote the set of $S$-rooted spanning forests of $G$,
+and let $\forests_2(G;S)$ denote the set of $(S,*)$-rooted spanning forests of $G$.
 
 Let 
 $$
