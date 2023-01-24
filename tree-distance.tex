@@ -1253,7 +1253,12 @@ Note that $\kappa(G;S)$ is also the number of
 % $S$-rooted spanning forests of $G$.
 spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex.
 
-The following result is due to Bapat--Siviasubramanian.
+The following result is due to Bapat--Sivasubramanian.
+Recall that $\cof M$ denotes the {\em sum of cofactors} of $M$, i.e. 
+\[
+	\cof M = \sum_{i = 1}^{n} \sum_{j = 1}^{n} (-1)^{i + j} \det M[\overline{i},\overline{j}].
+\]
+
 \begin{thm}[Distance matrix cofactor sums \cite{bapat-sivasubramanian}]
 Given a tree $G$,
 let $D$ be the distance matrix of $G$, and $L$ the Laplacian matrix.
@@ -1267,27 +1272,30 @@ Then
 % \subsection{Distance in trees}
 
 \subsection{Tree splits}
-\label{sec:splits}
+\label{sec:tree-splits}
 
 Given a tree $G = (V,E)$ and an edge $e \in E$, the edge deletion $G \setminus e$ contains two connected components.
 Using the implicit orientation on $e = (e^+,e^-)$,
-we let $(G \setminus e)^+$ denote the component that contains endpoint $e^+$, respectively $(G\setminus e)^-$ and endpoint $e^-$.
+we let $(G \setminus e)^+$ denote the component that contains endpoint $e^+$, and let $(G\setminus e)^-$ denote the other component.
 
 For any $e \in E$ and $v \in V$,
 we let
 $(G \setminus e)^{v}$ denote the component of $G\setminus e$ containing $v$,
 respectively $(G\setminus e)^{\overline v}$ \note{or $(G\setminus e)^{- v}$} for the component not containing $v$.
 
-\subsection{Tree distance}
-\label{sec:tree-distance}
+%\subsection{Tree distance}
+%\label{sec:tree-distance}
 
+Tree splits can be used to express the path distance between vertices in a tree.
 Given an edge $e\in E$ and vertices $v,w \in V$, let 
 \begin{equation}
 \delta(e;v,w) = \begin{cases}
   1 &\text{if $e$ separates  $v$ from $w$}, \\
   0 &\text{otherwise}.
-  \end{cases}
+\end{cases}
 \end{equation}
+In other words, $\delta(e; v,w) = 1$ if the vertices are in different components of the split $G \setminus e$,
+and $\delta(e; v,w) = 0$ if they are in the same component.
 (Note that $\delta(e; v,v) = 0$ for any $e$ and $v$.)
 \begin{equation}
 \delta(e; v,w) = \begin{cases}
@@ -1332,15 +1340,15 @@ the weighted distance function satisfies
 
 Given a rooted forest $F$ in $\forests(G;S)$ and $s \in S$,
 let $F(s)$ denote the $s$-component of $F$.
-We define the {\em outdegree} $\degout(F,s)$ by
+We define the {\em outdegree} $\degout(F,s)$ as the number of edges which join $F(s)$ to a different component; i.e.
 \begin{equation}
 \label{eq:outdeg}
 	\degout(F,s) = \#\{ e = (a,b) \in E : a \in F(s),\, b \not\in F(s)\}.
 \end{equation}
-In words, $\degout(F,s)$ is the number of edges which connect the $s$-component of $F$ to a different component.
-$$
-\#\{ e \in E : e \text{ connects the $s$-component of $F$ to a different component}\}
-$$
+%In words, $\degout(F,s)$ is the number of edges which connect the $s$-component of $F$ to a different component.
+%\[
+%	\#\{ e \in E : e \text{ connects the $s$-component of $F$ to a different component}\}
+%\]
 If $F$ is a forest in $\forests_2(G;S)$, let $\degout(F,*)$ denote the outdegree of the floating component.
 
 \begin{lem}
@@ -1482,27 +1490,28 @@ for some constant $\lambda$.
 %\note{improve: skip some above details}
 It suffices to show that for each edge $e$, with endpoints $(e^+,e^-)$, we have
 \[ 
-(D \boldm)_{(e^+)} = (D \boldm)_{(e^-)} .
+	(D \boldm)_{(e^+)} = (D \boldm)_{(e^-)} .
 \]
 We compute
 \begin{align}
-(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)} &= \sum_{v \in V} (d(v,e^+) - d(v,e^-)) (2 - \deg v) \\
-&= \sum_{v\in (G\setminus e)^-}  \alpha_e (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} \alpha_e (2 - \deg v) 
+	(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)} &= \sum_{v \in V} (d(v,e^+) - d(v,e^-)) (2 - \deg v) \\
+	&= \sum_{v\in (G\setminus e)^-}  \alpha_e (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} \alpha_e (2 - \deg v) \\
+	&= \alpha_e \left( \sum_{v\in (G\setminus e)^-}  (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} (2 - \deg v)\right) 
 \label{eq:12-1}
 \end{align}
 since
 \[
-d(v,e^+) - d(v,e^-) = \begin{cases}
-\alpha_e &\text{if $v$ is closer to $e^-$ than }e^+,\\
-- \alpha_e &\text{if $v$ is closer to $e^+$ than }e^-.
-\end{cases}
+	d(v,e^+) - d(v,e^-) = \begin{cases}
+	\alpha_e &\text{if $v$ is closer to $e^-$ than }e^+,\\
+	- \alpha_e &\text{if $v$ is closer to $e^+$ than }e^-.
+	\end{cases}
 \]
-\note{TO DO: define notation $(G \setminus e)^\pm$}
-For each sum in \eqref{eq:12-1}, we apply Proposition \note{cite} to obtain
+For each sum in \eqref{eq:12-1}, we apply Lemma~\ref{lem:outdeg-sum} to obtain
 \begin{align}
-\alpha_e \sum_{v\in (G\setminus e)^-}  (2 - \deg v)&= \alpha_e (2 - \degout( (G\setminus e)^-) 
-= \alpha_e .
+\sum_{v \in (G\setminus e)^-}  (2 - \deg v) &= (2 - \degout( (G\setminus e)^-) 
+= 1 ,
 \end{align}
+since each component of $(G \setminus e)$ has outdegree one.
 The same identity applies to the sum over $(G \setminus e)^+$, so $(D\boldm)_{(e^+)} = (D\boldm)_{(e^-)}$ as desired.
 \end{proof}
 
@@ -1545,14 +1554,13 @@ With $\boldm = \boldm(G;S)$ defined as in \eqref{eq:m-vector},
 $D[S] \boldm = \lambda \mathbf{1}$
 for the constant
 \begin{equation}
-	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (2 - \degout(F,*) )^2 \, w(F)
+	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (2 - \degout(F,*) )^2 \, w(F) .
 \end{equation}
-where 
-% $k(F,*) = 2 - \degout(F,w)$ and 
-$\degout(F,w)$ is the out-degree of the $w$-component of $F$ (as a spanning forest).
+%where $\degout(F,w)$ is the out-degree of the $w$-component of $F$ (as a spanning forest).
 \end{thm}
+
 \begin{proof}
-For $e\in E$ and $v,w\in V$, let $\delta(e;v,w)$ denote the function defined in Section~\ref{sec:tree-distance} \note{check section}
+For $e\in E$ and $v,w\in V$, let $\delta(e;v,w)$ denote the function defined in Section~\ref{sec:tree-splits}. \note{check section}
 %\[
 %  \delta(e;v,w) = \begin{cases}
 %  1 &\text{if $e$ separates  $v$ from $w$}, \\
@@ -1572,6 +1580,8 @@ For any $v \in S$, we have
 %	S \cap (G\setminus e)^{\overline v} = \{ s \in S : \text{$e$ separates $v$ from $s$}\}.
 %S^*(e,v) = \{ s \in S : \text{$e$ lies on path from $v$ to $s$}\}.
 %\]
+where in the last equality, we apply Lemma~\ref{lem:outdeg-sum} to the subgraph $H = T(s)$.
+
 We introduce additional notation to handle the double sum in parentheses in \eqref{eq:14-1}.
 Each $S$-rooted spanning tree $T$ naturally induces a surjection $\pi_T: V \to S$, defined by 
 \[
@@ -1582,7 +1592,7 @@ Using this notation,
 	(D[S] \boldm)_v = \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,\pi_T(u)) \right)
 \]
 We will compare the above expression with the one obtained after replacing $\delta(e; v,\pi_T(u))$ with $\delta(e; v, u)$.
-From \note{cite previous prop}, for any $v \in V$ and $e \in E$ we have
+From Lemma~\ref{lem:outdeg-sum} again, for any $v \in V$ and $e \in E$ we have
 \[
 	\sum_{u \in V} (2 - \deg(u)) \delta(e; v,u) = 2 - \degout((G\setminus e)^{\overline v}) = 1. 
 \] 
@@ -1591,24 +1601,25 @@ Thus
 	(D[S] \boldm)_v - \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e = \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \left(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \right)
 \]
 When $e \in E$ and $v \in V$ are fixed, $u \mapsto \delta(e; v, u)$ is the indicator function of one component of the principal cut $G \setminus e$.
-Recall that $\delta(e; \cdot,\cdot)$ is a $(0,1)$-valued pseudometric on $V$.
+%Recall that $\delta(e; \cdot,\cdot)$ is a $(0,1)$-valued pseudometric on $V$.
 We have
-\[
+\begin{equation}
+\label{eq:delta-diff}
 	\delta(e; v, \pi_T(u)) - \delta(e; v, u) = \begin{cases}
 	0 &\text{if } \delta(e; \pi_T(u), u) = 0 \\
 	1 &\text{if } \delta(e; \pi_T(u), u) = 1 \text{ and } \delta(e; v, \pi_T(u)) = 1 \\
 	-1 &\text{if } \delta(e; \pi_T(u), u) = 1 \text{ and } \delta(e; v, \pi_T(u)) = 0
 	\end{cases}
-\]
+\end{equation}
 Now consider varying $u$ over all vertices, when $e$, $T$, and $v$ are fixed.
 We have the following three cases:
 
 Case 1: if $e \not \in T$, then $u$ and $\pi_T(u)$ are on the same side of the principal cut $G \setminus e$, for every vertex $u$.
 In this case $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot) = 0$.
 
-Case 2: if $e \in T(s_0)$ and $s_0$ is separated from $v$ by $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the indicator function for the floating component of $T \setminus e$.
+Case 2: if $e \in T(s_0)$ and $s_0$ is separated from $v$ by $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, left.
 
-Case 3: if $e \in T(s_0)$ and $s_0$ is on the same component as $v$ from $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the negative of the indicator function for the floating component of $T \setminus e$.
+Case 3: if $e \in T(s_0)$ and $s_0$ is on the same component as $v$ from $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the negative of the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, right.
 
 \begin{figure}[h]
 % LABEL 2356
@@ -1667,9 +1678,10 @@ Case 3: if $e \in T(s_0)$ and $s_0$ is on the same component as $v$ from $e$, th
 	\node[right] at (3) {$s_0$};
 \end{tikzpicture}
 \caption{Edge $e \in T(s_0)$ with $\delta(e; v, s_0 ) = 1$ (left) and $\delta(e; v, s_0) = 0$ (right). The floating component of $T \setminus e$ is highlighted.}
+\label{fig:e-delete-from-forest}
 \end{figure}
 
-Thus when multiplying the above term by $(2 - \deg(u))$ and summing over all vertices $u$, we obtain
+Thus when multiplying the term \eqref{eq:delta-diff} by $(2 - \deg(u))$ and summing over all vertices $u$, we obtain
 \[
 	\sum_{u \in V} (2 - \deg(u)) (\delta(e; v, \pi_T(u)) - \delta(e; v, u)) = \begin{cases}
 	0 &\text{if } e \not \in T, \\
@@ -1681,7 +1693,9 @@ Thus
 \begin{multline}\label{eq:1}
 	(D[S] \boldm)(v) - \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \\
 	= \sum_{T\in \trees} w(T) \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} \alpha_e ( 2 - \deg^o(T\setminus e,*)) 
-	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} \alpha_e (2 - \deg^o(T\setminus e,*) ) \right).
+	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} \alpha_e (2 - \deg^o(T\setminus e,*) ) \right)\\
+	= \sum_{T\in \trees} w(T) \sum_{e \in T} \alpha_e ( 2 - \deg^o(T\setminus e,*)) \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} 1
+	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} 1 \right).
 \end{multline}
 
 We now rewrite the above expression in terms of $\forests_2(G;S)$,
@@ -1882,7 +1896,7 @@ as desired.
  
 \note{MOVE TO REMARK? If $e \in \conv(G,S)$, then $S(G\backslash e)^{\overline v}$ is nonempty and }
 
-\begin{rmk}
+\begin{rmk} \,\note{consider deleting}
 The set $\forests_2(G;S)$ of $(S,*)$-rooted spanning forests of $G$ can be partitioned into two types: ``active'' and ``inactive''.
 \[
 	\forests_2(G;S) = \forests_2^{in}(G;S) \sqcup \forests_2^{out}(G;S),
@@ -1919,7 +1933,7 @@ Consider the ``deletion'' map
 \[
 	E(G) \times \trees(G;S) \to \forests_2(G;S) \sqcup \trees(G;S)
 \]
-defined by ...
+defined by
 \[
 	(e, T) \mapsto \begin{cases}
 	T \setminus e &\text{if } e\in T,\\
@@ -2045,8 +2059,8 @@ Let $G$ be a tree, $S$ a nonempty subset of vertices,
 and $D[S]$ the corresponding submatrix of the distance matrix.
 Suppose $\boldm = \boldm(G;S) \in \RR^{S}$ is defined by \eqref{eq:m-vector};
 \begin{equation}
-\boldm(G;S)_v = \sum_{T \in \trees(G;S)} \sum_{w \in T_v} (2 - \deg w) 
-= \sum_{T \in \trees(G;S)} 2 - \degout(T,v) .
+\boldm(G;S)_v = \sum_{T \in \trees(G;S)} w(T) \sum_{u \in T(v)} (2 - \deg u) 
+= \sum_{T \in \trees(G;S)} w(T) (2 - \degout(T,v)) .
 \end{equation}
 Then $D[S] \boldm = \lambda \bone$
 for some constant $\lambda$.
