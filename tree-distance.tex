@@ -222,46 +222,34 @@ However, the formulas as stated are true even without this replacement due to ca
 
 \subsection{Applications}
 Suppose we fix a tree distance matrix $D$.
-It is natural to ask, how do the expressions $\det D[S]$ vary as we vary the vertex subset $S$? We have the following result, Theorem~\ref{thm:monotonic}
+It is natural to ask, how do the expressions $\det D[S]$ vary as we vary the vertex subset $S$? 
+%Rather than address this directly, 
+%we have the following result, Theorem~\ref{thm:monotonic},
+To our knowledge there is no nice behavior to answer this question, but  as $S$ varies there is nice behavior of the ratios $\det D[S] / \cof D[S]$ which we describe here.
 
 Given a matrix $A$, let $\cof A$ denote the {\em sum of cofactors} of $A$, i.e. 
 \[
-	\cof A = \sum_{i = 1}^{|S|} \sum_{j = 1}^{|S|} (-1)^{i + j} \det A_{ij}
+	\cof A = \sum_{i = 1}^{|S|} \sum_{j = 1}^{|S|} (-1)^{i + j} \det A_{ij} .
 \]
 If $A$ is invertible, then $\cof A$ is related to the sum of entries of the matrix inverse $A^{-1}$ by a factor of $\det A$, i.e. $\cof A = (\det A) (\bone^\tr A^{-1} \bone)$.
 In \cite{bapat-sivasubramanian}, Bapat and Sivasubramanian showed the following identity for the sum of cofactors of a distance submatrix $D[S]$ of a tree.
 \begin{equation}\label{eq:cof-trees}
 	\cof D[S] = (-2)^{|S| - 1} \sum_{T \in \trees(G;S)} w(T) .
 \end{equation}
-Using the Bapat--Sivasubramanian identity \eqref{eq:cof-trees}, an immediate corollary to Theorem~\ref{thm:w-main} is the following result.
-
-\begin{thm}
+Using the Bapat--Sivasubramanian identity \eqref{eq:cof-trees}, an immediate corollary to Theorem~\ref{thm:w-main} is the following result:
+%\begin{thm}
 Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$. Let $D = D_\alpha$ denote the weighted distance matrix of $G$. 
 For any nonempty subset $S \subset V$, we have
 \begin{equation}
+\label{eq:det-cof}
 \frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(F) k(F,*)^2}{\sum_{T \in \trees(G; S)} w(T)} \right)
 \end{equation}
 where $k(F,*) = \degout(F,*) - 2$.
-\end{thm}
+%\end{thm}
 
-\note{add remark / theorem that det/cof is achieved as result of optimization problem}
+The expression \eqref{eq:det-cof} satisfies a monotonicity condition as we vary the vertex set $S \subset V(G)$.
 
-We remark that the calculation of $\det D[S]$ is related to the following quadratic optimization problem: for all vectors $ \boldm \in \RR^S$,
-\begin{align}
-	\text{optimize objective function:} &\quad \boldm^\tr D[S] \boldm \\
-	\text{with constraint:} &\quad \bone^\tr \boldm = 1.
-\end{align}
-\begin{prop}
-If $D[S]$ is a principal submatrix of distance matrix indexed by $S$, then 
-%any critical value of the optimization problem \note{cite above} is equal to ${\det D[S]}/{\cof D[S]}$, i.e.
-\[
-	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D[S] \boldm : \boldm \in \RR^S,\, \bone^\tr \boldm = 1 \}
-\]
-where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
-\end{prop}
-This result can be shown using Lagrange multipliers; for details, see Section~\ref{sec:optimization}
-
-\begin{thm}[Monotonicity of principal minor ratios]
+\begin{thm}[Monotonicity of normalized principal minors]
 \label{thm:monotonic}
 If $A,B \subset V(G)$
 are nonempty subsets with
@@ -271,6 +259,20 @@ then
 	\frac{\det D[A]}{\cof D[A]}  \leq \frac{\det D[B]}{\cof D[B]}.
 \end{equation*}
 \end{thm}
+
+We remark that the calculation of $\det D[S]$ is related to the following quadratic optimization problem: for all vectors $ \boldm \in \RR^S$,
+\begin{align}
+	\text{optimize objective function:} &\quad \boldm^\tr D[S] \boldm \\
+	\text{with constraint:} &\quad \bone^\tr \boldm = 1.
+\end{align}
+%\begin{prop}
+%If $D[S]$ is a principal submatrix of distance matrix indexed by $S$, then 
+%\[
+%	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D[S] \boldm : \boldm \in \RR^S,\, \bone^\tr \boldm = 1 \}
+%\]
+%where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
+%\end{prop}
+This result can be shown using Lagrange multipliers; for details, see Section~\ref{sec:optimization}
 
 \begin{thm}[Bounds on principal minor ratios]
 Suppose $G = (V,E)$ is a finite, weighted tree with distance matrix $D$.
@@ -295,12 +297,12 @@ If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
 \end{enumerate}
 \end{thm}
 
-\begin{thm}[Nonsingular minors]
+\begin{cor}[Nonsingular minors]
 Let $G$ be a finite tree
 with (weighted) distance matrix $D$,
 and let $S \subset V(G)$ be a subset of vertices.
 If $|S|\geq 2$ then $\det D[S] \neq 0$.
-\end{thm}
+\end{cor}
 
 \subsection{Previous work} 
 A formula for the inverse matrix $D^{-1}$ was found by Graham and Lov\'{a}sz in \cite{graham-lovasz}.
@@ -337,7 +339,7 @@ $\forests_2(G;S)$ the set of $(S,*)$-rooted spanning forests of $G$
 \section{Graphs and matrices}
 \label{sec:graphs-matrices}
 
-For background on enumeration problems for graphs and trees, see Moon \cite{moon}.
+For background on enumeration problems for graphs and trees, see Moon \cite{moon}. \note{choose other reference?}
 
 Given a graph $G = (V, E)$ with edge weights $\{ \alpha_e : e \in E\}$, for any edge subset $A \subset E$ we define the {\em weight} of $A$ as
 \[
@@ -347,7 +349,7 @@ We define the {\em co-weight} of $A$ as
 \[
 	w(\overline A) = \prod_{e \not\in A} \alpha_e.
 \]
-By abuse of notation, if $H$ is a subgraph of $G$, we use $\coweight{H}$ to denote $\coweight{E(H)}$.
+By abuse of notation, if $H$ is a subgraph of $G$, we use $H$ to also denote its subset of edges $E(H)$, so e.g. $\coweight{H} = \coweight{E(H)}$.
 
 \subsection{Spanning trees and forests}
 A {\em spanning tree} of a graph $G$ is a subgraph which 
@@ -357,6 +359,7 @@ A {\em spanning forest} of a graph $G$ is a subgraph which
 has no cycles
 and 
 contains all vertices of $G$. 
+Let $\kappa(G)$ denote the number of spanning forests of $G$, and let $\kappa_r(G)$ denote the number of $r$-component spanning forests.
 
 Given a set of vertices $S = \{v_1, v_2, \ldots, v_k\}$,
 an {\em $S$-rooted spanning forest} of $G$ 
@@ -1223,9 +1226,6 @@ Given a graph $G = (V,E)$, let $L \in \RR^{V \times V}$ denote the {\em Laplacia
 If $G$ is a weighted graph with edge weights $\alpha_e  \in \RR_{>0}$ for $e \in E$,
 let $L$ denote the weighted Laplacian matrix of $G$.
 
-Given $S \subset V$,
-let $L[\overline S]$ denote the matrix obtained from $L$ by removing the rows and columns indexed by $S$.
-
 \begin{dfn}[Weighted Laplacian matrix]
 Given a graph $G = (V,E)$ and edge weights $\{ \alpha_e : e \in E\}$,
 the {\em weighted Laplacian matrix} $\La \in \RR^{V\times V}$ is defined by
@@ -1238,16 +1238,29 @@ the {\em weighted Laplacian matrix} $\La \in \RR^{V\times V}$ is defined by
 \]
 \end{dfn}
 
+Given $S \subset V$,
+let $L[\overline S]$ denote the matrix obtained from $L$ by removing the rows and columns indexed by $S$.
 For any graph $G$, let $\kappa(G)$ denote the number of spanning trees of $G$.
 The following theorem is due to Kirchhoff.
 \begin{thm}[All-minors matrix tree theorem]
 \label{thm:matrix-tree}
-Let $G = (V,E)$ be a finite graph,
+Let $G = (V,E)$ be a finite graph.
+\begin{enumerate}[(a)]
+\item 
 and let $L$ denote the Laplacian matrix of $G$.
 Then for any nonempty vertex set $S \subset V$,
 \begin{equation}
 \det L[\overline S] = \kappa( G ; S) .
 \end{equation}
+
+\item 
+Let $L_\alpha$ denote the weighted Laplacian matrix of $G$, for edge weights $\{\alpha_e\}$. 
+Then for any nonempty vertex set $S \subset V$,
+\begin{equation}
+\det L[\overline S] = \sum_{T \in \trees( G ; S)} w(T)^{-1}
+= \sum_{T \in \trees(G; S)} w(\overline{T}) \prod_{e \in E} \alpha_e^{-1} .
+\end{equation}
+\end{enumerate}
 \end{thm}
 Note that $\kappa(G;S)$ is also the number of 
 % $S$-rooted spanning forests of $G$.
@@ -1271,7 +1284,7 @@ Then
 
 % \subsection{Distance in trees}
 
-\subsection{Tree splits}
+\subsection{Tree splits and tree distance}
 \label{sec:tree-splits}
 
 Given a tree $G = (V,E)$ and an edge $e \in E$, the edge deletion $G \setminus e$ contains two connected components.
@@ -1281,7 +1294,7 @@ we let $(G \setminus e)^+$ denote the component that contains endpoint $e^+$, an
 For any $e \in E$ and $v \in V$,
 we let
 $(G \setminus e)^{v}$ denote the component of $G\setminus e$ containing $v$,
-respectively $(G\setminus e)^{\overline v}$ \note{or $(G\setminus e)^{- v}$} for the component not containing $v$.
+respectively $(G\setminus e)^{\overline v}$ for the component not containing $v$.
 
 %\subsection{Tree distance}
 %\label{sec:tree-distance}
@@ -1588,15 +1601,22 @@ Each $S$-rooted spanning tree $T$ naturally induces a surjection $\pi_T: V \to S
 	\pi_T(u) = s \qquad\text{if and only if}\qquad u \in T(s).
 \]
 Using this notation,
-\[
+\begin{equation}
+\label{eq:9}
 	(D[S] \boldm)_v = \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,\pi_T(u)) \right)
-\]
+\end{equation}
 We will compare the above expression with the one obtained after replacing $\delta(e; v,\pi_T(u))$ with $\delta(e; v, u)$.
 From Lemma~\ref{lem:outdeg-sum} again, for any $v \in V$ and $e \in E$ we have
 \[
 	\sum_{u \in V} (2 - \deg(u)) \delta(e; v,u) = 2 - \degout((G\setminus e)^{\overline v}) = 1. 
 \] 
 Thus
+\begin{equation}
+\label{eq:10}
+	\sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e
+	= \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,u) \right) 
+\end{equation}
+After subtracting equation \eqref{eq:10} from \eqref{eq:9},
 \[
 	(D[S] \boldm)_v - \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e = \sum_{T \in \trees} w(T) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \left(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \right)
 \]
@@ -1894,21 +1914,21 @@ as desired.
 \caption{Components rooted in $S(G\setminus e)^{\overline v}$.}
 \end{figure}
  
-\note{MOVE TO REMARK? If $e \in \conv(G,S)$, then $S(G\backslash e)^{\overline v}$ is nonempty and }
-
-\begin{rmk} \,\note{consider deleting}
-The set $\forests_2(G;S)$ of $(S,*)$-rooted spanning forests of $G$ can be partitioned into two types: ``active'' and ``inactive''.
-\[
-	\forests_2(G;S) = \forests_2^{in}(G;S) \sqcup \forests_2^{out}(G;S),
-\]
-where
-\[
-	\forests_2^{in}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \deg^o(*,F) \geq 2\},
-\]
-$$
-\forests_2^{out}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \deg^o(*,F) = 1\}.
-$$
-\end{rmk}
+%\note{MOVE TO REMARK? If $e \in \conv(G,S)$, then $S(G\backslash e)^{\overline v}$ is nonempty and }
+%
+%\begin{rmk} \,\note{consider deleting}
+%The set $\forests_2(G;S)$ of $(S,*)$-rooted spanning forests of $G$ can be partitioned into two types: ``active'' and ``inactive''.
+%\[
+%	\forests_2(G;S) = \forests_2^{in}(G;S) \sqcup \forests_2^{out}(G;S),
+%\]
+%where
+%\[
+%	\forests_2^{in}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \deg^o(*,F) \geq 2\},
+%\]
+%$$
+%\forests_2^{out}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \deg^o(*,F) = 1\}.
+%$$
+%\end{rmk}
 
 \begin{rmk}
 A key step in the above proof is the use of the map
@@ -2015,7 +2035,8 @@ Instead, we can take an average over $S$-rooted spanning forests.
 In the outline above, our first goal is to find a ``special'' vector $ \boldm\in \RR^S$ satisfying $D[S] \boldm = \lambda \mathbf{1}$.
 We can approach this first goal as follows: 
 consider $\RR^S$ inside the larger vector space $\RR^V = \RR^S \oplus \RR^{V\setminus S}$,
-and we wish to find vectors $\mathbf{n}_i \in \RR^{V}$ satisfying
+and let $\pi_S$ denote the projection from $\RR^V$ to $\RR^S$.
+We wish to find vectors $\mathbf{n}_i \in \RR^{V}$ satisfying
 $\pi_S( D \mathbf{n}_i) = \lambda_i \mathbf{1}$.
 By finding sufficiently many such vectors $\mathbf{n}_i$,
 we can hope to find a linear combination that lies inside $\RR^S \oplus \{0\}$.
@@ -2193,7 +2214,7 @@ $$
 \end{eg}
 
 \begin{eg}
-Suppose $\Gamma$ is the tree with unit edge lengths shown below, with five leaf vertices.
+Suppose $G$ is the tree with unit edge lengths shown below, with five leaf vertices.
 \[
 \begin{tikzpicture}[scale=0.8]
 	\coordinate (1) at (-2,0.7);
@@ -2233,7 +2254,7 @@ D[S] = \begin{bmatrix}
 3 & 3 & 2 & 2 & 0
 \end{bmatrix}.
 $$
-Forests in $\trees(G;S)$:
+There are $11$ forests in $\trees(G;S)$:
 \[
 \begin{tikzpicture}[scale=0.4]
 	\coordinate (1) at (-2,0.7);
@@ -2437,7 +2458,7 @@ Forests in $\trees(G;S)$:
 	\draw (A) -- (B);
 \end{tikzpicture}
 \]
-Forests in $\forests_2(G;S)$:
+There are $6$ forests in $\forests_2(G;S)$:
 \[
 \begin{tikzpicture}[scale=0.4]
 	\coordinate (1) at (-2,0.7);
@@ -2592,7 +2613,7 @@ $$
 \end{eg}
 
 \begin{eg}
-Suppose $\Gamma$ is the tree with unit edge lengths shown below, with five leaf vertices and three internal vertices.
+Suppose $G$ is the tree with unit edge lengths shown below, with five leaf vertices and three internal vertices.
 \[
 \begin{tikzpicture}
 	\filldraw[black] (-2,1) coordinate (1) circle (2pt);
@@ -2635,7 +2656,10 @@ $$
 
 \section{Further work}
 
-See \cite{richman-shokrieh-wu}.
+It is natural to ask whether these results for trees may be generalized to arbitrary finite graphs.
+
+
+See \cite{richman-shokrieh-wu}, \cite{richman-shokrieh-wu-2}.
 
 \subsection{Symanzik polynomials}
 
