@@ -196,7 +196,7 @@ We also prove the following weighted version of our main theorem.
 \label{thm:w-main}
 Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and corresponding weighted distance matrix $D = \Da$. For any nonempty subset $S \subset V$, we have
 \begin{equation}\label{eq:w-main}
-\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(F) \right).
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(F) \right).
 \end{equation}
 where 
 $\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
@@ -242,7 +242,7 @@ Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e
 For any nonempty subset $S \subset V$, we have
 \begin{equation}
 \label{eq:det-cof}
-\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(F) k(F,*)^2}{\sum_{T \in \trees(G; S)} w(T)} \right)
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(F) k(F,*)^2}{\sum_{T \in \trees(G; S)} w(T)} \right)
 \end{equation}
 where $k(F,*) = \degout(F,*) - 2$.
 %\end{thm}
@@ -1287,10 +1287,11 @@ Then
 \subsection{Tree splits and tree distance}
 \label{sec:tree-splits}
 
+In this section we describe the tree splits associated to a tree, and use their associated indicator functions to give an expression for the tree distance.
+
 Given a tree $G = (V,E)$ and an edge $e \in E$, the edge deletion $G \setminus e$ contains two connected components.
 Using the implicit orientation on $e = (e^+,e^-)$,
 we let $(G \setminus e)^+$ denote the component that contains endpoint $e^+$, and let $(G\setminus e)^-$ denote the other component.
-
 For any $e \in E$ and $v \in V$,
 we let
 $(G \setminus e)^{v}$ denote the component of $G\setminus e$ containing $v$,
@@ -1309,35 +1310,28 @@ Given an edge $e\in E$ and vertices $v,w \in V$, let
 \end{equation}
 In other words, $\delta(e; v,w) = 1$ if the vertices are in different components of the split $G \setminus e$,
 and $\delta(e; v,w) = 0$ if they are in the same component.
-(Note that $\delta(e; v,v) = 0$ for any $e$ and $v$.)
-\begin{equation}
-\delta(e; v,w) = \begin{cases}
-1 &\text{if $e$ lies on $v\sim w$ path}, \\
-0 &\text{otherwise}.
-\end{cases}
-\end{equation}
-
-We can express the tree distance $d(v,w)$ as a sum over edges
-\begin{equation*}
-d(v,w) = \sum_{e \in E(G)} \delta(e; v,w)
-\qquad\text{where } \delta(e; v,w) = \begin{cases}
-1 &\text{if $e$ lies on $v\sim w$ path}, \\
-%\text{if }v,w \text{ are on opposite sides of }e, \\
-0 &\text{otherwise}.
-\end{cases}
-\end{equation*}
+Note that $\delta(e; v,v) = 0$ for any $e$ and $v$.
+%\begin{equation}
+%\delta(e; v,w) = \begin{cases}
+%1 &\text{if $e$ lies on $v\sim w$ path}, \\
+%0 &\text{otherwise}.
+%\end{cases}
+%\end{equation}
 
 We have the following perspectives on the function $\delta(e; v,w)$:
 \begin{itemize}
 \item 
-If we fix $v$ and $w$, then $\delta(-;v,w) : E(G) \to \{0,1\}$
-is the indicator function for the unique $v~ w$ path in $G$.
+If we fix $e$ and $v$,
+then $\delta(e;v, -) : V(G) \to \{0,1\}$ 
+is the indicator function for the component 
+$(G \setminus e)^{\overline v}$ of the tree split $G \setminus e$
+%of $G \setminus e$ 
+not containing $v$.
 
 \item 
-On the other hand if we fix $e$ and $v$,
-then the deletion $G\setminus e$ has two connected components,
-and $\delta(e;v, -) : V(G) \to \{0,1\}$ 
-is the indicator function for the component of $G \setminus e$ not containing $v$.
+On the other hand if we fix $v$ and $w$, then $\delta(-;v,w) : E(G) \to \{0,1\}$
+is the indicator function for the unique $v \sim w$ path in $G$.
+
 \end{itemize}
 
 
@@ -1348,10 +1342,19 @@ the weighted distance function satisfies
 \[ d_\alpha(v,w) = \sum_{e \in E} \alpha_e \, \delta(e; v,w) .\]
 \end{prop}
 
+For an unweighted tree, we can express the tree distance $d(v,w)$ as the unweighted sum
+\begin{equation*}
+d(v,w) = \sum_{e \in E(G)} \delta(e; v,w).
+%\qquad\text{where } \delta(e; v,w) = \begin{cases}
+%1 &\text{if $e$ lies on $v\sim w$ path}, \\
+%0 &\text{otherwise}.
+%\end{cases}
+\end{equation*}
+
 
 \subsection{Outdegree of rooted forest}
 
-Given a rooted forest $F$ in $\forests(G;S)$ and $s \in S$,
+Given a rooted forest $F$ in $\forests_1(G;S)$ and $s \in S$,
 let $F(s)$ denote the $s$-component of $F$.
 We define the {\em outdegree} $\degout(F,s)$ as the number of edges which join $F(s)$ to a different component; i.e.
 \begin{equation}
@@ -1393,9 +1396,135 @@ if $H = \{v\}$ consists of a single vertex, then $\degout(H) = \deg(v)$.
 %This hold because $\degout(H_0) + \deg(v_0)$ overcounts the unique edge joining $v_0$ to $H_0$, by two.
 \end{proof}
 
+\subsection{Miscellaneous}
+
+We use the fact that the submatrix $D[S]$ has nonzero determinant.
+
+
+\begin{lem}[{Bapat~\cite[Lemma 8.15]{bapat}}]
+Suppose $D$ is the (weighted) distance matrix of a tree with $n$ vertices. 
+Then $D$ has one positive eigenvalue and $n - 1$ negative eigenvalues.
+\end{lem}
+
+Cauchy interlacing, c.f. Horn--Johnson~\cite[Theorem 4.3.17]{horn-johnson}
+
+\begin{prop}[Cauchy interlacing]
+Suppose $M$ is a symmetric real matrix and $M[\overline{i}]$ is a principal submatrix.
+Then the eigenvalues of $M_i$ interlace the eigenvalues of $M$.
+\[
+\lambda_1 \leq \mu_1 \leq \lambda_2 \leq \cdots \leq \mu_{n-1} \leq \lambda_n.
+\]
+\end{prop}
+
+\begin{prop}
+Suppose $D$ is the distance matrix of a tree $G = (V,E)$ and $S \subset V$ is a subset of size $|S| \geq 2$. 
+Then
+\begin{enumerate}[(i)]
+\item $D[S]$ has one positive and $|S| - 1$ negative eigenvalues;
+
+\item $\det D[S] \neq 0$.
+
+\end{enumerate}
+\end{prop}
+\begin{proof}
+
+\end{proof}
+
+
+\begin{rmk}
+A key step in the main proof is the use of the map
+\[
+	E(G) \times \trees(G;S) \mapsto S \sqcup \{\text{error}\}
+\]
+defined by
+\[
+	(e, T) \mapsto \begin{cases}
+		s &\text{if } e \in T(s), \\
+		\text{error} &\text{if } e \not\in T .
+	\end{cases}
+\]
+\end{rmk}
+
+\begin{rmk}
+For a given spanning forest
+$F \in \forests_2(G;S)$,
+there are exactly $\degout(F, *)$-many choices of pairs $(T,e) \in \trees(G;S) \times E(G)$ such that
+$F = T \setminus e.$
+Consider the ``deletion'' map
+\[
+	E(G) \times \trees(G;S) \to \forests_2(G;S) \sqcup \trees(G;S)
+\]
+defined by
+\[
+	(e, T) \mapsto \begin{cases}
+	T \setminus e &\text{if } e\in T,\\
+	T &\text{if } e\not\in T.
+	\end{cases}
+\]
+For a forest $F$ in $\forests_2(G;S)$,
+the preimage under this map has $\degout(F,*)$ elements.
+
+There is an associated ``union'' map 
+\[
+	E(G) \times \forests_2(G;S) \longrightarrow \trees(G;S) \sqcup \forests_2(G;S)
+\]
+defined by
+\[
+	(e, F) \mapsto \begin{cases}
+		F \cup e &\text{if } e \in \partial F, \\
+		F &\text{if } e \not\in \partial F
+	\end{cases}
+\]
+For a forest $T$ in $\trees(G; S)$, the preimage under this map has $|E(T)|$-many elements.
+\end{rmk}
+
+
+\section{Optimization: quadratic programming}
+\label{sec:optimization}
+
+\begin{prop}
+If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
+%any critical value of the optimization problem \note{cite above} is equal to ${\det D[S]}/{\cof D[S]}$, i.e.
+\[
+	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D[S] \boldm : \boldm \in \RR^S,\, \bone^\tr \boldm = 1 \}
+\]
+where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
+\end{prop}
+
+\begin{prop}
+If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
+\[
+	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D \boldm : \boldm \in \RR^V,\, \bone^\tr \boldm = 1,\, \boldm_v = 0 \text{ if } v \not\in S \}
+\]
+where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
+\end{prop}
+
+The gradient of the objective function is $2 D[S] \boldm$, 
+and the gradient of the constraint is $\bone$.
+By the theory of Lagrange multipliers, the optimal solution $\boldm^*$ is a vector satisfying
+\[
+	D[S] \boldm^* = \lambda \bone \qquad\text{for some }\lambda \in \RR.
+\]
+The constant $\lambda$ is in fact the optimal objective value, since
+\[
+	(\boldm^*)^\tr D[S] \boldm^* = (D[S] \boldm^*)^\tr \boldm^* = \lambda (\bone^\tr \boldm^*) = \lambda.
+\]
+The above computation uses the fact that $D[S]$ is a symmetric matrix, and the given constraint $\bone^\tr \boldm = 1$.
+
+On the other hand,
+assuming $D[S]$ is invertible we have $ \boldm^* = \lambda (D[S]^{-1} \bone) $, so that
+\[
+	1 = \bone^\tr \boldm^* = \lambda (\bone^\tr D[S]^{-1} \bone)
+	= \lambda \frac{\cof D[S]}{\det D[S]}.
+\]
+Thus the optimal objective value is
+$\displaystyle
+	\lambda = \frac{\det D[S]}{\cof D[S]} .
+$
 
 \section{Proofs}
-In this section we prove Theorem~\ref{thm:w-main}.
+In this section we prove our main result, Theorem~\ref{thm:w-main}.
+Theorem~\ref{thm:main} follows by setting all edge weights to one.
 
 Outline of proof: given a  subset $S \subset V$ and distance submatrix $D[S]$, we will
 \begin{enumerate}[(i)]
@@ -1930,99 +2059,18 @@ as desired.
 %$$
 %\end{rmk}
 
-\begin{rmk}
-A key step in the above proof is the use of the map
-\[
-	E(G) \times \trees(G;S) \mapsto S \sqcup \{\text{error}\}
-\]
-defined by
-\[
-	(e, T) \mapsto \begin{cases}
-		s &\text{if } e \in T(s), \\
-		\text{error} &\text{if } e \not\in T .
-	\end{cases}
-\]
-\end{rmk}
+Finally we can prove our main theorem.
 
-\begin{rmk}
-For a given spanning forest
-$F \in \forests_2(G;S)$,
-there are exactly $\degout(F, *)$-many choices of pairs $(T,e) \in \trees(G;S) \times E(G)$ such that
-$F = T \setminus e.$
-Consider the ``deletion'' map
-\[
-	E(G) \times \trees(G;S) \to \forests_2(G;S) \sqcup \trees(G;S)
-\]
-defined by
-\[
-	(e, T) \mapsto \begin{cases}
-	T \setminus e &\text{if } e\in T,\\
-	T &\text{if } e\not\in T.
-	\end{cases}
-\]
-For a forest $F$ in $\forests_2(G;S)$,
-the preimage under this map has $\degout(F,*)$ elements.
-
-There is an associated ``union'' map 
-\[
-	E(G) \times \forests_2(G;S) \longrightarrow \trees(G;S) \sqcup \forests_2(G;S)
-\]
-defined by
-\[
-	(e, F) \mapsto \begin{cases}
-		F \cup e &\text{if } e \not\in F, \\
-		F &\text{if } e \in F
-	\end{cases}
-\]
-\end{rmk}
-
-\section{Optimization: quadratic programming}
-\label{sec:optimization}
-
-\begin{prop}
-If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
-%any critical value of the optimization problem \note{cite above} is equal to ${\det D[S]}/{\cof D[S]}$, i.e.
-\[
-	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D[S] \boldm : \boldm \in \RR^S,\, \bone^\tr \boldm = 1 \}
-\]
-where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
-\end{prop}
-
-\begin{prop}
-If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
-\[
-	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D \boldm : \boldm \in \RR^V,\, \bone^\tr \boldm = 1,\, \boldm_v = 0 \text{ if } v \not\in S \}
-\]
-where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
-\end{prop}
-
-The gradient of the objective function is $2 D[S] \boldm$, 
-and the gradient of the constraint is $\bone$.
-By the theory of Lagrange multipliers, the optimal solution $\boldm^*$ is a vector satisfying
-\[
-	D[S] \boldm^* = \lambda \bone \qquad\text{for some }\lambda \in \RR.
-\]
-The constant $\lambda$ is in fact the optimal objective value, since
-\[
-	(\boldm^*)^\tr D[S] \boldm^* = (D[S] \boldm^*)^\tr \boldm^* = \lambda (\bone^\tr \boldm^*) = \lambda.
-\]
-(The above computation uses the fact that $D[S]$ is a symmetric matrix, and the given constraint $\bone^\tr \boldm = 1$.)
-On the other hand,
-assuming $D[S]$ is invertible we have $ \boldm^* = \lambda (D[S]^{-1} \bone) $, so that
-\[
-	1 = \bone^\tr \boldm^* = \lambda (\bone^\tr D[S]^{-1} \bone)
-	= \lambda \frac{\cof D[S]}{\det D[S]}.
-\]
-Thus the optimal objective value is
-$\displaystyle
-	\lambda = \frac{\det D[S]}{\cof D[S]} .
-$
+\begin{proof}[Proof of Theorem~\ref{thm:w-main}]
+Since ..
+\end{proof}
 
 \section{Physical interpretation}
 
 If we consider $G$ as a network of wires with each edge containing a unit resistor,
 which is grounded at all nodes in $S$,
-then $\boldm_S$ records the currents flowing to $S$
+then $\boldm_S$ has an interpretation as current flow: 
+it records the currents flowing to $S$
 when current is added on $V\setminus S$ in the amount $2 - \deg v$
 for each $v\not\in S$.
 
@@ -2038,6 +2086,7 @@ consider $\RR^S$ inside the larger vector space $\RR^V = \RR^S \oplus \RR^{V\set
 and let $\pi_S$ denote the projection from $\RR^V$ to $\RR^S$.
 We wish to find vectors $\mathbf{n}_i \in \RR^{V}$ satisfying
 $\pi_S( D \mathbf{n}_i) = \lambda_i \mathbf{1}$.
+OR, $D \mathbf{n}_i = \lambda_i \mathbf{1}^S \oplus (-)$.
 By finding sufficiently many such vectors $\mathbf{n}_i$,
 we can hope to find a linear combination that lies inside $\RR^S \oplus \{0\}$.
 % $D \mathbf{n} = (\lambda \mathbf{1}_S) \oplus (-)$.
@@ -2665,10 +2714,28 @@ See \cite{richman-shokrieh-wu}, \cite{richman-shokrieh-wu-2}.
 
 We note that the expression in the main theorem \todo{cite} is related to Symanzik polynomials, which we recall here.
 
-Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is
+Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is the homogeneous polynomial in $\underline{x} = \{x_e : e \in E\}$
 \[
-	p_G(x_1,\ldots, x_n) = \sum_{T \in G} x^T .
+	\psi_G(\underline{x}) = \sum_{T \in \trees(G)} \prod_{e \not \in T} x_e .
 \]
+while the second Symanzik polynomial is
+\[
+	\varphi_G(p; \underline{x}) = \sum_{F \in \forests_2(G)} \left(\sum_{v \in F_1} p(v) \right)^2 \prod_{e \not\in F} x_e .
+\]
+
+Theorem statement:
+\[
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(T) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(F) \right).
+\]
+\[
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(F) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(T)} \right)
+\]
+In terms of Symanzik polynomials, let $\psi$ and $\varphi$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
+\[
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{G/S}(p; \underline{\alpha})}{\psi_{G/S}(\underline{\alpha})} \right)
+\]
+with momentum function $p(v) = \degout(v) - 2$ for $v \not \in S$.
+
 
 \section*{Acknowledgements}
 The authors would like to thank Ravindra Bapat for helpful discussion.
