@@ -184,8 +184,8 @@ If $\{\alpha_e : e\in E\}$ is a collection of positive edge weights,  the $\alph
 %takes the distance along edge $e$ to be $\alpha_e$.
 %Namely, the $(v,w)$-entry of $D_\alpha$ is 
 is defined by setting the $(u,v)$-entry to the sum of the weights $\alpha_e$ along the unique path from $u$ to $v$.
-The following weighted version of \eqref{eq:full-det}
-is satisfied by the weighted distance matrix, 
+The relation \eqref{eq:full-det}
+has an analogue for the weighted distance matrix, 
 \begin{equation}\label{eq:w-full-det}
 	\det \Da = (-1)^{n-1} 2^{n-2} \sum_{e \in E} \alpha_e \prod_{e \in E} \alpha_e ,
 \end{equation}
@@ -196,12 +196,12 @@ We also prove the following weighted version of our main theorem.
 \label{thm:w-main}
 Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and corresponding weighted distance matrix $D = \Da$. For any nonempty subset $S \subset V$, we have
 \begin{equation}\label{eq:w-main}
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(F) \right).
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right).
 \end{equation}
 where 
 $\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
 $\forests_2(G;S)$ is the set of $(S,*)$-rooted spanning forests of $G$,
-$w(\overline{T})$ and $w(F)$ denote the $\alpha$-weights of the forests $T$ and $F$,
+$w(\overline{T})$ and $w(\overline{F})$ denote the $\alpha$-weights of the forests $T$ and $F$,
 and 
 %\begin{equation}
 %\label{eq:2-minus-deg}
@@ -219,28 +219,28 @@ Suppose we fix a tree distance matrix $D$.
 It is natural to ask, how do the expressions $\det D[S]$ vary as we vary the vertex subset $S$? 
 %Rather than address this directly, 
 %we have the following result, Theorem~\ref{thm:monotonic},
-To our knowledge there is no nice behavior to answer this question, but  as $S$ varies there is nice behavior of the ratios $\det D[S] / \cof D[S]$ which we describe here.
+To our knowledge there is no nice behavior among the determinants, but  as $S$ varies there is nice behavior of the ratios $\det D[S] / \cof D[S]$ which we describe here.
 
 Given a matrix $A$, let $\cof A$ denote the {\em sum of cofactors} of $A$, i.e. 
 \[
-	\cof A = \sum_{i = 1}^{|S|} \sum_{j = 1}^{|S|} (-1)^{i + j} \det A_{ij} .
+	\cof A = \sum_{i = 1}^{|S|} \sum_{j = 1}^{|S|} (-1)^{i + j} \det A_{i,j} 
 \]
+where $A_{i,j}$ is the submatrix of $A$ that removes the $i$-th row and the $j$-th column.
 If $A$ is invertible, then $\cof A$ is related to the sum of entries of the matrix inverse $A^{-1}$ by a factor of $\det A$, i.e. $\cof A = (\det A) (\bone^\tr A^{-1} \bone)$.
-In \cite{bapat-sivasubramanian}, Bapat and Sivasubramanian showed the following identity for the sum of cofactors of a distance submatrix $D[S]$ of a tree.
+In \cite{bapat-sivasubramanian}, Bapat and Sivasubramanian showed the following identity for 
+the sum of cofactors of a distance submatrix $D[S]$ of a tree,
 \begin{equation}\label{eq:cof-trees}
 	\cof D[S] = (-2)^{|S| - 1} \sum_{T \in \trees(G;S)} w(\overline{T}) .
 \end{equation}
 Using the Bapat--Sivasubramanian identity \eqref{eq:cof-trees}, an immediate corollary to Theorem~\ref{thm:w-main} is the following result:
 %\begin{thm}
-Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$. Let $D = D_\alpha$ denote the weighted distance matrix of $G$. 
-For any nonempty subset $S \subset V$, we have
+%suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$. Let $D = D_\alpha$ denote the weighted distance matrix of $G$. 
+%For any nonempty subset $S \subset V$, we have
 \begin{equation}
 \label{eq:det-cof}
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(F) k(F,*)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right)
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right).
 \end{equation}
-where $k(F,*) = \degout(F,*) - 2$.
 %\end{thm}
-
 The expression \eqref{eq:det-cof} satisfies a monotonicity condition as we vary the vertex set $S \subset V(G)$.
 
 \begin{thm}[Monotonicity of normalized principal minors]
@@ -298,8 +298,10 @@ and let $S \subset V(G)$ be a subset of vertices.
 If $|S|\geq 2$ then $\det D[S] \neq 0$.
 \end{cor}
 
-\subsection{Previous work} 
+\subsection{Further questions} 
 A formula for the inverse matrix $D^{-1}$ was found by Graham and Lov\'{a}sz in \cite{graham-lovasz}.
+
+Does there exist a nice expression for the inverse of the matrix $D[S]$?
 
 \subsection{Notation}
 
@@ -1251,7 +1253,7 @@ Then for any nonempty vertex set $S \subset V$,
 Let $L_\alpha$ denote the weighted Laplacian matrix of $G$, for edge weights $\{\alpha_e\}$. 
 Then for any nonempty vertex set $S \subset V$,
 \begin{equation}
-\det L[\overline S] = \sum_{T \in \trees( G ; S)} w(\overline{T})^{-1}
+\det L[\overline S] = \sum_{T \in \trees( G ; S)} w(T)^{-1}
 = \sum_{T \in \trees(G; S)} w(\overline{T}) \prod_{e \in E} \alpha_e^{-1} .
 \end{equation}
 \end{enumerate}
@@ -1262,9 +1264,9 @@ spanning trees of the quotient graph $G / S$, which ``glues together'' all verti
 
 The following result is due to Bapat--Sivasubramanian.
 Recall that $\cof M$ denotes the {\em sum of cofactors} of $M$, i.e. 
-\[
+$\displaystyle
 	\cof M = \sum_{i = 1}^{n} \sum_{j = 1}^{n} (-1)^{i + j} \det M[\overline{i},\overline{j}].
-\]
+$
 
 \begin{thm}[Distance matrix cofactor sums \cite{bapat-sivasubramanian}]
 Given a tree $G$,
@@ -1392,13 +1394,17 @@ if $H = \{v\}$ consists of a single vertex, then $\degout(H) = \deg(v)$.
 
 \subsection{Miscellaneous}
 
-We use the fact that the submatrix $D[S]$ has nonzero determinant.
+We use the fact that a nontrivial submatrix $D[S]$ of a distance matrix has nonzero determinant.
 
 
 \begin{lem}[{Bapat~\cite[Lemma 8.15]{bapat}}]
 Suppose $D$ is the (weighted) distance matrix of a tree with $n$ vertices. 
 Then $D$ has one positive eigenvalue and $n - 1$ negative eigenvalues.
 \end{lem}
+\begin{proof}
+Lemma 8.15 of~\cite{bapat} is stated for a non-weighted distance matrix;
+however, the same argument applies to a weighted distance matrix by applying Bapat--Kirkland--Neumann's result on the weighted distance matrix determinant \cite{bapat-kirkland-neumann}. 
+\end{proof}
 
 Cauchy interlacing, c.f. Horn--Johnson~\cite[Theorem 4.3.17]{horn-johnson}
 
@@ -1413,7 +1419,7 @@ Then the eigenvalues of $M_i$ interlace the eigenvalues of $M$.
 \begin{prop}
 Suppose $D$ is the distance matrix of a tree $G = (V,E)$ and $S \subset V$ is a subset of size $|S| \geq 2$. 
 Then
-\begin{enumerate}[(i)]
+\begin{enumerate}[(a)]
 \item $D[S]$ has one positive and $|S| - 1$ negative eigenvalues;
 
 \item $\det D[S] \neq 0$.
@@ -1421,7 +1427,9 @@ Then
 \end{enumerate}
 \end{prop}
 \begin{proof}
+(a) Let $n = |V|$, 
 
+(b) This follows form (a), since the determinant is the product of eigenvalues.
 \end{proof}
 
 
@@ -1666,6 +1674,7 @@ where $\degout(T,v)$ is the outdegree of the $v$-component of $T$, \eqref{eq:out
 
 Let $\bone$ denote the all-ones vector.
 \begin{prop}
+\label{prop:m-sum}
 For $\boldm$ defined above, $\displaystyle \bone^\tr \boldm = 2 \,\sum_{T \in \trees(G;S)} w(\overline{T})$.
 \end{prop}
 \begin{proof}
@@ -1686,11 +1695,12 @@ If $G$ is a graph with unit edge weights $\alpha_e = 1$, then the vector $\boldm
 \end{cor}
 
 \begin{thm}
+\label{thm:m-distance-product}
 With $\boldm = \boldm(G;S)$ defined as in \eqref{eq:m-vector},
 $D[S] \boldm = \lambda \mathbf{1}$
 for the constant
 \begin{equation}
-	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (2 - \degout(F,*) )^2 \, w(F) .
+	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (2 - \degout(F,*) )^2 \, w(\overline{F}) .
 \end{equation}
 %where $\degout(F,w)$ is the out-degree of the $w$-component of $F$ (as a spanning forest).
 \end{thm}
@@ -1844,12 +1854,12 @@ Thus
 We now rewrite the above expression in terms of $\forests_2(G;S)$,
 observing that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, if $e \in T$, and that the corresponding weights satisfy
 \[
-	w(F) = \alpha_e \cdot w(\overline{T}) \qquad\text{if}\qquad F = T \setminus e.
+	w(\overline{F}) = \alpha_e \cdot w(\overline{T}) \qquad\text{if}\qquad F = T \setminus e.
 \]
 Thus
 \begin{align*}
-	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 1}} \one(F = T \setminus e) -  \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 0}} \one(F = T \setminus e) \right) \\
-	&= \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*)) \Bigg( \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e;v,s_0) = 1 \} \\
+	\eqref{eq:1} &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 1}} \one(F = T \setminus e) -  \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 0}} \one(F = T \setminus e) \right) \\
+	&= \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*)) \Bigg( \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e;v,s_0) = 1 \} \\
 	&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad - \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e; v,s_0) = 0 \} \Bigg)
 \end{align*}
 Next, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose the edge $e$ to be in the floating boundary $\partial F(*)$:
@@ -1920,7 +1930,7 @@ Next, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in p
 \end{figure}
 
 %\begin{multline}
-%	\eqref{eq:1} = \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  \sum_{e \in \partial F(*)} \Bigg( \sum_{\substack{s_0 \in S \\ \delta(e; v, s_0) = 0}} \; \sum_{\substack{T \in \trees \\ e \in T(s_0)}} \one(T = F \cup e) \\
+%	\eqref{eq:1} = \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*))  \sum_{e \in \partial F(*)} \Bigg( \sum_{\substack{s_0 \in S \\ \delta(e; v, s_0) = 0}} \; \sum_{\substack{T \in \trees \\ e \in T(s_0)}} \one(T = F \cup e) \\
 %	- \sum_{\substack{s_0 \in S \\ \delta(e; v, s_0) = 1}} \; \sum_{\substack{T \in \trees \\ e \in T(s_0)}} \one(T = F \cup e) \Bigg).
 %\end{multline}
 Now for any $e \not\in F$, let $\delta(e; v, F(*)) = \delta(e; v, x)$ for any $x \in F(*)$, i.e.
@@ -1933,7 +1943,7 @@ Now for any $e \not\in F$, let $\delta(e; v, F(*)) = \delta(e; v, x)$ for any $x
 The condition $F = T \setminus e$ for some $e \in T(s_0)$ with $\delta(e; v, s_0) = 1$ (resp. $\delta(e; v, s_0) = 0$) is equivalent to $T = F \cup e$ for some $e \in \partial F(*)$ with $\delta(e; v, F(*)) = 0$ (resp. $\delta(e; v, F(*)) = 1$).
 Thus
 \begin{multline}
-	\eqref{eq:1} = \sum_{F \in \forests_2} w(F) (2 - \deg^o(F,*))  \Bigg( \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 0 \}  \\
+	\eqref{eq:1} = \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*))  \Bigg( \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 0 \}  \\
 	- \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 1 \}  \Bigg).
 \end{multline}
 Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
@@ -1946,9 +1956,9 @@ The previous expression \eqref{eq:1} simplifies as
 \]
 Thus
 \begin{align*}
-	\eqref{eq:1} &= \sum_{F \in \forests_2} w(F) (2 - \degout(F,*))  \Big( (\degout(F,*) - 1)  - (1) \Big) \\
-	% &\qquad - \sum_{F \in \forests_2} w(F) (2 - \degout(F,*)) (1) \\
-	&= - \!\sum_{F \in \forests_2} w(F) (2 - \degout(F,*))^2 .
+	\eqref{eq:1} &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Big( (\degout(F,*) - 1)  - (1) \Big) \\
+	% &\qquad - \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*)) (1) \\
+	&= - \!\sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))^2 .
 \end{align*}
 as desired.
 \end{proof}
@@ -2056,6 +2066,21 @@ as desired.
 Finally we can prove our main theorem.
 
 \begin{proof}[Proof of Theorem~\ref{thm:w-main}]
+Let $\boldm = \boldm(G; S)$ denote the vector \eqref{eq:m-vector}.
+Theorem~\ref{thm:m-distance-product} states that $D[S] \boldm = \lambda \bone$
+for some constant $\lambda$,
+and Proposition~\ref{prop:m-sum} states that
+$\bone^\tr \boldm = 2 \sum_{T \in \trees(G;S)} w(\overline{T})$.
+
+By Bapat--Sivasubramanian~\cite[Theorem X]{bapat-sivasubramanian},
+\[
+\bone^\tr \boldm = (-1)^{1 - |S|} 2^{2 - |S|} \cof D[S].
+\]
+
+Therefore
+\[
+\det D[S]
+\]
 Since ..
 \end{proof}
 
@@ -2728,10 +2753,10 @@ while the second Symanzik polynomial is
 
 Theorem statement:
 \[
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(F) \right).
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right).
 \]
 \[
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(F) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right)
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right)
 \]
 In terms of Symanzik polynomials, let $\psi$ and $\varphi$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
 \[
