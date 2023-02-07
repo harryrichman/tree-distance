@@ -1270,7 +1270,7 @@ $
 
 \begin{thm}[Distance matrix cofactor sums \cite{bapat-sivasubramanian}]
 Given a tree $G$,
-let $D$ be the distance matrix of $G$, and $L$ the Laplacian matrix.
+let $D$ be the distance matrix of $G$, and $L$ the Laplacian matrix of $G$.
 Let $S \subset V(G)$ be a nonempty subset of vertices of $G$. 
 Then
 \begin{equation*}
@@ -1278,6 +1278,7 @@ Then
 \end{equation*}
 \end{thm}
 
+\note{check weighted case of above result}
 % \subsection{Distance in trees}
 
 \subsection{Tree splits and tree distance}
@@ -1394,42 +1395,50 @@ if $H = \{v\}$ consists of a single vertex, then $\degout(H) = \deg(v)$.
 
 \subsection{Miscellaneous}
 
-We use the fact that a nontrivial submatrix $D[S]$ of a distance matrix has nonzero determinant.
-
+Later we will make use of the fact that a submatrix $D[S]$ of a distance matrix has nonzero determinant, as long as $|S| \geq 2$.
 
 \begin{lem}[{Bapat~\cite[Lemma 8.15]{bapat}}]
+\label{lem:dist-signature}
 Suppose $D$ is the (weighted) distance matrix of a tree with $n$ vertices. 
 Then $D$ has one positive eigenvalue and $n - 1$ negative eigenvalues.
 \end{lem}
 \begin{proof}
 Lemma 8.15 of~\cite{bapat} is stated for a non-weighted distance matrix;
-however, the same argument applies to a weighted distance matrix by applying Bapat--Kirkland--Neumann's result on the weighted distance matrix determinant \cite{bapat-kirkland-neumann}. 
+however, the same argument applies to a weighted distance matrix by applying Bapat--Kirkland--Neumann's result \eqref{eq:w-full-det} on the weighted distance matrix determinant \cite[Corollary 2.5]{bapat-kirkland-neumann}. 
 \end{proof}
 
 Cauchy interlacing, c.f. Horn--Johnson~\cite[Theorem 4.3.17]{horn-johnson}
 
 \begin{prop}[Cauchy interlacing]
+\label{prop:cauchy-interlacing}
 Suppose $M$ is a symmetric real matrix and $M[\overline{i}]$ is a principal submatrix.
-Then the eigenvalues of $M_i$ interlace the eigenvalues of $M$.
+If $\lambda_1 \leq \cdots \leq \lambda_n$ are the ordered eigenvalues of $M$ and $\mu_1 \leq \cdots \leq \mu_{n-1}$ are the ordered eigenvalues of $M[\overline{i}]$, then
 \[
 \lambda_1 \leq \mu_1 \leq \lambda_2 \leq \cdots \leq \mu_{n-1} \leq \lambda_n.
 \]
 \end{prop}
+In other words, the eigenvalues of $M_i$ ``interlace'' the eigenvalues of $M$.
 
+The following argument was communicated to the author by Bapat, via personal communication.
 \begin{prop}
 Suppose $D$ is the distance matrix of a tree $G = (V,E)$ and $S \subset V$ is a subset of size $|S| \geq 2$. 
 Then
 \begin{enumerate}[(a)]
-\item $D[S]$ has one positive and $|S| - 1$ negative eigenvalues;
+\item $D[S]$ has one positive eigenvalue and $|S| - 1$ negative eigenvalues;
 
 \item $\det D[S] \neq 0$.
 
 \end{enumerate}
 \end{prop}
 \begin{proof}
-(a) Let $n = |V|$, 
+(a) Let $n = |V|$; assume $n \geq 3$.
+We apply (decreasing) induction on the size of $S$. 
+If $|S| = n - 1$, then Lemma~\ref{lem:dist-signature} and Cauchy interlacing imply that $D[S]$ has at most one positive eigenvalue, and at least one negative eigenvalue. 
+Since all diagonal entries of $D[S]$ are zero, $D[S]$ has zero trace. 
+Thus $D[S]$ has exactly one positive eigenvalue as claimed.
+The same argument applies for smaller $S$, as long as $|S| \geq 2$.
 
-(b) This follows form (a), since the determinant is the product of eigenvalues.
+(b) This follows from (a), since the determinant is the product of eigenvalues.
 \end{proof}
 
 
@@ -1663,7 +1672,7 @@ The same identity applies to the sum over $(G \setminus e)^+$, so $(D\boldm)_{(e
 Fix a tree $G = (V,E)$ and a nonempty subset $S \subset V$.
 \begin{dfn}
 \label{dfn:m-vector}
-Let $\boldm = \boldm(G;S) \in \RR^S$ be defined by
+Let $\boldm = \boldm(G;S)$ denote the vector in $\RR^S$ be defined by
 \begin{equation}
 \label{eq:m-vector}
 \boldm_v =  \sum_{T \in \trees(G;S)} (2 - \degout(T,v)) w(\overline{T})
@@ -1675,10 +1684,15 @@ where $\degout(T,v)$ is the outdegree of the $v$-component of $T$, \eqref{eq:out
 Let $\bone$ denote the all-ones vector.
 \begin{prop}
 \label{prop:m-sum}
-For $\boldm$ defined above, $\displaystyle \bone^\tr \boldm = 2 \,\sum_{T \in \trees(G;S)} w(\overline{T})$.
+For the vector $\boldm$ defined above, $\displaystyle \bone^\tr \boldm = 2 \,\sum_{T \in \trees(G;S)} w(\overline{T})$.
 \end{prop}
 \begin{proof}
-We have
+By Lemma~\ref{lem:outdeg-sum} we have
+\[
+\boldm_s = \sum_{T \in \trees(G;S)} (2 - \degout (T,s)) w(\overline{T})
+= \sum_{T \in \trees(G;S)} \left( \sum_{v \in T(s)}(2 - \deg(v))\right) w(\overline{T}).
+\]
+Thus
 \begin{align}
 	\bone^\tr \boldm = \sum_{s\in S} \boldm_s &= \sum_{s \in S} \left( \sum_{T \in \trees(G;S)} (2 - \degout (T,s)) w(\overline{T}) \right) \\
 	&= \sum_{T \in \trees(G;S)} w(\overline{T}) \left( \sum_{s\in S} \sum_{v \in T(s)} 2 - \deg(v) \right) \\
@@ -2079,7 +2093,13 @@ By Bapat--Sivasubramanian~\cite[Theorem X]{bapat-sivasubramanian},
 
 Therefore
 \[
-\det D[S]
+\det D[S] = \frac{\cof D[S]}{\bone^\tr D[S]^{-1} \bone}
+= \frac{\cof D[S]}{\lambda^{-1} \bone^\tr \boldm}
+\]
+\[
+\frac{\cof D[S]}{\det D[S]} = \bone^\tr D[S]^{-1} \bone
+= \frac{1}{\lambda} \bone^\tr \boldm
+= \frac{\cof D[S]}{(-1)^{|S| - 1} 2^{|S| - 1} \lambda} .
 \]
 Since ..
 \end{proof}
@@ -2154,7 +2174,7 @@ By assumption $S$ is grounded, so $D\mathbf{n}$ takes the same value at $s$ and 
 
 \begin{thm}
 Let $G$ be a tree, $S$ a nonempty subset of vertices,
-and $D[S]$ the corresponding submatrix of the distance matrix.
+and $D[S]$ the corresponding submatrix of the distance matrix of $G$.
 Suppose $\boldm = \boldm(G;S) \in \RR^{S}$ is defined by \eqref{eq:m-vector};
 \begin{equation}
 \boldm(G;S)_v = \sum_{T \in \trees(G;S)} w(\overline{T}) \sum_{u \in T(v)} (2 - \deg u) 
