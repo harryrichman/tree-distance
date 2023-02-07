@@ -286,21 +286,20 @@ If $\conv(S,G)$ denotes the subtree of $G$ consisting of all paths between point
 \item 
 If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
 \begin{equation*}
-	\frac12 \sum_{e \in \gamma} \alpha_e \leq \frac{\det D[S]}{\cof D[S]}
+	\frac12 \sum_{e \in \gamma} \alpha_e \leq \frac{\det D[S]}{\cof D[S]}.
 \end{equation*}
 \end{enumerate}
 \end{thm}
 
-\begin{cor}[Nonsingular minors]
-Let $G$ be a finite tree
-with (weighted) distance matrix $D$,
-and let $S \subset V(G)$ be a subset of vertices.
-If $|S|\geq 2$ then $\det D[S] \neq 0$.
-\end{cor}
+%\begin{cor}[Nonsingular minors]
+%Let $G$ be a finite tree
+%with (weighted) distance matrix $D$,
+%and let $S \subset V(G)$ be a subset of vertices.
+%If $|S|\geq 2$ then $\det D[S] \neq 0$.
+%\end{cor}
 
 \subsection{Further questions} 
 A formula for the inverse matrix $D^{-1}$ was found by Graham and Lov\'{a}sz in \cite{graham-lovasz}.
-
 Does there exist a nice expression for the inverse of the matrix $D[S]$?
 
 \subsection{Notation}
@@ -335,7 +334,10 @@ $\forests_2(G;S)$ the set of $(S,*)$-rooted spanning forests of $G$
 \section{Graphs and matrices}
 \label{sec:graphs-matrices}
 
-For background on enumeration problems for graphs and trees, see Moon \cite{moon}. \note{choose other reference?}
+For background on enumeration problems for graphs and trees, 
+see 
+%Moon \cite{moon} or 
+Tutte~\cite[Chapter VI]{tutte}. \note{choose other reference?}
 
 Given a graph $G = (V, E)$ with edge weights $\{ \alpha_e : e \in E\}$, for any edge subset $A \subset E$ we define the {\em weight} of $A$ as
 \[
@@ -1258,6 +1260,9 @@ Then for any nonempty vertex set $S \subset V$,
 \end{equation}
 \end{enumerate}
 \end{thm}
+\begin{proof}
+See Tutte~\cite[Section VI.6, Equation (VI.6.7)]{tutte} or Chaiken~\cite{chaiken}
+\end{proof}
 Note that $\kappa(G;S)$ is also the number of 
 % $S$-rooted spanning forests of $G$.
 spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex.
@@ -1268,19 +1273,22 @@ $\displaystyle
 	\cof M = \sum_{i = 1}^{n} \sum_{j = 1}^{n} (-1)^{i + j} \det M[\overline{i},\overline{j}].
 $
 
-\begin{thm}[Distance matrix cofactor sums \cite{bapat-sivasubramanian}]
+\begin{thm}[{Distance matrix cofactor sums \cite[Theorem 11]{bapat-sivasubramanian}}]
 Given a tree $G$,
 let $D$ be the distance matrix of $G$, and $L$ the Laplacian matrix of $G$.
 Let $S \subset V(G)$ be a nonempty subset of vertices of $G$. 
 Then
 \begin{equation*}
-\cof D[S] = (-2)^{|S|-1} \det L[\overline S] .
+\cof D[S] = (-2)^{|S|-1} \left( \prod_{e \in E} \alpha_e \right) \det L[\overline S] .
 \end{equation*}
 \end{thm}
 
 \note{check weighted case of above result}
-% \subsection{Distance in trees}
+\begin{proof}
+See Bapat--Sivasubramanian~\cite[Theorem 11]{bapat-sivasubramanian}.
+\end{proof}
 
+% \subsection{Distance in trees}
 \subsection{Tree splits and tree distance}
 \label{sec:tree-splits}
 
@@ -1397,6 +1405,23 @@ if $H = \{v\}$ consists of a single vertex, then $\degout(H) = \deg(v)$.
 
 Later we will make use of the fact that a submatrix $D[S]$ of a distance matrix has nonzero determinant, as long as $|S| \geq 2$.
 
+We first recall a result of Cauchy, which states that the eigenvalues of $M[\overline{i}]$ ``interlace'' the eigenvalues of $M$.
+Recall that $M[\overline{i}]$ denotes the matrix obtained from $M$ by deleting the $i$-th row and column.
+
+\begin{prop}[Cauchy interlacing]
+\label{prop:cauchy-interlacing}
+Suppose $M$ is a symmetric real matrix 
+with ordered eigenvalues $\lambda_1 \leq \cdots \leq \lambda_n$, 
+and  the submatrix $M[\overline{i}]$ has ordered eigenvalues $\mu_1 \leq \cdots \leq \mu_{n-1}$.
+Then
+\[
+	\lambda_1 \leq \mu_1 \leq \lambda_2 \leq \cdots \leq \mu_{n-1} \leq \lambda_n.
+\]
+\end{prop}
+\begin{proof}
+See Horn--Johnson~\cite[Theorem 4.3.17]{horn-johnson}.
+\end{proof}
+
 \begin{lem}[{Bapat~\cite[Lemma 8.15]{bapat}}]
 \label{lem:dist-signature}
 Suppose $D$ is the (weighted) distance matrix of a tree with $n$ vertices. 
@@ -1406,18 +1431,6 @@ Then $D$ has one positive eigenvalue and $n - 1$ negative eigenvalues.
 Lemma 8.15 of~\cite{bapat} is stated for a non-weighted distance matrix;
 however, the same argument applies to a weighted distance matrix by applying Bapat--Kirkland--Neumann's result \eqref{eq:w-full-det} on the weighted distance matrix determinant \cite[Corollary 2.5]{bapat-kirkland-neumann}. 
 \end{proof}
-
-Cauchy interlacing, c.f. Horn--Johnson~\cite[Theorem 4.3.17]{horn-johnson}
-
-\begin{prop}[Cauchy interlacing]
-\label{prop:cauchy-interlacing}
-Suppose $M$ is a symmetric real matrix and $M[\overline{i}]$ is a principal submatrix.
-If $\lambda_1 \leq \cdots \leq \lambda_n$ are the ordered eigenvalues of $M$ and $\mu_1 \leq \cdots \leq \mu_{n-1}$ are the ordered eigenvalues of $M[\overline{i}]$, then
-\[
-\lambda_1 \leq \mu_1 \leq \lambda_2 \leq \cdots \leq \mu_{n-1} \leq \lambda_n.
-\]
-\end{prop}
-In other words, the eigenvalues of $M_i$ ``interlace'' the eigenvalues of $M$.
 
 The following argument was communicated to the author by Bapat, via personal communication.
 \begin{prop}
@@ -1720,7 +1733,7 @@ for the constant
 \end{thm}
 
 \begin{proof}
-For $e\in E$ and $v,w\in V$, let $\delta(e;v,w)$ denote the function defined in Section~\ref{sec:tree-splits}. \note{check section}
+For $e\in E$ and $v,w\in V$, let $\delta(e;v,w)$ denote the function defined in Section~\ref{sec:tree-splits}.
 %\[
 %  \delta(e;v,w) = \begin{cases}
 %  1 &\text{if $e$ separates  $v$ from $w$}, \\
