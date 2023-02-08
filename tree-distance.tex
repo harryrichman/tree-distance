@@ -337,16 +337,17 @@ $\forests_2(G;S)$ the set of $(S,*)$-rooted spanning forests of $G$
 For background on enumeration problems for graphs and trees, 
 see 
 %Moon \cite{moon} or 
-Tutte~\cite[Chapter VI]{tutte}. \note{choose other reference?}
+Tutte~\cite[Chapter VI]{tutte}. 
+%\note{choose other reference?}
 
 Given a graph $G = (V, E)$ with edge weights $\{ \alpha_e : e \in E\}$, for any edge subset $A \subset E$ we define the {\em weight} of $A$ as
-\[
+$\displaystyle
 	w(A) = \prod_{e \in A} \alpha_e.
-\]
+$
 We define the {\em co-weight} of $A$ as
-\[
+$\displaystyle
 	w(\overline A) = \prod_{e \not\in A} \alpha_e.
-\]
+$
 By abuse of notation, if $H$ is a subgraph of $G$, we use $H$ to also denote its subset of edges $E(H)$, so e.g. $\coweight{H} = \coweight{E(H)}$.
 
 \subsection{Spanning trees and forests}
@@ -1213,7 +1214,7 @@ These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respecti
 
 	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
 \end{tikzpicture}
-\caption{Forests in $\forests_2(G;S)$.}
+\caption{Forests in $\forests_2(G;S)$, with floating component highlighted.}
 \label{fig:2-forests}
 \end{figure}
 
@@ -1239,53 +1240,60 @@ the {\em weighted Laplacian matrix} $\La \in \RR^{V\times V}$ is defined by
 Given $S \subset V$,
 let $L[\overline S]$ denote the matrix obtained from $L$ by removing the rows and columns indexed by $S$.
 For any graph $G$, let $\kappa(G)$ denote the number of spanning trees of $G$.
-The following theorem is due to Kirchhoff.
-\begin{thm}[All-minors matrix tree theorem]
+The following theorem related minors of the (weighted) Laplacian to (weighted) counts of rooted spanning forests.
+%is due to Kirchhoff.
+\begin{thm}[Principal-minors matrix tree theorem]
 \label{thm:matrix-tree}
 Let $G = (V,E)$ be a finite graph.
 \begin{enumerate}[(a)]
 \item 
-and let $L$ denote the Laplacian matrix of $G$.
+Let $L$ denote the Laplacian matrix of $G$.
 Then for any nonempty vertex set $S \subset V$,
 \begin{equation}
-\det L[\overline S] = \kappa( G ; S) .
+	\det L[\overline S] = \kappa( G ; S) .
 \end{equation}
 
 \item 
-Let $L_\alpha$ denote the weighted Laplacian matrix of $G$, for edge weights $\{\alpha_e\}$. 
+Let $L_\alpha$ denote the weighted Laplacian matrix of $G$, with edge weights $\{\alpha_e\}$. 
 Then for any nonempty vertex set $S \subset V$,
 \begin{equation}
-\det L[\overline S] = \sum_{T \in \trees( G ; S)} w(T)^{-1}
-= \sum_{T \in \trees(G; S)} w(\overline{T}) \prod_{e \in E} \alpha_e^{-1} .
+	\det L_\alpha[\overline S] = \sum_{T \in \trees( G ; S)} w(T)^{-1}
+	= \sum_{T \in \trees(G; S)} w(\overline{T}) \prod_{e \in E} \alpha_e^{-1} .
 \end{equation}
 \end{enumerate}
 \end{thm}
 \begin{proof}
-See Tutte~\cite[Section VI.6, Equation (VI.6.7)]{tutte} or Chaiken~\cite{chaiken}
+See Tutte~\cite[Section VI.6, Equation (VI.6.7)]{tutte} or Chaiken~\cite{chaiken} or Bapat~\cite[Theorem 4.7]{bapat}.
 \end{proof}
+
 Note that $\kappa(G;S)$ is also the number of 
 % $S$-rooted spanning forests of $G$.
 spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex.
 
-The following result is due to Bapat--Sivasubramanian.
+The following result is due to Bapat--Sivasubramanian~\cite{bapat-sivasubramanian}.
 Recall that $\cof M$ denotes the {\em sum of cofactors} of $M$, i.e. 
 $\displaystyle
 	\cof M = \sum_{i = 1}^{n} \sum_{j = 1}^{n} (-1)^{i + j} \det M[\overline{i},\overline{j}].
 $
 
-\begin{thm}[{Distance matrix cofactor sums \cite[Theorem 11]{bapat-sivasubramanian}}]
-Given a tree $G$,
-let $D$ be the distance matrix of $G$, and $L$ the Laplacian matrix of $G$.
+\begin{thm}[Distance submatrix cofactor sums]
+\label{thm:distance-sub-cof}
+Given a tree $G$ with edge weights,
+let $D$ be the weighted distance matrix of $G$, and $L$ the weighted Laplacian matrix of $G$.
 Let $S \subset V(G)$ be a nonempty subset of vertices of $G$. 
 Then
-\begin{equation*}
-\cof D[S] = (-2)^{|S|-1} \left( \prod_{e \in E} \alpha_e \right) \det L[\overline S] .
-\end{equation*}
+\begin{equation}
+	\cof D[S] = (-2)^{|S|-1} \sum_{T \in \trees(G; S)} w(\overline{T}).
+\end{equation}
 \end{thm}
-
-\note{check weighted case of above result}
 \begin{proof}
-See Bapat--Sivasubramanian~\cite[Theorem 11]{bapat-sivasubramanian}.
+Bapat and Sivasubramanian~\cite[Theorem 11]{bapat-sivasubramanian}
+show that
+\[
+	\cof D[S] = (-2)^{|S|-1} \left( \prod_{e \in E} \alpha_e \right) \det L[\overline S] .
+\]
+Then combine this equation with the matrix tree theorem,
+Theorem~\ref{thm:matrix-tree} (b).
 \end{proof}
 
 % \subsection{Distance in trees}
@@ -1359,28 +1367,40 @@ d(v,w) = \sum_{e \in E(G)} \delta(e; v,w).
 
 \subsection{Outdegree of rooted forest}
 
-Given a rooted forest $F$ in $\forests_1(G;S)$ and $s \in S$,
-let $F(s)$ denote the $s$-component of $F$.
-We define the {\em outdegree} $\degout(F,s)$ as the number of edges which join $F(s)$ to a different component; i.e.
+Given a vertex $v$ in a graph, the {\em degree} $\deg(v)$ is the number of edges incident to $v$.
+%The ``handshake lemma'' of graph theory states that  $\sum_{v \in V(G)} \deg(v) = 2|E|$.
+A consequence of the ``handshake lemma'' of graph theory is that for any tree $G$, we have
+\[
+\sum_{v \in V(G)} (2 - \deg(v)) = 2.
+\]
+In this section we discuss some generalizations, which will be used later.
+
+Given a connected subgraph $H \subset G$,
+we define the {\em outdegree} $\degout(H)$ as the number of edges which join $H$ to its complement; i.e.
 \begin{equation}
-\label{eq:outdeg}
-	\degout(F,s) = \#\{ e = (a,b) \in E : a \in F(s),\, b \not\in F(s)\}.
+	\degout(H) = \#\{ e = (a,b) \in E : a \in V(H),\, b \not\in V(H)\}.
 \end{equation}
-%In words, $\degout(F,s)$ is the number of edges which connect the $s$-component of $F$ to a different component.
-%\[
-%	\#\{ e \in E : e \text{ connects the $s$-component of $F$ to a different component}\}
-%\]
-If $F$ is a forest in $\forests_2(G;S)$, let $\degout(F,*)$ denote the outdegree of the floating component.
 
 \begin{lem}
 \label{lem:outdeg-sum}
-Suppose $G$ is a tree and $H\subset G$ is a (nonempty) connected subgraph.
-Then
+Suppose $G$ is a tree.
+\begin{enumerate}[(a)]
+\item 
+If $H\subset G$ is a (nonempty) connected subgraph, then
 \[
   \sum_{v \in V(H)} \left( 2 -  \deg(v) \right) = 2 - \degout(H) .
 \]
+
+\item 
+If $e$ is a fixed edge and $u$ is a fixed vertex of $G$, then
+\[
+	\sum_{v \in V(G)} (2 - \deg(v)) \delta(e; u,v) = 1.
+\]
+
+\end{enumerate}
 \end{lem}
 \begin{proof}
+(a)
 This is straightforward to check by induction on $|V(H)|$,
 with base case $|V(H)| = 1$:
 if $H = \{v\}$ consists of a single vertex, then $\degout(H) = \deg(v)$.
@@ -1399,7 +1419,30 @@ if $H = \{v\}$ consists of a single vertex, then $\degout(H) = \deg(v)$.
 %  \degout(H) = \degout(H_0) + \deg(v_0) - 2.
 %\]
 %This hold because $\degout(H_0) + \deg(v_0)$ overcounts the unique edge joining $v_0$ to $H_0$, by two.
+
+(b)
+Using part (a), we have
+\[
+	\sum_{v \in V} (2 - \deg(v)) \delta(e; u,v)
+	= \sum_{v \in (G \setminus e)^{\overline u}} (2 - \deg(v))
+	= 2 - \degout((G \setminus e)^{\overline u}) = 1. 
+\] 
+Since the component $(G \setminus e)^{\overline u}$ of the tree split $G \setminus e$ has a single edge separating it from its complement, 
+$\degout((G \setminus e)^{\overline u}) = 1$
 \end{proof}
+
+OLD: Given a rooted forest $F$ in $\forests_1(G;S)$ and $s \in S$,
+let $F(s)$ denote the $s$-component of $F$.
+We define the {\em outdegree} $\degout(F,s)$ as the number of edges which join $F(s)$ to a different component; i.e.
+\begin{equation}
+\label{eq:outdeg}
+	\degout(F,s) = \#\{ e = (a,b) \in E : a \in F(s),\, b \not\in F(s)\}.
+\end{equation}
+%In words, $\degout(F,s)$ is the number of edges which connect the $s$-component of $F$ to a different component.
+%\[
+%	\#\{ e \in E : e \text{ connects the $s$-component of $F$ to a different component}\}
+%\]
+If $F$ is a forest in $\forests_2(G;S)$, let $\degout(F,*)$ denote the outdegree of the floating component.
 
 \subsection{Miscellaneous}
 
@@ -1434,6 +1477,7 @@ however, the same argument applies to a weighted distance matrix by applying Bap
 
 The following argument was communicated to the author by Bapat, via personal communication.
 \begin{prop}
+\label{prop:distance-sub-nonsingular}
 Suppose $D$ is the distance matrix of a tree $G = (V,E)$ and $S \subset V$ is a subset of size $|S| \geq 2$. 
 Then
 \begin{enumerate}[(a)]
@@ -1522,7 +1566,7 @@ If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then
 \]
 where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
 \end{prop}
-
+\begin{proof}
 The gradient of the objective function is $2 D[S] \boldm$, 
 and the gradient of the constraint is $\bone$.
 By the theory of Lagrange multipliers, the optimal solution $\boldm^*$ is a vector satisfying
@@ -1545,10 +1589,12 @@ Thus the optimal objective value is
 $\displaystyle
 	\lambda = \frac{\det D[S]}{\cof D[S]} .
 $
+\end{proof}
 
-\section{Proofs}
+\section{Distance submatrices: Proofs}
 In this section we prove our main result, Theorem~\ref{thm:w-main}.
-Theorem~\ref{thm:main} follows by setting all edge weights to one.
+Theorem~\ref{thm:main} follows as an immediate corollary.
+% by setting all edge weights to one.
 
 Outline of proof: given a  subset $S \subset V$ and distance submatrix $D[S]$, we will
 \begin{enumerate}[(i)]
@@ -1697,24 +1743,39 @@ where $\degout(T,v)$ is the outdegree of the $v$-component of $T$, \eqref{eq:out
 Let $\bone$ denote the all-ones vector.
 \begin{prop}
 \label{prop:m-sum}
-For the vector $\boldm$ defined above, $\displaystyle \bone^\tr \boldm = 2 \,\sum_{T \in \trees(G;S)} w(\overline{T})$.
+For the vector $\boldm$ defined above, 
+\begin{enumerate}[(a)]
+\item 
+$\displaystyle \bone^\tr \boldm = 2 \,\sum_{T \in \trees(G;S)} w(\overline{T})$;
+
+\item 
+if all edge weights $\alpha_e$ are positive, $\boldm$ is nonzero.
+\end{enumerate}
 \end{prop}
 \begin{proof}
+(a)
 By Lemma~\ref{lem:outdeg-sum} we have
 \[
-\boldm_s = \sum_{T \in \trees(G;S)} (2 - \degout (T,s)) w(\overline{T})
-= \sum_{T \in \trees(G;S)} \left( \sum_{v \in T(s)}(2 - \deg(v))\right) w(\overline{T}).
+\boldm_s = \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout (T,s))
+= \sum_{T \in \trees(G;S)} w(\overline{T}) \left( \sum_{v \in T(s)}(2 - \deg(v))\right).
 \]
-Thus
+Then exchange the order of summation in $\bone^\tr \boldm$,
 \begin{align}
-	\bone^\tr \boldm = \sum_{s\in S} \boldm_s &= \sum_{s \in S} \left( \sum_{T \in \trees(G;S)} (2 - \degout (T,s)) w(\overline{T}) \right) \\
-	&= \sum_{T \in \trees(G;S)} w(\overline{T}) \left( \sum_{s\in S} \sum_{v \in T(s)} 2 - \deg(v) \right) \\
-	&= \sum_{T \in \trees} w(\overline{T}) \left( \sum_{v \in V} 2 - \deg(v)\right)
-	= \sum_{T \in \trees} w(\overline{T}) \cdot 2 .
+	\bone^\tr \boldm = \sum_{s\in S} \boldm_s &= \sum_{s \in S} \left( \sum_{T \in \trees(G;S)} w(\overline{T}) \sum_{v \in T(s)}(2 - \deg(v)) \right) \\
+	&= \sum_{T \in \trees(G;S)} w(\overline{T}) \left( \sum_{s\in S} \sum_{v \in T(s)} (2 - \deg(v)) \right) .
 \end{align}
-In the second line we apply Lemma~\ref{lem:outdeg-sum} and exchange the outer summations.
-To obtain the third line, we observe that the vertex sets of $T(s)$ for $s \in S$ form a partition of $V$, since $T$ is an $S$-rooted spanning forest. 
-Finally we again apply Lemma~\ref{lem:outdeg-sum} for the last equality, as $\degout(G) = 0$.
+Next observe that the inner double sum is simply a sum over $v \in V$,
+since the vertex sets of $T(s)$ for $s \in S$ form a partition of $V$ by definition of $S$-rooted spanning forest.
+Thus 
+\[
+	\bone^\tr \boldm = \sum_{T \in \trees} w(\overline{T}) \left( \sum_{v \in V} (2 - \deg(v))\right)
+	= \sum_{T \in \trees} w(\overline{T}) \cdot 2 
+\]
+where we again apply Lemma~\ref{lem:outdeg-sum} for the last equality, as $\degout(G) = 0$.
+
+(b) 
+If all edge weights are positive, then $w(\overline{T}) > 0$ for all $T$, and $\trees(G; S)$ is nonempty as long as $S$ is nonempty. 
+Thus part (a) implies that $\bone^\tr \boldm > 0$.
 \end{proof}
 
 \begin{cor}
@@ -1727,6 +1788,7 @@ With $\boldm = \boldm(G;S)$ defined as in \eqref{eq:m-vector},
 $D[S] \boldm = \lambda \mathbf{1}$
 for the constant
 \begin{equation}
+\label{eq:lambda}
 	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (2 - \degout(F,*) )^2 \, w(\overline{F}) .
 \end{equation}
 %where $\degout(F,w)$ is the out-degree of the $w$-component of $F$ (as a spanning forest).
@@ -1768,7 +1830,9 @@ Using this notation,
 We will compare the above expression with the one obtained after replacing $\delta(e; v,\pi_T(u))$ with $\delta(e; v, u)$.
 From Lemma~\ref{lem:outdeg-sum} again, for any $v \in V$ and $e \in E$ we have
 \[
-	\sum_{u \in V} (2 - \deg(u)) \delta(e; v,u) = 2 - \degout((G\setminus e)^{\overline v}) = 1. 
+	\sum_{u \in V} (2 - \deg(u)) \delta(e; v,u)
+	= \sum_{u \in (G \setminus e)^{\overline v}} (2 - \deg(u))
+	= 2 - \degout((G \setminus e)^{\overline v}) = 1. 
 \] 
 Thus
 \begin{equation}
@@ -1778,7 +1842,7 @@ Thus
 \end{equation}
 After subtracting equation \eqref{eq:10} from \eqref{eq:9},
 \[
-	(D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e = \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \left(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \right)
+	(D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e = \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \Big(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \Big)
 \]
 When $e \in E$ and $v \in V$ are fixed, $u \mapsto \delta(e; v, u)$ is the indicator function of one component of the principal cut $G \setminus e$.
 %Recall that $\delta(e; \cdot,\cdot)$ is a $(0,1)$-valued pseudometric on $V$.
@@ -1802,6 +1866,8 @@ Case 2: if $e \in T(s_0)$ and $s_0$ is separated from $v$ by $e$, then $\delta(e
 Case 3: if $e \in T(s_0)$ and $s_0$ is on the same component as $v$ from $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the negative of the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, right.
 
 \begin{figure}[h]
+\begin{minipage}{0.45\textwidth}
+\centering
 % LABEL 2356
 \begin{tikzpicture}[scale=0.6]
 	\coordinate (1) at (0,0);
@@ -1828,8 +1894,14 @@ Case 3: if $e \in T(s_0)$ and $s_0$ is on the same component as $v$ from $e$, th
 
 	\node[above=0.1] at (1) {$v$};
 	\node[right] at (3) {$s_0$};
+
+	\draw[color=red, line width=6pt, opacity=0.1] (A) circle (10pt);
+	\draw[color=red, line width=3pt, opacity=0.1] (A) circle (10pt);
 \end{tikzpicture}
-\qquad\qquad
+%\qquad\qquad
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+\centering
 % LABEL 2356
 \begin{tikzpicture}[scale=0.6]
 	\coordinate (1) at (0,0);
@@ -1856,14 +1928,19 @@ Case 3: if $e \in T(s_0)$ and $s_0$ is on the same component as $v$ from $e$, th
 
 	\node[above=0.1] at (1) {$v$};
 	\node[right] at (3) {$s_0$};
+
+	\draw[color=red, line width=6pt, opacity=0.1] (C) circle (10pt);
+	\draw[color=red, line width=3pt, opacity=0.1] (C) circle (10pt);
 \end{tikzpicture}
+\end{minipage}
 \caption{Edge $e \in T(s_0)$ with $\delta(e; v, s_0 ) = 1$ (left) and $\delta(e; v, s_0) = 0$ (right). The floating component of $T \setminus e$ is highlighted.}
 \label{fig:e-delete-from-forest}
 \end{figure}
 
 Thus when multiplying the term \eqref{eq:delta-diff} by $(2 - \deg(u))$ and summing over all vertices $u$, we obtain
 \[
-	\sum_{u \in V} (2 - \deg(u)) (\delta(e; v, \pi_T(u)) - \delta(e; v, u)) = \begin{cases}
+	\sum_{u \in V} (2 - \deg(u)) \Big(\delta(e; v, \pi_T(u)) - \delta(e; v, u)\Big) 
+	= \begin{cases}
 	0 &\text{if } e \not \in T, \\
 	2 - \degout(T \setminus e, *) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 1, \\
 	-(2 - \degout(T \setminus e, *)) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 0 .
@@ -1879,7 +1956,9 @@ Thus
 \end{multline}
 
 We now rewrite the above expression in terms of $\forests_2(G;S)$,
-observing that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, if $e \in T$, and that the corresponding weights satisfy
+observing that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, 
+% since $e \in T$, 
+and that the corresponding weights satisfy
 \[
 	w(\overline{F}) = \alpha_e \cdot w(\overline{T}) \qquad\text{if}\qquad F = T \setminus e.
 \]
@@ -1975,13 +2054,13 @@ Thus
 \end{multline}
 Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
 there is exactly one edge $e$ in the boundary $\partial F(*)$ of the floating component which satisfies $\delta(e; v, F(*)) = 1$, namely the unique boundary edge on the path from the floating component $F(*)$ to $v$.
-The previous expression \eqref{eq:1} simplifies as
+Hence
 \[
 	\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 1 \} = 1
 \qquad\text{and}\qquad
 	\#\{e \in \partial (F,*) : \delta(e;v, F(*)) = 0 \} = \deg^o(F,*) - 1 .
 \]
-Thus
+Thus the previous expression \eqref{eq:1} simplifies as
 \begin{align*}
 	\eqref{eq:1} &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Big( (\degout(F,*) - 1)  - (1) \Big) \\
 	% &\qquad - \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*)) (1) \\
@@ -2090,31 +2169,59 @@ as desired.
 %$$
 %\end{rmk}
 
-Finally we can prove our main theorem.
-
+Finally we can prove our main theorem: for any nonempty subset $S \subset V(G)$,
+\begin{equation}
+\label{eq:w-main-later}
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right).
+\end{equation}
 \begin{proof}[Proof of Theorem~\ref{thm:w-main}]
+First, suppose $|S| = 1$.
+Then $D[S]$ is the zero matrix, and we must show that the right-hand side is zero.
+Since $G$ is a tree, $\trees(G; \{v\})$ consists of the tree $G$ itself, with co-weight $w(\overline{G}) = 1$.
+Moreover, the subgraphs in $\forests_2(G; \{v\})$ are precisely the tree splits $G \setminus e$, and for each $F = G \setminus e$ we have 
+$w(\overline{F}) = \alpha_e$ and
+$\degout(F, *) - 2 = -1$.
+This shows that the right-hand size of \eqref{eq:w-main-later} is zero.
+
+Next, suppose $|S| \geq 2$.
+Proposition~\ref{prop:distance-sub-nonsingular} states that $D[S]$ is nonsingular, so we may use the inverse matrix identity
+\begin{equation}\label{eq:cof-invsere-sum}
+	\bone^\tr D[S]^{-1} \bone =
+	\frac{\cof D[S]}{\det D[S]}. 
+\end{equation}
 Let $\boldm = \boldm(G; S)$ denote the vector \eqref{eq:m-vector}.
+By 
+Proposition~\ref{prop:m-sum} (a) and
+% Bapat--Sivasubramanian~\cite[Theorem X]{bapat-sivasubramanian},
+Theorem~\ref{thm:distance-sub-cof},
+\[
+	\bone^\tr \boldm 
+	= 2 \sum_{T \in \trees(G;S)} w(\overline{T})
+	= \frac{\cof D[S]}{(-1)^{1 - |S|} 2^{2 - |S|} }.
+\]
 Theorem~\ref{thm:m-distance-product} states that $D[S] \boldm = \lambda \bone$
 for some constant $\lambda$,
-and Proposition~\ref{prop:m-sum} states that
-$\bone^\tr \boldm = 2 \sum_{T \in \trees(G;S)} w(\overline{T})$.
+which is nonzero since $D[S]$ is invertible and $\boldm$ is nonzero, c.f. Proposition~\ref{prop:m-sum} (b).
+Hence
+\begin{equation}\label{eq:inverse-sum-entries}
+	% \frac{\cof D[S]}{\det D[S]} = 
+	\bone^\tr D[S]^{-1} \bone
+	= \lambda^{-1} \bone^\tr \boldm
+	= \frac{\cof D[S]}{(-1)^{|S| - 1} 2^{|S| - 1} \lambda} .
+\end{equation}
+Comparing \eqref{eq:cof-invsere-sum} with \eqref{eq:inverse-sum-entries} gives the desired result,
+$\det D[S] = (-1)^{|S| - 1} 2^{|S| - 1} \lambda$.
+\end{proof}
 
-By Bapat--Sivasubramanian~\cite[Theorem X]{bapat-sivasubramanian},
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Set all weights $\alpha_e$ to $1$ in Theorem~\ref{thm:w-main}.
+In this case, the weights $w(\overline{T}) = 1$ and $w(\overline{F}) = 2$ for all forests $T$ and $F$,
+and 
 \[
-\bone^\tr \boldm = (-1)^{1 - |S|} 2^{2 - |S|} \cof D[S].
+n - 1 = |E(G)|, 
+\qquad \kappa_1(G; S) = | \trees(G;S)|.
+%\qquad \kappa_2(G; S) = | \forests_2(G; S)| .
 \]
-
-Therefore
-\[
-\det D[S] = \frac{\cof D[S]}{\bone^\tr D[S]^{-1} \bone}
-= \frac{\cof D[S]}{\lambda^{-1} \bone^\tr \boldm}
-\]
-\[
-\frac{\cof D[S]}{\det D[S]} = \bone^\tr D[S]^{-1} \bone
-= \frac{1}{\lambda} \bone^\tr \boldm
-= \frac{\cof D[S]}{(-1)^{|S| - 1} 2^{|S| - 1} \lambda} .
-\]
-Since ..
 \end{proof}
 
 \begin{rmk}
@@ -2128,11 +2235,11 @@ However, the formulas as stated are true even without this replacement due to ca
 
 \section{Physical interpretation}
 
-If we consider $G$ as a network of wires with each edge containing a unit resistor,
+If we consider $G$ as a network of wires with edge $e$ containing a resistor of resistance $\alpha_e$,
 which is grounded at all nodes in $S$,
 then $\boldm_S$ has an interpretation as current flow: 
 it records the currents flowing to $S$
-when current is added on $V\setminus S$ in the amount $2 - \deg v$
+when current enters the vertices in the amount $2 - \deg v$
 for each $v\not\in S$.
 
 \subsection{Alternate proof}
@@ -2286,32 +2393,39 @@ The determinant is
 Suppose $\Gamma$ is a tripod with lengths $a,b,c$ and corresponding leaf vertices $u,v,w$.
 \[
 \begin{tikzpicture}
-	\filldraw[black] (-2,0) coordinate (u) circle (2pt);
-	\filldraw[black] (2,1) coordinate (v) circle (2pt);
-	\filldraw[black] (2,-1) coordinate (w) circle (2pt);
-	\filldraw[black] (0,0) coordinate(o) circle (2pt);
+	\coordinate (u) at (-2,0);
+	\coordinate (v) at (2,1);
+	\coordinate (w) at (2,-1);
+	\coordinate (o) at (0,0);
 
 	\draw (o) -- (u);
 	\draw (v) -- (o) -- (w);
 
-	\node[left] at (u) {$u$};
-	\node[right] at (v) {$v$};
-	\node[right] at (w) {$w$};
+	\foreach \c in {u, v, w, o} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {u, v, w} {
+		\draw (\c) circle (4pt);
+	}
+	
+	\node[left=2pt] at (u) {$u$};
+	\node[right=2pt] at (v) {$v$};
+	\node[right=2pt] at (w) {$w$};
 
 	\node[above] at (-1,0) {$a$};
 	\node[above] at (1,0.5) {$b$};
-	\node[below] at (1,-0.5) {$c$};
+	\node[above right] at (1,-0.5) {$c$};
 \end{tikzpicture}
 \]
 Let $S = \{u,v,w\}$.
 Then 
-$$
-D[S] = \begin{bmatrix}
-0 & a + b & a + c \\
-a + b & 0 & b + c \\
-a + c & b + c & 0
-\end{bmatrix}.
-$$
+\[
+	D[S] = \begin{bmatrix}
+	0 & a + b & a + c \\
+	a + b & 0 & b + c \\
+	a + c & b + c & 0
+	\end{bmatrix}.
+\]
 and
 \begin{align*}
 	\det D[S] &= 2(a+b)(a+c)(b+c) 
@@ -2768,21 +2882,29 @@ $$
 
 It is natural to ask whether these results for trees may be generalized to arbitrary finite graphs.
 
+We address this in \cite{richman-shokrieh-wu}, which involve more technical machinery.
 
-See \cite{richman-shokrieh-wu}, \cite{richman-shokrieh-wu-2}.
+See \cite{richman-shokrieh-wu-2}.
 
 \subsection{Symanzik polynomials}
 
-We note that the expression in the main theorem \todo{cite} is related to Symanzik polynomials, which we recall here.
+We note that the expression in the main theorem, Theorem~\ref{thm:w-main}, is related to Symanzik polynomials, which we recall here.
 
-Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is the homogeneous polynomial in $\underline{x} = \{x_e : e \in E\}$
+Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is the homogeneous polynomial in edge-indexed variables $\underline{x} = \{x_e : e \in E\}$ defined by
 \[
-	\psi_G(\underline{x}) = \sum_{T \in \trees(G)} \prod_{e \not \in T} x_e .
+	\psi_G(\underline{x}) = \sum_{T \in \trees(G)} \prod_{e \not \in T} x_e ,
 \]
-while the second Symanzik polynomial is
+where $\trees(G)$ denotes the set of spanning trees of $G$.
+
+Consider a ``momentum'' function $p: V \to \RR$ which satisfies $\sum_{v \in V} p(v) = 0$.
+Then the second Symanzik polynomial is
 \[
-	\varphi_G(p; \underline{x}) = \sum_{F \in \forests_2(G)} \left(\sum_{v \in F_1} p(v) \right)^2 \prod_{e \not\in F} x_e .
+	\varphi_G(p; \underline{x}) = \sum_{F \in \forests_2(G)} \left(\sum_{v \in F_1} p(v) \right)^2 \prod_{e \not\in F} x_e ,
 \]
+where $\forests_2(G)$ is the set of two-component spanning forests of $G$, and $F_1$ denotes one of the components of $F$.
+It doesn't matter which component we label as $F_1$, due to the momemtum constraint $\sum_{v \in V} p(v) = 0$.
+% If $F_2$ denotes the other component of $F$, the constraint $\sum_{v \in V} p(v) = 0$ implies that
+% $\left(\sum_{v \in F_1} p(v) \right)^2 = \left(\sum_{v \in F_2} p(v) \right)^2$.
 
 Theorem statement:
 \[
@@ -2792,8 +2914,13 @@ Theorem statement:
 	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right)
 \]
 In terms of Symanzik polynomials, let $\psi$ and $\varphi$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
+We have
 \[
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{G/S}(p; \underline{\alpha})}{\psi_{G/S}(\underline{\alpha})} \right)
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p; \underline{\alpha}) \right).
+\]
+and
+\[
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right)
 \]
 with momentum function $p(v) = \degout(v) - 2$ for $v \not \in S$.
 
