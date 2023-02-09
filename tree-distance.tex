@@ -43,6 +43,7 @@
 \newcommand{\cL}{\mathcal{L}}
 \newcommand{\cC}{\mathcal{C}}
 \newcommand{\cE}{\mathcal{E}}
+
 % indicator function
 \newcommand{\one}{\mathds{1}}
 % bold one
@@ -96,6 +97,7 @@
 \newcommand{\degout}{\deg^o}
 \DeclareMathOperator{\indeg}{indeg}
 \newcommand{\coweight}[1]{w(\overline{#1})}
+\newcommand{\display}{\displaystyle}
 
 % for comments
 \newcommand{\note}[1]{{\color{red} \sf $\diamondsuit$  {#1} $\diamondsuit$ }}
@@ -192,7 +194,7 @@ We also prove the following weighted version of our main theorem.
 \label{thm:w-main}
 Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and corresponding weighted distance matrix $D = \Da$. For any nonempty subset $S \subset V$, we have
 \begin{equation}\label{eq:w-main}
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right).
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right),
 \end{equation}
 where 
 $\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
@@ -215,7 +217,7 @@ Suppose we fix a tree distance matrix $D$.
 It is natural to ask, how do the expressions $\det D[S]$ vary as we vary the vertex subset $S$? 
 %Rather than address this directly, 
 %we have the following result, Theorem~\ref{thm:monotonic},
-To our knowledge there is no nice behavior among the determinants, but  as $S$ varies there is nice behavior of the ratios $\det D[S] / \cof D[S]$ which we describe here.
+To our knowledge there is no nice behavior among the determinants, but  as $S$ varies there is nice behavior of the ``normalized'' ratios $\det D[S] / \cof D[S]$ which we describe here.
 
 Given a matrix $A$, let $\cof A$ denote the {\em sum of cofactors} of $A$, i.e. 
 \[
@@ -249,8 +251,7 @@ then
 	\frac{\det D[A]}{\cof D[A]}  \leq \frac{\det D[B]}{\cof D[B]}.
 \end{equation*}
 \end{thm}
-
-We remark that the calculation of $\det D[S]$ is related to the following quadratic optimization problem: for all vectors $ \boldm \in \RR^S$,
+The essential observation behind this result is that $\det D[S] / \cof D[S]$ is calculated via the following quadratic optimization problem: for all vectors $ \boldm \in \RR^S$,
 \begin{align}
 	\text{optimize objective function:} &\quad \boldm^\tr D[S] \boldm \\
 	\text{with constraint:} &\quad \bone^\tr \boldm = 1.
@@ -262,17 +263,21 @@ We remark that the calculation of $\det D[S]$ is related to the following quadra
 %\]
 %where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
 %\end{prop}
-This result can be shown using Lagrange multipliers; for details, see Section~\ref{sec:optimization}
+This result can be shown using Lagrange multipliers,
+and relies of knowledge of the signature of $D[S]$.
+For details, see Section~\ref{sec:optimization}.
 
-\begin{thm}[Bounds on principal minor ratios]
-Suppose $G = (V,E)$ is a finite, weighted tree with distance matrix $D$.
-\begin{enumerate}
-\item 
 If $S \subset V(G)$ is nonempty,
+the expression \eqref{eq:det-cof} immediately implies the bound
 \begin{equation*}
 0 \leq \frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{E(G)} \alpha_e .
 \end{equation*}
+We get refined bounds by making use of the monotonicity property, Theorem~\ref{thm:monotonic}.
 
+\begin{thm}[Bounds on principal minor ratios]
+\label{thm:det-cof-bounds}
+Suppose $G = (V,E)$ is a finite, weighted tree with distance matrix $D$.
+\begin{enumerate}[(a)]
 \item 
 If $\conv(S,G)$ denotes the subtree of $G$ consisting of all paths between points of $S \subset V(G)$,
 \begin{equation*}
@@ -1547,7 +1552,10 @@ For a forest $T$ in $\trees(G; S)$, the preimage under this map has $|E(T)|$-man
 \section{Optimization: quadratic programming}
 \label{sec:optimization}
 
+In this section, we explain how the quantity $\displaystyle \frac{\det D[S]}{\cof D[S]}$ arises as the solution of a quadratic optimization problem.
+
 \begin{prop}
+\label{prop:optimization}
 If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
 %any critical value of the optimization problem \note{cite above} is equal to ${\det D[S]}/{\cof D[S]}$, i.e.
 \[
@@ -1556,14 +1564,12 @@ If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then
 where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
 \end{prop}
 
-\begin{prop}
-If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
-\[
-	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D \boldm : \boldm \in \RR^V,\, \bone^\tr \boldm = 1,\, \boldm_v = 0 \text{ if } v \not\in S \}
-\]
-where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
-\end{prop}
 \begin{proof}
+If $|S| = 1$ then $D[S]$ is the zero matrix and the statement is true trivially.
+
+\note{TODO show that objective function is concave on domain $\bone^\tr \boldm = 1$}
+
+Now assume $|S| \geq 2$.
 The gradient of the objective function is $2 D[S] \boldm$, 
 and the gradient of the constraint is $\bone$.
 By the theory of Lagrange multipliers, the optimal solution $\boldm^*$ is a vector satisfying
@@ -1577,7 +1583,7 @@ The constant $\lambda$ is in fact the optimal objective value, since
 The above computation uses the fact that $D[S]$ is a symmetric matrix, and the given constraint $\bone^\tr \boldm = 1$.
 
 On the other hand,
-assuming $D[S]$ is invertible we have $ \boldm^* = \lambda (D[S]^{-1} \bone) $, so that
+since $D[S]$ is invertible (Proposition~\ref{prop:distance-sub-nonsingular}) we have $ \boldm^* = \lambda (D[S]^{-1} \bone) $, so that
 \[
 	1 = \bone^\tr \boldm^* = \lambda (\bone^\tr D[S]^{-1} \bone)
 	= \lambda \frac{\cof D[S]}{\det D[S]}.
@@ -1587,6 +1593,53 @@ $\displaystyle
 	\lambda = \frac{\det D[S]}{\cof D[S]} .
 $
 \end{proof}
+
+\begin{cor}
+\label{cor:optimization}
+If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
+\[
+	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D \boldm : \boldm \in \RR^V,\, \bone^\tr \boldm = 1,\, \boldm_v = 0 \text{ if } v \not\in S \}
+\]
+where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
+\end{cor}
+
+\begin{proof}[Proof of Theorem~\ref{thm:monotonic}]
+We are to show that for vertex subsets $A \subset B$, we have
+$\displaystyle 
+\frac{\det D[A]}{\cof D[A]} \leq \frac{\det D[B]}{\cof D[B]}.
+$
+By Corollary~\ref{cor:optimization}, both values $\display \frac{\det D[A]}{\cof D[A]}$ and $\display \frac{\det D[B]}{\cof D[B]}$ arise from optimizing the same objective function, 
+but the constraint for $A$ is more strict.
+\end{proof}
+
+\begin{proof}[Proof of \ref{thm:det-cof-bounds}]
+(a)
+To see that
+\begin{equation*}
+ \frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{E(\conv(S, G))} \alpha_e .
+\end{equation*}
+take $B$ as the set of vertices in $\conv(S, G)$.
+Then $S \subset B$, and 
+\[
+ \frac{\det D[B]}{\cof D[B]} = \frac12 \sum_{E(\conv(S, G))} \alpha_e .
+\]
+
+(b) 
+To see that
+\begin{equation*}
+	\frac12 \sum_{e \in \gamma} \alpha_e \leq \frac{\det D[S]}{\cof D[S]},
+\end{equation*}
+take $A$ as the set of endpoints of $\gamma$.
+(where 
+If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$)
+Then $A \subset S$ by assumption, and
+\[
+	\frac{\det D[A]}{\cof D[A]}
+	= \frac12 \sum_{e \in \gamma} \alpha_e .
+	\qedhere
+\]
+\end{proof}
+
 
 \section{Distance submatrices: Proofs}
 In this section we prove our main result, Theorem~\ref{thm:w-main}.
@@ -1599,21 +1652,34 @@ Outline of proof: given a  subset $S \subset V$ and distance submatrix $D[S]$, w
 Find vector $\boldm \in \RR^S$ such that $D[S]\boldm = \lambda \mathbf{1} \in \RR^S$.
 
 \item 
-Compute the sum of entries of $\boldm$, i.e. $\mathbf{1}^\tr \boldm$.
+Compute the sum of entries of $\boldm$, i.e. $\mathbf{1}^\tr \boldm$, and normalize
+\[
+	\boldm^* = \frac{\boldm}{\bone^\tr \boldm}.
+\]
+This solves the optimization problem of Section~\ref{sec:optimization}.
 
 \item 
-Using (i), relate the sum $\bone^\tr \boldm$ to the sum of entries of the inverse matrix $D[S]^{-1}$:
-%note the identity
-$$ \mathbf{1}^\tr \boldm 
-= \lambda (\mathbf{1}^\tr D[S]^{-1} \mathbf{1}) 
-= \lambda \frac{\cof D[S]}{\det D[S]} .$$
+Find optimal objective value
+$D[S] \boldm^* = \lambda^* \bone$
+where
+\[
+	\lambda^* = \frac{\lambda}{\bone^\tr \boldm}.
+\]
+
+\item 
+Using Theorem~\ref{prop:optimization}, 
+%relate the sum $\bone^\tr \boldm$ to the sum of entries of the inverse matrix $D[S]^{-1}$:
+\[
+\frac{\det D[S]}{\cof D[S]} 
+= \lambda^*
+= \frac{\lambda}{\mathbf{1}^\tr \boldm } 
+\]
 where $\cof D[S]$ is the sum of cofactors of $D[S]$.
 
-\item 
+\item
 Use known expression for $\cof D[S]$ to compute
-$$
-\det D[S] = \lambda (\cof D[S]) \left( \mathbf{1}^\tr \boldm \right)^{-1}.
-$$
+$\det D[S]$
+% $ = \lambda (\cof D[S]) \left( \mathbf{1}^\tr \boldm \right)^{-1}.$
 \end{enumerate}
 The interesting part  of this expression will turn out to be in the constant $\lambda$.
 
@@ -1825,21 +1891,25 @@ Using this notation,
 	(D[S] \boldm)_v = \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,\pi_T(u)) \right)
 \end{equation}
 We will compare the above expression with the one obtained after replacing $\delta(e; v,\pi_T(u))$ with $\delta(e; v, u)$.
-From Lemma~\ref{lem:outdeg-sum} again, for any $v \in V$ and $e \in E$ we have
-\[
+From Lemma~\ref{lem:outdeg-sum} (b), 
+%for any $v \in V$ and $e \in E$ 
+we have
+$\displaystyle
 	\sum_{u \in V} (2 - \deg(u)) \delta(e; v,u)
-	= \sum_{u \in (G \setminus e)^{\overline v}} (2 - \deg(u))
-	= 2 - \degout((G \setminus e)^{\overline v}) = 1. 
-\] 
+	% = \sum_{u \in (G \setminus e)^{\overline v}} (2 - \deg(u))
+	% = 2 - \degout((G \setminus e)^{\overline v}) 
+	= 1. 
+$
 Thus
 \begin{equation}
 \label{eq:10}
 	\sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e
 	= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,u) \right) 
 \end{equation}
-After subtracting equation \eqref{eq:10} from \eqref{eq:9},
+By subtracting equation \eqref{eq:10} from \eqref{eq:9},
 \[
-	(D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e = \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \Big(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \Big)
+	(D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e 
+	= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \Big(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \Big).
 \]
 When $e \in E$ and $v \in V$ are fixed, $u \mapsto \delta(e; v, u)$ is the indicator function of one component of the principal cut $G \setminus e$.
 %Recall that $\delta(e; \cdot,\cdot)$ is a $(0,1)$-valued pseudometric on $V$.
@@ -1944,13 +2014,13 @@ Thus when multiplying the term \eqref{eq:delta-diff} by $(2 - \deg(u))$ and summ
 	\end{cases}
 \]
 Thus
-\begin{multline}\label{eq:1}
-	(D[S] \boldm)(v) - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \\
-	= \sum_{T\in \trees} w(\overline{T}) \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} \alpha_e ( 2 - \deg^o(T\setminus e,*)) 
+\begin{align}\label{eq:1}
+	&(D[S] \boldm)(v) - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \\
+	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} \alpha_e ( 2 - \deg^o(T\setminus e,*)) 
 	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} \alpha_e (2 - \deg^o(T\setminus e,*) ) \right)\\
-	= \sum_{T\in \trees} w(\overline{T}) \sum_{e \in T} \alpha_e ( 2 - \deg^o(T\setminus e,*)) \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} 1
+	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{e \in T} \alpha_e ( 2 - \deg^o(T\setminus e,*)) \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} 1
 	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} 1 \right).
-\end{multline}
+\end{align}
 
 We now rewrite the above expression in terms of $\forests_2(G;S)$,
 observing that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, 
@@ -2215,9 +2285,10 @@ Set all weights $\alpha_e$ to $1$ in Theorem~\ref{thm:w-main}.
 In this case, the weights $w(\overline{T}) = 1$ and $w(\overline{F}) = 2$ for all forests $T$ and $F$,
 and 
 \[
-n - 1 = |E(G)|, 
-\qquad \kappa_1(G; S) = | \trees(G;S)|.
-%\qquad \kappa_2(G; S) = | \forests_2(G; S)| .
+	\sum_{e \in E} \alpha_e = n - 1, 
+	\qquad \sum_{T \in \trees(G;S)} w(\overline{T}) = \kappa_1(G; S).
+	%\qquad \kappa_2(G; S) = | \forests_2(G; S)| .
+	\qedhere
 \]
 \end{proof}
 
@@ -2236,7 +2307,7 @@ If we consider $G$ as a network of wires with edge $e$ containing a resistor of 
 which is grounded at all nodes in $S$,
 then $\boldm_S$ has an interpretation as current flow: 
 it records the currents flowing to $S$
-when current enters the vertices in the amount $2 - \deg v$
+when current enters the vertices in the amount $\deg(v) - 2$
 for each $v\not\in S$.
 
 \subsection{Alternate proof}
@@ -2264,6 +2335,16 @@ when
 $G$ is grounded at $S$
 and 
 one unit of current enters $G$ at $v$.
+Consider the vector $\mathbf{n} = \mathbf{n}(G;S,v) \in \RR^V$ defined by
+\[
+	\mathbf{n}_u = \begin{cases}
+	1 &\text{if } u = v, \\
+	-\mu(v,u) &\text{if } u \in S, \qquad \\
+	0 &\text{otherwise}.
+	\end{cases}
+\]
+Then $D\mathbf{n}$ is constant on $S$, i.e. $\pi_S( D \mathbf{n}) = \lambda \mathbf{1}$ for some $\lambda$.
+\end{prop}
 Explicitly,
 \begin{equation*}
 \mu(v,s) =  \frac{\text{\# of $S$-rooted spanning forests of $G$ whose $s_j$-component contains $v$}}{\text{\# of $S$-rooted spanning forests of $G$}}
@@ -2271,18 +2352,13 @@ Explicitly,
 \end{equation*}
 \[
 = \frac{\sum_{\trees(G/S)} \mathds{1}(v \in T(s))}{\kappa(G/S)}
+= \frac{\sum_{\trees(G/S)} \mathds{1}(\pi_T(v) = s)}{\kappa(G/S)}
 \]
+If $s = s_j$, then
 \[
-= \frac{\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)}{\kappa_r(s_1|\cdots|s_r)}
+	\mu(v, s_j) = \frac{\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)}{\kappa_r(s_1|\cdots|s_r)}
 \]
-Consider the vector $\mathbf{n} = \mathbf{n}(G;S,v) \in \RR^V$ defined by
-\[
-	\mathbf{n}_v = 1,\qquad
-	\mathbf{n}_s = -\mu(v,s) \text{ if }s \in S, \qquad
-	\mathbf{n}_w = 0 \text{ if } w \not\in S \cup v
-\]
-Then $D\mathbf{n}$ is constant on $S$, i.e. $\pi_S( D \mathbf{n}) = \lambda \mathbf{1}$ for some $\lambda$.
-\end{prop}
+
 \begin{proof}[Proof sketch]
 For any $s, s' \in S$, consider tracking the value of $D \mathbf{n}$ along path from $s$ to $s'$. 
 The value of $D \mathbf{n}$ changes according to current flow in the corresponding network, i.e. $D \mathbf{n}$ records electrical potential.
@@ -2294,14 +2370,18 @@ Let $G$ be a tree, $S$ a nonempty subset of vertices,
 and $D[S]$ the corresponding submatrix of the distance matrix of $G$.
 Suppose $\boldm = \boldm(G;S) \in \RR^{S}$ is defined by \eqref{eq:m-vector};
 \begin{equation}
-\boldm(G;S)_v = \sum_{T \in \trees(G;S)} w(\overline{T}) \sum_{u \in T(v)} (2 - \deg u) 
-= \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout(T,v)) .
+	\boldm(G;S)_s = \sum_{T \in \trees(G;S)} w(\overline{T}) \sum_{u \in T(s)} (2 - \deg u) 
+	= \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout(T,s)) .
 \end{equation}
 Then $D[S] \boldm = \lambda \bone$
 for some constant $\lambda$.
 \end{thm}
 \begin{proof}
 The vector $\boldm = \boldm(G;S)$ can be expressed as a linear combination
+\[
+	\boldm(G; S) = \sum_{T \in \trees(G; S)} w(\overline{T}) \sum_{u \in V} (2 - \deg(u)) \bolddelta(\pi_T(u)).
+\]
+Therefore
 \begin{align}
 	\boldm (G;S)
 	&= \kappa(G;S) \left( \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
@@ -2314,16 +2394,6 @@ From Proposition~\ref{prop:m-distance-warmup} we know that $D \boldm(G;V)$ is co
 and from Proposition~\ref{prop:n-vector} we know that $D \boldn(G;S,v)$ is constant on $S$.
 Hence by linearity, $D \boldm(G;S)$ is constant on $S$.
 \end{proof}
-
-\begin{prop}
-Let $G = (V,E)$ be a tree, and $S \subset V$.
-Suppose we label $S = \{s_1, \ldots, s_r\}$
-and $V \setminus S = \{t_1, \ldots, t_{n-r}\}$.
-For each $t_i \in V\setminus S$,
-consider
-$\mathbf{f}_i  \in \RR^V$
-defined by
-\end{prop}
 
 \begin{eg}
 If 
