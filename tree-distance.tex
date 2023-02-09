@@ -366,21 +366,24 @@ is a spanning forest which has exactly one vertex $v_i$ in each connected compon
 An {\em $(S,*)$-rooted spanning forest} of $G$ is a spanning forest which has $|S|+1$ components, where $|S|$ components each contain one vertex of $S$, and the additional component is disjoint from $S$.
 We call the component disjoint from $S$ the {\em floating component}, following terminology in \cite{kassel-kenyon-wu}.
 
+Given $s \in S$ and a forest $F$ in $\trees(G; S)$ or $\forests_2(G; S)$, we let $F(s)$ denote the $s$-component of $F$, and let $F(*)$ denote the floating component (if $F \in \forests_2$).
+
+Let $\kappa(G;S)$ denote the number of $S$-rooted spanning forests of $G$, and let $\kappa_2(G; S)$ denote the number of $(S,*)$-rooted spanning forests.
 Let $\trees(G;S)$ denote the set of $S$-rooted spanning forests of $G$,
 and let $\forests_2(G;S)$ denote the set of $(S,*)$-rooted spanning forests of $G$.
 
 Let 
-$$
-\kappa_k(v_1|v_2| \cdots | v_k)
-$$
+\[
+	\kappa_k(v_1|v_2| \cdots | v_k)
+\]
 denote the number of $k$-component spanning trees which have a vertex $v_i$ in each component.
 If $S = \{v_1,\ldots, v_k\}$,
-then $\kappa_k(v_1|\cdots| v_k) = \kappa(G/S)$.
+then $\kappa_k(v_1|\cdots| v_k) = \kappa(G; S) =  \kappa(G/S)$.
 
 If $u, v, w$ are vertices, then let
-$$
-\kappa_2(u v | w)
-$$
+\[
+	\kappa_2(u v | w)
+\]
 denote the number of two-forests which have $u, v$ in one component and $w$ in the other component.
 
 \begin{eg}
@@ -1270,7 +1273,8 @@ Note that $\kappa(G;S)$ is also the number of
 % $S$-rooted spanning forests of $G$.
 spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex.
 
-The following result is due to Bapat--Sivasubramanian~\cite{bapat-sivasubramanian}.
+Next we recall a connection between minors of the Laplacian matrix and cofactor sums of the distance matrix, when $G$ is a tree.
+The result is due to Bapat--Sivasubramanian~\cite{bapat-sivasubramanian}.
 Recall that $\cof M$ denotes the {\em sum of cofactors} of $M$, i.e. 
 $\displaystyle
 	\cof M = \sum_{i = 1}^{n} \sum_{j = 1}^{n} (-1)^{i + j} \det M[\overline{i},\overline{j}].
@@ -1317,8 +1321,9 @@ Tree splits can be used to express the path distance between vertices in a tree.
 Given an edge $e\in E$ and vertices $v,w \in V$, let 
 \begin{equation}
 \delta(e;v,w) = \begin{cases}
-  1 &\text{if $e$ separates  $v$ from $w$}, \\
-  0 &\text{otherwise}.
+	1 &\text{if $e$ separates  $v$ from $w$}, \\
+	%1 &\text{if $e$ lies on $v\sim w$ path}, \\
+	0 &\text{otherwise}.
 \end{cases}
 \end{equation}
 In other words, $\delta(e; v,w) = 1$ if the vertices are in different components of the split $G \setminus e$,
@@ -1332,7 +1337,7 @@ Note that $\delta(e; v,v) = 0$ for any $e$ and $v$.
 %\end{equation}
 
 We have the following perspectives on the function $\delta(e; v,w)$:
-\begin{itemize}
+\begin{enumerate}[(i)]
 \item 
 If we fix $e$ and $v$,
 then $\delta(e;v, -) : V(G) \to \{0,1\}$ 
@@ -1345,7 +1350,7 @@ not containing $v$.
 On the other hand if we fix $v$ and $w$, then $\delta(-;v,w) : E(G) \to \{0,1\}$
 is the indicator function for the unique $v \sim w$ path in $G$.
 
-\end{itemize}
+\end{enumerate}
 
 
 \begin{prop}[Weighted tree distance]
@@ -1357,11 +1362,7 @@ the weighted distance function satisfies
 
 For an unweighted tree, we can express the tree distance $d(v,w)$ as the unweighted sum
 \begin{equation*}
-d(v,w) = \sum_{e \in E(G)} \delta(e; v,w).
-%\qquad\text{where } \delta(e; v,w) = \begin{cases}
-%1 &\text{if $e$ lies on $v\sim w$ path}, \\
-%0 &\text{otherwise}.
-%\end{cases}
+	d(v,w) = \sum_{e \in E(G)} \delta(e; v,w).
 \end{equation*}
 
 
@@ -2355,6 +2356,43 @@ ab + ac + bc \\ -bc \\ -ac \\ -ab
 $$
 \end{eg}
 
+\subsection{Symanzik polynomials}
+
+We note that the expression in the main theorem, Theorem~\ref{thm:w-main}, is related to Symanzik polynomials, which we recall here.
+
+Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is the homogeneous polynomial in edge-indexed variables $\underline{x} = \{x_e : e \in E\}$ defined by
+\[
+	\psi_G(\underline{x}) = \sum_{T \in \trees(G)} \prod_{e \not \in T} x_e ,
+\]
+where $\trees(G)$ denotes the set of spanning trees of $G$.
+
+Consider a ``momentum'' function $p: V \to \RR$ which satisfies $\sum_{v \in V} p(v) = 0$.
+Then the second Symanzik polynomial is
+\[
+	\varphi_G(p; \underline{x}) = \sum_{F \in \forests_2(G)} \left(\sum_{v \in F_1} p(v) \right)^2 \prod_{e \not\in F} x_e ,
+\]
+where $\forests_2(G)$ is the set of two-component spanning forests of $G$, and $F_1$ denotes one of the components of $F$.
+It doesn't matter which component we label as $F_1$, due to the momemtum constraint $\sum_{v \in V} p(v) = 0$.
+% If $F_2$ denotes the other component of $F$, the constraint $\sum_{v \in V} p(v) = 0$ implies that
+% $\left(\sum_{v \in F_1} p(v) \right)^2 = \left(\sum_{v \in F_2} p(v) \right)^2$.
+
+Theorem statement:
+\[
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right).
+\]
+\[
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right)
+\]
+In terms of Symanzik polynomials, let $\psi$ and $\varphi$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
+We have
+\[
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p; \underline{\alpha}) \right).
+\]
+and
+\[
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right)
+\]
+with momentum function $p(v) = \deg(v) - 2$ for $v \not \in S$.
 
 
 \section{Examples}
@@ -2886,43 +2924,6 @@ We address this in \cite{richman-shokrieh-wu}, which involve more technical mach
 
 See \cite{richman-shokrieh-wu-2}.
 
-\subsection{Symanzik polynomials}
-
-We note that the expression in the main theorem, Theorem~\ref{thm:w-main}, is related to Symanzik polynomials, which we recall here.
-
-Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is the homogeneous polynomial in edge-indexed variables $\underline{x} = \{x_e : e \in E\}$ defined by
-\[
-	\psi_G(\underline{x}) = \sum_{T \in \trees(G)} \prod_{e \not \in T} x_e ,
-\]
-where $\trees(G)$ denotes the set of spanning trees of $G$.
-
-Consider a ``momentum'' function $p: V \to \RR$ which satisfies $\sum_{v \in V} p(v) = 0$.
-Then the second Symanzik polynomial is
-\[
-	\varphi_G(p; \underline{x}) = \sum_{F \in \forests_2(G)} \left(\sum_{v \in F_1} p(v) \right)^2 \prod_{e \not\in F} x_e ,
-\]
-where $\forests_2(G)$ is the set of two-component spanning forests of $G$, and $F_1$ denotes one of the components of $F$.
-It doesn't matter which component we label as $F_1$, due to the momemtum constraint $\sum_{v \in V} p(v) = 0$.
-% If $F_2$ denotes the other component of $F$, the constraint $\sum_{v \in V} p(v) = 0$ implies that
-% $\left(\sum_{v \in F_1} p(v) \right)^2 = \left(\sum_{v \in F_2} p(v) \right)^2$.
-
-Theorem statement:
-\[
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right).
-\]
-\[
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right)
-\]
-In terms of Symanzik polynomials, let $\psi$ and $\varphi$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
-We have
-\[
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p; \underline{\alpha}) \right).
-\]
-and
-\[
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right)
-\]
-with momentum function $p(v) = \degout(v) - 2$ for $v \not \in S$.
 
 
 \section*{Acknowledgements}
