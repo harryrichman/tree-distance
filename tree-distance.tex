@@ -12,7 +12,7 @@
 %\pagestyle{fancy}
 
 % COMMENT OUT FOR FINAL VERSION
-\usepackage{showkeys}
+%\usepackage{showkeys}
 
 % SHOW EQN LABELS ONLY IF REFERENCED
 \mathtoolsset{showonlyrefs}
@@ -341,7 +341,8 @@ see
 Tutte~\cite[Chapter VI]{tutte}. 
 %\note{choose other reference?}
 
-Given a graph $G = (V, E)$ with edge weights $\{ \alpha_e : e \in E\}$, for any edge subset $A \subset E$ we define the {\em weight} of $A$ as
+Let $G = (V, E)$ be a graph with edge weights $\{ \alpha_e : e \in E\}$.
+For any edge subset $A \subset E$ we define the {\em weight} of $A$ as
 $\displaystyle
 	w(A) = \prod_{e \in A} \alpha_e.
 $
@@ -350,6 +351,11 @@ $\displaystyle
 	w(\overline A) = \prod_{e \not\in A} \alpha_e.
 $
 By abuse of notation, if $H$ is a subgraph of $G$, we use $H$ to also denote its subset of edges $E(H)$, so e.g. $\coweight{H} = \coweight{E(H)}$.
+
+Let $M$ be an $n \times n$ matrix.
+For a subset $S \subset \{1, \ldots, n\}$, 
+let $M[S]$ denote the submatrix obtained by keeping the $S$-indexed rows and columns of $M$.
+Let $M[\overline{S}]$ denote the submatrix obtained by deleting the $S$-indexed rows and columns.
 
 \subsection{Spanning trees and forests}
 A {\em spanning tree} of a graph $G$ is a subgraph which 
@@ -366,7 +372,6 @@ an {\em $S$-rooted spanning forest} of $G$
 is a spanning forest which has exactly one vertex $v_i$ in each connected component.
 An {\em $(S,*)$-rooted spanning forest} of $G$ is a spanning forest which has $|S|+1$ components, where $|S|$ components each contain one vertex of $S$, and the additional component is disjoint from $S$.
 We call the component disjoint from $S$ the {\em floating component}, following terminology in \cite{kassel-kenyon-wu}.
-
 Given $s \in S$ and a forest $F$ in $\trees(G; S)$ or $\forests_2(G; S)$, we let $F(s)$ denote the $s$-component of $F$, and let $F(*)$ denote the floating component (if $F \in \forests_2$).
 
 Let $\kappa(G;S)$ denote the number of $S$-rooted spanning forests of $G$, and let $\kappa_2(G; S)$ denote the number of $(S,*)$-rooted spanning forests.
@@ -1646,7 +1651,8 @@ In this section we prove our main result, Theorem~\ref{thm:w-main}.
 Theorem~\ref{thm:main} follows as an immediate corollary.
 % by setting all edge weights to one.
 
-Outline of proof: given a  subset $S \subset V$ and distance submatrix $D[S]$, we will
+\subsection{Outline of proof} 
+Given a  subset $S \subset V$ and distance submatrix $D[S]$, we will do the following steps.
 \begin{enumerate}[(i)]
 \item 
 Find vector $\boldm \in \RR^S$ such that $D[S]\boldm = \lambda \mathbf{1} \in \RR^S$.
@@ -1659,9 +1665,9 @@ Compute the sum of entries of $\boldm$, i.e. $\mathbf{1}^\tr \boldm$, and normal
 This solves the optimization problem of Section~\ref{sec:optimization}.
 
 \item 
-Find optimal objective value
-$D[S] \boldm^* = \lambda^* \bone$
-where
+The optimal objective value
+$(\boldm^*)^\tr D[S] \boldm^* = \lambda^* $
+is
 \[
 	\lambda^* = \frac{\lambda}{\bone^\tr \boldm}.
 \]
@@ -1675,13 +1681,14 @@ Using Theorem~\ref{prop:optimization},
 = \frac{\lambda}{\mathbf{1}^\tr \boldm } 
 \]
 where $\cof D[S]$ is the sum of cofactors of $D[S]$.
-
-\item
-Use known expression for $\cof D[S]$ to compute
-$\det D[S]$
+% \item
+Use expression for $\cof D[S]$ in Theorem~\ref{thm:distance-sub-cof} to compute $\det D[S]$.
 % $ = \lambda (\cof D[S]) \left( \mathbf{1}^\tr \boldm \right)^{-1}.$
 \end{enumerate}
-The interesting part  of this expression will turn out to be in the constant $\lambda$.
+It turns out that the entries of $\boldm$ are combinatorially meaningful,
+which also gives combinatorial meaning to
+%The interesting part  of this expression will turn out to be in 
+the constant $\lambda$.
 
 \begin{eg}
 Suppose $G$ is a tree consisting of three paths joined at a central vertex.
@@ -1704,11 +1711,14 @@ D[S] \boldm = (a+b+c) \mathbf{1}
 $
 
 \item 
-The sum of entries of $\boldm$ is $\mathbf{1}^\tr \boldm = 2$.
+The sum of entries of $\boldm$ is $\mathbf{1}^\tr \boldm = 2$,
+so $\boldm^* = \frac12 \boldm$.
 
 \item 
 We have 
-$$2 = \mathbf{1}^\tr \boldm = \lambda (\mathbf{1}^\tr D[S]^{-1} \mathbf{1}) = \displaystyle \lambda \frac{\cof D[S]}{\det D[S]}.$$
+\[
+\lambda^* = \frac{\lambda}{\bone^\tr\boldm} = \frac{a + b + c}{2} .
+\]
 
 \item 
 The cofactor sum  
@@ -1716,79 +1726,12 @@ $\cof D[S]$ is $-8 abc$,
 so the determinant is
 \begin{align*}
 \det D[S] 
-= \lambda \frac{\cof A}{\mathbf{1}^\tr \boldm}
-= (a+b+c) (-8 abc)\frac{1}{2}
-= -4(a+b+c)abc.
+= \lambda^* \cof A
+= \frac{a + b + c}{2} (-8 abc)
+= -4(a + b + c) abc.
 \end{align*}
 \end{enumerate}
 \end{eg}
-
-\subsection{Warmup case: $S = V$}
-
-\begin{prop}
-Let $G = (V,E)$ a tree, and consider the vector $\boldm \in \RR^V$
-defined by 
-\begin{equation}
-\boldm_v = 2 - \deg v
-\qquad\text{for each }v\in V.
-\end{equation}
-% where $\deg v$ denotes the degree of $v$ in $G$.
-Then $\mathbf{1}^\tr \boldm = \sum_{v \in V} (2-\deg v) = 2$.
-\end{prop}
-\begin{proof}
-For any graph, $\sum_{v\in V} \deg v = 2 |E|$.
-Since $G$ is a tree, $|E| = |V|-1$.
-\end{proof}
-
-\begin{prop}
-\label{prop:m-distance-warmup}
-Let $\boldm$ be the vector defined above,
-and let $D$ be the distance matrix of $G$.
-Then $D \boldm = \lambda \bone$
-for some constant $\lambda$.
-\end{prop}
-\begin{proof}
-%The distance matrix has entries $D_{v,w} = d(v,w)$ which can be expressed as
-%\[
-%d(v,w) = \sum_{e \in E} \alpha_e \delta(e;v,w),
-%\]
-%where $\delta(e;v,w)$ is defined in \note{cite}.
-
-%Then for any $w \in V$,
-%\begin{align}
-%(D \boldm)_w &= \sum_{v \in V} d(v,w) (2 - \deg v) \\
-%&= \sum_{v\in V} \left(\sum_{e \in E} \alpha_e \delta(e;v,w)\right) (2 - \deg v) \\
-%&= \sum_{e\in E} \alpha_e \left(\sum_{v\in V} \delta(e;v,w) (2 - \deg v) \right) \\
-%&= \sum_{e\in E} \alpha_e \sum_{v \in (G\setminus e)^{-w}} (2 - \deg v) \\
-%&= \sum_{e\in E} \alpha_e ( 2 - \degout (G\setminus e)^{-w})
-%\end{align}
-%\note{improve: skip some above details}
-It suffices to show that for each edge $e$, with endpoints $(e^+,e^-)$, we have
-\[ 
-	(D \boldm)_{(e^+)} = (D \boldm)_{(e^-)} .
-\]
-We compute
-\begin{align}
-	(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)} &= \sum_{v \in V} (d(v,e^+) - d(v,e^-)) (2 - \deg v) \\
-	&= \sum_{v\in (G\setminus e)^-}  \alpha_e (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} \alpha_e (2 - \deg v) \\
-	&= \alpha_e \left( \sum_{v\in (G\setminus e)^-}  (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} (2 - \deg v)\right) 
-\label{eq:12-1}
-\end{align}
-since
-\[
-	d(v,e^+) - d(v,e^-) = \begin{cases}
-	\alpha_e &\text{if $v$ is closer to $e^-$ than }e^+,\\
-	- \alpha_e &\text{if $v$ is closer to $e^+$ than }e^-.
-	\end{cases}
-\]
-For each sum in \eqref{eq:12-1}, we apply Lemma~\ref{lem:outdeg-sum} to obtain
-\begin{align}
-\sum_{v \in (G\setminus e)^-}  (2 - \deg v) &= (2 - \degout( (G\setminus e)^-) 
-= 1 ,
-\end{align}
-since each component of $(G \setminus e)$ has outdegree one.
-The same identity applies to the sum over $(G \setminus e)^+$, so $(D\boldm)_{(e^+)} = (D\boldm)_{(e^-)}$ as desired.
-\end{proof}
 
 \subsection{General case: $S \subset V$}
 Fix a tree $G = (V,E)$ and a nonempty subset $S \subset V$.
@@ -2459,6 +2402,73 @@ and
 	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right)
 \]
 with momentum function $p(v) = \deg(v) - 2$ for $v \not \in S$.
+
+\subsection{Warmup case: $S = V$}
+
+\begin{prop}
+Let $G = (V,E)$ a tree, and consider the vector $\boldm \in \RR^V$
+defined by 
+\begin{equation}
+\boldm_v = 2 - \deg v
+\qquad\text{for each }v\in V.
+\end{equation}
+% where $\deg v$ denotes the degree of $v$ in $G$.
+Then $\mathbf{1}^\tr \boldm = \sum_{v \in V} (2-\deg v) = 2$.
+\end{prop}
+\begin{proof}
+For any graph, $\sum_{v\in V} \deg v = 2 |E|$.
+Since $G$ is a tree, $|E| = |V|-1$.
+\end{proof}
+
+\begin{prop}
+\label{prop:m-distance-warmup}
+Let $\boldm$ be the vector defined above,
+and let $D$ be the distance matrix of $G$.
+Then $D \boldm = \lambda \bone$
+for some constant $\lambda$.
+\end{prop}
+\begin{proof}
+%The distance matrix has entries $D_{v,w} = d(v,w)$ which can be expressed as
+%\[
+%d(v,w) = \sum_{e \in E} \alpha_e \delta(e;v,w),
+%\]
+%where $\delta(e;v,w)$ is defined in \note{cite}.
+
+%Then for any $w \in V$,
+%\begin{align}
+%(D \boldm)_w &= \sum_{v \in V} d(v,w) (2 - \deg v) \\
+%&= \sum_{v\in V} \left(\sum_{e \in E} \alpha_e \delta(e;v,w)\right) (2 - \deg v) \\
+%&= \sum_{e\in E} \alpha_e \left(\sum_{v\in V} \delta(e;v,w) (2 - \deg v) \right) \\
+%&= \sum_{e\in E} \alpha_e \sum_{v \in (G\setminus e)^{-w}} (2 - \deg v) \\
+%&= \sum_{e\in E} \alpha_e ( 2 - \degout (G\setminus e)^{-w})
+%\end{align}
+%\note{improve: skip some above details}
+It suffices to show that for each edge $e$, with endpoints $(e^+,e^-)$, we have
+\[ 
+	(D \boldm)_{(e^+)} = (D \boldm)_{(e^-)} .
+\]
+We compute
+\begin{align}
+	(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)} &= \sum_{v \in V} (d(v,e^+) - d(v,e^-)) (2 - \deg v) \\
+	&= \sum_{v\in (G\setminus e)^-}  \alpha_e (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} \alpha_e (2 - \deg v) \\
+	&= \alpha_e \left( \sum_{v\in (G\setminus e)^-}  (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} (2 - \deg v)\right) 
+\label{eq:12-1}
+\end{align}
+since
+\[
+	d(v,e^+) - d(v,e^-) = \begin{cases}
+	\alpha_e &\text{if $v$ is closer to $e^-$ than }e^+,\\
+	- \alpha_e &\text{if $v$ is closer to $e^+$ than }e^-.
+	\end{cases}
+\]
+For each sum in \eqref{eq:12-1}, we apply Lemma~\ref{lem:outdeg-sum} to obtain
+\begin{align}
+\sum_{v \in (G\setminus e)^-}  (2 - \deg v) &= (2 - \degout( (G\setminus e)^-) 
+= 1 ,
+\end{align}
+since each component of $(G \setminus e)$ has outdegree one.
+The same identity applies to the sum over $(G \setminus e)^+$, so $(D\boldm)_{(e^+)} = (D\boldm)_{(e^-)}$ as desired.
+\end{proof}
 
 
 \section{Examples}
