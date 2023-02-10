@@ -1385,8 +1385,21 @@ In this section we discuss some generalizations, which will be used later.
 Given a connected subgraph $H \subset G$,
 we define the {\em outdegree} $\degout(H)$ as the number of edges which join $H$ to its complement; i.e.
 \begin{equation}
+\label{eq:outdeg}
 	\degout(H) = \#\{ e = (a,b) \in E : a \in V(H),\, b \not\in V(H)\}.
 \end{equation}
+We often use the following special case of the outdegree: given a rooted forest $F$ in $\forests_1(G;S)$ and $s \in S$,
+let $F(s)$ denote the $s$-component of $F$.
+We define the {\em outdegree} $\degout(F,s)$ as the number of edges which join $F(s)$ to a different component; i.e.
+\begin{equation}
+\label{eq:outdeg-forest}
+	\degout(F,s) = \#\{ e = (a,b) \in E : a \in F(s),\, b \not\in F(s)\}.
+\end{equation}
+%In words, $\degout(F,s)$ is the number of edges which connect the $s$-component of $F$ to a different component.
+%\[
+%	\#\{ e \in E : e \text{ connects the $s$-component of $F$ to a different component}\}
+%\]
+If $F$ is a forest in $\forests_2(G;S)$, let $\degout(F,*)$ denote the outdegree of the floating component.
 
 \begin{lem}
 \label{lem:outdeg-sum}
@@ -1428,28 +1441,18 @@ if $H = \{v\}$ consists of a single vertex, then $\degout(H) = \deg(v)$.
 %This hold because $\degout(H_0) + \deg(v_0)$ overcounts the unique edge joining $v_0$ to $H_0$, by two.
 
 (b)
+Recall that $(G \setminus e)^{\overline u}$ denotes the component of the tree split $G \setminus e$ that does not contain $u$.
+Its vertices are precisely those $v$ that satisfy $\delta(e; u, v) = 1$.
+Since this component has a single edge separating it from its complement, 
+$\degout((G \setminus e)^{\overline u}) = 1$
 Using part (a), we have
 \[
 	\sum_{v \in V} (2 - \deg(v)) \delta(e; u,v)
 	= \sum_{v \in (G \setminus e)^{\overline u}} (2 - \deg(v))
 	= 2 - \degout((G \setminus e)^{\overline u}) = 1. 
+	\qedhere
 \] 
-Since the component $(G \setminus e)^{\overline u}$ of the tree split $G \setminus e$ has a single edge separating it from its complement, 
-$\degout((G \setminus e)^{\overline u}) = 1$
 \end{proof}
-
-OLD: Given a rooted forest $F$ in $\forests_1(G;S)$ and $s \in S$,
-let $F(s)$ denote the $s$-component of $F$.
-We define the {\em outdegree} $\degout(F,s)$ as the number of edges which join $F(s)$ to a different component; i.e.
-\begin{equation}
-\label{eq:outdeg}
-	\degout(F,s) = \#\{ e = (a,b) \in E : a \in F(s),\, b \not\in F(s)\}.
-\end{equation}
-%In words, $\degout(F,s)$ is the number of edges which connect the $s$-component of $F$ to a different component.
-%\[
-%	\#\{ e \in E : e \text{ connects the $s$-component of $F$ to a different component}\}
-%\]
-If $F$ is a forest in $\forests_2(G;S)$, let $\degout(F,*)$ denote the outdegree of the floating component.
 
 \subsection{Miscellaneous}
 
@@ -1743,7 +1746,7 @@ Let $\boldm = \boldm(G;S)$ denote the vector in $\RR^S$ be defined by
 \boldm_v =  \sum_{T \in \trees(G;S)} (2 - \degout(T,v)) w(\overline{T})
 \qquad\text{for each }v \in S.
 \end{equation}
-where $\degout(T,v)$ is the outdegree of the $v$-component of $T$, \eqref{eq:outdeg}.
+where $\degout(T,v)$ is the outdegree of the $v$-component of $T$, \eqref{eq:outdeg-forest}.
 \end{dfn}
 
 Let $\bone$ denote the all-ones vector.
@@ -2248,8 +2251,8 @@ However, the formulas as stated are true even without this replacement due to ca
 
 If we consider $G$ as a network of wires with edge $e$ containing a resistor of resistance $\alpha_e$,
 which is grounded at all nodes in $S$,
-then $\boldm_S$ has an interpretation as current flow: 
-it records the currents flowing to $S$
+then $\boldm(G; S)$ defined in \eqref{eq:m-vector} has an interpretation as current flow: 
+it records the currents exiting at $s \in S$
 when current enters the vertices in the amount $\deg(v) - 2$
 for each $v\not\in S$.
 
@@ -2263,8 +2266,8 @@ In the outline above, our first goal is to find a ``special'' vector $ \boldm\in
 We can approach this first goal as follows: 
 consider $\RR^S$ inside the larger vector space $\RR^V = \RR^S \oplus \RR^{V\setminus S}$,
 and let $\pi_S$ denote the projection from $\RR^V$ to $\RR^S$.
-We wish to find vectors $\mathbf{n}_i \in \RR^{V}$ satisfying
-$\pi_S( D \mathbf{n}_i) = \lambda_i \mathbf{1}$.
+We wish to find vectors $\mathbf{n}(i) \in \RR^{V}$ satisfying
+$\pi_S( D \mathbf{n}(i)) = \lambda_i \mathbf{1}$.
 OR, $D \mathbf{n}_i = \lambda_i \mathbf{1}^S \oplus (-)$.
 By finding sufficiently many such vectors $\mathbf{n}_i$,
 we can hope to find a linear combination that lies inside $\RR^S \oplus \{0\}$.
@@ -2289,23 +2292,27 @@ Consider the vector $\mathbf{n} = \mathbf{n}(G;S,v) \in \RR^V$ defined by
 Then $D\mathbf{n}$ is constant on $S$, i.e. $\pi_S( D \mathbf{n}) = \lambda \mathbf{1}$ for some $\lambda$.
 \end{prop}
 Explicitly,
-\begin{equation*}
-\mu(v,s) =  \frac{\text{\# of $S$-rooted spanning forests of $G$ whose $s_j$-component contains $v$}}{\text{\# of $S$-rooted spanning forests of $G$}}
-% = (\kappa(..))/(\kappa(G/S))
-\end{equation*}
-\[
-= \frac{\sum_{\trees(G/S)} \mathds{1}(v \in T(s))}{\kappa(G/S)}
-= \frac{\sum_{\trees(G/S)} \mathds{1}(\pi_T(v) = s)}{\kappa(G/S)}
-\]
 If $s = s_j$, then
+\begin{align}
+	\mu(v, s_j) 
+	&= \frac{\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)}{\kappa_r(s_1|\cdots|s_r)} \\
+	&=  \frac{\text{\# of $S$-rooted spanning forests of $G$ whose $s_j$-component contains $v$}}{\text{\# of $S$-rooted spanning forests of $G$}}
+\end{align}
+More equations;
+
 \[
-	\mu(v, s_j) = \frac{\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)}{\kappa_r(s_1|\cdots|s_r)}
+= \frac{\sum_{\trees(G; S)} \mathds{1}(v \in T(s))}{\kappa(G; S)}
+= \frac{\sum_{\trees(G; S)} \mathds{1}(\pi_T(v) = s)}{\kappa(G; S)}
+\]
+
+\[
+	\mathbf{n}(v) = \frac{1}{|\trees(G; S)|} \sum_{T \in \trees(G; S)} \left( \bolddelta(v) - \bolddelta(\pi_T(v)) \right).
 \]
 
 \begin{proof}[Proof sketch]
 For any $s, s' \in S$, consider tracking the value of $D \mathbf{n}$ along path from $s$ to $s'$. 
 The value of $D \mathbf{n}$ changes according to current flow in the corresponding network, i.e. $D \mathbf{n}$ records electrical potential.
-By assumption $S$ is grounded, so $D\mathbf{n}$ takes the same value at $s$ and $s'$.
+The set $S$ is grounded by assumption, so $D\mathbf{n}$ takes the same value at $s$ and $s'$.
 \end{proof}
 
 \begin{thm}
