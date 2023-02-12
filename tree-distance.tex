@@ -1249,7 +1249,7 @@ the {\em weighted Laplacian matrix} $\La \in \RR^{V\times V}$ is defined by
 Given $S \subset V$,
 let $L[\overline S]$ denote the matrix obtained from $L$ by removing the rows and columns indexed by $S$.
 For any graph $G$, let $\kappa(G)$ denote the number of spanning trees of $G$.
-The following theorem related minors of the (weighted) Laplacian to (weighted) counts of rooted spanning forests.
+The following theorem relates minors of the (weighted) Laplacian to (weighted) counts of rooted spanning forests.
 %is due to Kirchhoff.
 \begin{thm}[Principal-minors matrix tree theorem]
 \label{thm:matrix-tree}
@@ -2251,16 +2251,16 @@ However, the formulas as stated are true even without this replacement due to ca
 
 If we consider $G$ as a network of wires with edge $e$ containing a resistor of resistance $\alpha_e$,
 which is grounded at all nodes in $S$,
-then $\boldm(G; S)$ defined in \eqref{eq:m-vector} has an interpretation as current flow: 
+then the optimal vector $\boldm(G; S)$ defined in \eqref{eq:m-vector} has an interpretation as current flow: 
 it records the currents exiting at $s \in S$
 when current enters the vertices in the amount $\deg(v) - 2$
 for each $v\not\in S$.
 
 \subsection{Alternate proof}
 
-Let $\mathbf{1}$ denote the all-ones vector.
-When we choose a subset $S \subset V(G)$, we no longer have a single ``obvious'' replacement for $\boldm$ inside $\RR^S$.
-Instead, we can take an average over $S$-rooted spanning forests.
+% Let $\mathbf{1}$ denote the all-ones vector.
+% When we choose a subset $S \subset V(G)$, we no longer have a single ``obvious'' replacement for $\boldm$ inside $\RR^S$.
+% Instead, we can take an average over $S$-rooted spanning forests.
 
 In the outline above, our first goal is to find a ``special'' vector $ \boldm\in \RR^S$ satisfying $D[S] \boldm = \lambda \mathbf{1}$.
 We can approach this first goal as follows: 
@@ -2275,7 +2275,7 @@ we can hope to find a linear combination that lies inside $\RR^S \oplus \{0\}$.
 
 \begin{prop}
 \label{prop:n-vector}
-Suppose $v \in V \setminus S$.
+Fix $v \in V \setminus S$.
 For each $s_j \in S$, let $\mu(v,s_j) = $ current flowing to $s_j$
 when 
 $G$ is grounded at $S$
@@ -2291,8 +2291,7 @@ Consider the vector $\mathbf{n} = \mathbf{n}(G;S,v) \in \RR^V$ defined by
 \]
 Then $D\mathbf{n}$ is constant on $S$, i.e. $\pi_S( D \mathbf{n}) = \lambda \mathbf{1}$ for some $\lambda$.
 \end{prop}
-Explicitly,
-If $s = s_j$, then
+Explicitly, if $s = s_j$, then
 \begin{align}
 	\mu(v, s_j) 
 	&= \frac{\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)}{\kappa_r(s_1|\cdots|s_r)} \\
@@ -2327,21 +2326,22 @@ Then $D[S] \boldm = \lambda \bone$
 for some constant $\lambda$.
 \end{thm}
 \begin{proof}
-The vector $\boldm = \boldm(G;S)$ can be expressed as a linear combination
+The vector $\boldm = \boldm(G;S)$ can be expressed as a linear combination of $\delta$-vectors
 \[
 	\boldm(G; S) = \sum_{T \in \trees(G; S)} w(\overline{T}) \sum_{u \in V} (2 - \deg(u)) \bolddelta(\pi_T(u)).
 \]
 Therefore
 \begin{align}
 	\boldm (G;S)
-	&= \kappa(G;S) \left( \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
-	- \sum_{v \in V \setminus S} (2 - \deg v) \mathbf{n}(G;S,v) 
-	\right) \\
-	&= \kappa(G;S) \left( \boldm(G;V) - \sum_{v\in V\setminus S} (2 - \deg v) \boldn(G;S,v) \right)
+	&= \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
+	- \sum_{v \in V} (2 - \deg v) (\bolddelta(v) - \bolddelta(\pi_T(v)) \\
+	&= \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
+	- \kappa(G;S) \sum_{v \in V \setminus S} (2 - \deg v) \mathbf{n}(G;S,v) \\
+	&= \boldm(G;V) - \kappa(G;S) \sum_{v\in V\setminus S} (2 - \deg v) \boldn(G;S,v).
 \end{align}
 \note{TODO: elaborate on this equation}
 From Proposition~\ref{prop:m-distance-warmup} we know that $D \boldm(G;V)$ is constant on $V$,
-and from Proposition~\ref{prop:n-vector} we know that $D \boldn(G;S,v)$ is constant on $S$.
+and from Proposition~\ref{prop:n-vector} we know that $D \boldn(G;S,v)$ is constant on $S$ for all $v \in V \setminus S$.
 Hence by linearity, $D \boldm(G;S)$ is constant on $S$.
 \end{proof}
 
