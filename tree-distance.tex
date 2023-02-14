@@ -1306,6 +1306,26 @@ Then combine this equation with the matrix tree theorem,
 Theorem~\ref{thm:matrix-tree} (b).
 \end{proof}
 
+The following result is a direct consequence of theorems of Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann} and Bapat--Sivasubramanian~\cite{bapat-sivasubramanian}.
+
+\begin{prop}
+\label{prop:full-det-cof-ratio}
+Suppose $D$ is the distance matrix of a weighted tree with edge weights $\{\alpha_e : e \in E\}$.
+Then
+\[
+	\frac{\det D}{\cof D} = \frac1{2} \sum_{e \in E} \alpha_e .
+\]
+\end{prop}
+\begin{proof}
+Consider applying Theorem~\ref{thm:distance-sub-cof} with $S = V$.
+In this case $\trees(G; V)$ consists of the forest with no edges, and for this forest $w(\overline{T})$ is the product of all edge weights.
+Thus
+\[
+	\cof D = (-2)^{n - 1} \prod_{e \in E} \alpha_e .
+\]
+Combining this with the Bapat--Kirkland--Neuman formula \eqref{eq:w-full-det} yields the result.
+\end{proof}
+
 % \subsection{Distance in trees}
 \subsection{Tree splits and tree distance}
 \label{sec:tree-splits}
@@ -1412,7 +1432,7 @@ If $H\subset G$ is a (nonempty) connected subgraph, then
 \]
 
 \item 
-If $e$ is a fixed edge and $u$ is a fixed vertex of $G$, then
+For any fixed edge $e$ and fixed vertex $u$ of $G$, we have
 \[
 	\sum_{v \in V(G)} (2 - \deg(v)) \delta(e; u,v) = 1.
 \]
@@ -1626,23 +1646,23 @@ To see that
 \begin{equation*}
  \frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{E(\conv(S, G))} \alpha_e .
 \end{equation*}
-take $B$ as the set of vertices in $\conv(S, G)$.
-Then $S \subset B$, and 
+take $B$ as the set of all vertices in $\conv(S, G)$.
+Then $S \subset B$, and by Proposition~\ref{prop:full-det-cof-ratio} we have
 \[
  \frac{\det D[B]}{\cof D[B]} = \frac12 \sum_{E(\conv(S, G))} \alpha_e .
 \]
 
 (b) 
+Recall that $\gamma$ is a simple path between vertices $s_0, s_1 \in S$.
 To see that
 \begin{equation*}
 	\frac12 \sum_{e \in \gamma} \alpha_e \leq \frac{\det D[S]}{\cof D[S]},
 \end{equation*}
-take $A$ as the set of endpoints of $\gamma$.
-(where 
-If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$)
-Then $A \subset S$ by assumption, and
+take $A$ as the set of endpoints of $\{s_0, s_1\}$.
+Then $A \subset S$ by assumption, and by Proposition~\ref{prop:full-det-cof-ratio} we have
 \[
 	\frac{\det D[A]}{\cof D[A]}
+	= \frac12 d(s_0, s_1) 
 	= \frac12 \sum_{e \in \gamma} \alpha_e .
 	\qedhere
 \]
@@ -2273,40 +2293,68 @@ By finding sufficiently many such vectors $\mathbf{n}_i$,
 we can hope to find a linear combination that lies inside $\RR^S \oplus \{0\}$.
 % $D \mathbf{n} = (\lambda \mathbf{1}_S) \oplus (-)$.
 
+%\subsection{Warmup case: $S = V$}
+
+\begin{prop}
+\label{prop:m-distance-warmup}
+Let $\boldm$ be the vector defined above,
+and let $D$ be the distance matrix of $G$.
+Then the entries of $D \boldm$
+are constant on $V(G)$.
+\end{prop}
+\begin{proof}
+It suffices to show that for each edge $e$, with endpoints $(e^+,e^-)$, we have
+$
+	(D \boldm)_{(e^+)} = (D \boldm)_{(e^-)} .
+$
+To compute $(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)}$, first observe that the distance function on $G$ satisfies
+\[
+	d(v,e^+) - d(v,e^-) = \begin{cases}
+	\alpha_e &\text{if $v$ is closer to $e^-$ than }e^+,\\
+	- \alpha_e &\text{if $v$ is closer to $e^+$ than }e^-.
+	\end{cases}
+\]
+Thus
+\begin{align}
+	(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)} &= \sum_{v \in V} (d(v,e^+) - d(v,e^-)) (2 - \deg v) \\
+	&= \sum_{v\in (G\setminus e)^-}  \alpha_e (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} \alpha_e (2 - \deg v) \\
+	&= \alpha_e \left( \sum_{v\in (G\setminus e)^-}  (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} (2 - \deg v)\right) 
+\label{eq:12-1}
+\end{align}
+For each sum in \eqref{eq:12-1}, we apply Lemma~\ref{lem:outdeg-sum} to obtain
+\begin{align}
+\sum_{v \in (G\setminus e)^-}  (2 - \deg v) &= (2 - \degout( (G\setminus e)^-) 
+= 1 ,
+\end{align}
+since each component of $(G \setminus e)$ has outdegree one.
+The same identity applies to the sum over $(G \setminus e)^+$, so $(D\boldm)_{(e^+)} = (D\boldm)_{(e^-)}$ as desired.
+\end{proof}
+
 \begin{prop}
 \label{prop:n-vector}
 Fix $v \in V \setminus S$.
-For each $s_j \in S$, let $\mu(v,s_j) = $ current flowing to $s_j$
-when 
-$G$ is grounded at $S$
-and 
-one unit of current enters $G$ at $v$.
 Consider the vector $\mathbf{n} = \mathbf{n}(G;S,v) \in \RR^V$ defined by
 \[
-	\mathbf{n}_u = \begin{cases}
-	1 &\text{if } u = v, \\
-	-\mu(v,u) &\text{if } u \in S, \qquad \\
-	0 &\text{otherwise}.
-	\end{cases}
+	\mathbf{n} = \sum_{T \in \trees(G; S)} 
+	\Big( \bolddelta(v) - \bolddelta(\pi_T(v)) \Big) .
 \]
 Then $D\mathbf{n}$ is constant on $S$, i.e. $\pi_S( D \mathbf{n}) = \lambda \mathbf{1}$ for some $\lambda$.
 \end{prop}
+\begin{rmk}
+For each $s \in S$, let $\mu(v,s)$ denote the current flowing to $s$ when $G$ is grounded at $S$ and one unit of current enters $G$ at $v$.
+Then
+\[
+	\mu(v, s) = \frac{1}{\kappa(G; S)} \mathbf{n}(v)_{s} .
+\]
+\end{rmk}
 Explicitly, if $s = s_j$, then
 \begin{align}
 	\mu(v, s_j) 
-	&= \frac{\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)}{\kappa_r(s_1|\cdots|s_r)} \\
-	&=  \frac{\text{\# of $S$-rooted spanning forests of $G$ whose $s_j$-component contains $v$}}{\text{\# of $S$-rooted spanning forests of $G$}}
+	= \frac{\sum_{\trees(G; S)} \mathds{1}(\pi_T(v) = s_j)}{\kappa(G; S)}
+	&= \frac{\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)}{\kappa(G; S))} 
 \end{align}
-More equations;
-
-\[
-= \frac{\sum_{\trees(G; S)} \mathds{1}(v \in T(s))}{\kappa(G; S)}
-= \frac{\sum_{\trees(G; S)} \mathds{1}(\pi_T(v) = s)}{\kappa(G; S)}
-\]
-
-\[
-	\mathbf{n}(v) = \frac{1}{|\trees(G; S)|} \sum_{T \in \trees(G; S)} \left( \bolddelta(v) - \bolddelta(\pi_T(v)) \right).
-\]
+where
+$\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)$ is the number of $S$-rooted spanning forests of $G$ whose $s_j$-component contains $v$.
 
 \begin{proof}[Proof sketch]
 For any $s, s' \in S$, consider tracking the value of $D \mathbf{n}$ along path from $s$ to $s'$. 
@@ -2316,7 +2364,7 @@ The set $S$ is grounded by assumption, so $D\mathbf{n}$ takes the same value at 
 
 \begin{thm}
 Let $G$ be a tree, $S$ a nonempty subset of vertices,
-and $D[S]$ the corresponding submatrix of the distance matrix of $G$.
+and $D[S]$ the submatrix of the distance matrix of $G$.
 Suppose $\boldm = \boldm(G;S) \in \RR^{S}$ is defined by \eqref{eq:m-vector};
 \begin{equation}
 	\boldm(G;S)_s = \sum_{T \in \trees(G;S)} w(\overline{T}) \sum_{u \in T(s)} (2 - \deg u) 
@@ -2333,15 +2381,15 @@ The vector $\boldm = \boldm(G;S)$ can be expressed as a linear combination of $\
 Therefore
 \begin{align}
 	\boldm (G;S)
-	&= \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
-	- \sum_{v \in V} (2 - \deg v) (\bolddelta(v) - \bolddelta(\pi_T(v)) \\
-	&= \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
-	- \kappa(G;S) \sum_{v \in V \setminus S} (2 - \deg v) \mathbf{n}(G;S,v) \\
-	&= \boldm(G;V) - \kappa(G;S) \sum_{v\in V\setminus S} (2 - \deg v) \boldn(G;S,v).
+	&= \sum_{T \in \trees} \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
+	- \sum_{T \in \trees} \sum_{v \in V} (2 - \deg v) (\bolddelta(v) - \bolddelta(\pi_T(v)) \\
+	&= \kappa(G; S) \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
+	- \sum_{v \in V \setminus S} (2 - \deg v) \mathbf{n}(G;S,v) \\
+	&= \kappa(G;S) \boldm(G;V) - \sum_{v\in V\setminus S} (2 - \deg v) \boldn(G;S,v).
 \end{align}
 \note{TODO: elaborate on this equation}
 From Proposition~\ref{prop:m-distance-warmup} we know that $D \boldm(G;V)$ is constant on $V$,
-and from Proposition~\ref{prop:n-vector} we know that $D \boldn(G;S,v)$ is constant on $S$ for all $v \in V \setminus S$.
+and from Proposition~\ref{prop:n-vector} we know that  for each $v \in V \setminus S$ the product $D \boldn(G;S,v)$ is constant on $S$.
 Hence by linearity, $D \boldm(G;S)$ is constant on $S$.
 \end{proof}
 
@@ -2409,73 +2457,6 @@ and
 	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right)
 \]
 with momentum function $p(v) = \deg(v) - 2$ for $v \not \in S$.
-
-\subsection{Warmup case: $S = V$}
-
-\begin{prop}
-Let $G = (V,E)$ a tree, and consider the vector $\boldm \in \RR^V$
-defined by 
-\begin{equation}
-\boldm_v = 2 - \deg v
-\qquad\text{for each }v\in V.
-\end{equation}
-% where $\deg v$ denotes the degree of $v$ in $G$.
-Then $\mathbf{1}^\tr \boldm = \sum_{v \in V} (2-\deg v) = 2$.
-\end{prop}
-\begin{proof}
-For any graph, $\sum_{v\in V} \deg v = 2 |E|$.
-Since $G$ is a tree, $|E| = |V|-1$.
-\end{proof}
-
-\begin{prop}
-\label{prop:m-distance-warmup}
-Let $\boldm$ be the vector defined above,
-and let $D$ be the distance matrix of $G$.
-Then $D \boldm = \lambda \bone$
-for some constant $\lambda$.
-\end{prop}
-\begin{proof}
-%The distance matrix has entries $D_{v,w} = d(v,w)$ which can be expressed as
-%\[
-%d(v,w) = \sum_{e \in E} \alpha_e \delta(e;v,w),
-%\]
-%where $\delta(e;v,w)$ is defined in \note{cite}.
-
-%Then for any $w \in V$,
-%\begin{align}
-%(D \boldm)_w &= \sum_{v \in V} d(v,w) (2 - \deg v) \\
-%&= \sum_{v\in V} \left(\sum_{e \in E} \alpha_e \delta(e;v,w)\right) (2 - \deg v) \\
-%&= \sum_{e\in E} \alpha_e \left(\sum_{v\in V} \delta(e;v,w) (2 - \deg v) \right) \\
-%&= \sum_{e\in E} \alpha_e \sum_{v \in (G\setminus e)^{-w}} (2 - \deg v) \\
-%&= \sum_{e\in E} \alpha_e ( 2 - \degout (G\setminus e)^{-w})
-%\end{align}
-%\note{improve: skip some above details}
-It suffices to show that for each edge $e$, with endpoints $(e^+,e^-)$, we have
-\[ 
-	(D \boldm)_{(e^+)} = (D \boldm)_{(e^-)} .
-\]
-We compute
-\begin{align}
-	(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)} &= \sum_{v \in V} (d(v,e^+) - d(v,e^-)) (2 - \deg v) \\
-	&= \sum_{v\in (G\setminus e)^-}  \alpha_e (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} \alpha_e (2 - \deg v) \\
-	&= \alpha_e \left( \sum_{v\in (G\setminus e)^-}  (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} (2 - \deg v)\right) 
-\label{eq:12-1}
-\end{align}
-since
-\[
-	d(v,e^+) - d(v,e^-) = \begin{cases}
-	\alpha_e &\text{if $v$ is closer to $e^-$ than }e^+,\\
-	- \alpha_e &\text{if $v$ is closer to $e^+$ than }e^-.
-	\end{cases}
-\]
-For each sum in \eqref{eq:12-1}, we apply Lemma~\ref{lem:outdeg-sum} to obtain
-\begin{align}
-\sum_{v \in (G\setminus e)^-}  (2 - \deg v) &= (2 - \degout( (G\setminus e)^-) 
-= 1 ,
-\end{align}
-since each component of $(G \setminus e)$ has outdegree one.
-The same identity applies to the sum over $(G \setminus e)^+$, so $(D\boldm)_{(e^+)} = (D\boldm)_{(e^-)}$ as desired.
-\end{proof}
 
 
 \section{Examples}
