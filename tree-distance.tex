@@ -1474,6 +1474,35 @@ Using part (a), we have
 \] 
 \end{proof}
 
+\subsection{Distance matrix}
+
+In this section we recall some results on the distance matrix of a tree.
+
+\begin{prop}
+Suppose $D$ is the weighted distance matrix of a tree, and $L$ is the weighted Laplacian matrix. 
+Then
+\[
+	D = - \frac{1}{2} DLD + \frac{1}{2} \left( \sum_{e \in E} \alpha_e\right) \bone \bone^\tr .
+\]
+\end{prop}
+
+
+\begin{prop}
+\label{prop:det-hyperplane}
+Suppose $D$ is the distance matrix of a tree, and $\mathbf{h} \in \RR^V$ is a vector whose coordinates sum to zero. 
+Then
+$
+	\mathbf{h}^\tr D \mathbf{h} \leq 0.
+$
+\end{prop}
+\begin{proof}
+Using Proposition [above],
+\[
+	\mathbf{h}^\tr D\mathbf{h} = - \frac12 (ND\mathbf{h})^\tr (ND\mathbf{h}) + \lambda \cdot 0
+	= -\frac12 \| ND \mathbf{h} \|^2 .
+\]
+\end{proof}
+
 \subsection{Miscellaneous}
 
 Later we will make use of the fact that a submatrix $D[S]$ of a distance matrix has nonzero determinant, as long as $|S| \geq 2$.
@@ -1595,9 +1624,10 @@ where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
 \begin{proof}
 If $|S| = 1$ then $D[S]$ is the zero matrix and the statement is true trivially.
 
-\note{TODO show that objective function is concave on domain $\bone^\tr \boldm = 1$}
-
 Now assume $|S| \geq 2$.
+Proposition~\ref{prop:det-hyperplane} implies that 
+the objective function is concave on the domain $\bone^\tr \boldm = 1$
+so any critical point is a local maximum.
 The gradient of the objective function is $2 D[S] \boldm$, 
 and the gradient of the constraint is $\bone$.
 By the theory of Lagrange multipliers, the optimal solution $\boldm^*$ is a vector satisfying
@@ -1675,7 +1705,7 @@ Theorem~\ref{thm:main} follows as an immediate corollary.
 % by setting all edge weights to one.
 
 \subsection{Outline of proof} 
-Given a  subset $S \subset V$ and distance submatrix $D[S]$, we will do the following steps.
+Given a  subset $S \subset V$ and distance submatrix $D[S]$, we will complete the following steps.
 \begin{enumerate}[(i)]
 \item 
 Find vector $\boldm \in \RR^S$ such that $D[S]\boldm = \lambda \mathbf{1} \in \RR^S$.
@@ -1749,7 +1779,7 @@ $\cof D[S]$ is $-8 abc$,
 so the determinant is
 \begin{align*}
 \det D[S] 
-= \lambda^* \cof A
+= (\lambda^*) \cof A
 = \frac{a + b + c}{2} (-8 abc)
 = -4(a + b + c) abc.
 \end{align*}
@@ -1793,7 +1823,7 @@ Then exchange the order of summation in $\bone^\tr \boldm$,
 	\bone^\tr \boldm = \sum_{s\in S} \boldm_s &= \sum_{s \in S} \left( \sum_{T \in \trees(G;S)} w(\overline{T}) \sum_{v \in T(s)}(2 - \deg(v)) \right) \\
 	&= \sum_{T \in \trees(G;S)} w(\overline{T}) \left( \sum_{s\in S} \sum_{v \in T(s)} (2 - \deg(v)) \right) .
 \end{align}
-Next observe that the inner double sum is simply a sum over $v \in V$,
+Observe that the inner double sum is simply a sum over $v \in V$,
 since the vertex sets of $T(s)$ for $s \in S$ form a partition of $V$ by definition of $S$-rooted spanning forest.
 Thus 
 \[
@@ -1997,7 +2027,7 @@ and that the corresponding weights satisfy
 \]
 Thus
 \begin{align*}
-	\eqref{eq:1} &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 1}} \one(F = T \setminus e) -  \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 0}} \one(F = T \setminus e) \right) \\
+	(*) &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 1}} \one(F = T \setminus e) -  \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 0}} \one(F = T \setminus e) \right) \\
 	&= \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*)) \Bigg( \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e;v,s_0) = 1 \} \\
 	&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad - \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e; v,s_0) = 0 \} \Bigg)
 \end{align*}
@@ -2082,7 +2112,7 @@ Now for any $e \not\in F$, let $\delta(e; v, F(*)) = \delta(e; v, x)$ for any $x
 The condition $F = T \setminus e$ for some $e \in T(s_0)$ with $\delta(e; v, s_0) = 1$ (resp. $\delta(e; v, s_0) = 0$) is equivalent to $T = F \cup e$ for some $e \in \partial F(*)$ with $\delta(e; v, F(*)) = 0$ (resp. $\delta(e; v, F(*)) = 1$).
 Thus
 \begin{multline}
-	\eqref{eq:1} = \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*))  \Bigg( \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 0 \}  \\
+	(*) = \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*))  \Bigg( \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 0 \}  \\
 	- \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 1 \}  \Bigg).
 \end{multline}
 Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
@@ -2093,9 +2123,9 @@ Hence
 \qquad\text{and}\qquad
 	\#\{e \in \partial (F,*) : \delta(e;v, F(*)) = 0 \} = \deg^o(F,*) - 1 .
 \]
-Thus the previous expression \eqref{eq:1} simplifies as
+Thus the previous expression $(*)$ simplifies as
 \begin{align*}
-	\eqref{eq:1} &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Big( (\degout(F,*) - 1)  - (1) \Big) \\
+	(*) &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Big( (\degout(F,*) - 1)  - (1) \Big) \\
 	% &\qquad - \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*)) (1) \\
 	&= - \!\sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))^2 .
 \end{align*}
@@ -2297,7 +2327,10 @@ we can hope to find a linear combination that lies inside $\RR^S \oplus \{0\}$.
 
 \begin{prop}
 \label{prop:m-distance-warmup}
-Let $\boldm$ be the vector defined above,
+Let $\boldm \in \RR^V$ be the vector defined by $\boldm_v = 2 - \deg v$,
+%\[
+%	\boldm = \sum_{v \in V} (2 - \deg v) \bolddelta(v),
+%\]
 and let $D$ be the distance matrix of $G$.
 Then the entries of $D \boldm$
 are constant on $V(G)$.
