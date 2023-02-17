@@ -431,81 +431,81 @@ These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respecti
 
 \begin{figure}[h]
 \centering
-% LABEL 1234
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw (1) -- (A);
-	\draw (A) -- (B);
-	\draw (B) -- (C);
-	\draw (C) -- (D);
-	\draw[dotted] (D) -- (2);
-	\draw[dotted] (B) -- (3);
-\end{tikzpicture}
-\qquad
-% LABEL 1235
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw (1) -- (A);
-	\draw (A) -- (B);
-	\draw (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-	\draw[dotted] (B) -- (3);
-\end{tikzpicture}
-\qquad
-% LABEL 1245
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw (1) -- (A);
-	\draw (A) -- (B);
-	\draw[dotted] (B) -- (C);
-	\draw (C) -- (D);
-	\draw (D) -- (2);
-	\draw[dotted] (B) -- (3);
-\end{tikzpicture}
-\\[2em]
+%% LABEL 1234
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw[dotted] (D) -- (2);
+%	\draw[dotted] (B) -- (3);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 1235
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw (B) -- (C);
+%	\draw[dotted] (C) -- (D);
+%	\draw (D) -- (2);
+%	\draw[dotted] (B) -- (3);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 1245
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw[dotted] (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw (D) -- (2);
+%	\draw[dotted] (B) -- (3);
+%\end{tikzpicture}
+%\\[2em]
 % LABEL 1345
 \begin{tikzpicture}[scale=0.4]
 	\coordinate (1) at (0,0);
@@ -605,193 +605,193 @@ These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respecti
 	\draw (D) -- (2);
 	\draw (B) -- (3);
 \end{tikzpicture}
-\\[2em]
-% LABEL 2345
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw (B) -- (C);
-	\draw (C) -- (D);
-	\draw (D) -- (2);
-	\draw[dotted] (B) -- (3);
-\end{tikzpicture}
-\qquad
-% LABEL 2346
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw (B) -- (C);
-	\draw (C) -- (D);
-	\draw[dotted] (D) -- (2);
-	\draw (B) -- (3);
-\end{tikzpicture}
-\qquad
-% LABEL 2356
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-	\draw (B) -- (3);
-\end{tikzpicture}
-\qquad
-% LABEL 2456
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw[dotted] (B) -- (C);
-	\draw (C) -- (D);
-	\draw (D) -- (2);
-	\draw (B) -- (3);
-\end{tikzpicture}
+%\\[2em]
+%% LABEL 2345
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw (D) -- (2);
+%	\draw[dotted] (B) -- (3);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 2346
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw[dotted] (D) -- (2);
+%	\draw (B) -- (3);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 2356
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw (B) -- (C);
+%	\draw[dotted] (C) -- (D);
+%	\draw (D) -- (2);
+%	\draw (B) -- (3);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 2456
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw[dotted] (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw (D) -- (2);
+%	\draw (B) -- (3);
+%\end{tikzpicture}
 \caption{Forests in $\trees(G;S)$.}
 \label{fig:1-forests}
 \end{figure}
 
 \begin{figure}[h]
 \centering
-% LABEL 123
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw (1) -- (A);
-	\draw (A) -- (B);
-	\draw[dotted] (B) -- (3);
-	\draw (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw[dotted] (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (D) -- (D);
-\end{tikzpicture}
-\qquad
-% LABEL 124
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw (1) -- (A);
-	\draw (A) -- (B);
-	\draw[dotted] (B) -- (3);
-	\draw[dotted] (B) -- (C);
-	\draw (C) -- (D);
-	\draw[dotted] (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (D);
-\end{tikzpicture}
-\qquad
-% LABEL 125
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw (1) -- (A);
-	\draw (A) -- (B);
-	\draw[dotted] (B) -- (3);
-	\draw[dotted] (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
-\end{tikzpicture}
-\\[2em]
+%% LABEL 123
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw[dotted] (B) -- (3);
+%	\draw (B) -- (C);
+%	\draw[dotted] (C) -- (D);
+%	\draw[dotted] (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (D) -- (D);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 124
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw[dotted] (B) -- (3);
+%	\draw[dotted] (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw[dotted] (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (D);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 125
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw[dotted] (B) -- (3);
+%	\draw[dotted] (B) -- (C);
+%	\draw[dotted] (C) -- (D);
+%	\draw (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
+%\end{tikzpicture}
+%\\[2em]
 % LABEL 134
 \begin{tikzpicture}[scale=0.4]
 	\coordinate (1) at (0,0);
@@ -899,330 +899,330 @@ These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respecti
 
 	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (B) -- (B);
 \end{tikzpicture}
-\\[2em]
-% LABEL 146
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw (1) -- (A);
-	\draw[dotted] (A) -- (B);
-	\draw (B) -- (3);
-	\draw[dotted] (B) -- (C);
-	\draw (C) -- (D);
-	\draw[dotted] (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (D);
-\end{tikzpicture}
-\qquad
-% LABEL 156
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw (1) -- (A);
-	\draw[dotted] (A) -- (B);
-	\draw (B) -- (3);
-	\draw[dotted] (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
-\end{tikzpicture}
-\qquad
-% LABEL 234
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw[dotted] (B) -- (3);
-	\draw (B) -- (C);
-	\draw (C) -- (D);
-	\draw[dotted] (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (D);
-\end{tikzpicture}
-\qquad
-% LABEL 235
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw[dotted] (B) -- (3);
-	\draw (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (C);
-\end{tikzpicture}
-\\[2em]
-% LABEL 236
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw (B) -- (3);
-	\draw (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw[dotted] (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (D) -- (D);
-\end{tikzpicture}
-\qquad
-% LABEL 245
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw[dotted] (B) -- (3);
-	\draw[dotted] (B) -- (C);
-	\draw (C) -- (D);
-	\draw (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (B);
-\end{tikzpicture}
-\qquad
-% LABEL 246
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw (B) -- (3);
-	\draw[dotted] (B) -- (C);
-	\draw (C) -- (D);
-	\draw[dotted] (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (D);
-\end{tikzpicture}
-\qquad
-% LABEL 256
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw (B) -- (3);
-	\draw[dotted] (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
-\end{tikzpicture}
-\\[2em]
-% LABEL 345
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw[dotted] (A) -- (B);
-	\draw[dotted] (B) -- (3);
-	\draw (B) -- (C);
-	\draw (C) -- (D);
-	\draw (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
-\end{tikzpicture}
-\qquad
-% LABEL 346
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw[dotted] (A) -- (B);
-	\draw (B) -- (3);
-	\draw (B) -- (C);
-	\draw (C) -- (D);
-	\draw[dotted] (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
-\end{tikzpicture}
-\qquad
-% LABEL 356
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw[dotted] (A) -- (B);
-	\draw (B) -- (3);
-	\draw (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
-\end{tikzpicture}
-\qquad
-% LABEL 456
-\begin{tikzpicture}[scale=0.4]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw[dotted] (A) -- (B);
-	\draw (B) -- (3);
-	\draw[dotted] (B) -- (C);
-	\draw (C) -- (D);
-	\draw (D) -- (2);
-
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
-\end{tikzpicture}
+%\\[2em]
+%% LABEL 146
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw (1) -- (A);
+%	\draw[dotted] (A) -- (B);
+%	\draw (B) -- (3);
+%	\draw[dotted] (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw[dotted] (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (D);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 156
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw (1) -- (A);
+%	\draw[dotted] (A) -- (B);
+%	\draw (B) -- (3);
+%	\draw[dotted] (B) -- (C);
+%	\draw[dotted] (C) -- (D);
+%	\draw (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 234
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw[dotted] (B) -- (3);
+%	\draw (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw[dotted] (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (D);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 235
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw[dotted] (B) -- (3);
+%	\draw (B) -- (C);
+%	\draw[dotted] (C) -- (D);
+%	\draw (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (C);
+%\end{tikzpicture}
+%\\[2em]
+%% LABEL 236
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw (B) -- (3);
+%	\draw (B) -- (C);
+%	\draw[dotted] (C) -- (D);
+%	\draw[dotted] (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (D) -- (D);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 245
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw[dotted] (B) -- (3);
+%	\draw[dotted] (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (B);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 246
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw (B) -- (3);
+%	\draw[dotted] (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw[dotted] (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (D);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 256
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw (A) -- (B);
+%	\draw (B) -- (3);
+%	\draw[dotted] (B) -- (C);
+%	\draw[dotted] (C) -- (D);
+%	\draw (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
+%\end{tikzpicture}
+%\\[2em]
+%% LABEL 345
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw[dotted] (A) -- (B);
+%	\draw[dotted] (B) -- (3);
+%	\draw (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 346
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw[dotted] (A) -- (B);
+%	\draw (B) -- (3);
+%	\draw (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw[dotted] (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 356
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw[dotted] (A) -- (B);
+%	\draw (B) -- (3);
+%	\draw (B) -- (C);
+%	\draw[dotted] (C) -- (D);
+%	\draw (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
+%\end{tikzpicture}
+%\qquad
+%% LABEL 456
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw[dotted] (1) -- (A);
+%	\draw[dotted] (A) -- (B);
+%	\draw (B) -- (3);
+%	\draw[dotted] (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
+%\end{tikzpicture}
 \caption{Forests in $\forests_2(G;S)$, with floating component highlighted.}
 \label{fig:2-forests}
 \end{figure}
