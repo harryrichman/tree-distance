@@ -17,7 +17,7 @@
 % SHOW EQN LABELS ONLY IF REFERENCED
 \mathtoolsset{showonlyrefs}
 
-\newtheorem{thm}{Theorem}
+\newtheorem{thm}{Theorem}[section]
 \newtheorem*{thm*}{Theorem}
 \newtheorem{obs}[thm]{Observation}
 \newtheorem{prop}[thm]{Proposition}
@@ -53,7 +53,7 @@
 \newcommand{\boldm}{\mathbf{m}}
 \newcommand{\boldn}{\mathbf{n}}
 % weighted distance matrix
-\newcommand{\Da}{D_{\alpha}}
+\newcommand{\Da}{D^{(\alpha)}}
 % weighted laplacian matrix
 \newcommand{\La}{L_{\alpha}}
 
@@ -180,7 +180,7 @@ Thus \eqref{eq:main} recovers the Graham--Pollak identity \eqref{eq:full-det} wh
 %Weighted version:
 If $\{\alpha_e : e\in E\}$ is a collection of positive edge weights,  the $\alpha$-distance matrix $\Da$ 
 %takes the distance along edge $e$ to be $\alpha_e$.
-%Namely, the $(v,w)$-entry of $D_\alpha$ is 
+%Namely, the $(v,w)$-entry of $\Da$ is 
 is defined by setting the $(u,v)$-entry to the sum of the weights $\alpha_e$ along the unique path from $u$ to $v$.
 The relation \eqref{eq:full-det}
 has an analogue for the weighted distance matrix, 
@@ -194,7 +194,7 @@ We also prove the following weighted version of our main theorem.
 \label{thm:w-main}
 Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and corresponding weighted distance matrix $D = \Da$. For any nonempty subset $S \subset V$, we have
 \begin{equation}\label{eq:w-main}
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right),
+	\det \Da[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right),
 \end{equation}
 where 
 $\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
@@ -232,7 +232,7 @@ the sum of cofactors of a distance submatrix $D[S]$ of a tree,
 \end{equation}
 Using the Bapat--Sivasubramanian identity \eqref{eq:cof-trees}, an immediate corollary to Theorem~\ref{thm:w-main} is the following result:
 %\begin{thm}
-%suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$. Let $D = D_\alpha$ denote the weighted distance matrix of $G$. 
+%suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$. Let $D = \Da$ denote the weighted distance matrix of $G$. 
 %For any nonempty subset $S \subset V$, we have
 \begin{equation}
 \label{eq:det-cof}
@@ -276,18 +276,18 @@ We get refined bounds by making use of the monotonicity property, Theorem~\ref{t
 
 \begin{thm}[Bounds on principal minor ratios]
 \label{thm:det-cof-bounds}
-Suppose $G = (V,E)$ is a finite, weighted tree with distance matrix $D$.
+Suppose $G = (V,E)$ is a finite, weighted tree with distance matrix $\Da$.
 \begin{enumerate}[(a)]
 \item 
 If $\conv(S,G)$ denotes the subtree of $G$ consisting of all paths between points of $S \subset V(G)$,
 \begin{equation*}
- \frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{E(\conv(S, G))} \alpha_e .
+ \frac{\det \Da[S]}{\cof \Da[S]} \leq \frac12 \sum_{E(\conv(S, G))} \alpha_e .
 \end{equation*}
 
 \item 
 If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
 \begin{equation*}
-	\frac12 \sum_{e \in \gamma} \alpha_e \leq \frac{\det D[S]}{\cof D[S]}.
+	\frac12 \sum_{e \in \gamma} \alpha_e \leq \frac{\det \Da[S]}{\cof \Da[S]}.
 \end{equation*}
 \end{enumerate}
 \end{thm}
@@ -301,6 +301,11 @@ If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
 
 \subsection{Further questions} 
 A formula for the inverse matrix $D^{-1}$ was found by Graham and Lov\'{a}sz in \cite{graham-lovasz}.
+Namely,
+\[
+	D^{-1} = - \frac12 L + \frac1{2(n - 1)} \boldm \boldm^\tr
+\]
+where $L$ is the Laplacian matrix and $\boldm$ is the vector $\boldm_v = 2 - \deg v$.
 Does there exist a nice expression for the inverse of the matrix $D[S]$?
 
 \subsection{Notation}
@@ -1230,21 +1235,45 @@ These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respecti
 
 \subsection{Laplacian matrix}
 
-Given a graph $G = (V,E)$, let $L \in \RR^{V \times V}$ denote the {\em Laplacian matrix} of $G$.
-If $G$ is a weighted graph with edge weights $\alpha_e  \in \RR_{>0}$ for $e \in E$,
-let $L$ denote the weighted Laplacian matrix of $G$.
+Given a graph $G = (V,E)$, consider an orientation on the edge set, which consists of a pair of functions $\mathrm{head}: E \to V$ and $\mathrm{tail}: E \to V$, such that $\mathrm{head}(e)$ and $\mathrm{tail}(e)$ are the endpoints of $e$.
+We abbreviate $\mathrm{head}(e)$ as $e^+$, and $\mathrm{tail}(e)$ as $e^-$.
 
-\begin{dfn}[Weighted Laplacian matrix]
-Given a graph $G = (V,E)$ and edge weights $\{ \alpha_e : e \in E\}$,
-the {\em weighted Laplacian matrix} $\La \in \RR^{V\times V}$ is defined by
+The {\em incidence matrix} of $G$ is the matrix $N \in \RR^{V \times E}$ defined by
 \[
-	(\La)_{v,w} = \begin{cases}
-		0 &\text{if } v\neq w \text{ and } (v,w) \not\in E \\
-		- \alpha_e^{-1} &\text{if } v\neq w \text{ and } (v,w) = e \in E \\
-		\displaystyle \sum_{e \in N(v)} \alpha_e^{-1} &\text{if } v = w.
+	N_{v, e} = \begin{cases}
+	1 &\text{if } v = e^+ \\
+	-1 &\text{if } v = e^- \\
+	0 &\text{otherwise}.
 	\end{cases}
 \]
-\end{dfn}
+
+Let $L \in \RR^{V \times V}$ denote the {\em Laplacian matrix} of $G$, which is defined by
+\[
+	L = N N^\tr.
+\]
+If $G$ is a weighted graph with positive edge weights $\alpha_e$ for $e \in E$,
+let $\La$ denote the weighted Laplacian matrix of $G$,
+defined by
+\begin{equation}
+\label{eq:weighted-laplacian}
+	L^{(\alpha)} = N \begin{pmatrix}
+	\alpha_1^{-1} & & \\
+	& \ddots & \\
+	& & \alpha_m^{-1}
+	\end{pmatrix} N^\tr .
+\end{equation}
+
+%\begin{dfn}[Weighted Laplacian matrix]
+%Given a graph $G = (V,E)$ and edge weights $\{ \alpha_e : e \in E\}$,
+%the {\em weighted Laplacian matrix} $\La \in \RR^{V\times V}$ is defined by
+%\[
+%	(\La)_{v,w} = \begin{cases}
+%		0 &\text{if } v\neq w \text{ and } (v,w) \not\in E \\
+%		- \alpha_e^{-1} &\text{if } v\neq w \text{ and } (v,w) = e \in E \\
+%		\displaystyle \sum_{e \in N(v)} \alpha_e^{-1} &\text{if } v = w.
+%	\end{cases}
+%\]
+%\end{dfn}
 
 Given $S \subset V$,
 let $L[\overline S]$ denote the matrix obtained from $L$ by removing the rows and columns indexed by $S$.
@@ -1263,10 +1292,10 @@ Then for any nonempty vertex set $S \subset V$,
 \end{equation}
 
 \item 
-Let $L_\alpha$ denote the weighted Laplacian matrix of $G$, with edge weights $\{\alpha_e\}$. 
+Let $\La$ denote the weighted Laplacian matrix of $G$, with edge weights $\{\alpha_e\}$. 
 Then for any nonempty vertex set $S \subset V$,
 \begin{equation}
-	\det L_\alpha[\overline S] = \sum_{T \in \trees( G ; S)} w(T)^{-1}
+	\det \La[\overline S] = \sum_{T \in \trees( G ; S)} w(T)^{-1}
 	= \sum_{T \in \trees(G; S)} w(\overline{T}) \prod_{e \in E} \alpha_e^{-1} .
 \end{equation}
 \end{enumerate}
@@ -1383,7 +1412,7 @@ is the indicator function for the unique $v \sim w$ path in $G$.
 \label{prop:distance-sum}
 For a tree $G = (V,E)$ with weights $\{\alpha_e : e \in E\}$,
 the weighted distance function satisfies
-\[ d_\alpha(v,w) = \sum_{e \in E} \alpha_e \, \delta(e; v,w) .\]
+\[ \Da(v,w) = \sum_{e \in E} \alpha_e \, \delta(e; v,w) .\]
 \end{prop}
 
 For an unweighted tree, we can express the tree distance $d(v,w)$ as the unweighted sum
@@ -1434,7 +1463,7 @@ If $H\subset G$ is a (nonempty) connected subgraph, then
 \item 
 For any fixed edge $e$ and fixed vertex $u$ of $G$, we have
 \[
-	\sum_{v \in V(G)} (2 - \deg(v)) \delta(e; u,v) = 1.
+	\sum_{v \in V(G)} (2 - \deg(v))\, \delta(e; u,v) = 1.
 \]
 
 \end{enumerate}
@@ -1478,17 +1507,31 @@ Using part (a), we have
 
 In this section we recall some results on the distance matrix of a tree.
 
+Bapat--Kirkland--Neumann~\cite[Theorem 2.1]{bapat-kirkland-neumann} prove that
+\begin{equation}
+\label{eq:12}
+	D^{-1} = - \frac12 L + \frac12 \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm\, \boldm^\tr
+\end{equation}
+where $\boldm$ is the vector with components $\boldm_v = 2 - \deg v$.
+
 \begin{prop}
-Suppose $D$ is the weighted distance matrix of a tree, and $L$ is the weighted Laplacian matrix. 
+\label{prop:dist-laplacian}
+Let $D$ denote the weighted distance matrix of a tree, and $L$ the weighted Laplacian matrix. 
 Then
 \[
 	D = - \frac{1}{2} DLD + \frac{1}{2} \left( \sum_{e \in E} \alpha_e\right) \bone \bone^\tr .
 \]
 \end{prop}
-
+\begin{proof}
+Multiply \eqref{eq:12} by the all-ones vector $\bone$; since $L \bone = 0$ and $\boldm^\tr \bone = 2$, we obtain $D^{-1} \bone = \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm$.
+% Then apply the identity $D \boldm = \left( \sum_{e \in E} \alpha_e \right) \bone$.
+Hence $D \boldm = \left( \sum_{e \in E} \alpha_e \right) \bone$.
+Then multiply \eqref{eq:12} by $D$ on both sides. 
+\end{proof}
+The unweighted version of \eqref{eq:12} appeared earlier in Graham--Lovasz~\cite[Lemma 1]{graham-lovasz}.
 
 \begin{prop}
-\label{prop:det-hyperplane}
+\label{prop:negdeg-hyperplane}
 Suppose $D$ is the distance matrix of a tree, and $\mathbf{h} \in \RR^V$ is a vector whose coordinates sum to zero. 
 Then
 $
@@ -1496,11 +1539,14 @@ $
 $
 \end{prop}
 \begin{proof}
-Using Proposition [above],
-\[
-	\mathbf{h}^\tr D\mathbf{h} = - \frac12 (ND\mathbf{h})^\tr (ND\mathbf{h}) + \lambda \cdot 0
-	= -\frac12 \| ND \mathbf{h} \|^2 .
-\]
+By assumption $\bone^\tr \mathbf{h} = 0$.
+Using Proposition~\ref{prop:dist-laplacian},
+\begin{align}
+	\mathbf{h}^\tr D\mathbf{h} 
+	&= - \frac12 \mathbf{h}^\tr DLD \mathbf{h} + 0 \\	
+	&= - \frac12 (N^\tr D\mathbf{h})^\tr (N^\tr D\mathbf{h}) + 0
+	= -\frac12 \| A^{1/2} N^\tr D \mathbf{h} \|^2 .
+\end{align}
 \end{proof}
 
 \subsection{Miscellaneous}
@@ -1611,6 +1657,7 @@ For a forest $T$ in $\trees(G; S)$, the preimage under this map has $|E(T)|$-man
 
 In this section, we explain how the quantity $\displaystyle \frac{\det D[S]}{\cof D[S]}$ arises as the solution of a quadratic optimization problem.
 
+
 \begin{prop}
 \label{prop:optimization}
 If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
@@ -1621,11 +1668,20 @@ If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then
 where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
 \end{prop}
 
+\begin{cor}
+\label{cor:optimization}
+If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
+\[
+	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D \boldm : \boldm \in \RR^V,\, \bone^\tr \boldm = 1,\, \boldm_v = 0 \text{ if } v \not\in S \}
+\]
+where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
+\end{cor}
+
 \begin{proof}
 If $|S| = 1$ then $D[S]$ is the zero matrix and the statement is true trivially.
 
 Now assume $|S| \geq 2$.
-Proposition~\ref{prop:det-hyperplane} implies that 
+Proposition~\ref{prop:negdeg-hyperplane} implies that 
 the objective function is concave on the domain $\bone^\tr \boldm = 1$
 so any critical point is a local maximum.
 The gradient of the objective function is $2 D[S] \boldm$, 
@@ -1651,15 +1707,6 @@ $\displaystyle
 	\lambda = \frac{\det D[S]}{\cof D[S]} .
 $
 \end{proof}
-
-\begin{cor}
-\label{cor:optimization}
-If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
-\[
-	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D \boldm : \boldm \in \RR^V,\, \bone^\tr \boldm = 1,\, \boldm_v = 0 \text{ if } v \not\in S \}
-\]
-where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
-\end{cor}
 
 \begin{proof}[Proof of Theorem~\ref{thm:monotonic}]
 We are to show that for vertex subsets $A \subset B$, we have
@@ -1865,8 +1912,8 @@ For any $v \in S$, we have
 \begin{align}
   (D[S] \boldm)_v &= \sum_{s \in S} d(v,s) \boldm_s \\
   &= \sum_{s \in S} \left( \sum_{e \in E(G)} \alpha_e\, \delta(e; v,s) \right) \left( \sum_{T \in \trees(G;S)} (2 - \degout(T,s)) w(\overline{T}) \right) \\
-  &= \sum_{T\in \trees} w(\overline{T}) \sum_{e\in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) (2 - \deg^o(T, s)) \right) \\
-  % &= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \left( \sum_{s \in S \cap (G\setminus e)^{\overline v}} (2 - \deg^o(T, s)) \right) \\
+  &= \sum_{T\in \trees} w(\overline{T}) \sum_{e\in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) (2 - \degout(T, s)) \right) \\
+  % &= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \left( \sum_{s \in S \cap (G\setminus e)^{\overline v}} (2 - \degout(T, s)) \right) \\
   &= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) \sum_{u \in T(s)} (2 - \deg(u)) \right). \label{eq:14-1}
 \end{align}
 %where
@@ -2011,11 +2058,12 @@ Thus when multiplying the term \eqref{eq:delta-diff} by $(2 - \deg(u))$ and summ
 \]
 Thus
 \begin{align}\label{eq:1}
-	&(D[S] \boldm)(v) - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \\
-	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} \alpha_e ( 2 - \deg^o(T\setminus e,*)) 
-	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} \alpha_e (2 - \deg^o(T\setminus e,*) ) \right)\\
-	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{e \in T} \alpha_e ( 2 - \deg^o(T\setminus e,*)) \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} 1
-	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} 1 \right).
+	&(D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \\
+%	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} \alpha_e ( 2 - \degout(T\setminus e,*)) 
+%	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} \alpha_e (2 - \degout(T\setminus e,*) ) \right)\\
+%	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{e \in T} \alpha_e ( 2 - \degout(T\setminus e,*)) \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} 1
+%	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} 1 \right). \\
+	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{e \in T} \alpha_e ( 2 - \degout(T\setminus e,*)) \Big( \one(\delta(e; v, \pi_T(e)) = 1) - \one(\delta(e; v, \pi_T(e)) = 0) \Big).
 \end{align}
 
 We now rewrite the above expression in terms of $\forests_2(G;S)$,
@@ -2025,13 +2073,7 @@ and that the corresponding weights satisfy
 \[
 	w(\overline{F}) = \alpha_e \cdot w(\overline{T}) \qquad\text{if}\qquad F = T \setminus e.
 \]
-Thus
-\begin{align*}
-	(*) &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 1}} \one(F = T \setminus e) -  \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 0}} \one(F = T \setminus e) \right) \\
-	&= \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*)) \Bigg( \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e;v,s_0) = 1 \} \\
-	&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad - \#\{T \in \trees : F = T \setminus e \text{ for some } e \in T(s_0),\, \delta(e; v,s_0) = 0 \} \Bigg)
-\end{align*}
-Next, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose the edge $e$ to be in the floating boundary $\partial F(*)$:
+Note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose the edge $e$ to be in the floating boundary $\partial F(*)$:
 
 \begin{figure}[h]
 % LABEL 2356
@@ -2098,8 +2140,16 @@ Next, we note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in p
 \caption{Edge $e \in \partial F(*)$ with $\delta(e; v, F(*)) = 0$ (left) and $\delta(e; v, F(*)) = 1$ (right). The floating component $F(*)$ is highlighted.}
 \end{figure}
 
+Thus
+\begin{align*}
+	(\star) 
+	% &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 1}} \one(F = T \setminus e) -  \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 0}} \one(F = T \setminus e) \right) \\
+	&= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F, *)) \sum_{e \in \partial F} \Big( \one(\delta(e; v, \pi_{(F \cup e)}(e)) = 1) - \one(\delta(e; v, \pi_{(F \cup e)}(e)) = 0) \Big) \\
+	&= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*)) \Bigg( \#\{e \in \partial F : \delta(e; v, \pi_T(e)) = 1 \text{ for } T = F \cup e \} \\
+	&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad - \#\{e \in \partial F : \delta(e; v, \pi_T(e)) = 0 \text{ for } T = F \cup e\} \Bigg). \\
+\end{align*}
 %\begin{multline}
-%	\eqref{eq:1} = \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*))  \sum_{e \in \partial F(*)} \Bigg( \sum_{\substack{s_0 \in S \\ \delta(e; v, s_0) = 0}} \; \sum_{\substack{T \in \trees \\ e \in T(s_0)}} \one(T = F \cup e) \\
+%	\eqref{eq:1} = \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \sum_{e \in \partial F(*)} \Bigg( \sum_{\substack{s_0 \in S \\ \delta(e; v, s_0) = 0}} \; \sum_{\substack{T \in \trees \\ e \in T(s_0)}} \one(T = F \cup e) \\
 %	- \sum_{\substack{s_0 \in S \\ \delta(e; v, s_0) = 1}} \; \sum_{\substack{T \in \trees \\ e \in T(s_0)}} \one(T = F \cup e) \Bigg).
 %\end{multline}
 Now for any $e \not\in F$, let $\delta(e; v, F(*)) = \delta(e; v, x)$ for any $x \in F(*)$, i.e.
@@ -2109,10 +2159,15 @@ Now for any $e \not\in F$, let $\delta(e; v, F(*)) = \delta(e; v, x)$ for any $x
 	0 &\text{otherwise}.
 	\end{cases}
 \]
-The condition $F = T \setminus e$ for some $e \in T(s_0)$ with $\delta(e; v, s_0) = 1$ (resp. $\delta(e; v, s_0) = 0$) is equivalent to $T = F \cup e$ for some $e \in \partial F(*)$ with $\delta(e; v, F(*)) = 0$ (resp. $\delta(e; v, F(*)) = 1$).
+The condition that
+% $F = T \setminus e$ for some $e \in T(s_0)$ with $\delta(e; v, s_0) = 1$ (resp. $\delta(e; v, s_0) = 0$) 
+$\delta(e; v, \pi_{(F \cup e)}(e)) = 1$ (respectively $\delta(e; v, \pi_{(F \cup e)}(e)) = 0$)
+is equivalent to 
+% $T = F \cup e$ for some $e \in \partial F(*)$ with 
+$\delta(e; v, F(*)) = 0$ (respectively ${\delta(e; v, F(*)) = 1}$).
 Thus
 \begin{multline}
-	(*) = \sum_{F \in \forests_2} w(\overline{F}) (2 - \deg^o(F,*))  \Bigg( \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 0 \}  \\
+	(\star) = \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Bigg( \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 0 \}  \\
 	- \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 1 \}  \Bigg).
 \end{multline}
 Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
@@ -2121,11 +2176,11 @@ Hence
 \[
 	\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 1 \} = 1
 \qquad\text{and}\qquad
-	\#\{e \in \partial (F,*) : \delta(e;v, F(*)) = 0 \} = \deg^o(F,*) - 1 .
+	\#\{e \in \partial (F,*) : \delta(e;v, F(*)) = 0 \} = \degout(F,*) - 1 .
 \]
-Thus the previous expression $(*)$ simplifies as
+Thus the previous expression $(\star)$ simplifies as
 \begin{align*}
-	(*) &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Big( (\degout(F,*) - 1)  - (1) \Big) \\
+	(\star) &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Big( (\degout(F,*) - 1)  - (1) \Big) \\
 	% &\qquad - \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*)) (1) \\
 	&= - \!\sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))^2 .
 \end{align*}
@@ -2225,10 +2280,10 @@ as desired.
 %\]
 %where
 %\[
-%	\forests_2^{in}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \deg^o(*,F) \geq 2\},
+%	\forests_2^{in}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \degout(*,F) \geq 2\},
 %\]
 %$$
-%\forests_2^{out}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \deg^o(*,F) = 1\}.
+%\forests_2^{out}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \degout(*,F) = 1\}.
 %$$
 %\end{rmk}
 
