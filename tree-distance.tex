@@ -370,7 +370,7 @@ A {\em spanning forest} of a graph $G$ is a subgraph which
 has no cycles
 and 
 contains all vertices of $G$. 
-Let $\kappa(G)$ denote the number of spanning forests of $G$, and let $\kappa_r(G)$ denote the number of $r$-component spanning forests.
+Let $\kappa(G)$ denote the number of spanning trees of $G$, and let $\kappa_r(G)$ denote the number of $r$-component spanning forests.
 
 Given a set of vertices $S = \{v_1, v_2, \ldots, v_k\}$,
 an {\em $S$-rooted spanning forest} of $G$ 
@@ -382,6 +382,9 @@ Given $s \in S$ and a forest $F$ in $\trees(G; S)$ or $\forests_2(G; S)$, we let
 Let $\kappa(G;S)$ denote the number of $S$-rooted spanning forests of $G$, and let $\kappa_2(G; S)$ denote the number of $(S,*)$-rooted spanning forests.
 Let $\trees(G;S)$ denote the set of $S$-rooted spanning forests of $G$,
 and let $\forests_2(G;S)$ denote the set of $(S,*)$-rooted spanning forests of $G$.
+Note that $\kappa(G;S)$ is also the number of 
+% $S$-rooted spanning forests of $G$.
+spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex.
 
 Let 
 \[
@@ -431,7 +434,7 @@ Suppose $G$ is the tree with unit edge lengths shown below.
 Let $S$ be the set of three leaf vertices.
 Then $\trees(G;S)$ contains $11$ forests,
 while $\forests_2(G;S)$ contains $19$ forests.
-These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respectively.
+Some of these are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respectively.
 \end{eg}
 
 \begin{figure}[h]
@@ -710,7 +713,7 @@ These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respecti
 %	\draw (D) -- (2);
 %	\draw (B) -- (3);
 %\end{tikzpicture}
-\caption{Forests in $\trees(G;S)$.}
+\caption{Some forests in $\trees(G;S)$.}
 \label{fig:1-forests}
 \end{figure}
 
@@ -878,7 +881,7 @@ These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respecti
 	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (D) -- (D);
 \end{tikzpicture}
 \qquad
-% LABEL 145
+% LABEL 156
 \begin{tikzpicture}[scale=0.4]
 	\coordinate (1) at (0,0);
 	\coordinate (A) at (1,0);
@@ -897,13 +900,40 @@ These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respecti
 
 	\draw (1) -- (A);
 	\draw[dotted] (A) -- (B);
-	\draw[dotted] (B) -- (3);
+	\draw (B) -- (3);
 	\draw[dotted] (B) -- (C);
-	\draw (C) -- (D);
+	\draw[dotted] (C) -- (D);
 	\draw (D) -- (2);
 
-	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (B) -- (B);
+	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
 \end{tikzpicture}
+%\qquad
+%% LABEL 145
+%\begin{tikzpicture}[scale=0.4]
+%	\coordinate (1) at (0,0);
+%	\coordinate (A) at (1,0);
+%	\coordinate (B) at (2,0);
+%	\coordinate (C) at (3,0);
+%	\coordinate (D) at (4,0);
+%	\coordinate (2) at (5,0);
+%	\coordinate (3) at (2,1);
+%	
+%	\foreach \c in {1,2,3,A,B,C,D} {
+%		\fill (\c) circle (2pt);
+%	}
+%	\foreach \c in {1,2,3} {
+%		\draw (\c) circle (3pt);
+%	}
+%
+%	\draw (1) -- (A);
+%	\draw[dotted] (A) -- (B);
+%	\draw[dotted] (B) -- (3);
+%	\draw[dotted] (B) -- (C);
+%	\draw (C) -- (D);
+%	\draw (D) -- (2);
+%
+%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (B) -- (B);
+%\end{tikzpicture}
 %\\[2em]
 %% LABEL 146
 %\begin{tikzpicture}[scale=0.4]
@@ -930,33 +960,6 @@ These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respecti
 %	\draw[dotted] (D) -- (2);
 %
 %	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (D);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 156
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw (1) -- (A);
-%	\draw[dotted] (A) -- (B);
-%	\draw (B) -- (3);
-%	\draw[dotted] (B) -- (C);
-%	\draw[dotted] (C) -- (D);
-%	\draw (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
 %\end{tikzpicture}
 %\qquad
 %% LABEL 234
@@ -1228,7 +1231,7 @@ These are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respecti
 %
 %	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
 %\end{tikzpicture}
-\caption{Forests in $\forests_2(G;S)$, with floating component highlighted.}
+\caption{Some forests in $\forests_2(G;S)$, with floating component highlighted.}
 \label{fig:2-forests}
 \end{figure}
 
@@ -1240,17 +1243,19 @@ We abbreviate $\mathrm{head}(e)$ as $e^+$, and $\mathrm{tail}(e)$ as $e^-$.
 
 The {\em incidence matrix} of $G$ is the matrix $N \in \RR^{V \times E}$ defined by
 \[
-	N_{v, e} = \begin{cases}
-	1 &\text{if } v = e^+ \\
-	-1 &\text{if } v = e^- \\
-	0 &\text{otherwise}.
-	\end{cases}
+	N_{v, e} = \one(v = e^+) - \one(v = e^-).
 \]
-
+%\[
+%	N_{v, e} = \begin{cases}
+%	1 &\text{if } v = e^+ \\
+%	-1 &\text{if } v = e^- \\
+%	0 &\text{otherwise}.
+%	\end{cases}
+%\]
 Let $L \in \RR^{V \times V}$ denote the {\em Laplacian matrix} of $G$, which is defined by
-\[
+$
 	L = N N^\tr.
-\]
+$
 If $G$ is a weighted graph with positive edge weights $\alpha_e$ for $e \in E$,
 let $\La$ denote the weighted Laplacian matrix of $G$,
 defined by
@@ -1262,6 +1267,7 @@ defined by
 	& & \alpha_m^{-1}
 	\end{pmatrix} N^\tr .
 \end{equation}
+It is clear that $L$ and $\La$ are positive semidefinite.
 
 %\begin{dfn}[Weighted Laplacian matrix]
 %Given a graph $G = (V,E)$ and edge weights $\{ \alpha_e : e \in E\}$,
@@ -1277,7 +1283,8 @@ defined by
 
 Given $S \subset V$,
 let $L[\overline S]$ denote the matrix obtained from $L$ by removing the rows and columns indexed by $S$.
-For any graph $G$, let $\kappa(G)$ denote the number of spanning trees of $G$.
+More generally, let $L[\overline S, \overline T]$ denote the matrix obtained from $L$ by removing $S$-indexed rows and $T$-indexed columns.
+Recall that $\kappa(G; S)$ denotes the number of $S$-rooted spanning forests of $G$.
 The following theorem relates minors of the (weighted) Laplacian to (weighted) counts of rooted spanning forests.
 %is due to Kirchhoff.
 \begin{thm}[Principal-minors matrix tree theorem]
@@ -1303,10 +1310,6 @@ Then for any nonempty vertex set $S \subset V$,
 \begin{proof}
 See Tutte~\cite[Section VI.6, Equation (VI.6.7)]{tutte} or Chaiken~\cite{chaiken} or Bapat~\cite[Theorem 4.7]{bapat}.
 \end{proof}
-
-Note that $\kappa(G;S)$ is also the number of 
-% $S$-rooted spanning forests of $G$.
-spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex.
 
 Next we recall a connection between minors of the Laplacian matrix and cofactor sums of the distance matrix, when $G$ is a tree.
 The result is due to Bapat--Sivasubramanian~\cite{bapat-sivasubramanian}.
@@ -1532,13 +1535,23 @@ The unweighted version of \eqref{eq:12} appeared earlier in Graham--Lovasz~\cite
 
 \begin{prop}
 \label{prop:negdeg-hyperplane}
-Suppose $D$ is the distance matrix of a tree, and $\mathbf{h} \in \RR^V$ is a vector whose coordinates sum to zero. 
-Then
+Suppose $D$ is the (weighted) distance matrix of a tree.
+\begin{enumerate}[(a)]
+\item
+If $\mathbf{h} \in \RR^V$ is a vector whose coordinates sum to zero, then
 $
 	\mathbf{h}^\tr D \mathbf{h} \leq 0.
 $
+
+\item 
+If $\mathbf{h} \in \RR^S$ is a vector whose coordinates sum to zero, then
+$
+	\mathbf{h}^\tr D[S] \mathbf{h} \leq 0.
+$
+\end{enumerate}
 \end{prop}
 \begin{proof}
+(a)
 By assumption $\bone^\tr \mathbf{h} = 0$.
 Using Proposition~\ref{prop:dist-laplacian},
 \[
@@ -1555,9 +1568,10 @@ Using Proposition~\ref{prop:dist-laplacian},
 It is well-known that the Laplacian matrix is positive semidefinite, so $\mathbf{h}^\tr DLD \mathbf{h} = (D \mathbf{h})^\tr L (D \mathbf{h}) \geq 0$.
 Thus $\mathbf{h}^\tr D \mathbf{h} \leq 0$
 as claimed.
-\end{proof}
 
-\subsection{Miscellaneous}
+(b)
+This follows from (a) since $\mathbf{h}^\tr D[S] \mathbf{h} = D$.
+\end{proof}
 
 Later we will make use of the fact that a submatrix $D[S]$ of a distance matrix has nonzero determinant, as long as $|S| \geq 2$.
 We prove this fact in this section.
@@ -1611,6 +1625,8 @@ The same argument applies for smaller $S$, as long as $|S| \geq 2$.
 
 (b) This follows from (a), since the determinant is the product of eigenvalues.
 \end{proof}
+
+\subsection{Miscellaneous}
 
 
 \begin{rmk}
