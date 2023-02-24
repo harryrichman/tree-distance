@@ -53,9 +53,9 @@
 \newcommand{\boldm}{\mathbf{m}}
 \newcommand{\boldn}{\mathbf{n}}
 % weighted distance matrix
-\newcommand{\Da}{D^{(\alpha)}}
+\newcommand{\Da}{{D^{(\alpha)}}}
 % weighted laplacian matrix
-\newcommand{\La}{L_{\alpha}}
+\newcommand{\La}{L^{(\alpha)}}
 
 % matrix transpose
 \newcommand{\tr}{\intercal}
@@ -1256,7 +1256,7 @@ let $\La$ denote the weighted Laplacian matrix of $G$,
 defined by
 \begin{equation}
 \label{eq:weighted-laplacian}
-	L^{(\alpha)} = N \begin{pmatrix}
+	\La = N \begin{pmatrix}
 	\alpha_1^{-1} & & \\
 	& \ddots & \\
 	& & \alpha_m^{-1}
@@ -1322,14 +1322,14 @@ let $D$ be the weighted distance matrix of $G$, and $L$ the weighted Laplacian m
 Let $S \subset V(G)$ be a nonempty subset of vertices of $G$. 
 Then
 \begin{equation}
-	\cof D[S] = (-2)^{|S|-1} \sum_{T \in \trees(G; S)} w(\overline{T}).
+	\cof \Da[S] = (-2)^{|S|-1} \sum_{T \in \trees(G; S)} w(\overline{T}).
 \end{equation}
 \end{thm}
 \begin{proof}
 Bapat and Sivasubramanian~\cite[Theorem 11]{bapat-sivasubramanian}
 show that
 \[
-	\cof D[S] = (-2)^{|S|-1} \left( \prod_{e \in E} \alpha_e \right) \det L[\overline S] .
+	\cof \Da[S] = (-2)^{|S|-1} \left( \prod_{e \in E} \alpha_e \right) \det L[\overline S] .
 \]
 Then combine this equation with the matrix tree theorem,
 Theorem~\ref{thm:matrix-tree} (b).
@@ -1342,7 +1342,7 @@ The following result is a direct consequence of theorems of Bapat--Kirkland--Neu
 Suppose $D$ is the distance matrix of a weighted tree with edge weights $\{\alpha_e : e \in E\}$.
 Then
 \[
-	\frac{\det D}{\cof D} = \frac1{2} \sum_{e \in E} \alpha_e .
+	\frac{\det \Da}{\cof \Da} = \frac1{2} \sum_{e \in E} \alpha_e .
 \]
 \end{prop}
 \begin{proof}
@@ -1350,7 +1350,7 @@ Consider applying Theorem~\ref{thm:distance-sub-cof} with $S = V$.
 In this case $\trees(G; V)$ consists of the forest with no edges, and for this forest $w(\overline{T})$ is the product of all edge weights.
 Thus
 \[
-	\cof D = (-2)^{n - 1} \prod_{e \in E} \alpha_e .
+	\cof \Da = (-2)^{n - 1} \prod_{e \in E} \alpha_e .
 \]
 Combining this with the Bapat--Kirkland--Neuman formula \eqref{eq:w-full-det} yields the result.
 \end{proof}
@@ -1510,7 +1510,7 @@ In this section we recall some results on the distance matrix of a tree.
 Bapat--Kirkland--Neumann~\cite[Theorem 2.1]{bapat-kirkland-neumann} prove that
 \begin{equation}
 \label{eq:12}
-	D^{-1} = - \frac12 L + \frac12 \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm\, \boldm^\tr
+	(\Da)^{-1} = - \frac12 \La + \frac12 \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm\, \boldm^\tr
 \end{equation}
 where $\boldm$ is the vector with components $\boldm_v = 2 - \deg v$.
 
@@ -1519,14 +1519,14 @@ where $\boldm$ is the vector with components $\boldm_v = 2 - \deg v$.
 Let $D$ denote the weighted distance matrix of a tree, and $L$ the weighted Laplacian matrix. 
 Then
 \[
-	D = - \frac{1}{2} DLD + \frac{1}{2} \left( \sum_{e \in E} \alpha_e\right) \bone \bone^\tr .
+	\Da = - \frac{1}{2} \Da \La \Da + \frac{1}{2} \left( \sum_{e \in E} \alpha_e\right) \bone \bone^\tr .
 \]
 \end{prop}
 \begin{proof}
-Multiply \eqref{eq:12} by the all-ones vector $\bone$; since $L \bone = 0$ and $\boldm^\tr \bone = 2$, we obtain $D^{-1} \bone = \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm$.
+Multiply \eqref{eq:12} by the all-ones vector $\bone$; since $\La \bone = 0$ and $\boldm^\tr \bone = 2$, we obtain $(\Da)^{-1} \bone = \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm$.
 % Then apply the identity $D \boldm = \left( \sum_{e \in E} \alpha_e \right) \bone$.
-Hence $D \boldm = \left( \sum_{e \in E} \alpha_e \right) \bone$.
-Then multiply \eqref{eq:12} by $D$ on both sides. 
+Hence $\Da \boldm = \left( \sum_{e \in E} \alpha_e \right) \bone$.
+Then multiply \eqref{eq:12} by $\Da$ on both sides. 
 \end{proof}
 The unweighted version of \eqref{eq:12} appeared earlier in Graham--Lovasz~\cite[Lemma 1]{graham-lovasz}.
 
@@ -1541,17 +1541,26 @@ $
 \begin{proof}
 By assumption $\bone^\tr \mathbf{h} = 0$.
 Using Proposition~\ref{prop:dist-laplacian},
-\begin{align}
-	\mathbf{h}^\tr D\mathbf{h} 
-	&= - \frac12 \mathbf{h}^\tr DLD \mathbf{h} + 0 \\	
-	&= - \frac12 (N^\tr D\mathbf{h})^\tr (N^\tr D\mathbf{h}) + 0
-	= -\frac12 \| A^{1/2} N^\tr D \mathbf{h} \|^2 .
-\end{align}
+\[
+	\mathbf{h}^\tr D\mathbf{h} = - \frac12 \mathbf{h}^\tr DLD \mathbf{h} + 0.
+\]
+%The Laplacian matrix factors as $\La = N A N^\tr = (N A^{1/2}) (A^{1/2} N^\tr)$
+%where $N$ is the incidence matrix and $A$ is the diagonal matrix with entries $\alpha_e^{-1}$.
+%Thus
+%\begin{align}
+%	\mathbf{h}^\tr D\mathbf{h} 
+%	% &= - \frac12 (N^\tr D\mathbf{h})^\tr (N^\tr D\mathbf{h}) + 0
+%	= -\frac12 \| A^{1/2} N^\tr D \mathbf{h} \|^2 \leq 0,
+%\end{align}
+It is well-known that the Laplacian matrix is positive semidefinite, so $\mathbf{h}^\tr DLD \mathbf{h} = (D \mathbf{h})^\tr L (D \mathbf{h}) \geq 0$.
+Thus $\mathbf{h}^\tr D \mathbf{h} \leq 0$
+as claimed.
 \end{proof}
 
 \subsection{Miscellaneous}
 
 Later we will make use of the fact that a submatrix $D[S]$ of a distance matrix has nonzero determinant, as long as $|S| \geq 2$.
+We prove this fact in this section.
 
 We first recall a result of Cauchy, which states that the eigenvalues of $M[\overline{i}]$ ``interlace'' the eigenvalues of $M$.
 Recall that $M[\overline{i}]$ denotes the matrix obtained from $M$ by deleting the $i$-th row and column.
@@ -1572,8 +1581,8 @@ See Horn--Johnson~\cite[Theorem 4.3.17]{horn-johnson}.
 
 \begin{lem}[{Bapat~\cite[Lemma 8.15]{bapat}}]
 \label{lem:dist-signature}
-Suppose $D$ is the (weighted) distance matrix of a tree with $n$ vertices. 
-Then $D$ has one positive eigenvalue and $n - 1$ negative eigenvalues.
+Suppose $\Da$ is the (weighted) distance matrix of a tree with $n$ vertices. 
+Then $\Da$ has one positive eigenvalue and $n - 1$ negative eigenvalues.
 \end{lem}
 \begin{proof}
 Lemma 8.15 of~\cite{bapat} is stated for a non-weighted distance matrix;
@@ -1583,18 +1592,18 @@ however, the same argument applies to a weighted distance matrix by applying Bap
 The following argument was communicated to the author by Bapat, via personal communication.
 \begin{prop}
 \label{prop:distance-sub-nonsingular}
-Suppose $D$ is the distance matrix of a tree $G = (V,E)$ and $S \subset V$ is a subset of size $|S| \geq 2$. 
+Suppose $\Da$ is the weighted distance matrix of a tree $G = (V,E)$ and $S \subset V$ is a subset of size $|S| \geq 2$. 
 Then
 \begin{enumerate}[(a)]
-\item $D[S]$ has one positive eigenvalue and $|S| - 1$ negative eigenvalues;
+\item $\Da[S]$ has one positive eigenvalue and $|S| - 1$ negative eigenvalues;
 
-\item $\det D[S] \neq 0$.
+\item $\det \Da[S] \neq 0$.
 
 \end{enumerate}
 \end{prop}
 \begin{proof}
 (a) Let $n = |V|$; assume $n \geq 3$.
-We apply (decreasing) induction on the size of $S$. 
+We apply decreasing induction on the size of $S$. 
 If $|S| = n - 1$, then Lemma~\ref{lem:dist-signature} and Cauchy interlacing imply that $D[S]$ has at most one positive eigenvalue, and at least one negative eigenvalue. 
 Since all diagonal entries of $D[S]$ are zero, $D[S]$ has zero trace. 
 Thus $D[S]$ has exactly one positive eigenvalue as claimed.
@@ -2057,88 +2066,28 @@ Thus when multiplying the term \eqref{eq:delta-diff} by $(2 - \deg(u))$ and summ
 	\end{cases}
 \]
 Thus
-\begin{align}\label{eq:1}
+\begin{align}
 	&(D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \\
 %	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} \alpha_e ( 2 - \degout(T\setminus e,*)) 
 %	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} \alpha_e (2 - \degout(T\setminus e,*) ) \right)\\
 %	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{e \in T} \alpha_e ( 2 - \degout(T\setminus e,*)) \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} 1
 %	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} 1 \right). \\
-	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{e \in T} \alpha_e ( 2 - \degout(T\setminus e,*)) \Big( \one(\delta(e; v, \pi_T(e)) = 1) - \one(\delta(e; v, \pi_T(e)) = 0) \Big).
+	&\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{e \in T} \alpha_e ( 2 - \degout(T\setminus e,*)) \Big( \one(\delta(e; v, \pi_T(e)) = 1) - \one(\delta(e; v, \pi_T(e)) = 0) \Big).
+	\label{eq:45}
 \end{align}
 
-We now rewrite the above expression in terms of $\forests_2(G;S)$,
-observing that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, 
+We now rewrite the above expression in terms of $\forests_2(G;S)$.
+For the rest of the argument, let
+\[
+	(\star) = (D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e.
+\]
+Observe in \eqref{eq:45} that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, 
 % since $e \in T$, 
 and that the corresponding weights satisfy
 \[
 	w(\overline{F}) = \alpha_e \cdot w(\overline{T}) \qquad\text{if}\qquad F = T \setminus e.
 \]
-Note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose the edge $e$ to be in the floating boundary $\partial F(*)$:
-
-\begin{figure}[h]
-% LABEL 2356
-\begin{tikzpicture}[scale=0.6]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw[dotted] (A) -- node[below] {$e$} (B);
-	\draw (B) -- (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-	\draw (B) -- (3);
-
-	\node[above=0.1] at (1) {$v$};
-	\node[above=0.2] at (A) {$F(*)$};
-
-	\draw[color=red, line width=6pt, opacity=0.1] (A) circle (10pt);
-	\draw[color=red, line width=3pt, opacity=0.1] (A) circle (10pt);
-\end{tikzpicture}
-\qquad\qquad
-% LABEL 2356
-\begin{tikzpicture}[scale=0.6]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw[dotted] (1) -- (A);
-	\draw (A) -- (B);
-	\draw[dotted] (B) -- node[below] {$e$} (C);
-	\draw[dotted] (C) -- (D);
-	\draw (D) -- (2);
-	\draw (B) -- (3);
-
-	\node[above=0.1] at (1) {$v$};
-	\node[above=0.2] at (C) {$F(*)$};
-	
-	\draw[color=red, line width=6pt, opacity=0.1] (C) circle (10pt);
-	\draw[color=red, line width=3pt, opacity=0.1] (C) circle (10pt);
-\end{tikzpicture}
-\caption{Edge $e \in \partial F(*)$ with $\delta(e; v, F(*)) = 0$ (left) and $\delta(e; v, F(*)) = 1$ (right). The floating component $F(*)$ is highlighted.}
-\end{figure}
+Note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose the edge $e$ to be in the floating boundary $\partial F(*)$.
 
 Thus
 \begin{align*}
@@ -2165,6 +2114,7 @@ $\delta(e; v, \pi_{(F \cup e)}(e)) = 1$ (respectively $\delta(e; v, \pi_{(F \cup
 is equivalent to 
 % $T = F \cup e$ for some $e \in \partial F(*)$ with 
 $\delta(e; v, F(*)) = 0$ (respectively ${\delta(e; v, F(*)) = 1}$).
+For an illustration, compare Figure~\ref{fig:delta-floating} and \ref{fig:delta-edge-projection}.
 Thus
 \begin{multline}
 	(\star) = \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Bigg( \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 0 \}  \\
@@ -2188,6 +2138,70 @@ as desired.
 \end{proof}
 
 \begin{figure}[h]
+% LABEL 2356
+\begin{tikzpicture}[scale=0.6]
+	\coordinate (1) at (0,0);
+	\coordinate (A) at (1,0);
+	\coordinate (B) at (2,0);
+	\coordinate (C) at (3,0);
+	\coordinate (D) at (4,0);
+	\coordinate (2) at (5,0);
+	\coordinate (3) at (2,1);
+	
+	\foreach \c in {1,2,3,A,B,C,D} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3} {
+		\draw (\c) circle (3pt);
+	}
+
+	\draw (1) -- (A);
+	\draw[dotted] (A) -- node[below] {$e$} (B);
+	\draw (B) -- (C);
+	\draw[dotted] (C) -- (D);
+	\draw (D) -- (2);
+	\draw[dotted] (B) -- (3);
+
+	\node[above=0.1] at (2) {$v$};
+	\node[above=0.2] at (C) {$F(*)$};
+
+	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (B) -- (C);
+\end{tikzpicture}
+\qquad\qquad
+% LABEL 2356
+\begin{tikzpicture}[scale=0.6]
+	\coordinate (1) at (0,0);
+	\coordinate (A) at (1,0);
+	\coordinate (B) at (2,0);
+	\coordinate (C) at (3,0);
+	\coordinate (D) at (4,0);
+	\coordinate (2) at (5,0);
+	\coordinate (3) at (2,1);
+	
+	\foreach \c in {1,2,3,A,B,C,D} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3} {
+		\draw (\c) circle (3pt);
+	}
+
+	\draw (1) -- (A);
+	\draw[dotted] (A) -- (B);
+	\draw (B) -- (C);
+	\draw[dotted] (C) -- node[below] {$e$} (D);
+	\draw (D) -- (2);
+	\draw[dotted] (B) -- (3);
+
+	\node[above=0.1] at (1) {$v$};
+	\node[above=0.2] at (C) {$F(*)$};
+	
+	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (B) -- (C);
+\end{tikzpicture}
+\caption{Edge $e \in \partial F(*)$ with $\delta(e; v, F(*)) = 0$ (left) and $\delta(e; v, F(*)) = 1$ (right). The floating component $F(*)$ is highlighted.}
+\label{fig:delta-floating}
+\end{figure}
+
+\begin{figure}[h]
 % LABEL 1345
 \begin{tikzpicture}[scale=0.6]
 	\coordinate (1) at (0,0);
@@ -2206,16 +2220,15 @@ as desired.
 	}
 
 	\draw (1) -- (A);
-	\draw[dotted] (A) -- (B);
+	\draw[dotted] (A) -- node[below] {$e$} (B);
 	\draw (B) -- (C);
-	\draw (C) -- node[above] {$e$} (D);
+	\draw[dotted] (C) -- (D);
 	\draw (D) -- (2);
 	\draw[dotted] (B) -- (3);
 
 	\node[above=0.1] at (2) {$v$};
 \end{tikzpicture}
 \qquad
-% LABEL 1346
 \begin{tikzpicture}[scale=0.6]
 	\coordinate (1) at (0,0);
 	\coordinate (A) at (1,0);
@@ -2235,40 +2248,14 @@ as desired.
 	\draw (1) -- (A);
 	\draw[dotted] (A) -- (B);
 	\draw (B) -- (C);
-	\draw (C) -- node[above] {$e$} (D);
-	\draw[dotted] (D) -- (2);
-	\draw (B) -- (3);
-
-	\node[above=0.1] at (2) {$v$};
-\end{tikzpicture}
-\qquad
-% LABEL 1356
-\begin{tikzpicture}[scale=0.6]
-	\coordinate (1) at (0,0);
-	\coordinate (A) at (1,0);
-	\coordinate (B) at (2,0);
-	\coordinate (C) at (3,0);
-	\coordinate (D) at (4,0);
-	\coordinate (2) at (5,0);
-	\coordinate (3) at (2,1);
-	
-	\foreach \c in {1,2,3,A,B,C,D} {
-		\fill (\c) circle (2pt);
-	}
-	\foreach \c in {1,2,3} {
-		\draw (\c) circle (3pt);
-	}
-
-	\draw (1) -- (A);
-	\draw[dotted] (A) -- (B);
-	\draw (B) -- (C);
-	\draw[dotted] (C) -- node[above] {$e$} (D);
+	\draw[dotted] (C) -- node[below] {$e$} (D);
 	\draw (D) -- (2);
-	\draw (B) -- (3);
+	\draw[dotted] (B) -- (3);
 
 	\node[above=0.1] at (2) {$v$};
 \end{tikzpicture}
-\caption{Components rooted in $S(G\setminus e)^{\overline v}$.}
+\caption{Edges $e \in \partial F(*)$ with $\delta(e; v, \pi_{(F \cup e)}(e)) = 1$ (left) and $\delta(e; v, \pi_{(F \cup e)}(e)) = 0$ (right).}
+\label{fig:delta-edge-projection}
 \end{figure}
  
 %\note{MOVE TO REMARK? If $e \in \conv(G,S)$, then $S(G\backslash e)^{\overline v}$ is nonempty and }
@@ -2475,7 +2462,7 @@ Therefore
 	- \sum_{v \in V \setminus S} (2 - \deg v) \mathbf{n}(G;S,v) \\
 	&= \kappa(G;S) \boldm(G;V) - \sum_{v\in V\setminus S} (2 - \deg v) \boldn(G;S,v).
 \end{align}
-\note{TODO: elaborate on this equation}
+\note{TODO: elaborate on this equation?}
 From Proposition~\ref{prop:m-distance-warmup} we know that $D \boldm(G;V)$ is constant on $V$,
 and from Proposition~\ref{prop:n-vector} we know that  for each $v \in V \setminus S$ the product $D \boldn(G;S,v)$ is constant on $S$.
 Hence by linearity, $D \boldm(G;S)$ is constant on $S$.
