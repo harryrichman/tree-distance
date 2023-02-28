@@ -190,26 +190,20 @@ has an analogue for the weighted distance matrix,
 \end{equation}
 which was proved by Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann}.
 The weighted identity \eqref{eq:w-full-det} reduces to \eqref{eq:full-det} when taking all unit weights, $\alpha_e = 1$.
-We also prove the following weighted version of our main theorem.
+We prove the following weighted version of our main theorem.
 \begin{thm}
 \label{thm:w-main}
-Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and corresponding weighted distance matrix $D = \Da$. For any nonempty subset $S \subset V$, we have
+Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and weighted distance matrix $D = \Da$. 
+For any nonempty subset $S \subset V$, we have
 \begin{equation}\label{eq:w-main}
-	\det \Da[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} w(\overline{F}) (\degout(F,*) - 2)^2 \right),
+	\det \Da[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} w(\overline{F})\, (\degout(F,*) - 2)^2 \right),
 \end{equation}
 where 
 $\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
 $\forests_2(G;S)$ is the set of $(S,*)$-rooted spanning forests of $G$,
-$w(\overline{T})$ and $w(\overline{F})$ denote the $\alpha$-weights of the forests $T$ and $F$,
+$w(\overline{T})$ and $w(\overline{F})$ denote the co-weights of the forests $T$ and $F$,
 and 
-%\begin{equation}
-%\label{eq:2-minus-deg}
-%k(F,*) 
-%%= \sum_{x \in V( F_{*})} {2 - \deg(x)} 
-%= 2 - \degout(F,*)
-%\end{equation}
-%where 
-$\degout(F, *)$ is the outdegree of the $*$-component of $F$, as above.
+$\degout(F, *)$ is the outdegree of the floating component of $F$, as above.
 \end{thm}
 Theorem~\ref{thm:w-main} reduces to Theorem~\ref{thm:main} when taking all unit weights, $\alpha_e = 1$.
 We now demonstrate our main theorem on an example, in the unweighted case.
@@ -259,7 +253,7 @@ which has determinant $864$.
 \label{fig:tree-5}
 \end{figure}
 
-This graph has $7$ edges and $21$ $S$-rooted spanning forests.
+The tree $G$ has $7$ edges and $21$ $S$-rooted spanning forests.
 There are $19$ $(S, *)$-rooted spanning forests;
 of the floating components in these forests, $14$ have outdegree one, $4$ have outdegree two, and $1$ has outdegree three.
 By Theorem~\ref{thm:main},
@@ -274,14 +268,19 @@ Suppose we fix a tree distance matrix $D$.
 It is natural to ask, how do the expressions $\det D[S]$ vary as we vary the vertex subset $S$? 
 %Rather than address this directly, 
 %we have the following result, Theorem~\ref{thm:monotonic},
-To our knowledge there is no nice behavior among the determinants, but  as $S$ varies there is nice behavior of the ``normalized'' ratios $\det D[S] / \cof D[S]$ which we describe here.
+To our knowledge there is no nice behavior among the determinants, but  as $S$ varies there is nice behavior of the ``normalized'' ratios 
+%$\displaystyle \frac{\det D[S]}{\cof D[S]}$ 
+$(\det D[S]) / (\cof D[S])$
+which we describe here.
 
 Given a matrix $A$, let $\cof A$ denote the {\em sum of cofactors} of $A$, i.e. 
 \[
 	\cof A = \sum_{i = 1}^{|S|} \sum_{j = 1}^{|S|} (-1)^{i + j} \det A_{i,j} 
 \]
 where $A_{i,j}$ is the submatrix of $A$ that removes the $i$-th row and the $j$-th column.
-If $A$ is invertible, then $\cof A$ is related to the sum of entries of the matrix inverse $A^{-1}$ by a factor of $\det A$, i.e. $\cof A = (\det A) (\bone^\tr A^{-1} \bone)$.
+If $A$ is invertible, then $\cof A$ is 
+%related to 
+the sum of entries of the matrix inverse $A^{-1}$ multiplied by a factor of $\det A$, i.e. $\cof A = (\det A) (\bone^\tr A^{-1} \bone)$.
 In \cite{bapat-sivasubramanian}, Bapat and Sivasubramanian showed the following identity for 
 the sum of cofactors of a distance submatrix $D[S]$ of a tree,
 \begin{equation}\label{eq:cof-trees}
@@ -293,7 +292,7 @@ Using the Bapat--Sivasubramanian identity \eqref{eq:cof-trees}, an immediate cor
 %For any nonempty subset $S \subset V$, we have
 \begin{equation}
 \label{eq:det-cof}
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right).
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) \,(\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right).
 \end{equation}
 %\end{thm}
 The expression \eqref{eq:det-cof} satisfies a monotonicity condition as we vary the vertex set $S \subset V(G)$.
@@ -310,7 +309,7 @@ then
 \end{thm}
 The essential observation behind this result is that $\det D[S] / \cof D[S]$ is calculated via the following quadratic optimization problem: for all vectors $ \boldu \in \RR^S$,
 \begin{align}
-	\text{optimize objective function:} &\quad \boldu^\tr D[S] \boldu \\
+	\text{maximize objective function:} &\quad \boldu^\tr D[S] \boldu \\
 	\text{with constraint:} &\quad \bone^\tr \boldu = 1.
 \end{align}
 %\begin{prop}
@@ -366,10 +365,10 @@ We address this in \cite{richman-shokrieh-wu}, which involve more technical mach
 A formula for the inverse matrix $D^{-1}$ was found by Graham and Lov\'{a}sz in \cite{graham-lovasz}.
 Namely,
 \[
-	D^{-1} = - \frac12 L + \frac1{2(n - 1)} \boldm \boldm^\tr
+	D^{-1} = - \frac12 L + \frac1{2(n - 1)} \boldm \,\boldm^\tr
 \]
 where $L$ is the Laplacian matrix and $\boldm$ is the vector $\boldm_v = 2 - \deg v$.
-There is also a weighted version, see \eqref{eq:w-distance-inverse}.
+There is also a weighted version, see equation~\eqref{eq:w-distance-inverse}.
 Does there exist a nice expression for the inverse of the matrix $D[S]$, or for the weighted version?
 
 %\section{Further work}
@@ -449,15 +448,15 @@ Let $\trees(G;S)$ denote the set of $S$-rooted spanning forests of $G$,
 and let $\forests_2(G;S)$ denote the set of $(S,*)$-rooted spanning forests of $G$.
 Note that $\kappa(G;S)$ is also the number of 
 % $S$-rooted spanning forests of $G$.
-spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex.
-
-Let 
-$
-	\kappa_r(v_1|v_2| \cdots | v_r)
-$
-denote the number of $k$-component spanning trees which have a vertex $v_i$ in each component.
-If $S = \{v_1,\ldots, v_r\}$,
-then $\kappa_r(v_1|\cdots| v_r) = \kappa(G; S) =  \kappa(G/S)$.
+spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex,
+%Let 
+%$
+%	\kappa_r(v_1|v_2| \cdots | v_r)
+%$
+%denote the number of $k$-component spanning trees which have a vertex $v_i$ in each component.
+%If $S = \{v_1,\ldots, v_r\}$,
+%then $\kappa_r(v_1|\cdots| v_r)$
+i.e. $\kappa(G; S) =  \kappa(G/S)$.
 
 %If $u, v, w$ are vertices, then let
 %\[
@@ -1368,11 +1367,12 @@ Then for any nonempty vertex set $S \subset V$,
 
 \item 
 Let $\La$ denote the weighted Laplacian matrix of $G$, with edge weights $\{\alpha_e\}$. 
-Then for any nonempty vertex set $S \subset V$,
+For any nonempty vertex set $S \subset V$,
 \begin{equation}
-	\det \La[\overline S] = \sum_{T \in \trees( G ; S)} w(T)^{-1}
-	= \sum_{T \in \trees(G; S)} w(\overline{T}) \prod_{e \in E} \alpha_e^{-1} .
+	\det \La[\overline S] = \sum_{T \in \trees} w(T)^{-1}
+	= \sum_{T \in \trees} w(\overline{T}) \prod_{e \in E} \alpha_e^{-1}
 \end{equation}
+where $\trees = \trees(G; S)$ is the set of $S$-rooted spanning forests.
 \end{enumerate}
 \end{thm}
 \begin{proof}
@@ -1611,13 +1611,15 @@ $\sum_{v \in F_1} p(v)  = - \sum_{v \in F_2} p(v)$.
 In terms of Symanzik polynomials, let $\psi$ and $\varphi$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
 Let $p$ be the momentum function $p(v) = \deg(v) - 2$ for $v \not \in S$.
 We have
-\[
+\begin{equation}
+\label{eq:det-symanzik}
 	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \Big(\sum_{E(G)}\alpha_e \Big)\, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p; \underline{\alpha}) \right).
-\]
+\end{equation}
 or more succinctly,
-\[
+\begin{equation}
+\label{eq:det-cof-symanzik}
 	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right).
-\]
+\end{equation}
 
 \section{Distance minors: Preliminaries}
 
@@ -1763,7 +1765,7 @@ where $\widetilde \boldu$ is the extension of $\boldu$ by zeros.
 In this section, we explain how the quantity $\displaystyle \frac{\det D[S]}{\cof D[S]}$ arises as the solution of the following quadratic optimization problem:
 for all vectors $ \boldu \in \RR^S$,
 \begin{align}
-	\text{optimize objective function:} &\quad \boldu^\tr D[S] \boldu \\
+	\text{maximize objective function:} &\quad \boldu^\tr D[S] \boldu \\
 	\text{with constraint:} &\quad \bone^\tr \boldu = 1.
 \end{align}
 The statement is proved as Proposition~\ref{prop:optimization}.
@@ -2601,10 +2603,10 @@ Then
 	\end{pmatrix}
 \]
 which has determinant
-\begin{align*}
-	\det D[S] &= 2(a+b)(a+c)(b+c) 
+$
+	\det D[S] = 2(a+b)(a+c)(b+c) 
 	= 2\Big( (a+b+c)(ab + ac + bc) - abc \Big).
-\end{align*}
+$
 The ``special vector'' that satisfies $D[S] \boldm = \lambda \mathbf{1}$ in this example is 
 $\displaystyle
 	\boldm = \begin{pmatrix} 
@@ -3007,15 +3009,37 @@ There are $6$ forests in $\forests_2(G;S)$:
 	\draw (A) -- (B);
 \end{tikzpicture}
 \]
-and
+The determinant of the distance submatrix is
 \[
 	\det D[S] = 368	
-	= (-1)^4 2^3 \left( 6 \cdot 11 - (3 \cdot 1^2 + 2 \cdot 2^2 + 1 \cdot 3^2) \right)
+	= (-1)^4 2^3 \left( 6 \cdot 11 - (3 \cdot 1^2 + 2 \cdot 2^2 + 1 \cdot 3^2) \right),
 \]
+and the speical vector is $\boldm = \begin{pmatrix}
+5 \\ 5 \\ 4 \\ 4 \\ 4
+\end{pmatrix}.$
 \end{eg}
 
 \begin{eg}
-Suppose $G$ is the tree with edge weights shown below, with four leaf vertices and two internal vertices.
+Suppose $G$ is the tree with edge weights shown in Figure~\ref{fig:tree-4}, with four leaf vertices and two internal vertices.
+Let $S$ denote the set of four leaf vertices.
+Then
+\[
+	D[S] = \begin{pmatrix}
+	0 & a + b & a + c + d & a + c + e \\
+	a + b & 0 & b + c + d & b + c + e \\
+	a + c + d & b + c + d & 0 & d + e \\
+	a + c + e & b + c + e & d + e & 0
+	\end{pmatrix}
+\]
+and 
+$\boldm = 
+\begin{pmatrix}
+abd & + abe & + acd & + ace & + ade & & & - bde \\
+abd & + abe & & &  - ade & + bcd & + bce & + bde \\
+abd & - abe & + acd & & + ade & + bcd & & + bde \\
+-abd & + abe & & + ace & + ade & & + bce & + bde
+\end{pmatrix}
+$
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}
@@ -3041,27 +3065,9 @@ Suppose $G$ is the tree with edge weights shown below, with four leaf vertices a
 	\node[right=2pt] at (4) {$4$};
 \end{tikzpicture}
 \caption{Tree with four leaves, and varying edge weights.}
+\label{fig:tree-4}
 \end{figure}
-Let $S$ denote the set of four leaf vertices.
-Then
-\[
-	D[S] = \begin{pmatrix}
-	0 & a + b & a + c + d & a + c + e \\
-	a + b & 0 & b + c + d & b + c + e \\
-	a + c + d & b + c + d & 0 & d + e \\
-	a + c + e & b + c + e & d + e & 0
-	\end{pmatrix}
-\]
-and 
-$\boldm = 
-\begin{pmatrix}
-abd & + abe & + acd & + ace & + ade & & & - bde \\
-abd & + abe & & &  - ade & + bcd & + bce & + bde \\
-abd & - abe & + acd & & + ade & + bcd & & + bde \\
--abd & + abe & & + ace & + ade & & + bce & + bde
-\end{pmatrix}
-$
-and
+The determinant of the distance submatrix is
 \[
 	\begin{gathered}
 	\det D[S] 
