@@ -195,7 +195,7 @@ We also prove the following weighted version of our main theorem.
 \label{thm:w-main}
 Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and corresponding weighted distance matrix $D = \Da$. For any nonempty subset $S \subset V$, we have
 \begin{equation}\label{eq:w-main}
-	\det \Da[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right),
+	\det \Da[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} w(\overline{F}) (\degout(F,*) - 2)^2 \right),
 \end{equation}
 where 
 $\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
@@ -212,6 +212,62 @@ and
 $\degout(F, *)$ is the outdegree of the $*$-component of $F$, as above.
 \end{thm}
 Theorem~\ref{thm:w-main} reduces to Theorem~\ref{thm:main} when taking all unit weights, $\alpha_e = 1$.
+We now demonstrate our main theorem on an example, in the unweighted case.
+\begin{eg}
+Suppose $G$ is the tree with unit edge weights shown in Figure~\ref{fig:tree-5}, with five leaf vertices and three internal vertices.
+Let $S$ denote the set of leaf vertices. 
+The corresponding distance submatrix is
+$
+	D[S] = \begin{pmatrix}
+	0 & 2 & 3 & 4 & 4 \\
+	2 & 0 & 3 & 4 & 4 \\
+	3 & 3 & 0 & 3 & 3 \\
+	4 & 4 & 3 & 0 & 2 \\
+	4 & 4 & 3 & 2 & 0
+	\end{pmatrix},
+$
+which has determinant $864$.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+	\coordinate (1) at (-2,0.7);
+	\coordinate (2) at (-2,-0.6);
+	\coordinate (3) at (0,-1);
+	\coordinate (4) at (2,-0.7);
+	\coordinate (5) at (2,0.7);
+	\coordinate (A) at (-1,0);
+	\coordinate (B) at (0,0);
+	\coordinate (C) at (1,0);
+
+	\node[left=2pt] at (1) {$1$};
+	\node[left=2pt] at (2) {$2$};
+	\node[left=2pt] at (3) {$3$};
+	\node[right=2pt] at (4) {$4$};
+	\node[right=2pt] at (5) {$5$};
+
+	\draw (B) -- (A) -- (1);
+	\draw (A) -- (2);
+	\draw (3) -- (B) -- (C) -- (4);
+	\draw (C) -- (5);
+	
+	\foreach \c in {1,2,3,4,5,A,B,C} {
+		\fill[black] (\c) circle (2pt);
+	}
+\end{tikzpicture}
+\caption{Tree with five leaves.}
+\label{fig:tree-5}
+\end{figure}
+
+This graph has $7$ edges and $21$ $S$-rooted spanning forests.
+There are $19$ $(S, *)$-rooted spanning forests;
+of the floating components in these forests, $14$ have outdegree one, $4$ have outdegree two, and $1$ has outdegree three.
+By Theorem~\ref{thm:main},
+\[
+	\det D[S] = 864
+	= (-1)^4\, 2^3 \Big( 7 \cdot 21 - (14 \cdot 1^2 + 4 \cdot 2^2 + 1 \cdot 3^2) \Big).
+\]
+\end{eg}
 
 \subsection{Applications}
 Suppose we fix a tree distance matrix $D$.
@@ -252,15 +308,15 @@ then
 	\frac{\det D[A]}{\cof D[A]}  \leq \frac{\det D[B]}{\cof D[B]}.
 \end{equation*}
 \end{thm}
-The essential observation behind this result is that $\det D[S] / \cof D[S]$ is calculated via the following quadratic optimization problem: for all vectors $ \boldm \in \RR^S$,
+The essential observation behind this result is that $\det D[S] / \cof D[S]$ is calculated via the following quadratic optimization problem: for all vectors $ \boldu \in \RR^S$,
 \begin{align}
-	\text{optimize objective function:} &\quad \boldm^\tr D[S] \boldm \\
-	\text{with constraint:} &\quad \bone^\tr \boldm = 1.
+	\text{optimize objective function:} &\quad \boldu^\tr D[S] \boldu \\
+	\text{with constraint:} &\quad \bone^\tr \boldu = 1.
 \end{align}
 %\begin{prop}
 %If $D[S]$ is a principal submatrix of distance matrix indexed by $S$, then 
 %\[
-%	\frac{\det D[S]}{\cof D[S]} = \max \{\boldm^\tr D[S] \boldm : \boldm \in \RR^S,\, \bone^\tr \boldm = 1 \}
+%	\frac{\det D[S]}{\cof D[S]} = \max \{\boldu^\tr D[S] \boldu : \boldu \in \RR^S,\, \bone^\tr \boldu = 1 \}
 %\]
 %where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
 %\end{prop}
@@ -301,6 +357,12 @@ If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
 %\end{cor}
 
 \subsection{Further questions} 
+
+It is natural to ask whether our results for trees may be generalized to arbitrary finite graphs.
+We address this in \cite{richman-shokrieh-wu}, which involve more technical machinery.
+
+% For other related work, see \cite{richman-shokrieh-wu-2}.
+
 A formula for the inverse matrix $D^{-1}$ was found by Graham and Lov\'{a}sz in \cite{graham-lovasz}.
 Namely,
 \[
@@ -312,42 +374,24 @@ Does there exist a nice expression for the inverse of the matrix $D[S]$, or for 
 
 %\section{Further work}
 
-It is natural to ask whether these results for trees may be generalized to arbitrary finite graphs.
-
-We address this in \cite{richman-shokrieh-wu}, which involve more technical machinery.
-
-% For other related work, see \cite{richman-shokrieh-wu-2}.
-
-
-
-\subsection{Notation}
-
-% $\Gamma$ a compact metric graph
-
-$G$ a finite graph, 
-loops and parallel edges allowed,
-possibly disconnected
-
-$E(G)$ edge set of $G$
-
-$V(G)$ vertex set of $G$
-
-%$\ell : E(G) \to \RR_{>0}$
-%is a length function on edges of $G$
-
-%$\kappa(G)$ number of spanning trees of $G$
-
-% $\kappa_2(G)$ number of $2$-forests of $G$
-
-%$\trees(G)$ the set of spanning trees of $G$
+%\subsection{Notation}
 %
-%$\forests_2(G)$ the set of $2$-component forests of $G$
+%$G$ a finite graph, 
+%loops and parallel edges allowed,
+%possibly disconnected
+%
+%$E(G)$ edge set of $G$
+%
+%$V(G)$ vertex set of $G$
+%
+%$\kappa(G; S)$ number of $S$-rooted spanning forests of $G$
+%
+%$\kappa_2(G; S)$ number of $(S, *)$-rooted spanning forests of $G$
+%
+%$\trees(G;S)$ the set of $S$-rooted spanning forests of $G$
+%
+%$\forests_2(G;S)$ the set of $(S,*)$-rooted spanning forests of $G$
 
-$\trees(G;S)$ the set of $S$-rooted spanning forests of $G$
-
-$\forests_2(G;S)$ the set of $(S,*)$-rooted spanning forests of $G$
-
-% $Meas_{\geq 0}(\Gamma)$ positive Borel measures on $\Gamma$
 
 \section{Graphs and spanning forests}
 \label{sec:graphs-matrices}
@@ -374,7 +418,11 @@ For a subset $S \subset \{1, \ldots, n\}$,
 let $M[S]$ denote the submatrix obtained by keeping the $S$-indexed rows and columns of $M$.
 Let $M[\overline{S}]$ denote the submatrix obtained by deleting the $S$-indexed rows and columns.
 
+If $G$ is a tree, we let $\conv(S,G)$ denote the subtree consisting of the union of all paths between vertices in $S$,
+which we call the {\em convex hull} of $S \subset G$.
+
 \subsection{Spanning trees and forests}
+
 A {\em spanning tree} of a graph $G$ is a subgraph which 
 is connected, has no cycles,
 and contains all vertices of $G$.
@@ -404,9 +452,9 @@ Note that $\kappa(G;S)$ is also the number of
 spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex.
 
 Let 
-\[
+$
 	\kappa_r(v_1|v_2| \cdots | v_r)
-\]
+$
 denote the number of $k$-component spanning trees which have a vertex $v_i$ in each component.
 If $S = \{v_1,\ldots, v_r\}$,
 then $\kappa_r(v_1|\cdots| v_r) = \kappa(G; S) =  \kappa(G/S)$.
@@ -418,7 +466,7 @@ then $\kappa_r(v_1|\cdots| v_r) = \kappa(G; S) =  \kappa(G/S)$.
 %denote the number of two-forests which have $u, v$ in one component and $w$ in the other component.
 
 \begin{eg}
-Suppose $G$ is the tree with unit edge lengths shown below.
+Suppose $G$ is the tree with unit edge weights shown below.
 \[
 \begin{tikzpicture}[scale=0.8]
 	\coordinate (1) at (0,0);
@@ -1401,6 +1449,7 @@ For an unweighted tree, we can express the tree distance $d(v,w)$ as the unweigh
 
 
 \subsection{Outdegree of rooted forest}
+\label{sec:outdegree}
 
 Given a vertex $v$ in a graph, the {\em degree} $\deg(v)$ is the number of edges incident to $v$.
 %The ``handshake lemma'' of graph theory states that  $\sum_{v \in V(G)} \deg(v) = 2|E|$.
@@ -1531,6 +1580,44 @@ there are exactly $|E(T)|$-many choices of pairs $(e, F) \in E(G) \times \forest
 %the preimage under this map has $|E(T)|$-many elements.
 \end{rmk}
 
+\subsection{Symanzik polynomials}
+
+We note that the expression in the main theorem, Theorem~\ref{thm:w-main}, is related to Symanzik polynomials, which we recall here.
+
+Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is the homogeneous polynomial in edge-indexed variables $\underline{x} = \{x_e : e \in E\}$ defined by
+\[
+	\psi_G(\underline{x}) = \sum_{T \in \trees(G)} \prod_{e \not \in T} x_e ,
+\]
+where $\trees(G)$ denotes the set of spanning trees of $G$.
+
+Consider a ``momentum'' function $p: V \to \RR$ which satisfies the constraint $\sum_{v \in V} p(v) = 0$.
+Then the second Symanzik polynomial is
+\[
+	\varphi_G(p; \underline{x}) = \sum_{F \in \forests_2(G)} \Big(\sum_{v \in F_1} p(v) \Big)^2 \prod_{e \not\in F} x_e ,
+\]
+where $\forests_2(G)$ is the set of two-component spanning forests of $G$, and $F_1$ denotes one of the components of $F$.
+It doesn't matter which component we label as $F_1$, since the momemtum constraint % $\sum_{v \in V} p(v) = 0$.
+% If $F_2$ denotes the other component of $F$, the constraint $\sum_{v \in V} p(v) = 0$ 
+implies that
+$\sum_{v \in F_1} p(v)  = - \sum_{v \in F_2} p(v)$.
+
+%Theorem statement:
+%\[
+%	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right).
+%\]
+%\[
+%	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right)
+%\]
+In terms of Symanzik polynomials, let $\psi$ and $\varphi$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
+Let $p$ be the momentum function $p(v) = \deg(v) - 2$ for $v \not \in S$.
+We have
+\[
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \Big(\sum_{E(G)}\alpha_e \Big)\, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p; \underline{\alpha}) \right).
+\]
+or more succinctly,
+\[
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right).
+\]
 
 \section{Distance minors: Preliminaries}
 
@@ -1608,7 +1695,7 @@ Bapat--Kirkland--Neumann~\cite[Theorem 2.1]{bapat-kirkland-neumann} proved that
 	(\Da)^{-1} \;=\; - \frac12 \La + \frac12 \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm\, \boldm^\tr
 \end{equation}
 where $\boldm$ is the vector with components $\boldm_v = 2 - \deg v$.
-The unweighted version of \eqref{eq:12} appeared earlier in Graham--Lovasz~\cite[Lemma 1]{graham-lovasz}.
+The unweighted version of \eqref{eq:w-distance-inverse} appeared earlier in Graham--Lovasz~\cite[Lemma 1]{graham-lovasz}.
 
 \begin{prop}
 \label{prop:dist-laplacian}
@@ -1619,13 +1706,13 @@ Then
 \]
 \end{prop}
 \begin{proof}
-Multiply \eqref{eq:12} by the all-ones vector $\bone$; since $\La \bone = 0$ and $\boldm^\tr \bone = 2$, we obtain 
+Multiply \eqref{eq:w-distance-inverse} by the all-ones vector $\bone$; since $\La \bone = 0$ and $\boldm^\tr \bone = 2$, we obtain 
 \[
 (\Da)^{-1} \bone \;=\; \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm .
 \]
 % Then apply the identity $D \boldm = \left( \sum_{e \in E} \alpha_e \right) \bone$.
 Hence $\Da \boldm = \left( \sum_{e \in E} \alpha_e \right) \bone$.
-Then multiply \eqref{eq:12} by $\Da$ on both sides. 
+Then multiply \eqref{eq:w-distance-inverse} by $\Da$ on both sides. 
 \end{proof}
 
 \begin{prop}
@@ -1722,7 +1809,22 @@ $\displaystyle
 $
 \end{proof}
 
+\begin{rmk}
+If we consider $G$ as a network of wires with each edge $e$ containing a resistor of resistance $\alpha_e$,
+then the optimal vector $\boldu^*$
+% $\boldm(G; S)$ defined in \eqref{eq:m-vector} 
+has a physical interpretation as current flow: 
+it records the currents exiting at $s \in S$
+when current enters the network in the amount $\frac{1}{2}(\deg(v) - 2)$
+for each $v \in V$,
+and the network is grounded at all nodes in $S$.
+
+We give an explicit combinatorial expression for $\boldu^*$, up to a normalizing constant, in Definition~\ref{dfn:m-vector}.
+It is a classical result in network theory that this measures current flow; see Tutte~\cite[Section VI.6]{tutte}.
+\end{rmk}
+
 \subsection{Cofactor sums}
+
 Next we recall a connection between minors of the Laplacian matrix and cofactor sums of the distance matrix, when $G$ is a tree.
 The result is due to Bapat--Sivasubramanian~\cite{bapat-sivasubramanian}.
 Recall that $\cof M$ denotes the {\em sum of cofactors} of $M$, i.e. 
@@ -1834,104 +1936,126 @@ Theorem~\ref{thm:main} follows as an immediate corollary.
 % by setting all edge weights to one.
 
 \subsection{Outline of proof} 
-Given a  subset $S \subset V$ and distance submatrix $D[S]$, we will complete the following steps.
+
+In Section~\ref{sec:optimization}, we showed that $\displaystyle \frac{\det D[S]}{\cof D[S]}$ is the maximum value of the function $\boldu \mapsto \boldu^\tr D[S] \boldu$ on a certain hyperplane,
+and that the maximum is achieved when $D[S] \boldu^* = \lambda \bone$.
+We can thus compute $\det D[S]$ via the following steps.
+
+%Given a  subset $S \subset V$ and distance submatrix $D[S]$, we will complete the following steps.
 \begin{enumerate}[(i)]
 \item 
 Find a vector $\boldm \in \RR^S$ such that $D[S]\boldm = \lambda \mathbf{1} \in \RR^S$.
 
 \item 
 Compute the sum of entries of $\boldm$, i.e. $\mathbf{1}^\tr \boldm$, and normalize
-\[
+$\displaystyle
 	\boldu^* = \frac{\boldm}{\bone^\tr \boldm}.
-\]
+$
 This solves the optimization problem of Section~\ref{sec:optimization}.
 
 \item 
-The optimal objective value
-$(\boldu^*)^\tr D[S] \boldu^* = \lambda^* $
-is
-\[
+Find the optimal objective value
+% $(\boldu^*)^\tr D[S] \boldu^* = \lambda^* $
+% is
+$\displaystyle
 	\lambda^* = \frac{\lambda}{\bone^\tr \boldm}.
-\]
+$
 
-\item 
-Using Theorem~\ref{prop:optimization}, 
-%relate the sum $\bone^\tr \boldm$ to the sum of entries of the inverse matrix $D[S]^{-1}$:
-\[
-	\frac{\det D[S]}{\cof D[S]} 
-	= \lambda^*
-	= \frac{\lambda}{\mathbf{1}^\tr \boldm } 
-\]
-where $\cof D[S]$ is the sum of cofactors of $D[S]$.
-% \item
-Use expression for $\cof D[S]$ in Theorem~\ref{thm:distance-sub-cof} to compute $\det D[S]$.
+%\item 
+%Using Theorem~\ref{prop:optimization}, 
+%%relate the sum $\bone^\tr \boldm$ to the sum of entries of the inverse matrix $D[S]^{-1}$:
+%$\displaystyle
+%	\frac{\det D[S]}{\cof D[S]} 
+%	= \lambda^*;
+%	% = \frac{\lambda}{\mathbf{1}^\tr \boldm } ;
+%$
+% where $\cof D[S]$ is the sum of cofactors of $D[S]$.
+
+\item
+Use the expression for $\cof D[S]$ in Theorem~\ref{thm:distance-sub-cof} to compute $\det D[S] = \lambda^* (\cof D[S])$.
 % $ = \lambda (\cof D[S]) \left( \mathbf{1}^\tr \boldm \right)^{-1}.$
 \end{enumerate}
+
+\begin{eg}
+Suppose $G$ is the tree with unit edge weights shown below.
+\[
+\begin{tikzpicture}[scale=0.8]
+	\coordinate (1) at (0,0);
+	\coordinate (A) at (1,0);
+	\coordinate (B) at (2,0);
+	\coordinate (C) at (3,0);
+	\coordinate (D) at (4,0);
+	\coordinate (2) at (5,0);
+	\coordinate (3) at (2,1);
+	
+	\foreach \c in {1,2,3,A,B,C,D} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3} {
+		\draw (\c) circle (3pt);
+	}
+
+	\draw (1) -- (A);
+	\draw (A) -- (B);
+	\draw (B) -- (3);
+	\draw (B) -- (C);
+	\draw (C) -- (D);
+	\draw (D) -- (2);
+	
+	\foreach \c/\d/\label in {1/left/v_2,2/right/v_3,3/right/v_1} {
+		\node[\d=0.2] at (\c) {$\label$};
+	}
+\end{tikzpicture}
+\]
+If $S$ is the set of leaf vertices, the distance submatrix is 
+$
+D[S] = \begin{pmatrix}
+0 & 3 & 4 \\
+3 & 0 & 5 \\
+4 & 5 & 0
+\end{pmatrix}.
+$
+Following the steps outlined above:
+\begin{enumerate}[(i)]
+\item 
+The vector $\boldm = \begin{pmatrix} 5 \\ 8 \\ 9 \end{pmatrix}$
+satsifies $D[S] \boldm = \lambda \bone$ for $\lambda = 60$.
+
+\item 
+The sum of entries of $\boldm$ is $\bone^\tr \boldm = 22$.
+
+\item 
+We have $\displaystyle \lambda^* = \frac{\lambda}{\bone^\tr \boldm} = \frac{30}{11}$.
+
+\item 
+The cofactor sum is $\cof D[S] = 44$, so $\det[S] = \lambda^*(\cof D[S]) = 120$.
+\end{enumerate}
+\end{eg}
 It turns out that the entries of $\boldm$ are combinatorially meaningful,
 which also gives combinatorial meaning to
 %The interesting part  of this expression will turn out to be in 
 the constant $\lambda$.
 
-\begin{eg}
-Suppose $G$ is a tree consisting of three paths joined at a central vertex.
-Let $S$ consist of the central vertex, and the three endpoints of the paths. 
-The corresponding submatrix of the distance matrix is
-$$
-D[S] = \begin{bmatrix}
-0 & a & b & c \\
-a & 0 & a + b & a + c \\
-b & a + b & 0 & b + c \\
-c & a + c & b + c & 0
-\end{bmatrix}.
-$$
-Following the steps outlined above:
-\begin{enumerate}[(i)]
-\item 
-The vector $\boldm = \begin{bmatrix} -1 \\ 1 \\ 1 \\ 1 \end{bmatrix}$ satisfies
-$
-D[S] \boldm = (a+b+c) \mathbf{1}
-$
+\subsection{General case}
+Fix a tree $G = (V,E)$ with edge weights $\{\alpha_e : e \in E\}$ and a nonempty subset $S \subset V$.
+We first define a vector $\boldm$ which satisfies the relation $D[S] \boldm = \lambda \bone$ for some $\lambda$.
 
-\item 
-The sum of entries of $\boldm$ is $\mathbf{1}^\tr \boldm = 2$,
-so $\boldm^* = \frac12 \boldm$.
-
-\item 
-We have 
-\[
-\lambda^* = \frac{\lambda}{\bone^\tr\boldm} = \frac{a + b + c}{2} .
-\]
-
-\item 
-The cofactor sum  
-$\cof D[S]$ is $-8 abc$,
-so the determinant is
-\begin{align*}
-\det D[S] 
-= (\lambda^*) \cof A
-= \frac{a + b + c}{2} (-8 abc)
-= -4(a + b + c) abc.
-\end{align*}
-\end{enumerate}
-\end{eg}
-
-\subsection{General case: $S \subset V$}
-Fix a tree $G = (V,E)$ and a nonempty subset $S \subset V$.
 \begin{dfn}
 \label{dfn:m-vector}
 Let $\boldm = \boldm(G;S)$ denote the vector in $\RR^S$ be defined by
 \begin{equation}
 \label{eq:m-vector}
-\boldm_v =  \sum_{T \in \trees(G;S)} (2 - \degout(T,v)) w(\overline{T})
+\boldm_v =  \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout(T,v))
 \qquad\text{for each }v \in S.
 \end{equation}
-where $\degout(T,v)$ is the outdegree of the $v$-component of $T$, \eqref{eq:outdeg-forest}.
+where $\degout(T,v)$ is the outdegree of the $v$-component of $T$ (see Section~\ref{sec:outdegree}, equation~\eqref{eq:outdeg-forest}).
 \end{dfn}
 
 Let $\bone$ denote the all-ones vector.
 \begin{prop}
 \label{prop:m-sum}
-For the vector $\boldm$ defined above, 
+Suppose $S$ is nonempty.
+For the vector $\boldm = \boldm(G; S)$ defined above, 
 \begin{enumerate}[(a)]
 \item 
 $\displaystyle \bone^\tr \boldm = 2 \,\sum_{T \in \trees(G;S)} w(\overline{T})$;
@@ -1942,9 +2066,9 @@ if all edge weights $\alpha_e$ are positive, $\boldm$ is nonzero.
 \end{prop}
 \begin{proof}
 (a)
-By Lemma~\ref{lem:outdeg-sum} we have
+By Lemma~\ref{lem:outdeg-sum} we can express $\degout(T, s)$ as a sum over vertices in $T(s)$,
 \[
-\boldm_s = \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout (T,s))
+	\boldm_s = \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout (T,s))
 = \sum_{T \in \trees(G;S)} w(\overline{T}) \left( \sum_{v \in T(s)}(2 - \deg(v))\right).
 \]
 Then exchange the order of summation in $\bone^\tr \boldm$,
@@ -1977,7 +2101,7 @@ $D[S] \boldm = \lambda \mathbf{1}$
 for the constant
 \begin{equation}
 \label{eq:lambda}
-	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (2 - \degout(F,*) )^2 \, w(\overline{F}) .
+	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} w(\overline{F}) \, (2 - \degout(F,*))^2.
 \end{equation}
 %where $\degout(F,w)$ is the out-degree of the $w$-component of $F$ (as a spanning forest).
 \end{thm}
@@ -2044,7 +2168,7 @@ We have
 	\delta(e; v, \pi_T(u)) - \delta(e; v, u) = \begin{cases}
 	0 &\text{if } \delta(e; \pi_T(u), u) = 0 \\
 	1 &\text{if } \delta(e; \pi_T(u), u) = 1 \text{ and } \delta(e; v, \pi_T(u)) = 1 \\
-	-1 &\text{if } \delta(e; \pi_T(u), u) = 1 \text{ and } \delta(e; v, \pi_T(u)) = 0
+	-1 &\text{if } \delta(e; \pi_T(u), u) = 1 \text{ and } \delta(e; v, \pi_T(u)) = 0 .
 	\end{cases}
 \end{equation}
 Now consider varying $u$ over all vertices, when $e$, $T$, and $v$ are fixed.
@@ -2348,7 +2472,7 @@ as desired.
 Finally we can prove our main theorem: for any nonempty subset $S \subset V(G)$,
 \begin{equation}
 \label{eq:w-main-later}
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right).
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} w(\overline{F}) (\degout(F,*) - 2)^2 \right).
 \end{equation}
 \begin{proof}[Proof of Theorem~\ref{thm:w-main}]
 First, suppose $|S| = 1$.
@@ -2410,234 +2534,12 @@ we should replace $G$ on the right-hand side with the subtree $\conv(S,G)$.
 However, the formulas as stated are true even without this replacement due to cancellation of terms.
 \end{rmk}
 
-\section{Physical interpretation}
-
-If we consider $G$ as a network of wires with edge $e$ containing a resistor of resistance $\alpha_e$,
-which is grounded at all nodes in $S$,
-then the optimal vector $\boldm(G; S)$ defined in \eqref{eq:m-vector} has an interpretation as current flow: 
-it records the currents exiting at $s \in S$
-when current enters the vertices in the amount $\deg(v) - 2$
-for each $v\not\in S$.
-
-\subsection{Alternate proof}
-
-% Let $\mathbf{1}$ denote the all-ones vector.
-% When we choose a subset $S \subset V(G)$, we no longer have a single ``obvious'' replacement for $\boldm$ inside $\RR^S$.
-% Instead, we can take an average over $S$-rooted spanning forests.
-
-In the outline above, our first goal is to find a ``special'' vector $ \boldm\in \RR^S$ satisfying $D[S] \boldm = \lambda \mathbf{1}$.
-We can approach this first goal as follows: 
-consider $\RR^S$ inside the larger vector space $\RR^V = \RR^S \oplus \RR^{V\setminus S}$,
-and let $\pi_S$ denote the projection from $\RR^V$ to $\RR^S$.
-We wish to find vectors $\mathbf{n}(i) \in \RR^{V}$ satisfying
-$\pi_S( D \mathbf{n}(i)) = \lambda_i \mathbf{1}$.
-OR, $D \mathbf{n}_i = \lambda_i \mathbf{1}^S \oplus (-)$.
-By finding sufficiently many such vectors $\mathbf{n}_i$,
-we can hope to find a linear combination that lies inside $\RR^S \oplus \{0\}$.
-% $D \mathbf{n} = (\lambda \mathbf{1}_S) \oplus (-)$.
-
-%\subsection{Warmup case: $S = V$}
-
-\begin{prop}
-\label{prop:m-distance-warmup}
-Let $\boldm \in \RR^V$ be the vector defined by $\boldm_v = 2 - \deg v$,
-%\[
-%	\boldm = \sum_{v \in V} (2 - \deg v) \bolddelta(v),
-%\]
-and let $D$ be the distance matrix of $G$.
-Then the entries of $D \boldm$
-are constant on $V(G)$.
-\end{prop}
-\begin{proof}
-It suffices to show that for each edge $e$, with endpoints $(e^+,e^-)$, we have
-$
-	(D \boldm)_{(e^+)} = (D \boldm)_{(e^-)} .
-$
-To compute $(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)}$, first observe that the distance function on $G$ satisfies
-\[
-	d(v,e^+) - d(v,e^-) = \begin{cases}
-	\alpha_e &\text{if $v$ is closer to $e^-$ than }e^+,\\
-	- \alpha_e &\text{if $v$ is closer to $e^+$ than }e^-.
-	\end{cases}
-\]
-Thus
-\begin{align}
-	(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)} &= \sum_{v \in V} (d(v,e^+) - d(v,e^-)) (2 - \deg v) \\
-	&= \sum_{v\in (G\setminus e)^-}  \alpha_e (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} \alpha_e (2 - \deg v) \\
-	&= \alpha_e \left( \sum_{v\in (G\setminus e)^-}  (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} (2 - \deg v)\right) 
-\label{eq:12-1}
-\end{align}
-For each sum in \eqref{eq:12-1}, we apply Lemma~\ref{lem:outdeg-sum} to obtain
-\begin{align}
-\sum_{v \in (G\setminus e)^-}  (2 - \deg v) &= (2 - \degout( (G\setminus e)^-) 
-= 1 ,
-\end{align}
-since each component of $(G \setminus e)$ has outdegree one.
-The same identity applies to the sum over $(G \setminus e)^+$, so $(D\boldm)_{(e^+)} = (D\boldm)_{(e^-)}$ as desired.
-\end{proof}
-
-\begin{prop}
-\label{prop:n-vector}
-Fix $v \in V \setminus S$.
-Consider the vector $\mathbf{n} = \mathbf{n}(G;S,v) \in \RR^V$ defined by
-\[
-	\mathbf{n} = \sum_{T \in \trees(G; S)} 
-	\Big( \bolddelta(v) - \bolddelta(\pi_T(v)) \Big) .
-\]
-Then $D\mathbf{n}$ is constant on $S$, i.e. $\pi_S( D \mathbf{n}) = \lambda \mathbf{1}$ for some $\lambda$.
-\end{prop}
-\begin{rmk}
-For each $s \in S$, let $\mu(v,s)$ denote the current flowing to $s$ when $G$ is grounded at $S$ and one unit of current enters $G$ at $v$.
-Then
-\[
-	\mu(v, s) = \frac{1}{\kappa(G; S)} \mathbf{n}(v)_{s} .
-\]
-\end{rmk}
-Explicitly, if $s = s_j$, then
-\begin{align}
-	\mu(v, s_j) 
-	= \frac{\sum_{\trees(G; S)} \mathds{1}(\pi_T(v) = s_j)}{\kappa(G; S)}
-	&= \frac{\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)}{\kappa(G; S))} 
-\end{align}
-where
-$\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)$ is the number of $S$-rooted spanning forests of $G$ whose $s_j$-component contains $v$.
-
-\begin{proof}[Proof sketch]
-For any $s, s' \in S$, consider tracking the value of $D \mathbf{n}$ along path from $s$ to $s'$. 
-The value of $D \mathbf{n}$ changes according to current flow in the corresponding network, i.e. $D \mathbf{n}$ records electrical potential.
-The set $S$ is grounded by assumption, so $D\mathbf{n}$ takes the same value at $s$ and $s'$.
-\end{proof}
-
-\begin{thm}
-Let $G$ be a tree, $S$ a nonempty subset of vertices,
-and $D[S]$ the submatrix of the distance matrix of $G$.
-Suppose $\boldm = \boldm(G;S) \in \RR^{S}$ is defined by \eqref{eq:m-vector};
-\begin{equation}
-	\boldm(G;S)_s = \sum_{T \in \trees(G;S)} w(\overline{T}) \sum_{u \in T(s)} (2 - \deg u) 
-	= \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout(T,s)) .
-\end{equation}
-Then $D[S] \boldm = \lambda \bone$
-for some constant $\lambda$.
-\end{thm}
-\begin{proof}
-The vector $\boldm = \boldm(G;S)$ can be expressed as a linear combination of $\delta$-vectors
-\[
-	\boldm(G; S) = \sum_{T \in \trees(G; S)} w(\overline{T}) \sum_{u \in V} (2 - \deg(u)) \bolddelta(\pi_T(u)).
-\]
-Therefore
-\begin{align}
-	\boldm (G;S)
-	&= \sum_{T \in \trees} \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
-	- \sum_{T \in \trees} \sum_{v \in V} (2 - \deg v) (\bolddelta(v) - \bolddelta(\pi_T(v)) \\
-	&= \kappa(G; S) \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
-	- \sum_{v \in V \setminus S} (2 - \deg v) \mathbf{n}(G;S,v) \\
-	&= \kappa(G;S) \boldm(G;V) - \sum_{v\in V\setminus S} (2 - \deg v) \boldn(G;S,v).
-\end{align}
-\note{TODO: elaborate on this equation?}
-From Proposition~\ref{prop:m-distance-warmup} we know that $D \boldm(G;V)$ is constant on $V$,
-and from Proposition~\ref{prop:n-vector} we know that  for each $v \in V \setminus S$ the product $D \boldn(G;S,v)$ is constant on $S$.
-Hence by linearity, $D \boldm(G;S)$ is constant on $S$.
-\end{proof}
-
-\begin{eg}
-If 
-$$
-D[S \cup t] = \begin{bmatrix}
-0 & a & b & c \\
-a & 0 & a + b & a + c \\
-b & a + b & 0 & b + c \\
-c & a + c & b + c & 0
-\end{bmatrix}
-$$
-then
-$$
- \begin{bmatrix}
-0 & a & b & c \\
-a & 0 & a + b & a + c \\
-b & a + b & 0 & b + c \\
-c & a + c & b + c & 0
-\end{bmatrix}
-\begin{bmatrix}
-ab + ac + bc \\ -bc \\ -ac \\ -ab 
-\end{bmatrix}
-= \begin{bmatrix}
--3abc \\ -abc \\ -abc \\ -abc
-\end{bmatrix}
-$$
-\end{eg}
-
-\subsection{Symanzik polynomials}
-
-We note that the expression in the main theorem, Theorem~\ref{thm:w-main}, is related to Symanzik polynomials, which we recall here.
-
-Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is the homogeneous polynomial in edge-indexed variables $\underline{x} = \{x_e : e \in E\}$ defined by
-\[
-	\psi_G(\underline{x}) = \sum_{T \in \trees(G)} \prod_{e \not \in T} x_e ,
-\]
-where $\trees(G)$ denotes the set of spanning trees of $G$.
-
-Consider a ``momentum'' function $p: V \to \RR$ which satisfies $\sum_{v \in V} p(v) = 0$.
-Then the second Symanzik polynomial is
-\[
-	\varphi_G(p; \underline{x}) = \sum_{F \in \forests_2(G)} \left(\sum_{v \in F_1} p(v) \right)^2 \prod_{e \not\in F} x_e ,
-\]
-where $\forests_2(G)$ is the set of two-component spanning forests of $G$, and $F_1$ denotes one of the components of $F$.
-It doesn't matter which component we label as $F_1$, due to the momemtum constraint $\sum_{v \in V} p(v) = 0$.
-% If $F_2$ denotes the other component of $F$, the constraint $\sum_{v \in V} p(v) = 0$ implies that
-% $\left(\sum_{v \in F_1} p(v) \right)^2 = \left(\sum_{v \in F_2} p(v) \right)^2$.
-
-Theorem statement:
-\[
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right).
-\]
-\[
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right)
-\]
-In terms of Symanzik polynomials, let $\psi$ and $\varphi$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
-We have
-\[
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p; \underline{\alpha}) \right).
-\]
-and
-\[
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right)
-\]
-with momentum function $p(v) = \deg(v) - 2$ for $v \not \in S$.
 
 
 \section{Examples}
 
 \begin{eg}
-Suppose $G$ is a tree consisting of three paths joined at a central vertex.
-Let $S$ consist of the central vertex, and the three endpoints of the paths. 
-The corresponding minor of the distance matrix is
-\[
-	D[S] = \begin{bmatrix}
-	0 & a & b & c \\
-	a & 0 & a + b & a + c \\
-	b & a + b & 0 & b + c \\
-	c & a + c & b + c & 0
-	\end{bmatrix}
-	\sim \begin{bmatrix}
-	0 & a & b & c \\
-	a & -a & a  & a \\
-	b & b & -b & b \\
-	c & c & c & -c
-	\end{bmatrix}
-	\sim \begin{bmatrix}
-	0 & a & b & c \\
-	a & -2a & 0 & 0 \\
-	b & 0 & -2b & 0 \\
-	c & 0 & 0 & -2c
-	\end{bmatrix}.
-\]
-The determinant is
-\begin{align*}
-	\det D[S] = -4(a+b+c)abc.
-\end{align*}
-% \end{eg}
-% \begin{eg}
-Suppose $\Gamma$ is a tripod with lengths $a,b,c$ and corresponding leaf vertices $u,v,w$.
+Suppose $G$ is a tree consisting of three edges joined at a central vertex.
 \[
 \begin{tikzpicture}
 	\coordinate (u) at (-2,0);
@@ -2661,32 +2563,60 @@ Suppose $\Gamma$ is a tripod with lengths $a,b,c$ and corresponding leaf vertice
 	\node[right=3pt] at (w) {$w$};
 \end{tikzpicture}
 \]
-Let $S = \{u,v,w\}$.
+First, suppose $S = V$.
+The corresponding distance matrix is
+\[
+	D[V] = \begin{pmatrix}
+	0 & a & b & c \\
+	a & 0 & a + b & a + c \\
+	b & a + b & 0 & b + c \\
+	c & a + c & b + c & 0
+	\end{pmatrix},
+%	\sim \begin{pmatrix}
+%	0 & a & b & c \\
+%	a & -a & a  & a \\
+%	b & b & -b & b \\
+%	c & c & c & -c
+%	\end{pmatrix}
+%	\sim \begin{pmatrix}
+%	0 & a & b & c \\
+%	a & -2a & 0 & 0 \\
+%	b & 0 & -2b & 0 \\
+%	c & 0 & 0 & -2c
+%	\end{pmatrix}.
+\]
+which has determinant
+$
+	\det D[S] = -4(a+b+c)abc.
+$
+
+% Suppose $\Gamma$ is a tripod with lengths $a,b,c$ and corresponding leaf vertices $u,v,w$.
+Next, suppose $S$ consists of the leaf vertices $ \{u,v,w\}$.
 Then 
 \[
-	D[S] = \begin{bmatrix}
+	D[S] = \begin{pmatrix}
 	0 & a + b & a + c \\
 	a + b & 0 & b + c \\
 	a + c & b + c & 0
-	\end{bmatrix}.
+	\end{pmatrix}
 \]
-and
+which has determinant
 \begin{align*}
 	\det D[S] &= 2(a+b)(a+c)(b+c) 
-	= 2\left( (a+b+c)(ab + ac + bc) - abc \right).
+	= 2\Big( (a+b+c)(ab + ac + bc) - abc \Big).
 \end{align*}
 The ``special vector'' that satisfies $D[S] \boldm = \lambda \mathbf{1}$ in this example is 
-\[
-	\boldm = \begin{bmatrix} 
+$\displaystyle
+	\boldm = \begin{pmatrix} 
 	ab + ac \\ 
 	ab + bc \\
 	ac + bc 
-	\end{bmatrix}.
-\]
+	\end{pmatrix}.
+$
 \end{eg}
 
 \begin{eg}
-Suppose $G$ is the tree with unit edge lengths shown below, with five leaf vertices.
+Suppose $G$ is the tree with unit edge weights shown below, with five leaf vertices.
 \[
 \begin{tikzpicture}[scale=0.8]
 	\coordinate (1) at (-2,0.7);
@@ -2718,13 +2648,13 @@ Suppose $G$ is the tree with unit edge lengths shown below, with five leaf verti
 \]
 Let $S$ denote the set of five leaf vertices. Then
 $$
-D[S] = \begin{bmatrix}
+D[S] = \begin{pmatrix}
 0 & 2 & 3 & 3 & 3 \\
 2 & 0 & 3 & 3 & 3 \\
 3 & 3 & 0 & 2 & 2 \\
 3 & 3 & 2 & 0 & 2 \\
 3 & 3 & 2 & 2 & 0
-\end{bmatrix}.
+\end{pmatrix}.
 $$
 There are $11$ forests in $\trees(G;S)$:
 \[
@@ -3085,8 +3015,9 @@ and
 \end{eg}
 
 \begin{eg}
-Suppose $G$ is the tree with edge lengths shown below, with four leaf vertices and two internal vertices.
-\[
+Suppose $G$ is the tree with edge weights shown below, with four leaf vertices and two internal vertices.
+\begin{figure}[h]
+\centering
 \begin{tikzpicture}
 	\coordinate (1) at (-2,0.7);
 	\coordinate (2) at (-2,-0.6);
@@ -3109,17 +3040,27 @@ Suppose $G$ is the tree with edge lengths shown below, with four leaf vertices a
 	\node[right=2pt] at (3) {$3$};
 	\node[right=2pt] at (4) {$4$};
 \end{tikzpicture}
-\]
+\caption{Tree with four leaves, and varying edge weights.}
+\end{figure}
 Let $S$ denote the set of four leaf vertices.
 Then
 \[
-	D[S] = \begin{bmatrix}
+	D[S] = \begin{pmatrix}
 	0 & a + b & a + c + d & a + c + e \\
 	a + b & 0 & b + c + d & b + c + e \\
 	a + c + d & b + c + d & 0 & d + e \\
 	a + c + e & b + c + e & d + e & 0
-	\end{bmatrix}
+	\end{pmatrix}
 \]
+and 
+$\boldm = 
+\begin{pmatrix}
+abd & + abe & + acd & + ace & + ade & & & - bde \\
+abd & + abe & & &  - ade & + bcd & + bce & + bde \\
+abd & - abe & + acd & & + ade & + bcd & & + bde \\
+-abd & + abe & & + ace & + ade & & + bce & + bde
+\end{pmatrix}
+$
 and
 \[
 	\begin{gathered}
@@ -3127,48 +3068,6 @@ and
 	= (-1)^3 2^2 \Big( (a + b + c + d + e) \cdot (abd + abe + acd + ace + ade + bcd + bce + bde) \\
 	- (1^2(abcd + abce + acde + bcde) + 2^2 (abde)) \Big).
 	\end{gathered}
-\]
-\end{eg}
-
-\begin{eg}
-Suppose $G$ is the tree with unit edge lengths shown below, with five leaf vertices and three internal vertices.
-\[
-\begin{tikzpicture}
-	\filldraw[black] (-2,0.7) coordinate (1) circle (2pt);
-	\filldraw[black] (-2,-0.6) coordinate (2) circle (2pt);
-	\filldraw[black] (0,-1) coordinate (3) circle (2pt);
-	\filldraw[black] (2,-0.7) coordinate (4) circle (2pt);
-	\filldraw[black] (2,0.7) coordinate (5) circle (2pt);
-	\filldraw[black] (-1,0) coordinate (A) circle (2pt);
-	\filldraw[black] (0,0) coordinate (B) circle (2pt);
-	\filldraw[black] (1,0) coordinate (C) circle (2pt);
-
-	\node[left=2pt] at (1) {$1$};
-	\node[left=2pt] at (2) {$2$};
-	\node[left=2pt] at (3) {$3$};
-	\node[right=2pt] at (4) {$4$};
-	\node[right=2pt] at (5) {$5$};
-
-	\draw (B) -- (A) -- (1);
-	\draw (A) -- (2);
-	\draw (3) -- (B) -- (C) -- (4);
-	\draw (C) -- (5);
-\end{tikzpicture}
-\]
-Let $S$ denote the set of five leaf vertices. Then
-\[
-	D[S] = \begin{bmatrix}
-	0 & 2 & 3 & 4 & 4 \\
-	2 & 0 & 3 & 4 & 4 \\
-	3 & 3 & 0 & 3 & 3 \\
-	4 & 4 & 3 & 0 & 2 \\
-	4 & 4 & 3 & 2 & 0
-	\end{bmatrix}
-\]
-and
-\[
-	\det D[S] = 864
-	= (-1)^4 2^3 \left( 7 \cdot 21 - (14 \cdot 1^2 + 4 \cdot 2^2 + 1 \cdot 3^2) \right).
 \]
 \end{eg}
 
@@ -3181,3 +3080,246 @@ The authors would like to thank Ravindra Bapat for helpful discussion.
 \bibliographystyle{abbrv}
 
 \end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Physical interpretation}
+
+\subsection{Alternate proof}
+
+% Let $\mathbf{1}$ denote the all-ones vector.
+% When we choose a subset $S \subset V(G)$, we no longer have a single ``obvious'' replacement for $\boldm$ inside $\RR^S$.
+% Instead, we can take an average over $S$-rooted spanning forests.
+
+In the outline above, our first goal is to find a ``special'' vector $ \boldm\in \RR^S$ satisfying $D[S] \boldm = \lambda \mathbf{1}$.
+We can approach this first goal as follows: 
+consider $\RR^S$ inside the larger vector space $\RR^V = \RR^S \oplus \RR^{V\setminus S}$.
+% and let $\pi_S$ denote the projection from $\RR^V$ to $\RR^S$.
+We wish to find vectors $\mathbf{n}(i) \in \RR^{V}$ such that
+%$\pi_S( D \mathbf{n}(i)) = \lambda_i \mathbf{1}$.
+$D \mathbf{n}$ is constant on $S$.
+By finding sufficiently many such vectors $\mathbf{n}(i)$,
+we can hope to find a linear combination that lies inside $\RR^S \oplus \{0\}$;
+such a linear combination $\widetilde \boldm$ will also satisfy $D \widetilde \boldm$ is constant on $S$.
+% $D \mathbf{n} = (\lambda \mathbf{1}_S) \oplus (-)$.
+
+%\subsection{Warmup case: $S = V$}
+
+\begin{prop}
+\label{prop:m-distance-warmup}
+Let $\boldm \in \RR^V$ be the vector defined by $\boldm_v = 2 - \deg v$,
+%\[
+%	\boldm = \sum_{v \in V} (2 - \deg v) \bolddelta(v),
+%\]
+and let $D$ be the distance matrix of $G$.
+Then the entries of $D \boldm$
+are constant on $V(G)$.
+\end{prop}
+\begin{proof}
+It suffices to show that for each edge $e$, with endpoints $(e^+,e^-)$, we have
+$
+	(D \boldm)_{(e^+)} = (D \boldm)_{(e^-)} .
+$
+To compute $(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)}$, first observe that the distance function on $G$ satisfies
+\[
+	d(v,e^+) - d(v,e^-) = \begin{cases}
+	\alpha_e &\text{if $v$ is closer to $e^-$ than }e^+,\\
+	- \alpha_e &\text{if $v$ is closer to $e^+$ than }e^-.
+	\end{cases}
+\]
+Thus
+\begin{align}
+	(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)} &= \sum_{v \in V} (d(v,e^+) - d(v,e^-)) (2 - \deg v) \\
+	&= \sum_{v\in (G\setminus e)^-}  \alpha_e (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} \alpha_e (2 - \deg v) \\
+	&= \alpha_e \left( \sum_{v\in (G\setminus e)^-}  (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} (2 - \deg v)\right) 
+\label{eq:12-1}
+\end{align}
+For each sum in \eqref{eq:12-1}, we apply Lemma~\ref{lem:outdeg-sum} to obtain
+\begin{align}
+\sum_{v \in (G\setminus e)^-}  (2 - \deg v) &= (2 - \degout( (G\setminus e)^-) 
+= 1 ,
+\end{align}
+since each component of $(G \setminus e)$ has outdegree one.
+The same identity applies to the sum over $(G \setminus e)^+$, so $(D\boldm)_{(e^+)} = (D\boldm)_{(e^-)}$ as desired.
+\end{proof}
+
+\begin{prop}
+\label{prop:n-vector}
+Fix $v \in V \setminus S$.
+Consider the vector $\mathbf{n} = \mathbf{n}(G;S,v) \in \RR^V$ defined by
+\[
+	\mathbf{n} = \sum_{T \in \trees(G; S)} 
+	\Big( \bolddelta(v) - \bolddelta(\pi_T(v)) \Big) .
+\]
+Then $D\mathbf{n}$ is constant on $S$, i.e. $\pi_S( D \mathbf{n}) = \lambda \mathbf{1}$ for some $\lambda$.
+\end{prop}
+\begin{rmk}
+For each $s \in S$, let $\mu(v,s)$ denote the current flowing to $s$ when $G$ is grounded at $S$ and one unit of current enters $G$ at $v$.
+Then
+\[
+	\mu(v, s) = \frac{1}{\kappa(G; S)} \mathbf{n}(v)_{s} .
+\]
+\end{rmk}
+Explicitly, if $s = s_j$, then
+\begin{align}
+	\mu(v, s_j) 
+	= \frac{\sum_{\trees(G; S)} \mathds{1}(\pi_T(v) = s_j)}{\kappa(G; S)}
+	&= \frac{\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)}{\kappa(G; S))} 
+\end{align}
+where
+$\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)$ is the number of $S$-rooted spanning forests of $G$ whose $s_j$-component contains $v$.
+
+\begin{proof}[Proof sketch]
+For any $s, s' \in S$, consider tracking the value of $D \mathbf{n}$ along path from $s$ to $s'$. 
+The value of $D \mathbf{n}$ changes according to current flow in the corresponding network, i.e. $D \mathbf{n}$ records electrical potential.
+The set $S$ is grounded by assumption, so $D\mathbf{n}$ takes the same value at $s$ and $s'$.
+\end{proof}
+
+\begin{thm}
+Let $G$ be a tree, $S$ a nonempty subset of vertices,
+and $D[S]$ the submatrix of the distance matrix of $G$.
+Suppose $\boldm = \boldm(G;S) \in \RR^{S}$ is defined by \eqref{eq:m-vector};
+\begin{equation}
+	\boldm(G;S)_s = \sum_{T \in \trees(G;S)} w(\overline{T}) \sum_{u \in T(s)} (2 - \deg u) 
+	= \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout(T,s)) .
+\end{equation}
+Then $D[S] \boldm = \lambda \bone$
+for some constant $\lambda$.
+\end{thm}
+\begin{proof}
+The vector $\boldm = \boldm(G;S)$ can be expressed as a linear combination of $\delta$-vectors
+\[
+	\boldm(G; S) = \sum_{T \in \trees(G; S)} w(\overline{T}) \sum_{u \in V} (2 - \deg(u)) \bolddelta(\pi_T(u)).
+\]
+Therefore
+\begin{align}
+	\boldm (G;S)
+	&= \sum_{T \in \trees} \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
+	- \sum_{T \in \trees} \sum_{v \in V} (2 - \deg v) (\bolddelta(v) - \bolddelta(\pi_T(v)) \\
+	&= \kappa(G; S) \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
+	- \sum_{v \in V \setminus S} (2 - \deg v) \mathbf{n}(G;S,v) \\
+	&= \kappa(G;S) \boldm(G;V) - \sum_{v\in V\setminus S} (2 - \deg v) \boldn(G;S,v).
+\end{align}
+\note{TODO: elaborate on this equation?}
+From Proposition~\ref{prop:m-distance-warmup} we know that $D \boldm(G;V)$ is constant on $V$,
+and from Proposition~\ref{prop:n-vector} we know that  for each $v \in V \setminus S$ the product $D \boldn(G;S,v)$ is constant on $S$.
+Hence by linearity, $D \boldm(G;S)$ is constant on $S$.
+\end{proof}
+
+\begin{eg}
+If 
+$$
+D[S \cup t] = \begin{pmatrix}
+0 & a & b & c \\
+a & 0 & a + b & a + c \\
+b & a + b & 0 & b + c \\
+c & a + c & b + c & 0
+\end{pmatrix}
+$$
+then
+$$
+ \begin{pmatrix}
+0 & a & b & c \\
+a & 0 & a + b & a + c \\
+b & a + b & 0 & b + c \\
+c & a + c & b + c & 0
+\end{pmatrix}
+\begin{pmatrix}
+ab + ac + bc \\ -bc \\ -ac \\ -ab 
+\end{pmatrix}
+= \begin{pmatrix}
+-3abc \\ -abc \\ -abc \\ -abc
+\end{pmatrix}
+$$
+\end{eg}
+
+\section{Examples}
+\begin{eg}
+Suppose $G$ is a tree consisting of three edges joined at a central vertex.
+Let $S = V$.
+The full (weighted) distance matrix is
+\[
+	D[V] = \begin{pmatrix}
+	0 & a & b & c \\
+	a & 0 & a + b & a + c \\
+	b & a + b & 0 & b + c \\
+	c & a + c & b + c & 0
+	\end{pmatrix}.
+\]
+Following the steps outlined above:
+\begin{enumerate}[(i)]
+\item 
+The vector $\boldm = \begin{pmatrix} -1 \\ 1 \\ 1 \\ 1 \end{pmatrix}$ satisfies
+$
+D[S] \boldm = \lambda \mathbf{1}
+$
+where $\lambda = a + b + c$.
+
+\item 
+The sum of entries of $\boldm$ is $\mathbf{1}^\tr \boldm = 2$.
+% so $\boldu^* = \frac12 \boldm$.
+
+\item 
+We have 
+$\displaystyle
+	\lambda^* = \frac{\lambda}{\bone^\tr\boldm} = \frac{1}{2}(a + b + c) .
+$
+
+\item 
+The cofactor sum is
+$\cof D[S] = -8 abc$,
+so the determinant is
+\begin{align*}
+\det D[S] 
+= \lambda^* (\cof D[S])
+% = \frac{a + b + c}{2} (-8 abc)
+= -4(a + b + c) abc.
+\end{align*}
+\end{enumerate}
+\end{eg}
+
+\begin{eg}
+Suppose $G$ is a tree consisting of three paths joined at a central vertex.
+Let $S$ consist of the central vertex, and the three endpoints of the paths. 
+The corresponding submatrix of the distance matrix is
+\[
+	D[S] = \begin{pmatrix}
+	0 & a + b & a + c \\
+	a + b & 0 & b + c \\
+	a + c & b + c & 0
+	\end{pmatrix}.
+\]
+Following the steps outlined above:
+\begin{enumerate}[(i)]
+\item 
+The vector $\boldm = \begin{pmatrix} ab + ac \\ ab + bc \\ ac + bc \end{pmatrix}$ satisfies
+$
+D[S] \boldm = \lambda \mathbf{1}
+$
+where $\lambda = (a + b)(a + c)(b + c)$.
+
+\item 
+The sum of entries of $\boldm$ is $\mathbf{1}^\tr \boldm = 2(ab + ac + bc)$.
+% so $\boldu^* = \frac12 \boldm$.
+
+\item 
+We have 
+$\displaystyle
+	\lambda^* = \frac{\lambda}{\bone^\tr\boldm} = \frac{(a + b)(a + c)(b + c)}{2(ab + ac + bc)} .
+$
+
+\item 
+The cofactor sum  
+$\cof D[S]$ is $4(ab + ac + bc)$,
+so the determinant is
+\begin{align*}
+\det D[S] 
+= \lambda^* (\cof D[S])
+% = \frac{a + b + c}{2} (-8 abc)
+= 2(a + b)(a + c)(b + c).
+\end{align*}
+\end{enumerate}
+\end{eg}
+
