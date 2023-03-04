@@ -490,8 +490,8 @@ Suppose $G$ is the tree with unit edge weights shown below.
 	\draw (C) -- (D);
 	\draw (D) -- (2);
 	
-	\foreach \c/\d in {1/left,2/right,3/right} {
-		\node[\d=0.2] at (\c) {$\c$};
+	\foreach \c/\d/\label in {1/left/v_2,2/right/v_3,3/right/v_1} {
+		\node[\d=0.2] at (\c) {$\label$};
 	}
 \end{tikzpicture}
 \]
