@@ -106,19 +106,25 @@
 \newcommand{\harry}[1]{{\color{red} \sf $\diamondsuit$  Harry: {#1} $\diamondsuit$ }}
 
 \begin{document}
-\title[Tree distance minors]{Minors of tree distance matrices}
+\title{Minors of tree distance matrices}
 \author{Harry Richman}
 \author{Farbod Shokrieh}
 \author{Chenxi Wu}
 \date{v1, \today  \,(Preliminary draft, not for circulation).}
 %\thanks{This work was partially supported by ....}
 
+\subjclass[2020]{Primary 05C50; 
+Secondary 05C05, 05C12, 05C30, 31C15}
+
+% 05C50	Graphs and linear algebra (matrices, eigenvalues, etc.)
+% 05C05	Trees
+% 05C12	Distance in graphs
+% 05C30 Enumeration in graph theory
+% 31C15	Potentials and capacities on other spaces
 
 \begin{abstract}
-We prove that %the determinant of 
-the principal minors of
-the distance matrix of a tree %on one hand,
-satisfy a combinatorial expression involving counts of rooted spanning forests of the underlying tree.
+We prove that the principal minors of the distance matrix of a tree satisfy a combinatorial expression 
+involving counts of rooted spanning forests of the underlying tree.
 This generalizes a result of Graham and Pollak.
 We also give such an expression for the case of edge-weighted trees.
 \end{abstract}
@@ -3067,6 +3073,7 @@ $
 \caption{Tree with four leaves, and varying edge weights.}
 \label{fig:tree-4}
 \end{figure}
+
 The determinant of the distance submatrix is
 \[
 	\begin{gathered}
