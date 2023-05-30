@@ -440,11 +440,15 @@ Let $\kappa(G)$ denote the number of spanning trees of $G$, and let $\kappa_r(G)
 Given a set of vertices $S = \{v_1, v_2, \ldots, v_r\}$,
 an {\em $S$-rooted spanning forest} of $G$ 
 is a spanning forest which has exactly one vertex $v_i$ in each connected component.
-Given $s \in S$ and a forest $F$ in $\trees(G; S)$, we let $F(s)$ denote the $s$-component of $F$.
+Given $s \in S$ and a forest $F$,
+% in $\trees(G; S)$, 
+we let $F(s)$ denote the $s$-component of $F$.
 
 An {\em $(S,*)$-rooted spanning forest} of $G$ is a spanning forest which has $|S|+1$ components, where $|S|$ components each contain one vertex of $S$, and the additional component is disjoint from $S$.
 We call the component disjoint from $S$ the {\em floating component}, following terminology in \cite{kassel-kenyon-wu}.
-As before, for $F \in \forests_2(G; S)$
+
+As before, for an $(S,*)$-rooted spanning forest $F$,
+% $F \in \forests_2(G; S)$
 we let $F(s)$ denote the $s$-component of $F$, and additionally let $F(*)$ denote the floating component.
 % (if $F \in \forests_2$).
 (We may refer to the floating component as the $*$-component of $F$.)
@@ -1313,12 +1317,12 @@ We abbreviate $\mathrm{head}(e)$ as $e^+$, and $\mathrm{tail}(e)$ as $e^-$.
 We assume all graphs in the paper are equipped with an implicit orientation.
 The incidence matrix depends on the orientation, but the Laplacian matrix does not.
 
-The {\em incidence matrix} of $G$ is the matrix $N \in \RR^{V \times E}$ defined by
+The {\em incidence matrix} of $G$ is the matrix $B \in \RR^{V \times E}$ defined by
 \[
-	N_{v, e} = \one(v = e^+) - \one(v = e^-).
+	B_{v, e} = \one(v = e^+) - \one(v = e^-).
 \]
 %\[
-%	N_{v, e} = \begin{cases}
+%	B_{v, e} = \begin{cases}
 %	1 &\text{if } v = e^+ \\
 %	-1 &\text{if } v = e^- \\
 %	0 &\text{otherwise}.
@@ -1327,18 +1331,18 @@ The {\em incidence matrix} of $G$ is the matrix $N \in \RR^{V \times E}$ defined
 Here $\one(\cdot)$ denotes the indicator function.
 Let $L \in \RR^{V \times V}$ denote the {\em Laplacian matrix} of $G$, which is defined by
 $
-	L = N N^\tr.
+	L = B B^\tr.
 $
 If $G$ is a weighted graph with positive edge weights $\alpha_e$ for $e \in E$,
 let $\La$ denote the weighted Laplacian matrix of $G$,
 defined by
 \begin{equation}
 \label{eq:weighted-laplacian}
-	\La = N \begin{pmatrix}
+	\La = B \begin{pmatrix}
 	\alpha_1^{-1} & & \\
 	& \ddots & \\
 	& & \alpha_m^{-1}
-	\end{pmatrix} N^\tr .
+	\end{pmatrix} B^\tr .
 \end{equation}
 It is clear that $L$ and $\La$ are positive semidefinite.
 
@@ -1412,7 +1416,7 @@ Given an edge $e\in E$ and vertices $v,w \in V$, let
 	0 &\text{otherwise}.
 \end{cases}
 \end{equation}
-In other words, $\delta(e; v,w) = 1$ if the vertices are in different components of the tree split $G \setminus e$,
+In other words, $\delta(e; v,w) = 1$ if the vertices $v, w$ are in different components of the tree split $G \setminus e$,
 and $\delta(e; v,w) = 0$ if they are in the same component.
 Note that $\delta(e; v,v) = 0$ for any $e$ and $v$.
 %\begin{equation}
@@ -1460,15 +1464,16 @@ For an unweighted tree, we can express the tree distance $d(v,w)$ as the unweigh
 Given a vertex $v$ in a graph, the {\em degree} $\deg(v)$ is the number of edges incident to $v$.
 %The ``handshake lemma'' of graph theory states that  $\sum_{v \in V(G)} \deg(v) = 2|E|$.
 A consequence of the ``handshake lemma'' of graph theory is that for any tree $G$, we have
-\[
+\begin{equation}
+\label{eq:handshake}
 	\sum_{v \in V(G)} (2 - \deg(v)) = 2.
-\]
+\end{equation}
 In this section we state a generalization, Lemma~\ref{lem:outdeg-sum} which will be used later.
 
 Given a connected subgraph $H \subset G$,
 we define the {\em edge boundary}  $\partial H$ as the set of edges which join $H$ to its complement; i.e.
 \begin{equation}
-	\partial H = \{ e = (a,b) \in E : a \in V(H),\, b \not\in V(H)\}.
+	\partial H = \{ e = \{a,b\} \in E : a \in V(H),\, b \not\in V(H)\}.
 \end{equation}
 We define the {\em outdegree} of $H$ as the number of edges in its edge boundary, $\degout(H) = |\partial H|$. 
 (The edge boundary and outdegree do not depend on the implicit orientation on $E$.)
@@ -1479,14 +1484,13 @@ We define the {\em outdegree} of $H$ as the number of edges in its edge boundary
 %	\degout(H) = \#\{ e = (a,b) \in E : a \in V(H),\, b \not\in V(H)\}.
 %\end{equation}
 We often use the following special case of the outdegree: 
-%given a rooted forest $F$ in $\forests_1(G;S)$ and $s \in S$,
-recall that $F(s)$ denotes the $s$-component of an $S$-rooted spanning forest $F$.
-
 We define the {\em outdegree} $\degout(F,s)$ as the number of edges which join $F(s)$ to a different component; i.e.
 \begin{equation}
 \label{eq:outdeg-forest}
 	\degout(F,s) = |\{ e = (a,b) \in E : a \in F(s),\, b \not\in F(s)\}|.
 \end{equation}
+%given a rooted forest $F$ in $\forests_1(G;S)$ and $s \in S$,
+(Recall that $F(s)$ denotes the $s$-component of an $S$-rooted spanning forest $F$.)
 %In words, $\degout(F,s)$ is the number of edges which connect the $s$-component of $F$ to a different component.
 %\[
 %	\#\{ e \in E : e \text{ connects the $s$-component of $F$ to a different component}\}
@@ -1551,7 +1555,7 @@ Using part (a), we have
 
 \begin{rmk}
 A key step in the proof of Theorem~\ref{thm:w-main} uses the following ``transition structure'' which relates the $S$-rooted spanning forests $\trees(G; S)$ with $(S,*)$-rooted spanning forests $\forests_2(G; S)$,
-coming from edge-deletion and edge-union.
+via the operations of edge-deletion and edge-union.
 
 Consider the ``deletion'' map
 \[
@@ -1582,13 +1586,14 @@ defined by
 	\end{cases}
 \]
 For a spanning forest $T \in \trees(G; S)$, 
-there are exactly $|E(T)|$-many choices of pairs $(e, F) \in E(G) \times \forests_2(G; S)$ such that $T = F \cup e$. 
+there are exactly $(|V| - 1)$-many choices of pairs $(e, F) \in E(G) \times \forests_2(G; S)$ such that $T = F \cup e$
+(since $|E(T)| = |V| - 1$ for any spanning tree $T$). 
 %the preimage under this map has $|E(T)|$-many elements.
 \end{rmk}
 
 \subsection{Symanzik polynomials}
 
-We note that the expression in the main theorem, Theorem~\ref{thm:w-main}, is related to Symanzik polynomials, which we recall here.
+We note that the expression in the main theorem, Theorem~\ref{thm:w-main}, is closely related to Symanzik polynomials, which we recall here.
 
 Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is the homogeneous polynomial in edge-indexed variables $\underline{x} = \{x_e : e \in E\}$ defined by
 \[
@@ -1617,15 +1622,18 @@ $\sum_{v \in F_1} p(v)  = - \sum_{v \in F_2} p(v)$.
 In terms of Symanzik polynomials, let $\psi$ and $\varphi$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
 Let $p$ be the momentum function $p(v) = \deg(v) - 2$ for $v \not \in S$.
 We have
+%Then, Theorem~\ref{thm:w-main} is equivalent to the equation
 \begin{equation}
 \label{eq:det-symanzik}
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \Big(\sum_{E(G)}\alpha_e \Big)\, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p; \underline{\alpha}) \right).
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \Big(\sum_{E(G)}\alpha_e \Big)\, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p; \underline{\alpha}) \right)
 \end{equation}
+(equivalent to Theorem~\ref{thm:w-main}),
 or more succinctly,
 \begin{equation}
 \label{eq:det-cof-symanzik}
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right).
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right)
 \end{equation}
+(equivalent to equation~\eqref{eq:det-cof}).
 
 \section{Distance minors: Preliminaries}
 
@@ -1747,13 +1755,13 @@ Using Proposition~\ref{prop:dist-laplacian},
 \[
 	\boldu^\tr D\boldu = - \frac12 \boldu^\tr DLD \boldu + 0.
 \]
-%The Laplacian matrix factors as $\La = N A N^\tr = (N A^{1/2}) (A^{1/2} N^\tr)$
-%where $N$ is the incidence matrix and $A$ is the diagonal matrix with entries $\alpha_e^{-1}$.
+%The Laplacian matrix factors as $\La = B A B^\tr = (B A^{1/2}) (A^{1/2} B^\tr)$
+%where $B$ is the incidence matrix and $A$ is the diagonal matrix with entries $\alpha_e^{-1}$.
 %Thus
 %\begin{align}
 %	\boldu^\tr D\boldu 
-%	% &= - \frac12 (N^\tr D\boldu)^\tr (N^\tr D\boldu) + 0
-%	= -\frac12 \| A^{1/2} N^\tr D \boldu \|^2 \leq 0,
+%	% &= - \frac12 (B^\tr D\boldu)^\tr (B^\tr D\boldu) + 0
+%	= -\frac12 \| A^{1/2} B^\tr D \boldu \|^2 \leq 0,
 %\end{align}
 It is well-known that the Laplacian matrix is positive semidefinite, so $\boldu^\tr DLD \boldu = (D \boldu)^\tr L (D \boldu) \geq 0$.
 Thus $\boldu^\tr D \boldu \leq 0$
@@ -1828,7 +1836,7 @@ for each $v \in V$,
 and the network is grounded at all nodes in $S$.
 
 We give an explicit combinatorial expression for $\boldu^*$, up to a normalizing constant, in Definition~\ref{dfn:m-vector}.
-It is a classical result in network theory that this measures current flow; see Tutte~\cite[Section VI.6]{tutte}.
+It is a classical result in network theory that this gives the current flow; see Tutte~\cite[Section VI.6]{tutte}.
 \end{rmk}
 
 \subsection{Cofactor sums}
@@ -1837,8 +1845,9 @@ Next we recall a connection between minors of the Laplacian matrix and cofactor 
 The result is due to Bapat--Sivasubramanian~\cite{bapat-sivasubramanian}.
 Recall that $\cof M$ denotes the {\em sum of cofactors} of $M$, i.e. 
 $\displaystyle
-	\cof M = \sum_{i = 1}^{n} \sum_{j = 1}^{n} (-1)^{i + j} \det M[\overline{i},\overline{j}].
+	\cof M = \sum_{i = 1}^{n} \sum_{j = 1}^{n} (-1)^{i + j} \det M[\overline{i}, \overline{j}]
 $
+where $M[\overline{i}, \overline{j}]$ denotes the matrix with the $i$-th row and $j$-th column deleted.
 
 \begin{thm}[Distance submatrix cofactor sums]
 \label{thm:distance-sub-cof}
@@ -1864,7 +1873,7 @@ Theorem~\ref{thm:matrix-tree} (b).
 
 The following result is a direct consequence of theorems of Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann} and Bapat--Sivasubramanian~\cite{bapat-sivasubramanian}.
 
-\note{Not sure if "Proposition" or "Theorem" is more appropriate}
+% \note{Not sure if "Proposition" or "Theorem" is more appropriate}
 \begin{prop}
 \label{prop:full-det-cof-ratio}
 Suppose $\Da$ is the distance matrix of a weighted tree with edge weights $\{\alpha_e : e \in E\}$.
@@ -1883,11 +1892,12 @@ Thus
 Combining this with the Bapat--Kirkland--Neuman formula \eqref{eq:w-full-det} yields the result.
 \end{proof}
 
-\subsection{Applications}
+\subsection{Monotonicity}
 
 As a consequence of Proposition~\ref{prop:optimization}, we show that the ratio $\displaystyle \frac{\det D[S]}{\cof D[S]}$ behaves monotonically in $S$, and deduce further bounds on $\displaystyle \frac{\det D[S]}{\cof D[S]}$.
 
-We first note the following restatement of Proposition~\ref{prop:optimization}, viewing $\RR^S$ as a subspace of $\RR^V$.
+We first note the following restatement of Proposition~\ref{prop:optimization}, viewing $\RR^S$ as a subspace of $\RR^V$ 
+where coordinates indexed by $V \setminus S$ are set to zero.
 \begin{cor}
 \label{cor:optimization}
 If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
@@ -1902,8 +1912,8 @@ We are to show that for vertex subsets $A \subset B$, we have
 $\displaystyle 
 \frac{\det D[A]}{\cof D[A]} \leq \frac{\det D[B]}{\cof D[B]}.
 $
-By Corollary~\ref{cor:optimization}, both values $\display \frac{\det D[A]}{\cof D[A]}$ and $\display \frac{\det D[B]}{\cof D[B]}$ arise from optimizing the same objective function, 
-but the constraint for $A$ is more strict.
+By Corollary~\ref{cor:optimization}, both values $\display \frac{\det D[A]}{\cof D[A]}$ and $\display \frac{\det D[B]}{\cof D[B]}$ arise from optimizing the same objective function on an affine subspace of $\RR^V$, 
+but the subspace for $A$ is contained in the subspace for $B$.
 \end{proof}
 
 \begin{proof}[Proof of \ref{thm:det-cof-bounds}]
@@ -1945,7 +1955,7 @@ Theorem~\ref{thm:main} follows as an immediate corollary.
 
 \subsection{Outline of proof} 
 
-In Section~\ref{sec:optimization}, we showed that $\displaystyle \frac{\det D[S]}{\cof D[S]}$ is the maximum value of the function $\boldu \mapsto \boldu^\tr D[S] \boldu$ on a certain hyperplane,
+In Section~\ref{sec:optimization}, we showed that $\displaystyle \frac{\det D[S]}{\cof D[S]}$ is the maximum value of the function $\boldu \mapsto \boldu^\tr D[S] \boldu$ on an affine hyperplane of $\RR^S$,
 and that the maximum is achieved when $D[S] \boldu^* = \lambda \bone$.
 We can thus compute $\det D[S]$ via the following steps.
 
@@ -2039,7 +2049,7 @@ We have $\displaystyle \lambda^* = \frac{\lambda}{\bone^\tr \boldm} = \frac{30}{
 The cofactor sum is $\cof D[S] = 44$, so $\det[S] = \lambda^*(\cof D[S]) = 120$.
 \end{enumerate}
 \end{eg}
-It turns out that the entries of $\boldm$ are combinatorially meaningful,
+It turns out that the entries of $\boldm$ are combinatorially meaningful (see Definition~\ref{dfn:m-vector}),
 which also gives combinatorial meaning to
 %The interesting part  of this expression will turn out to be in 
 the constant $\lambda$.
@@ -2056,7 +2066,8 @@ Let $\boldm = \boldm(G;S)$ denote the vector in $\RR^S$ be defined by
 \boldm_v =  \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout(T,v))
 \qquad\text{for each }v \in S.
 \end{equation}
-where $\degout(T,v)$ is the outdegree of the $v$-component of $T$ (see Section~\ref{sec:outdegree}, equation~\eqref{eq:outdeg-forest}).
+where $w(\overline{T})$ is the co-weight of $T$ (see Section~\ref{sec:outdegree})
+and $\degout(T,v)$ is the outdegree of the $v$-component of $T$ (see Section~\ref{sec:outdegree}, equation~\eqref{eq:outdeg-forest}).
 \end{dfn}
 
 Let $\bone$ denote the all-ones vector.
@@ -2091,7 +2102,10 @@ Thus
 	\bone^\tr \boldm = \sum_{T \in \trees} w(\overline{T}) \left( \sum_{v \in V} (2 - \deg(v))\right)
 	= \sum_{T \in \trees} w(\overline{T}) \cdot 2 
 \]
-where we again apply Lemma~\ref{lem:outdeg-sum} for the last equality, as $\degout(G) = 0$.
+where we apply 
+%Lemma~\ref{lem:outdeg-sum} 
+equation \eqref{eq:handshake} for the last equality.
+% as $\degout(G) = 0$.
 
 (b) 
 If all edge weights are positive, then $w(\overline{T}) > 0$ for all $T$, and $\trees(G; S)$ is nonempty as long as $S$ is nonempty. 
@@ -2163,7 +2177,7 @@ Thus
 	\sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e
 	= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,u) \right) 
 \end{equation}
-By subtracting equation \eqref{eq:10} from \eqref{eq:9},
+By subtracting equation \eqref{eq:10} from \eqref{eq:9}, we obtain
 \[
 	(D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e 
 	= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \Big(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \Big).
@@ -2316,7 +2330,7 @@ The condition that
 $\delta(e; v, \pi_{(F \cup e)}(e)) = 1$ (respectively $\delta(e; v, \pi_{(F \cup e)}(e)) = 0$)
 is equivalent to 
 % $T = F \cup e$ for some $e \in \partial F(*)$ with 
-$\delta(e; v, F(*)) = 0$ (respectively ${\delta(e; v, F(*)) = 1}$).
+${\delta(e; v, F(*)) = 0}$ (respectively ${\delta(e; v, F(*)) = 1}$).
 For an illustration, compare Figures~\ref{fig:delta-floating} and \ref{fig:delta-edge-projection}.
 Thus
 \begin{multline}
@@ -2326,11 +2340,11 @@ Thus
 Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
 there is exactly one edge $e$ in the boundary $\partial F(*)$ of the floating component which satisfies $\delta(e; v, F(*)) = 1$, namely the unique boundary edge on the path from the floating component $F(*)$ to $v$.
 Hence
-\[
-	\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 1 \} = 1
-\qquad\text{and}\qquad
-	\#\{e \in \partial (F,*) : \delta(e;v, F(*)) = 0 \} = \degout(F,*) - 1 .
-\]
+\begin{align*}
+	&\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 1 \} = 1,
+\qquad\text{and}\qquad \\
+	&\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 0 \} = \degout(F,*) - 1 .
+\end{align*}
 Thus the previous expression $(\star)$ simplifies as
 \begin{align*}
 	(\star) &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Big( (\degout(F,*) - 1)  - (1) \Big) \\
@@ -3020,7 +3034,7 @@ The determinant of the distance submatrix is
 	\det D[S] = 368	
 	= (-1)^4 2^3 \left( 6 \cdot 11 - (3 \cdot 1^2 + 2 \cdot 2^2 + 1 \cdot 3^2) \right),
 \]
-and the speical vector is $\boldm = \begin{pmatrix}
+and the special vector is $\boldm = \begin{pmatrix}
 5 \\ 5 \\ 4 \\ 4 \\ 4
 \end{pmatrix}.$
 \end{eg}
@@ -3086,7 +3100,8 @@ The determinant of the distance submatrix is
 
 
 \section*{Acknowledgements}
-The authors would like to thank Ravindra Bapat for helpful discussion.
+The authors would like to thank Ravindra Bapat for helpful discussion,
+in particular for providing a proof of Proposition~\ref{prop:distance-sub-nonsingular}.
 
 
 \bibliography{tree-distance-ref} 
