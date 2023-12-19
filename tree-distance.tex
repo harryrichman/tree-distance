@@ -261,7 +261,7 @@ which has determinant $864$.
 
 The tree $G$ has $7$ edges and $21$ $S$-rooted spanning forests.
 There are $19$ $(S, *)$-rooted spanning forests;
-of the floating components in these forests, $14$ have outdegree one, $4$ have outdegree two, and $1$ has outdegree three.
+of the floating components in these forests, $14$ have outdegree three, $4$ have outdegree four, and $1$ has outdegree five.
 By Theorem~\ref{thm:main},
 \[
 	\det D[S] = 864
@@ -313,6 +313,7 @@ then
 	\frac{\det D[A]}{\cof D[A]}  \leq \frac{\det D[B]}{\cof D[B]}.
 \end{equation*}
 \end{thm}
+[mention Devrient's thesis, Property 3.38]
 The essential observation behind this result is that $\det D[S] / \cof D[S]$ is calculated via the following quadratic optimization problem: for all vectors $ \boldu \in \RR^S$,
 \begin{align}
 	\text{maximize objective function:} &\quad \boldu^\tr D[S] \boldu \\
@@ -364,7 +365,7 @@ If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
 \subsection{Further questions} 
 
 It is natural to ask whether our results for trees may be generalized to arbitrary finite graphs.
-We address this in \cite{richman-shokrieh-wu}, which involve more technical machinery.
+We address this in \cite{richman-shokrieh-wu}, which involves more technical machinery.
 
 % For other related work, see \cite{richman-shokrieh-wu-2}.
 
@@ -1458,7 +1459,7 @@ For an unweighted tree, we can express the tree distance $d(v,w)$ as the unweigh
 \end{equation*}
 
 
-\subsection{Outdegree of rooted forest}
+\subsection{Outdegree of forest components}
 \label{sec:outdegree}
 
 Given a vertex $v$ in a graph, the {\em degree} $\deg(v)$ is the number of edges incident to $v$.
@@ -1554,7 +1555,7 @@ Using part (a), we have
 %\subsection{Miscellaneous}
 
 \begin{rmk}
-A key step in the proof of Theorem~\ref{thm:w-main} uses the following ``transition structure'' which relates the $S$-rooted spanning forests $\trees(G; S)$ with $(S,*)$-rooted spanning forests $\forests_2(G; S)$,
+A key step in the proof of Theorem~\ref{thm:w-main} uses the following ``transition structure'' which relates the $S$-rooted spanning forests $\trees(G; S)$ with $(S, *)$-rooted spanning forests $\forests_2(G; S)$,
 via the operations of edge-deletion and edge-union.
 
 Consider the ``deletion'' map
@@ -1690,10 +1691,16 @@ Then
 %Let $n = |V|$; assume $n \geq 3$.
 We apply decreasing induction on the size of $S$. 
 If $S = V$, use Lemma~\ref{lem:dist-signature}.
-Now assume by induction hypothesis that the claim holds for $|S| = k \geq 3$.
-If $|S| = k - 1$, Cauchy interlacing implies that $D[S]$ has at most one positive eigenvalue, and at least one negative eigenvalue. 
+Now suppose $|S| = k$ where $2 \leq k < n$, and assume 
+    by induction hypothesis 
+    that the claim holds for all vertex subsets of size greater than $k$.
+    Let $S^+ \subset V$ be a set of $k + 1$ vertices containing $S$.
+    The inductive hypothesis states that $D[S^+]$ has $k$ negative eigenvalues and one positive eigenvalue,
+    so Cauchy interlacing from $D[S^+]$ implies that $D[S]$ has 
+    % at most one positive eigenvalue, and 
+    at least $k - 1$ negative eigenvalues. 
 Since all diagonal entries of $D[S]$ are zero, $D[S]$ has zero trace. 
-Thus $D[S]$ has exactly one positive eigenvalue as claimed.
+Thus the remaining eigenvalue of $D[S]$ must be positive, as claimed.
 %The same argument applies for smaller $S$, as long as $|S| \geq 2$.
 
 (b) This follows from (a).
@@ -2020,8 +2027,8 @@ Suppose $G$ is the tree with unit edge weights shown below.
 	\draw (C) -- (D);
 	\draw (D) -- (2);
 	
-	\foreach \c/\d/\label in {1/left/v_2,2/right/v_3,3/right/v_1} {
-		\node[\d=0.2] at (\c) {$\label$};
+	\foreach \c/\dir/\label in {1/left/v_2,2/right/v_3,3/right/v_1} {
+		\node[\dir=0.2] at (\c) {$\label$};
 	}
 \end{tikzpicture}
 \]
