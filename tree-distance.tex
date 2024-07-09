@@ -4,12 +4,31 @@
 \usepackage{graphics, enumerate, mathrsfs, mathtools,tikz-cd,soul,csquotes}
 \usepackage{bm,dsfont}
 \usetikzlibrary{positioning,arrows,scopes}
-\usepackage[left=1.25in,
+\usepackage[
+	left=1.25in,
 			right=1.25in,
 			top=1.25in,
 			bottom=1.25in]{geometry}
 %\usepackage{fancyhdr}
 %\pagestyle{fancy}
+
+\definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24}
+\usepackage[
+colorlinks, citecolor=cadmiumgreen,
+pagebackref,
+pdfauthor={Harry Richman, Farbod Shokrieh, Chenxi Wu}, 
+pdfstartview ={FitV},
+]{hyperref}
+\hypersetup{
+pdftitle={Minors of tree distance matrices},
+}
+
+\usepackage[
+%backrefs,
+msc-links,
+nobysame,
+lite,
+]{amsrefs} 
 
 % COMMENT OUT FOR FINAL VERSION
 %\usepackage{showkeys}
@@ -1687,8 +1706,7 @@ Then
 \end{enumerate}
 \end{prop}
 \begin{proof}
-(a) 
-%Let $n = |V|$; assume $n \geq 3$.
+(a) %Let $n = |V|$; assume $n \geq 3$.
 We apply decreasing induction on the size of $S$. 
 If $S = V$, use Lemma~\ref{lem:dist-signature}.
 Now suppose $|S| = k$ where $2 \leq k < n$, and assume 
