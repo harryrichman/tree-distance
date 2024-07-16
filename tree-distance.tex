@@ -418,30 +418,17 @@ in particular related to the results in \S~\ref{sec:signature}. We also thank Ma
 \section{Graphs and spanning forests}
 \label{sec:graphs-matrices}
 
-For background on enumeration problems for graphs and trees, 
-see 
-%Moon \cite{moon} or 
-Tutte~\cite[Chapter VI]{tutte}. 
-%\note{choose other reference?}
+Throughout, let $G = (V, E)$ be a finite graph with (positive, real) edge lengths $\{ \alpha_e \colon e \in E\}$. A graph without edge lengths will be considered as a special case, with $\alpha_e=1$ for all $e \in E$.
 
-Let $G = (V, E)$ be a graph with edge weights $\{ \alpha_e : e \in E\}$.
-For any edge subset $A \subset E$ we define the {\em weight} of $A$ as
-$\displaystyle
-	w(A) = \prod_{e \in A} \alpha_e.
-$
-We define the {\em co-weight} of $A$ as
-$\displaystyle
-	w(\overline A) = \prod_{e \not\in A} \alpha_e.
-$
-By abuse of notation, if $H$ is a subgraph of $G$, we use $H$ to also denote its subset of edges $E(H)$, so e.g. $\coweight{H} = \coweight{E(H)}$.
+We assume all graphs in the paper are equipped with an implicit (arbitrary) orientation. This means we fix a pair of functions $\mathrm{head}\colon E \to V$ and $\mathrm{tail}\colon E \to V$, such that $\mathrm{head}(e)$ and $\mathrm{tail}(e)$ are the endpoints of $e$. We abbreviate $\mathrm{head}(e)$ as $e^+$, and $\mathrm{tail}(e)$ as $e^-$.
 
-Let $M$ be an $n \times n$ matrix.
-For a subset $S \subset \{1, \ldots, n\}$, 
-let $M[S]$ denote the submatrix obtained by keeping the $S$-indexed rows and columns of $M$.
-Let $M[\overline{S}]$ denote the submatrix obtained by deleting the $S$-indexed rows and columns.
+%If $G$ is a tree, we let $\conv(S,G)$ denote the subtree consisting of the union of all paths between vertices in $S$, which we call the {\em convex hull} of $S \subseteq V$.
 
-If $G$ is a tree, we let $\conv(S,G)$ denote the subtree consisting of the union of all paths between vertices in $S$,
-which we call the {\em convex hull} of $S \subset G$.
+
+
+% Let $M$ be an $n \times n$ matrix. For a subset $S \subseteq \{1, \ldots, n\}$,  let $M[S]$ denote the submatrix obtained by keeping the $S$-indexed rows and columns of $M$. Let $M[\overline{S}]$ denote the submatrix obtained by deleting the $S$-indexed rows and columns.
+
+
 
 \subsection{Spanning trees and forests}
 
@@ -450,49 +437,25 @@ is connected, has no cycles,
 and contains all vertices of $G$.
 A {\em spanning forest} of a graph $G$ is a subgraph which 
 has no cycles
-and 
-contains all vertices of $G$. 
-Let $\kappa(G)$ denote the number of spanning trees of $G$, and let $\kappa_r(G)$ denote the number of $r$-component spanning forests.
+and  contains all vertices of $G$. 
+
+
 
 Given a set of vertices $S = \{v_1, v_2, \ldots, v_r\}$,
 an {\em $S$-rooted spanning forest} of $G$ 
 is a spanning forest which has exactly one vertex $v_i$ in each connected component.
-Given $s \in S$ and a forest $F$,
-% in $\trees(G; S)$, 
-we let $F(s)$ denote the $s$-component of $F$.
+Given $s \in S$ and a forest $F$, we let $F(s)$ denote the {\em $s$-component} of $F$, that is, the component of $F$ containing $s$.
 
 An {\em $(S,*)$-rooted spanning forest} of $G$ is a spanning forest which has $|S|+1$ components, where $|S|$ components each contain one vertex of $S$, and the additional component is disjoint from $S$.
-We call the component disjoint from $S$ the {\em floating component}, following terminology in \cite{kassel-kenyon-wu}.
+We call the component disjoint from $S$ the {\em floating component}, following terminology in \cite{kassel-kenyon-wu}\farbod{do we need ``following terminology in...''. kassel-kenyon-wu is used only for this sentence. if there is anything else about that paper that can be added, let's keep this and say more in the related work section}.
+For an $(S,*)$-rooted spanning forest $F$, we let $F(*)$ denote the floating component. We sometimes refer to the floating component as the $*$-component of $F$. Again, for $s \in S$, we let $F(s)$ denote the $s$-component of $F$.
 
-As before, for an $(S,*)$-rooted spanning forest $F$,
-% $F \in \forests_2(G; S)$
-we let $F(s)$ denote the $s$-component of $F$, and additionally let $F(*)$ denote the floating component.
-% (if $F \in \forests_2$).
-(We may refer to the floating component as the $*$-component of $F$.)
-
-Let $\kappa(G;S)$ denote the number of $S$-rooted spanning forests of $G$, and let $\kappa_2(G; S)$ denote the number of $(S,*)$-rooted spanning forests.
 Let $\trees(G;S)$ denote the set of $S$-rooted spanning forests of $G$,
 and let $\forests_2(G;S)$ denote the set of $(S,*)$-rooted spanning forests of $G$.
-Note that $\kappa(G;S)$ is also the number of 
-% $S$-rooted spanning forests of $G$.
-spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex,
-%Let 
-%$
-%	\kappa_r(v_1|v_2| \cdots | v_r)
-%$
-%denote the number of $k$-component spanning trees which have a vertex $v_i$ in each component.
-%If $S = \{v_1,\ldots, v_r\}$,
-%then $\kappa_r(v_1|\cdots| v_r)$
-i.e. $\kappa(G; S) =  \kappa(G/S)$.
 
-%If $u, v, w$ are vertices, then let
-%\[
-%	\kappa_2(u v | w)
-%\]
-%denote the number of two-forests which have $u, v$ in one component and $w$ in the other component.
 
-\begin{eg}
-Suppose $G$ is the tree with unit edge weights shown below.
+\begin{eg}\label{eg:running}
+Suppose $G$ is the tree with unit edge lengths shown below.
 \[
 \begin{tikzpicture}[scale=0.8]
 	\coordinate (1) at (0,0);
@@ -525,87 +488,10 @@ Suppose $G$ is the tree with unit edge weights shown below.
 Let $S$ be the set of three leaf vertices.
 Then $\trees(G;S)$ contains $11$ forests,
 while $\forests_2(G;S)$ contains $19$ forests.
-Some of these are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, respectively.
-\end{eg}
+Some of these are shown in Figure~\ref{fig:1-forests} and Figure~\ref{fig:2-forests}, respectively.
 
 \begin{figure}[h]
 \centering
-%% LABEL 1234
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw[dotted] (D) -- (2);
-%	\draw[dotted] (B) -- (3);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 1235
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw (B) -- (C);
-%	\draw[dotted] (C) -- (D);
-%	\draw (D) -- (2);
-%	\draw[dotted] (B) -- (3);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 1245
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw[dotted] (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw (D) -- (2);
-%	\draw[dotted] (B) -- (3);
-%\end{tikzpicture}
-%\\[2em]
-% LABEL 1345
 \begin{tikzpicture}[scale=0.5]
 	\coordinate (1) at (0,0);
 	\coordinate (A) at (1,0);
@@ -704,194 +590,12 @@ Some of these are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, 
 	\draw (D) -- (2);
 	\draw (B) -- (3);
 \end{tikzpicture}
-%\\[2em]
-%% LABEL 2345
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw (D) -- (2);
-%	\draw[dotted] (B) -- (3);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 2346
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw[dotted] (D) -- (2);
-%	\draw (B) -- (3);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 2356
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw (B) -- (C);
-%	\draw[dotted] (C) -- (D);
-%	\draw (D) -- (2);
-%	\draw (B) -- (3);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 2456
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw[dotted] (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw (D) -- (2);
-%	\draw (B) -- (3);
-%\end{tikzpicture}
 \caption{Some forests in $\trees(G;S)$.}
 \label{fig:1-forests}
 \end{figure}
 
 \begin{figure}[h]
 \centering
-%% LABEL 123
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw[dotted] (B) -- (3);
-%	\draw (B) -- (C);
-%	\draw[dotted] (C) -- (D);
-%	\draw[dotted] (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (D) -- (D);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 124
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw[dotted] (B) -- (3);
-%	\draw[dotted] (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw[dotted] (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (D);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 125
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw[dotted] (B) -- (3);
-%	\draw[dotted] (B) -- (C);
-%	\draw[dotted] (C) -- (D);
-%	\draw (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
-%\end{tikzpicture}
-%\\[2em]
-% LABEL 134
 \begin{tikzpicture}[scale=0.5]
 	\coordinate (1) at (0,0);
 	\coordinate (A) at (1,0);
@@ -998,361 +702,36 @@ Some of these are shown in Figures~\ref{fig:1-forests} and \ref{fig:2-forests}, 
 
 	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
 \end{tikzpicture}
-%\qquad
-%% LABEL 145
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw (1) -- (A);
-%	\draw[dotted] (A) -- (B);
-%	\draw[dotted] (B) -- (3);
-%	\draw[dotted] (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (B) -- (B);
-%\end{tikzpicture}
-%\\[2em]
-%% LABEL 146
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw (1) -- (A);
-%	\draw[dotted] (A) -- (B);
-%	\draw (B) -- (3);
-%	\draw[dotted] (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw[dotted] (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (D);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 234
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw[dotted] (B) -- (3);
-%	\draw (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw[dotted] (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (D);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 235
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw[dotted] (B) -- (3);
-%	\draw (B) -- (C);
-%	\draw[dotted] (C) -- (D);
-%	\draw (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (C);
-%\end{tikzpicture}
-%\\[2em]
-%% LABEL 236
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw (B) -- (3);
-%	\draw (B) -- (C);
-%	\draw[dotted] (C) -- (D);
-%	\draw[dotted] (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (D) -- (D);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 245
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw[dotted] (B) -- (3);
-%	\draw[dotted] (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (B);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 246
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw (B) -- (3);
-%	\draw[dotted] (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw[dotted] (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (D);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 256
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw (A) -- (B);
-%	\draw (B) -- (3);
-%	\draw[dotted] (B) -- (C);
-%	\draw[dotted] (C) -- (D);
-%	\draw (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (C) -- (C);
-%\end{tikzpicture}
-%\\[2em]
-%% LABEL 345
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw[dotted] (A) -- (B);
-%	\draw[dotted] (B) -- (3);
-%	\draw (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 346
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw[dotted] (A) -- (B);
-%	\draw (B) -- (3);
-%	\draw (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw[dotted] (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 356
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw[dotted] (A) -- (B);
-%	\draw (B) -- (3);
-%	\draw (B) -- (C);
-%	\draw[dotted] (C) -- (D);
-%	\draw (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
-%\end{tikzpicture}
-%\qquad
-%% LABEL 456
-%\begin{tikzpicture}[scale=0.4]
-%	\coordinate (1) at (0,0);
-%	\coordinate (A) at (1,0);
-%	\coordinate (B) at (2,0);
-%	\coordinate (C) at (3,0);
-%	\coordinate (D) at (4,0);
-%	\coordinate (2) at (5,0);
-%	\coordinate (3) at (2,1);
-%	
-%	\foreach \c in {1,2,3,A,B,C,D} {
-%		\fill (\c) circle (2pt);
-%	}
-%	\foreach \c in {1,2,3} {
-%		\draw (\c) circle (3pt);
-%	}
-%
-%	\draw[dotted] (1) -- (A);
-%	\draw[dotted] (A) -- (B);
-%	\draw (B) -- (3);
-%	\draw[dotted] (B) -- (C);
-%	\draw (C) -- (D);
-%	\draw (D) -- (2);
-%
-%	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);
-%\end{tikzpicture}
 \caption{Some forests in $\forests_2(G;S)$, with floating component highlighted.}
 \label{fig:2-forests}
 \end{figure}
 
+\end{eg}
+
+
+
+\begin{rmk}
+Let $q$ be a fixed vertex. Then $\trees(G;\{q\})$ is the set of spanning trees of $G$, and $\forests_2(G;\{q\})$ is the set of two-component spanning forests of $G$. Note that both these sets are independent of the choice of the vertex $q$, and were denoted by $\trees(G)$ and $\forests_2(G)$, respectively, in \S\ref{sec:Symanzik}.
+\end{rmk}
+
+
+
+
 
 \subsection{Laplacian matrix}
 
-Given a graph $G = (V,E)$, consider an orientation on the edge set, which consists of a pair of functions $\mathrm{head}: E \to V$ and $\mathrm{tail}: E \to V$, such that $\mathrm{head}(e)$ and $\mathrm{tail}(e)$ are the endpoints of $e$.
-We abbreviate $\mathrm{head}(e)$ as $e^+$, and $\mathrm{tail}(e)$ as $e^-$.
-We assume all graphs in the paper are equipped with an implicit orientation.
-The incidence matrix depends on the orientation, but the Laplacian matrix does not.
 
-The {\em incidence matrix} of $G$ is the matrix $B \in \RR^{V \times E}$ defined by
+The {\em incidence matrix} of a graph $G = (V,E)$ (endowed with an arbitrary orientation) is the matrix $B \in \RR^{V \times E}$ defined by
 \[
 	B_{v, e} = \one(v = e^+) - \one(v = e^-).
 \]
-%\[
-%	B_{v, e} = \begin{cases}
-%	1 &\text{if } v = e^+ \\
-%	-1 &\text{if } v = e^- \\
-%	0 &\text{otherwise}.
-%	\end{cases}
-%\]
 Here $\one(\cdot)$ denotes the indicator function.
-Let $L \in \RR^{V \times V}$ denote the {\em Laplacian matrix} of $G$, which is defined by
-$
-	L = B B^\tr.
-$
-If $G$ is a weighted graph with positive edge weights $\alpha_e$ for $e \in E$,
-let $\La$ denote the weighted Laplacian matrix of $G$,
-defined by
+%Let $L \in \RR^{V \times V}$ denote the {\em Laplacian matrix} of $G$, which is defined by
+%$
+%	L = B B^\tr.
+%$
+
+Let $\{ \alpha_e \colon e \in E\}$ denote the edge lengths as before. The Laplacian matrix is defined by
 \begin{equation}
 \label{eq:weighted-laplacian}
 	\La = B \begin{pmatrix}
@@ -1361,220 +740,204 @@ defined by
 	& & \alpha_m^{-1}
 	\end{pmatrix} B^\tr .
 \end{equation}
-It is clear that $L$ and $\La$ are positive semidefinite.
+It is clear that $\La$ is positive semidefinite. 
 
-%\begin{dfn}[Weighted Laplacian matrix]
-%Given a graph $G = (V,E)$ and edge weights $\{ \alpha_e : e \in E\}$,
-%the {\em weighted Laplacian matrix} $\La \in \RR^{V\times V}$ is defined by
-%\[
-%	(\La)_{v,w} = \begin{cases}
-%		0 &\text{if } v\neq w \text{ and } (v,w) \not\in E \\
-%		- \alpha_e^{-1} &\text{if } v\neq w \text{ and } (v,w) = e \in E \\
-%		\displaystyle \sum_{e \in N(v)} \alpha_e^{-1} &\text{if } v = w.
-%	\end{cases}
-%\]
-%\end{dfn}
+Note that the incidence matrix depends on the choice of the orientation but the Laplacian matrix does not.
 
-Given $S \subset V$,
-let $L[\overline S]$ denote the matrix obtained from $L$ by removing the rows and columns indexed by $S$.
-More generally, let $L[\overline S, \overline T]$ denote the matrix obtained from $L$ by removing the $S$-indexed rows and $T$-indexed columns.
-Recall that $\kappa(G; S)$ denotes the number of $S$-rooted spanning forests of $G$.
-The following theorem relates minors of the (weighted) Laplacian to (weighted) counts of rooted spanning forests.
-%is due to Kirchhoff.
-\begin{thm}[Principal-minors matrix tree theorem]
+
+\subsection{Principal minors matrix-tree theorem}
+
+For a subset $A \subseteq E$ we define the {\em weight} of $A$ as
+\[
+	w(A) = \prod_{e \not\in A} \alpha_e
+\]
+and the {\em coweight} of $A$ as
+\[
+	w'(A) = \prod_{e \in A} \alpha_e^{-1}.
+\]
+Clearly, 
+\begin{equation} \label{weight-coweight}
+w(A) = w'(A) \prod_{e \in E} \alpha_e 
+\end{equation}
+If $H$ is a subgraph of $G$, we use $H$ to also denote its subset of edges $E(H)$. So, for example, $w(H) = w\left(E(H)\right)$.
+
+Let 
+\[
+	\kappa(G;S) = \sum_{T \in \trees(G; S)} w'(T) .
+\]
+
+\begin{rmk}
+If $G$ is a graph {\em without} edge lengths (so $\alpha_e=1$ for all $e \in E$), then $\kappa(G;S)$ is simply the number of $S$-rooted spanning forests of $G$.
+In this case, $\kappa(G;S)$ is also the number of spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex $v_S$.
+\end{rmk}
+
+%Let $\kappa(G;S)$ denote the number of $S$-rooted spanning forests of $G$, and let $\kappa_2(G; S)$ denote the number of $(S,*)$-rooted spanning forests.
+
+%Let $\kappa(G)$ denote the number of spanning trees of $G$, and let $\kappa_r(G)$ denote the number of $r$-component spanning forests.
+
+%Note that $\kappa(G;S)$ is also the number of spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex, i.e. $\kappa(G; S) =  \kappa(G/S)$.
+
+The {\em (principal minors) matrix-tree theorem} gives a determinantal formula for computing $\kappa(G;S)$, which we now explain. 
+Given $S \subseteq V$, let $L[\overline S]$ denote the matrix obtained from $L$ by removing the rows and columns indexed by $S$.
+%More generally, let $L[\overline S, \overline T]$ denote the matrix obtained from $L$ by removing the $S$-indexed rows and $T$-indexed columns.
+
+
+%Recall that $\kappa(G; S)$ denotes the number of $S$-rooted spanning forests of $G$.
+%The following theorem relates minors of the Laplacian to (weighted) counts of rooted spanning forests.
+\begin{thm}
 \label{thm:matrix-tree}
-Let $G = (V,E)$ be a finite graph.
-\begin{enumerate}[(a)]
-\item 
-Let $L$ denote the Laplacian matrix of $G$.
-Then for any nonempty vertex set $S \subset V$,
+Let $G = (V,E)$ be a finite graph with edge lengths $\{ \alpha_e \colon e \in E\}$
+%\begin{enumerate}[(a)]
+%\item 
+%Let $L$ denote the Laplacian matrix of $G$.
+%Then for any nonempty vertex set $S \subseteq V$,
+%\begin{equation}
+%	\det L[\overline S] = \kappa( G ; S) .
+%\end{equation}
+%
+%\item 
+%Let $\La$ denote the Laplacian matrix of the graph $G$ with edge lengths $\{\alpha_e\}$. 
+For any nonempty vertex set $S \subseteq V$,
 \begin{equation}
-	\det L[\overline S] = \kappa( G ; S) .
+	\kappa( G ; S) = \det L[\overline S] .
 \end{equation}
-
-\item 
-Let $\La$ denote the weighted Laplacian matrix of $G$, with edge weights $\{\alpha_e\}$. 
-For any nonempty vertex set $S \subset V$,
-\begin{equation}
-	\det \La[\overline S] = \sum_{T \in \trees} w(T)^{-1}
-	= \sum_{T \in \trees} w(\overline{T}) \prod_{e \in E} \alpha_e^{-1}
-\end{equation}
-where $\trees = \trees(G; S)$ is the set of $S$-rooted spanning forests.
-\end{enumerate}
+%\begin{equation}
+%	\det \La[\overline S] = \sum_{T \in \trees(G; S)} w'(T)
+%	= \sum_{T \in \trees(G; S)} w({T}) \prod_{e \in E} \alpha_e^{-1}
+%\end{equation}
+%where $\trees = \trees(G; S)$ is the set of $S$-rooted spanning forests.
+%\end{enumerate}
 \end{thm}
 \begin{proof}
-See Tutte~\cite[Section VI.6, Equation (VI.6.7)]{tutte} or Chaiken~\cite{chaiken} or Bapat~\cite[Theorem 4.7]{bapat}.
+See Tutte~\cite[Section VI.6, Equation (VI.6.7)]{tutte}.% or Chaiken~\cite{chaiken} or Bapat~\cite[Theorem 4.7]{bapat}\farbod{is it okay we only keep Tutte reference here?}.
 \end{proof}
+Note that the classical (Kirchhoff's) matrix-tree theorem is the special case, where $S$ is a singleton.
 
-
-% \subsection{Distance in trees}
 \subsection{Tree splits and tree distance}
 \label{sec:tree-splits}
 
-In this section we describe the tree splits associated to a tree, and use their associated indicator functions to give an expression for the tree distance.
+%In this section we describe the tree splits associated to a tree, and use their associated indicator functions to give an expression for the tree distance.
 
-Given a tree $G = (V,E)$ and an edge $e \in E$, the edge deletion $G \setminus e$ contains two connected components.
-Using the implicit orientation on $e = (e^+,e^-)$,
-we let $(G \setminus e)^+$ denote the component that contains endpoint $e^+$, and let $(G\setminus e)^-$ denote the other component.
-For any $e \in E$ and $v \in V$,
-we let
-$(G \setminus e)^{v}$ denote the component of $G\setminus e$ containing $v$,
-respectively $(G\setminus e)^{\overline v}$ for the component not containing $v$.
+Fix a tree $G = (V,E)$ with edge lengths $\{ \alpha_e \colon e \in E\}$ (and endowed with an arbitrary orientation). Given an edge $e \in E$, the edge deletion $G \setminus e$ contains two connected components. This phenomenon is referred to as a {\em tree split}.
 
-%\subsection{Tree distance}
-%\label{sec:tree-distance}
+Using the orientation on $e = (e^+,e^-)$,
+we let $(G \setminus e)^+$ denote the component that contains endpoint $e^+$, and let $(G\setminus e)^-$ denote the component that contains endpoint $e^-$.
+For any $e \in E$ and $v \in V$, we denote by $(G \setminus e)^{v}$ the component of $G\setminus e$ containing $v$, and $(G\setminus e)^{\overline v}$ the component not containing $v$.
 
-Tree splits can be used to express the path distance between vertices in a tree.
+Tree splits can be used to express the path distances between vertices in a tree as we explain next.
 Given an edge $e\in E$ and vertices $v,w \in V$, let 
 \begin{equation}
 \delta(e;v,w) = \begin{cases}
 	1 &\text{if $e$ separates  $v$ from $w$}, \\
-	%1 &\text{if $e$ lies on $v\sim w$ path}, \\
 	0 &\text{otherwise}.
 \end{cases}
 \end{equation}
-In other words, $\delta(e; v,w) = 1$ if the vertices $v, w$ are in different components of the tree split $G \setminus e$,
-and $\delta(e; v,w) = 0$ if they are in the same component.
-Note that $\delta(e; v,v) = 0$ for any $e$ and $v$.
-%\begin{equation}
-%\delta(e; v,w) = \begin{cases}
-%1 &\text{if $e$ lies on $v\sim w$ path}, \\
-%0 &\text{otherwise}.
-%\end{cases}
-%\end{equation}
 
-We have the following perspectives on the function $\delta(e; v,w)$.
-\begin{enumerate}[(i)]
-\item 
-If we fix $e$ and $v$,
-then $\delta(e;v, -) : V(G) \to \{0,1\}$ 
+\begin{rmk}\label{rmk:delta properties}
+\hfill
+\begin{enumerate}[label=(\roman*)]
+\item $\delta(e; v,w) = 1$ if the vertices $v, w$ are in different components of the tree split $G \setminus e$, and $\delta(e; v,w) = 0$ if they are in the same component.
+\item $\delta(e; v,v) = 0$ for any edge $e$ and vertex $v$.
+\item If we fix an edge $e$ and a vertex $v$,
+then $\delta(e;v, -) \colon V(G) \to \{0,1\}$ 
 is the indicator function for the component 
-$(G \setminus e)^{\overline v}$ of the tree split $G \setminus e$
-%of $G \setminus e$ 
-not containing $v$.
-
-\item 
-On the other hand if we fix $v$ and $w$, then $\delta(-;v,w) : E(G) \to \{0,1\}$
-is the indicator function for the unique $v \sim w$ path in $G$.
-
+$(G \setminus e)^{\overline v}$ of the tree split $G \setminus e$ not containing $v$.
+\item If we fix vertices $v, w$, then $\delta(-;v,w) \colon E(G) \to \{0,1\}$
+is the indicator function for the unique path between $v$ and $w$.
 \end{enumerate}
+\end{rmk}
 
+Recall the distance between vertices $v,w$ (with respect to edge lengths $\{ \alpha_e \colon e \in E\}$), denoted by $d(v,w)$, is defined as the sum of the edge lengths $\alpha_e$ along the unique path from $u$ to $v$. 
 
-\begin{prop}[Weighted tree distance]
+\begin{prop}
 \label{prop:distance-sum}
-For a tree $G = (V,E)$ with weights $\{\alpha_e : e \in E\}$,
-the weighted distance function satisfies
+For a tree $G = (V,E)$ with edge lengths $\{\alpha_e \colon e \in E\}$, the corresponding distance function satisfies
 \[ 
-d^{(\alpha)}(v,w) = \sum_{e \in E} \alpha_e \, \delta(e; v,w) .
+	d(v,w) = \sum_{e \in E} \alpha_e \, \delta(e; v,w) .
 \]
 \end{prop}
-
-For an unweighted tree, we can express the tree distance $d(v,w)$ as the unweighted sum
-\begin{equation*}
-	d(v,w) = \sum_{e \in E(G)} \delta(e; v,w).
-\end{equation*}
+\begin{proof}
+This follows from Remark~\ref{rmk:delta properties} (iv).
+\end{proof}
+%For a tree without edge lengths, we can express the tree distance $d(v,w)$ as the (unweighted) sum
+%\begin{equation*}
+%	d(v,w) = \sum_{e \in E(G)} \delta(e; v,w).
+%\end{equation*}
 
 
 \subsection{Outdegree of forest components}
 \label{sec:outdegree}
 
 Given a vertex $v$ in a graph, the {\em degree} $\deg(v)$ is the number of edges incident to $v$.
-%The ``handshake lemma'' of graph theory states that  $\sum_{v \in V(G)} \deg(v) = 2|E|$.
-A consequence of the ``handshake lemma'' of graph theory is that for any tree $G$, we have
+A consequence of the ``handshaking lemma'' in graph theory is that for any tree $G$, we have
 \begin{equation}
 \label{eq:handshake}
 	\sum_{v \in V(G)} (2 - \deg(v)) = 2.
 \end{equation}
-In this section we state a generalization, Lemma~\ref{lem:outdeg-sum} which will be used later.
+We next state a slight generalization \eqref{eq:handshake}, which will be useful later.
 
-Given a connected subgraph $H \subset G$,
-we define the {\em edge boundary}  $\partial H$ as the set of edges which join $H$ to its complement; i.e.
+Given a connected subgraph $H \subseteq G$,
+we define the {\em edge boundary} $\partial H$ as the set of edges which join $H$ to its complement; i.e.
 \begin{equation}
-	\partial H = \{ e = \{a,b\} \in E : a \in V(H),\, b \not\in V(H)\}.
+	\partial H = \{ e = \{a,b\} \in E \colon a \in V(H),\, b \not\in V(H)\}.
 \end{equation}
-We define the {\em outdegree} of $H$ as the number of edges in its edge boundary, $\degout(H) = |\partial H|$. 
-(The edge boundary and outdegree do not depend on the implicit orientation on $E$.)
+We define the {\em outdegree} of $H$ in $G$ as the number of edges in its edge boundary, $\outdeg(H) = |\partial H|$. 
+Note that the edge boundary and outdegree do not depend on the implicit orientation on $E$.
 
-%which join $H$ to its complement; i.e.
+We are especially interested in the following special cases. \farbod{$G$ is a tree now, right?}Let $G$ be a tree and $\emptyset \ne S \subseteq V$. 
+For an $S$-rooted spanning forest $F$ of $G$, and $s \in S$, we define the {\em outdegree} $\outdeg(F,s)$ as the number of edges which join $F(s)$ (the $s$-component of $F$) to a different component; i.e. outdegree of $F(s)$ in the tree $G$. 
 %\begin{equation}
-%\label{eq:outdeg}
-%	\degout(H) = \#\{ e = (a,b) \in E : a \in V(H),\, b \not\in V(H)\}.
+%\label{eq:outdeg-forest}
+%	\outdeg(F,s) = |\{ e = (a,b) \in E \colon a \in F(s),\, b \not\in F(s)\}|.
 %\end{equation}
-We often use the following special case of the outdegree: 
-We define the {\em outdegree} $\degout(F,s)$ as the number of edges which join $F(s)$ to a different component; i.e.
-\begin{equation}
-\label{eq:outdeg-forest}
-	\degout(F,s) = |\{ e = (a,b) \in E : a \in F(s),\, b \not\in F(s)\}|.
-\end{equation}
-%given a rooted forest $F$ in $\forests_1(G;S)$ and $s \in S$,
-(Recall that $F(s)$ denotes the $s$-component of an $S$-rooted spanning forest $F$.)
-%In words, $\degout(F,s)$ is the number of edges which connect the $s$-component of $F$ to a different component.
-%\[
-%	\#\{ e \in E : e \text{ connects the $s$-component of $F$ to a different component}\}
-%\]
-If $F$ is a forest in $\forests_2(G;S)$, let $\degout(F,*)$ denote the outdegree of the floating component
-and $\partial F(*)$ its edge boundary.
-
+%(Recall that $F(s)$ denotes the $s$-component of an $S$-rooted spanning forest $F$.)
+Similarly, if $F$ is a $(S,*)$-rooted spanning forest of $G$, we let $\outdeg(F,*)$ denote the outdegree of the floating component $F(*)$.
+% and $\partial F(*)$ denote its edge boundary.
+\farbod{do we want an example here, perhaps continuing Example~\ref{eg:running}?}
 \begin{lem}
 \label{lem:outdeg-sum}
 Suppose $G$ is a tree.
-\begin{enumerate}[(a)]
+\begin{enumerate}[label=(\alph*)]
 \item 
-If $H\subset G$ is a (nonempty) connected subgraph, then
+If $H \subseteq G$ is a nonempty connected subgraph then
 \[
-  \sum_{v \in V(H)} \left( 2 -  \deg(v) \right) = 2 - \degout(H) .
+	\sum_{v \in V(H)} \left( 2 -  \deg(v) \right) = 2 - \outdeg(H) .
 \]
-
 \item 
 For any fixed edge $e$ and fixed vertex $u$ of $G$, we have
 \[
 	\sum_{v \in V(G)} (2 - \deg(v))\, \delta(e; u,v) = 1.
 \]
-
 \end{enumerate}
 \end{lem}
 \begin{proof}
 (a)
 This is straightforward to check by induction on $|V(H)|$,
 with base case $|V(H)| = 1$:
-if $H = \{v\}$ consists of a single vertex, then $\degout(H) = \deg(v)$.
-%
-%Now consider $|V(H)| = n > 1$, and suppose the claim is true for $H'$ when $|V(H')| < n$.
-%Since $H$ is a subgraph of a tree, it contains a vertex $v_0$ whose $H$-degree is one.
-%Let $H_0 = H \setminus v_0$.
-%Using the induction hypothesis, we have
-%\begin{align}
-% \sum_{v \in V(H)} 2 - \deg(v) &= 2 - \deg(v_0) + \sum_{v \in V(H_0)} 2 - \deg(v) \\
-% &= 2 - \deg(v_0) + 2 - \degout(H_0) \\
-% &= 2 - \left( \degout(H_0) + \deg(v_0) - 2 \right) .
-%\end{align}
-%Thus it suffices to show that
-%\[ 
-%  \degout(H) = \degout(H_0) + \deg(v_0) - 2.
-%\]
-%This hold because $\degout(H_0) + \deg(v_0)$ overcounts the unique edge joining $v_0$ to $H_0$, by two.
+if $H = \{v\}$ consists of a single vertex, then $\outdeg(H) = \deg(v)$.
+
 
 (b)
-Recall that $(G \setminus e)^{\overline u}$ denotes the component of the tree split $G \setminus e$ that does not contain $u$.
-Its vertices are precisely those $v$ that satisfy $\delta(e; u, v) = 1$.
+Recall that $(G \setminus e)^{\overline u}$ denotes the component of the tree split $G \setminus e$ that does not contain $u$ .
+Its vertices are precisely those $v$ that satisfy $\delta(e; u, v) = 1$ (see Remark~\ref{rmk:delta properties} (iii)).
 Since this component has a single edge separating it from its complement, 
-$\degout((G \setminus e)^{\overline u}) = 1$
+$\outdeg((G \setminus e)^{\overline u}) = 1$
 Using part (a), we have
 \[
 	\sum_{v \in V} (2 - \deg(v)) \delta(e; u,v)
 	= \sum_{v \in (G \setminus e)^{\overline u}} (2 - \deg(v))
-	= 2 - \degout((G \setminus e)^{\overline u}) = 1. 
+	= 2 - \outdeg((G \setminus e)^{\overline u}) = 1. 
 	\qedhere
 \] 
 \end{proof}
 
-%\subsection{Miscellaneous}
 
-\begin{rmk}
+\subsection{Transitions between $\trees(G; S)$ and $\forests_2(G; S)$}
 A key step in the proof of Theorem~\ref{thm:w-main} uses the following ``transition structure'' which relates the $S$-rooted spanning forests $\trees(G; S)$ with $(S, *)$-rooted spanning forests $\forests_2(G; S)$,
 via the operations of edge-deletion and edge-union.
 
-Consider the ``deletion'' map
+\begin{itemize}[leftmargin=*]
+\item Consider the ``deletion map''
 \[
 	E(G) \times \trees(G;S) \to \trees(G;S) \sqcup \forests_2(G;S)
 \]
@@ -1585,13 +948,10 @@ defined by
 	T \setminus e &\text{if } e\in T.
 	\end{cases}
 \]
-For a given spanning forest
-$F \in \forests_2(G;S)$,
-there are exactly $\degout(F, *)$-many choices of pairs $(e, T) \in E(G) \times \trees(G;S)$ such that
-$F = T \setminus e$.
-% For a forest $F$ in $\forests_2(G;S)$, the preimage under this map has $\degout(F,*)$ elements.
-
-There is an associated ``union'' map 
+Given $F \in \forests_2(G;S)$,
+there are exactly $\outdeg(F, *)$ many choices of pairs $(e, T) \in E(G) \times \trees(G;S)$ such that $F = T \setminus e$.
+\medskip
+\item Consider the ``union map'' 
 \[
 	E(G) \times \forests_2(G;S) \longrightarrow \trees(G;S) \sqcup \forests_2(G;S)
 \]
@@ -1602,161 +962,113 @@ defined by
 		F &\text{if } e \not\in \partial F(*)
 	\end{cases}
 \]
-For a spanning forest $T \in \trees(G; S)$, 
-there are exactly $(|V| - 1)$-many choices of pairs $(e, F) \in E(G) \times \forests_2(G; S)$ such that $T = F \cup e$
-(since $|E(T)| = |V| - 1$ for any spanning tree $T$). 
-%the preimage under this map has $|E(T)|$-many elements.
-\end{rmk}
+Given $T \in \trees(G; S)$,  
+there are exactly $(|V| - 1)$-many choices of pairs $(e, F) \in E(G) \times \forests_2(G; S)$ such that $T = F \cup e$ (since $|E(T)| = |V| - 1$ for any spanning tree $T$\farbod{this is confusing -- T is not a spanning tree here... I suggest we just remove this parenthesis?}). 
+\end{itemize}
 
-\subsection{Symanzik polynomials}
 
-We note that the expression in the main theorem, Theorem~\ref{thm:w-main}, is closely related to Symanzik polynomials, which we recall here.
 
-Given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is the homogeneous polynomial in edge-indexed variables $\underline{x} = \{x_e : e \in E\}$ defined by
-\[
-	\psi_G(\underline{x}) = \sum_{T \in \trees(G)} \prod_{e \not \in T} x_e ,
-\]
-where $\trees(G)$ denotes the set of spanning trees of $G$.
+\section{Principal submatrices of \texorpdfstring{$D$}{D} as bilinear forms}
+\label{sec:distance_prelim}
 
-Consider a ``momentum'' function $p: V \to \RR$ which satisfies the constraint $\sum_{v \in V} p(v) = 0$.
-Then the second Symanzik polynomial is
-\[
-	\varphi_G(p; \underline{x}) = \sum_{F \in \forests_2(G)} \Big(\sum_{v \in F_1} p(v) \Big)^2 \prod_{e \not\in F} x_e ,
-\]
-where $\forests_2(G)$ is the set of two-component spanning forests of $G$, and $F_1$ denotes one of the components of $F$.
-It doesn't matter which component we label as $F_1$, since the momemtum constraint % $\sum_{v \in V} p(v) = 0$.
-% If $F_2$ denotes the other component of $F$, the constraint $\sum_{v \in V} p(v) = 0$ 
-implies that
-$\sum_{v \in F_1} p(v)  = - \sum_{v \in F_2} p(v)$.
+%In this section we recall some results on the distance matrix of a tree.
+Let $G=(V, E)$ be a tree with edge lengths $\alpha = \{\alpha_e \colon e\in E\}$. The {distance matrix} (with respect to $\alpha$) is symmetric, so it defines a symmetric bilinear forms on the vector space $\RR^V$.
 
-%Theorem statement:
-%\[
-%	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} (\degout(F,*) - 2)^2 w(\overline{F}) \right).
-%\]
-%\[
-%	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) (\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right)
-%\]
-In terms of Symanzik polynomials, let $\psi$ and $\varphi$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
-Let $p$ be the momentum function $p(v) = \deg(v) - 2$ for $v \not \in S$.
-We have
-%Then, Theorem~\ref{thm:w-main} is equivalent to the equation
-\begin{equation}
-\label{eq:det-symanzik}
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \Big(\sum_{E(G)}\alpha_e \Big)\, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p; \underline{\alpha}) \right)
-\end{equation}
-(equivalent to Theorem~\ref{thm:w-main}),
-or more succinctly,
-\begin{equation}
-\label{eq:det-cof-symanzik}
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right)
-\end{equation}
-(equivalent to equation~\eqref{eq:det-cof}).
+\subsection{Signature and invertibility}\label{sec:signature}
 
-\section{Distance minors: Preliminaries}
+For a subset of vertices $S$ with $|S| \geq 2$, the submatrix $D[S]$ has nonzero determinant. 
+We give a proof in here, based on finding the signature of $D[S]$ as a bilinear form.
 
-In this section we recall some results on the distance matrix of a tree.
-
-\subsection{Signature and invertibility}
-
-Given a distance matrix $D$ of a tree,
-the submatrix $D[S]$ has nonzero determinant, as long as $|S| \geq 2$.
-We give a proof in this section, based on finding the signature of $D[S]$ as a bilinear form.
-The argument in this section, particularly Proposition~\ref{prop:distance-sub-nonsingular}, was communicated to the authors by R. Bapat, via personal communication.
-
-We first recall a result of Cauchy, which states that the eigenvalues of $M[\overline{i}]$ ``interlace'' the eigenvalues of $M$.
-Recall that $M[\overline{i}]$ denotes the matrix obtained from $M$ by deleting the $i$-th row and column.
+We first recall a celebrated result of Cauchy.
+%, which states that the eigenvalues of $M[\overline{i}]$ ``interlace'' the eigenvalues of $M$.
+Let $M[\overline{i}]$ denotes the matrix obtained from $M$ by deleting the $i$-th row and column.
 
 \begin{prop}[Cauchy interlacing]
 \label{prop:cauchy-interlacing}
-Suppose $M$ is a symmetric real matrix 
-with ordered eigenvalues $\lambda_1 \leq \cdots \leq \lambda_n$, 
-and  the submatrix $M[\overline{i}]$ has ordered eigenvalues $\mu_1 \leq \cdots \leq \mu_{n-1}$.
-Then
+Suppose $M$ is a symmetric real matrix  with eigenvalues $\lambda_1 \leq \cdots \leq \lambda_n$. 
+Then the submatrix $M[\overline{i}]$ has eigenvalues $\mu_1 \leq \cdots \leq \mu_{n-1}$ satisfying
 \[
 	\lambda_1 \leq \mu_1 \leq \lambda_2 \leq \cdots \leq \mu_{n-1} \leq \lambda_n.
 \]
 \end{prop}
 \begin{proof}
-See Horn--Johnson~\cite[Theorem 4.3.17]{horn-johnson}.
+See, for example, \cite[Theorem 4.3.17]{horn-johnson}.
 \end{proof}
 
-\begin{lem}[{Bapat~\cite[Lemma 8.15]{bapat}}]
+\begin{lem}[{\cite[Lemma 8.15]{bapat}}]
 \label{lem:dist-signature}
-Suppose $\Da$ is the (weighted) distance matrix of a tree with $n$ vertices. 
+Suppose $\Da$ is the distance matrix of a tree with $n$ vertices and edge lengths $\{\alpha_e \colon e \in E\}$. 
 Then $\Da$ has one positive eigenvalue and $n - 1$ negative eigenvalues.
 \end{lem}
-\begin{proof}
-See Lemma 8.15 of~\cite{bapat}. The proof is by induction on the number of vertices, and uses Cauchy interlacing.
-\end{proof}
-Lemma 8.15 of~\cite{bapat} is stated for a non-weighted distance matrix;
-however, the same argument applies to a weighted distance matrix by applying Bapat--Kirkland--Neumann's result \eqref{eq:w-full-det} on the weighted distance matrix determinant \cite[Corollary 2.5]{bapat-kirkland-neumann}. 
-
-\begin{prop}
-\label{prop:distance-sub-nonsingular}
-Suppose $\Da$ is the weighted distance matrix of a tree $G = (V,E)$ and $S \subset V$ is a subset of size $|S| \geq 2$. 
+\begin{rmk}
+The proof in \cite{bapat} is by induction on the number of vertices, and uses Cauchy interlacing (Proposition~\ref{prop:cauchy-interlacing}). Lemma 8.15 in \cite{bapat} is actually stated for trees without edge lengths. However, the same argument applies to trees with edge lengths if one applies Bapat, Kirkland, Neumann's result \cite[Corollary 2.5]{bapat-kirkland-neumann} (see \eqref{eq:w-full-det}). 
+\end{rmk}
+The the following extension of Lemma~\ref{lem:dist-signature} and its proof was communicated to the authors by Bapat (personal communication).
+\begin{lem}
+\label{lem:distance-sub-nonsingular}
+Suppose $\Da$ is the distance matrix of a tree $G = (V,E)$ with edge lengths $\{\alpha_e \colon e \in E\}$. Let $S \subseteq V$ be a subset of size $|S| \geq 2$. 
 Then
-\begin{enumerate}[(a)]
-\item $\Da[S]$ has one positive eigenvalue and $|S| - 1$ negative eigenvalues;
-
-\item $\det \Da[S] \neq 0$.
-
-\end{enumerate}
-\end{prop}
+%\begin{enumerate}[label=(\alph*)]
+%\item 
+$\Da[S]$ has one positive eigenvalue and $|S| - 1$ negative eigenvalues;
+%\item 
+In particular, $\det \Da[S] \neq 0$.
+%\end{enumerate}
+\end{lem}
 \begin{proof}
-(a) %Let $n = |V|$; assume $n \geq 3$.
+    %(a) 
 We apply decreasing induction on the size of $S$. 
-If $S = V$, use Lemma~\ref{lem:dist-signature}.
-Now suppose $|S| = k$ where $2 \leq k < n$, and assume 
-    by induction hypothesis 
-    that the claim holds for all vertex subsets of size greater than $k$.
-    Let $S^+ \subset V$ be a set of $k + 1$ vertices containing $S$.
-    The inductive hypothesis states that $D[S^+]$ has $k$ negative eigenvalues and one positive eigenvalue,
-    so Cauchy interlacing from $D[S^+]$ implies that $D[S]$ has 
-    % at most one positive eigenvalue, and 
-    at least $k - 1$ negative eigenvalues. 
+For $S = V$, we have Lemma~\ref{lem:dist-signature}.
+Now suppose $|S| = k$ where $2 \leq k < n$, and assume, by induction hypothesis, 
+that the claim holds for all vertex subsets of size greater than $k$.
+Let $S^+ \subseteq V$ be a set of $k + 1$ vertices containing $S$.
+The inductive hypothesis states that $D[S^+]$ has $k$ negative eigenvalues and one positive eigenvalue,
+so Cauchy interlacing (Proposition~\ref{prop:cauchy-interlacing}) from $D[S^+]$ implies that $D[S]$ has at least $k - 1$ negative eigenvalues. 
 Since all diagonal entries of $D[S]$ are zero, $D[S]$ has zero trace. 
-Thus the remaining eigenvalue of $D[S]$ must be positive, as claimed.
-%The same argument applies for smaller $S$, as long as $|S| \geq 2$.
-
-(b) This follows from (a).
-% since the determinant is the product of eigenvalues.
+Thus the remaining eigenvalue of $D[S]$ must be positive.
+%(b) This follows from (a).
 \end{proof}
 
 \subsection{Negative definite hyperplane}
 
-In this section, we prove that a distance (sub)matrix induces a negative semidefinite quadratic form on the hyperplane of vectors whose coordinates sum to zero.
-This will be used in Section~\ref{sec:optimization} on quadratic optimization.
+We next prove that any principal submatrix of $D$ induces a negative semidefinite quadratic form on the hyperplane of zero-sum vectors.
+%This will be used in Section~\ref{sec:optimization} on quadratic optimization.
 
-Bapat--Kirkland--Neumann~\cite[Theorem 2.1]{bapat-kirkland-neumann} proved that
+Bapat, Kirkland, and Neumann (\cite[Theorem 2.1]{bapat-kirkland-neumann}) prove that
 \begin{equation}
 \label{eq:w-distance-inverse}
 	(\Da)^{-1} \;=\; - \frac12 \La + \frac12 \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm\, \boldm^\tr
 \end{equation}
 where $\boldm$ is the vector with components $\boldm_v = 2 - \deg v$.
-The unweighted version of \eqref{eq:w-distance-inverse} appeared earlier in Graham--Lovasz~\cite[Lemma 1]{graham-lovasz}.
-
+The special case of of \eqref{eq:w-distance-inverse} for trees without edge lengths had appeared in an earlier work by Graham and Lov\'asz (\cite[Lemma 1]{graham-lovasz}).
+\begin{rmk}
+\farbod{do we want to keep this remark? Could it be that Devriendt has already answered this?}
+To our knowledge, a generalization of \eqref{eq:w-distance-inverse}, giving an expression for $D[S]^{-1}$ for a nonempty subset $S \subseteq V$, has not been obtained in the literature. This might be an interesting research problem.
+\end{rmk}
 \begin{prop}
 \label{prop:dist-laplacian}
-Let $D$ denote the weighted distance matrix of a tree, and $L$ the weighted Laplacian matrix. 
+Let $D$ denote the distance matrix of a tree with edge lengths $\{\alpha_e \colon e \in E\}$. Let $\La$ be the Laplacian matrix. 
 Then
 \[
 	\Da \;=\; - \frac{1}{2} \Da \La \Da + \frac{1}{2} \left( \sum_{e \in E} \alpha_e\right) \bone \bone^\tr .
 \]
 \end{prop}
 \begin{proof}
-Multiply \eqref{eq:w-distance-inverse} by the all-ones vector $\bone$; since $\La \bone = 0$ and $\boldm^\tr \bone = 2$, we obtain 
+Multiply \eqref{eq:w-distance-inverse} by the all-ones vector $\bone$; since $\La \bone = 0$ and $\boldm^\tr \bone = 2$ (see \eqref{eq:handshake}), we obtain 
 \[
 (\Da)^{-1} \bone \;=\; \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm .
 \]
-% Then apply the identity $D \boldm = \left( \sum_{e \in E} \alpha_e \right) \bone$.
-Hence $\Da \boldm = \left( \sum_{e \in E} \alpha_e \right) \bone$.
-Then multiply \eqref{eq:w-distance-inverse} by $\Da$ on both sides. 
+Therefore, 
+\begin{equation}\label{eq:Dm}
+\Da \boldm = \left( \sum_{e \in E} \alpha_e \right) \bone .
+\end{equation}
+The result now follows from multiplying \eqref{eq:w-distance-inverse} by $\Da$ on both sides, and using \eqref{eq:Dm}. 
 \end{proof}
 
 \begin{prop}
 \label{prop:negdef-hyperplane}
-Suppose $D$ is the (weighted) distance matrix of a tree.
-\begin{enumerate}[(a)]
+Suppose $D$ is the distance matrix of a tree with edge lengths $\{\alpha_e \colon e \in E\}$.
+\begin{enumerate}[label=(\alph*)]
 \item
 If $\boldu \in \RR^V$ is a vector whose coordinates sum to zero, then
 $
@@ -1773,19 +1085,11 @@ $
 \begin{proof}
 (a)
 By assumption $\bone^\tr \boldu = 0$.
-Using Proposition~\ref{prop:dist-laplacian},
+Using Proposition~\ref{prop:dist-laplacian}, we obtain
 \[
 	\boldu^\tr D\boldu = - \frac12 \boldu^\tr DLD \boldu + 0.
 \]
-%The Laplacian matrix factors as $\La = B A B^\tr = (B A^{1/2}) (A^{1/2} B^\tr)$
-%where $B$ is the incidence matrix and $A$ is the diagonal matrix with entries $\alpha_e^{-1}$.
-%Thus
-%\begin{align}
-%	\boldu^\tr D\boldu 
-%	% &= - \frac12 (B^\tr D\boldu)^\tr (B^\tr D\boldu) + 0
-%	= -\frac12 \| A^{1/2} B^\tr D \boldu \|^2 \leq 0,
-%\end{align}
-It is well-known that the Laplacian matrix is positive semidefinite, so $\boldu^\tr DLD \boldu = (D \boldu)^\tr L (D \boldu) \geq 0$.
+As is well-known that the Laplacian matrix is positive semidefinite (this readily follows from \eqref{eq:weighted-laplacian}). $\boldu^\tr DLD \boldu = (D \boldu)^\tr L (D \boldu) \geq 0$.
 Thus $\boldu^\tr D \boldu \leq 0$
 as claimed.
 
@@ -1798,45 +1102,36 @@ where $\widetilde \boldu$ is the extension of $\boldu$ by zeros.
 \section{Quadratic optimization}
 \label{sec:optimization}
 
-In this section, we explain how the quantity $\displaystyle \frac{\det D[S]}{\cof D[S]}$ arises as the solution of the following quadratic optimization problem:
-for all vectors $ \boldu \in \RR^S$,
-\begin{align}
-	\text{maximize objective function:} &\quad \boldu^\tr D[S] \boldu \\
-	\text{with constraint:} &\quad \bone^\tr \boldu = 1.
-\end{align}
-The statement is proved as Proposition~\ref{prop:optimization}.
-
+Here, we explain how the quantity ${\det D[S]}/{\cof D[S]}$, introduced in \S\ref{sec:Normalized principal minors} arises as the solution of a quadratic optimization problem.
 \begin{prop}
 \label{prop:optimization}
-If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
-%any critical value of the optimization problem \note{cite above} is equal to ${\det D[S]}/{\cof D[S]}$, i.e.
+Suppose $D$ is the distance matrix of a tree with edge lengths $\{\alpha_e \colon e \in E\}$. If $D[S]$ is a principal submatrix of a distance matrix indexed by a nonempty subset $S$ of vertices, then 
 \[
-	\frac{\det D[S]}{\cof D[S]} = \max \{\boldu^\tr D[S] \boldu : \boldu \in \RR^S,\, \bone^\tr \boldu = 1 \}
+	\frac{\det D[S]}{\cof D[S]} = \max \{\boldu^\tr D[S] \boldu \colon \boldu \in \RR^S,\, \bone^\tr \boldu = 1 \}.
 \]
-where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
 \end{prop}
 
 \begin{proof}
 If $|S| = 1$ then $D[S]$ is the zero matrix and the statement is true trivially.
 
-Now assume $|S| \geq 2$.
-Proposition~\ref{prop:negdef-hyperplane} implies that 
+Assume $|S| \geq 2$.
+Proposition~\ref{prop:negdef-hyperplane} (b) implies that 
 the objective function $\boldu \mapsto \boldu^\tr D[S]\boldu$ is concave on the domain $\bone^\tr \boldu = 1$,
 so any critical point is a local maximum.
 The gradient of the objective function is $2 D[S] \boldu$, 
-and the gradient of the constraint is $\bone$.
+and the gradient of the constraint is $\bone$.\farbod{this could be clarified a bit}
 By the theory of Lagrange multipliers, the optimal solution $\boldu^*$ is a vector satisfying
 \[
 	D[S] \boldu^* = \lambda \bone \qquad\text{for some }\lambda \in \RR.
 \]
-The constant $\lambda$ is in fact the optimal objective value, since
+The constant $\lambda$ is, in fact, the optimal objective value, since
 \[
 	(\boldu^*)^\tr D[S] \boldu^* = (D[S] \boldu^*)^\tr \boldu^* = \lambda (\bone^\tr \boldu^*) = \lambda.
 \]
-Here we use the fact that $D[S]$ is symmetric, and the given constraint $\bone^\tr \boldu = 1$.
+(The first equality is because $D[S]$ is symmetric, and the last equality is by the given constraint $\bone^\tr \boldu = 1$.)
 
 On the other hand,
-since $D[S]$ is invertible (Proposition~\ref{prop:distance-sub-nonsingular}) we have $ \boldu^* = \lambda (D[S]^{-1} \bone) $, so that
+ $D[S]$ is invertible by Lemma~\ref{lem:distance-sub-nonsingular}. Therefore, we have $ \boldu^* = \lambda (D[S]^{-1} \bone) $, so
 \[
 	1 = \bone^\tr \boldu^* = \lambda (\bone^\tr D[S]^{-1} \bone)
 	= \lambda \frac{\cof D[S]}{\det D[S]}.
@@ -1848,24 +1143,31 @@ $
 \end{proof}
 
 \begin{rmk}
-If we consider $G$ as a network of wires with each edge $e$ containing a resistor of resistance $\alpha_e$,
+If we consider $G$ as a resistive electrical network, with each edge $e$ representing a resistor of resistance $\alpha_e$,
 then the optimal vector $\boldu^*$
-% $\boldm(G; S)$ defined in \eqref{eq:m-vector} 
-has a physical interpretation as current flow: 
-it records the currents exiting at $s \in S$
-when current enters the network in the amount $\frac{1}{2}(\deg(v) - 2)$
-for each $v \in V$,
-and the network is grounded at all nodes in $S$.
-
-We give an explicit combinatorial expression for $\boldu^*$, up to a normalizing constant, in Definition~\ref{dfn:m-vector}.
-It is a classical result in network theory that this gives the current flow; see Tutte~\cite[Section VI.6]{tutte}.
+has a physical interpretation as a current flow: 
+it records the currents in the network when external current enters the network in the amount $(\deg(v) - 2)/2$ for each $v \in V \backslash S$ \farbod{is it okay backslash S}, and exits from the nodes in $S$, and the network is grounded at all nodes in $S$.
+Indeed, we give an explicit combinatorial expression for $\boldu^*$, up to a normalizing constant, in \eqref{eq:m-vector}. It is a classical result in network theory that this gives the current flow as described; see, for example, Tutte~\cite[Section VI.6]{tutte}.
 \end{rmk}
+
+We note the following restatement of Proposition~\ref{prop:optimization}, viewing $\RR^S$ as a subspace of $\RR^V$ 
+where coordinates indexed by $V \setminus S$ are set to zero.
+\begin{cor}
+\label{cor:optimization}
+If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
+\[
+	\frac{\det D[S]}{\cof D[S]} = \max \{\boldu^\tr D \boldu \colon \boldu \in \RR^V,\, \bone^\tr \boldu = 1,\, \boldu_v = 0 \text{ if } v \not\in S \}.
+\]
+\end{cor}
+
+
 
 \subsection{Cofactor sums}
 
 Next we recall a connection between minors of the Laplacian matrix and cofactor sums of the distance matrix, when $G$ is a tree.
-The result is due to Bapat--Sivasubramanian~\cite{bapat-sivasubramanian}.
-Recall that $\cof M$ denotes the {\em sum of cofactors} of $M$, i.e. 
+The result is essentially due to Bapat and Sivasubramanian (\cite{bapat-sivasubramanian}).
+
+Recall from \S\ref{sec:Normalized principal minors} that $\cof M$ denotes the {\em sum of cofactors} of $M$, i.e. 
 $\displaystyle
 	\cof M = \sum_{i = 1}^{n} \sum_{j = 1}^{n} (-1)^{i + j} \det M[\overline{i}, \overline{j}]
 $
@@ -1873,93 +1175,85 @@ where $M[\overline{i}, \overline{j}]$ denotes the matrix with the $i$-th row and
 
 \begin{thm}[Distance submatrix cofactor sums]
 \label{thm:distance-sub-cof}
-Given a tree $G = (V, E)$ with edge weights,
-let $\Da$ be the weighted distance matrix of $G$.
-% and $L$ the weighted Laplacian matrix of $G$.
-Let $S \subset V$ be a nonempty subset of vertices. 
+Let $G = (V, E)$ be a tree with edge lengths $\{\alpha_e \colon e \in E\}$,
+and let $\Da$ be the distance matrix of $G$.
+Let $S \subseteq V$ be a nonempty subset of vertices. 
 Then
 \begin{equation}
-	\cof \Da[S] = (-2)^{|S|-1} \sum_{T \in \trees(G; S)} w(\overline{T}).
+	\cof \Da[S] = (-2)^{|S|-1} \sum_{T \in \trees(G; S)} w(T).
 \end{equation}
 \end{thm}
 \begin{proof}
-Bapat and Sivasubramanian~\cite[Theorem 11]{bapat-sivasubramanian}
+Bapat and Sivasubramanian (\cite[Theorem 11]{bapat-sivasubramanian})
 show that
 \[
 	\cof \Da[S] = (-2)^{|S|-1} \left( \prod_{e \in E} \alpha_e \right) \det \La[\overline S] 
 \]
-where $\La$ is the weighted Laplacian matrix.
-Then combine this equation with the matrix tree theorem,
-Theorem~\ref{thm:matrix-tree} (b).
+where $\La$ is the Laplacian matrix.
+Combine this identity with Theorem~\ref{thm:matrix-tree} and \eqref{weight-coweight}.
 \end{proof}
 
-The following result is a direct consequence of theorems of Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann} and Bapat--Sivasubramanian~\cite{bapat-sivasubramanian}.
+The following result is a direct consequence of theorems of Bapat, Kirkland, Neumann (\cite{bapat-kirkland-neumann}) and Bapat, Sivasubramanian (\cite{bapat-sivasubramanian}).
 
-% \note{Not sure if "Proposition" or "Theorem" is more appropriate}
 \begin{prop}
 \label{prop:full-det-cof-ratio}
-Suppose $\Da$ is the distance matrix of a weighted tree with edge weights $\{\alpha_e : e \in E\}$.
+Suppose $\Da$ is the distance matrix of a tree with edge lengths $\{\alpha_e \colon e \in E\}$.
 Then
 \[
 	\frac{\det \Da}{\cof \Da} = \frac1{2} \sum_{e \in E} \alpha_e .
 \]
 \end{prop}
 \begin{proof}
-Consider applying Theorem~\ref{thm:distance-sub-cof} with $S = V$.
-In this case $\trees(G; V)$ consists of the forest with no edges, and for this forest $w(\overline{T})$ is the product of all edge weights.
+Consider Theorem~\ref{thm:distance-sub-cof} with $S = V$.
+In this case $\trees(G; V)$ is a singleton consisting of the forest $T$ with no edges, so $w({T})$ is the product of all edge lengths.
 Thus
 \[
 	\cof \Da = (-2)^{n - 1} \prod_{e \in E} \alpha_e .
 \]
-Combining this with the Bapat--Kirkland--Neuman formula \eqref{eq:w-full-det} yields the result.
+Combining this with \eqref{eq:w-full-det} yields the result.
 \end{proof}
 
 \subsection{Monotonicity}
 
-As a consequence of Proposition~\ref{prop:optimization}, we show that the ratio $\displaystyle \frac{\det D[S]}{\cof D[S]}$ behaves monotonically in $S$, and deduce further bounds on $\displaystyle \frac{\det D[S]}{\cof D[S]}$.
+%As a consequence of Proposition~\ref{prop:optimization}, we show that the ratio $\displaystyle \frac{\det D[S]}{\cof D[S]}$ behaves monotonically in $S$, and deduce further bounds on $\displaystyle \frac{\det D[S]}{\cof D[S]}$.
 
-We first note the following restatement of Proposition~\ref{prop:optimization}, viewing $\RR^S$ as a subspace of $\RR^V$ 
-where coordinates indexed by $V \setminus S$ are set to zero.
-\begin{cor}
-\label{cor:optimization}
-If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
-\[
-	\frac{\det D[S]}{\cof D[S]} = \max \{\boldu^\tr D \boldu : \boldu \in \RR^V,\, \bone^\tr \boldu = 1,\, \boldu_v = 0 \text{ if } v \not\in S \}
-\]
-where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
-\end{cor}
+Using Proposition~\ref{prop:optimization}, we can now prove Theorem~\ref{thm:monotonic} and Theorem \ref{thm:det-cof-bounds}.
 
 \begin{proof}[Proof of Theorem~\ref{thm:monotonic}]
-We are to show that for vertex subsets $A \subset B$, we have
-$\displaystyle 
-\frac{\det D[A]}{\cof D[A]} \leq \frac{\det D[B]}{\cof D[B]}.
-$
-By Corollary~\ref{cor:optimization}, both values $\display \frac{\det D[A]}{\cof D[A]}$ and $\display \frac{\det D[B]}{\cof D[B]}$ arise from optimizing the same objective function on an affine subspace of $\RR^V$, 
+%We are to show that for vertex subsets $A \subseteq B$, we have
+%$\displaystyle 
+%\frac{\det D[A]}{\cof D[A]} \leq \frac{\det D[B]}{\cof D[B]}.
+%$
+By Corollary~\ref{cor:optimization}, both values 
+\[ 
+	\frac{\det D[A]}{\cof D[A]}\quad \text{and} \quad  \frac{\det D[B]}{\cof D[B]}
+\] 
+arise from optimizing the same objective function on an affine subspace of $\RR^V$, 
 but the subspace for $A$ is contained in the subspace for $B$.
 \end{proof}
 
-\begin{proof}[Proof of \ref{thm:det-cof-bounds}]
+\begin{proof}[Proof of Theorem \ref{thm:det-cof-bounds}]
 (a)
-Recall that $\conv(S, G)$ denotes the subgraph of $G$ which is the union of all paths between vertices in $S$.
-To see that
+%Recall that $\conv(S, G)$ denotes the subgraph of $G$ which is the union of all paths between vertices in $S$.
+To see
 \begin{equation*}
- \frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{E(\conv(S, G))} \alpha_e ,
+	\frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{e \in E(\conv(S, G))} \alpha_e ,
 \end{equation*}
 take $B$ as the set of all vertices in $\conv(S, G)$.
-Then $S \subset B$, and apply Theorem~\ref{thm:monotonic}.
+Then $S \subseteq B$, and apply Theorem~\ref{thm:monotonic}.
 By Proposition~\ref{prop:full-det-cof-ratio} we have
 \[
- \frac{\det D[B]}{\cof D[B]} = \frac12 \sum_{E(\conv(S, G))} \alpha_e .
+	\frac{\det D[B]}{\cof D[B]} = \frac12 \sum_{e \in E(\conv(S, G))} \alpha_e .
 \]
 
 (b) 
 Recall that $\gamma$ is a simple path between vertices $s_0, s_1 \in S$.
-To see that
+To see
 \begin{equation*}
 	\frac12 \sum_{e \in \gamma} \alpha_e \leq \frac{\det D[S]}{\cof D[S]},
 \end{equation*}
-take $A$ as the set of endpoints of $\{s_0, s_1\}$.
-Then $A \subset S$ by assumption, and apply Theorem~\ref{thm:monotonic}.
+let $A=\{s_0, s_1\}$.
+Then $A \subseteq S$ by assumption. Now apply Theorem~\ref{thm:monotonic}.
 By Proposition~\ref{prop:full-det-cof-ratio} we have
 \[
 	\frac{\det D[A]}{\cof D[A]}
@@ -1970,19 +1264,18 @@ By Proposition~\ref{prop:full-det-cof-ratio} we have
 \end{proof}
 
 
-\section{Distance minors: Proofs}
-In this section we prove our main result, Theorem~\ref{thm:w-main}.
-Theorem~\ref{thm:main} follows as an immediate corollary.
-% by setting all edge weights to one.
+\section{Proof of Theorems~\ref{thm:main} and \ref{thm:w-main}}
+\label{sec:distance_proofs}
+In this section, we prove our main result, Theorem~\ref{thm:w-main}.
+Theorem~\ref{thm:main} is an immediate corollary.
 
-\subsection{Outline of proof} 
+\subsection{Outline of the proof}\farbod{I was not happy with the subsection titles in this section, and my tweak hasn't helped...} 
 
-In Section~\ref{sec:optimization}, we showed that $\displaystyle \frac{\det D[S]}{\cof D[S]}$ is the maximum value of the function $\boldu \mapsto \boldu^\tr D[S] \boldu$ on an affine hyperplane of $\RR^S$,
+In \S\ref{sec:optimization}, we showed that ${\det D[S]}/{\cof D[S]}$ is the maximum value of the function $\boldu \mapsto \boldu^\tr D[S] \boldu$ on an affine hyperplane of $\RR^S$,
 and that the maximum is achieved when $D[S] \boldu^* = \lambda \bone$.
-We can thus compute $\det D[S]$ via the following steps.
+Therefore, we can compute $\det D[S]$ via the following steps.
 
-%Given a  subset $S \subset V$ and distance submatrix $D[S]$, we will complete the following steps.
-\begin{enumerate}[(i)]
+\begin{enumerate}[label=(\roman*)]
 \item 
 Find a vector $\boldm \in \RR^S$ such that $D[S]\boldm = \lambda \mathbf{1} \in \RR^S$.
 
@@ -1991,33 +1284,21 @@ Compute the sum of entries of $\boldm$, i.e. $\mathbf{1}^\tr \boldm$, and normal
 $\displaystyle
 	\boldu^* = \frac{\boldm}{\bone^\tr \boldm}.
 $
-This solves the optimization problem of Section~\ref{sec:optimization}.
+This solves the optimization problem of \S\ref{sec:optimization}.
 
 \item 
 Find the optimal objective value
-% $(\boldu^*)^\tr D[S] \boldu^* = \lambda^* $
-% is
 $\displaystyle
 	\lambda^* = \frac{\lambda}{\bone^\tr \boldm}.
 $
 
-%\item 
-%Using Theorem~\ref{prop:optimization}, 
-%%relate the sum $\bone^\tr \boldm$ to the sum of entries of the inverse matrix $D[S]^{-1}$:
-%$\displaystyle
-%	\frac{\det D[S]}{\cof D[S]} 
-%	= \lambda^*;
-%	% = \frac{\lambda}{\mathbf{1}^\tr \boldm } ;
-%$
-% where $\cof D[S]$ is the sum of cofactors of $D[S]$.
 
 \item
 Use the expression for $\cof D[S]$ in Theorem~\ref{thm:distance-sub-cof} to compute $\det D[S] = \lambda^* (\cof D[S])$.
-% $ = \lambda (\cof D[S]) \left( \mathbf{1}^\tr \boldm \right)^{-1}.$
 \end{enumerate}
 
-\begin{eg}
-Suppose $G$ is the tree with unit edge weights shown below.
+\begin{eg}\farbod{should we keep this, drop it, or move it?}
+Suppose $G$ is the tree with unit edge lengths shown below.
 \[
 \begin{tikzpicture}[scale=0.8]
 	\coordinate (1) at (0,0);
@@ -2048,36 +1329,35 @@ Suppose $G$ is the tree with unit edge weights shown below.
 \end{tikzpicture}
 \]
 If $S$ is the set of leaf vertices, the distance submatrix is 
-$
+\[
 D[S] = \begin{pmatrix}
 0 & 3 & 4 \\
 3 & 0 & 5 \\
 4 & 5 & 0
 \end{pmatrix}.
-$
+\]
 Following the steps outlined above:
-\begin{enumerate}[(i)]
+\begin{enumerate}[label=(\roman*)]
 \item 
-The vector $\boldm = \begin{pmatrix} 5 \\ 8 \\ 9 \end{pmatrix}$
+The vector $\boldm = \begin{pmatrix} 5 & 8 & 9 \end{pmatrix}^\tr$
 satsifies $D[S] \boldm = \lambda \bone$ for $\lambda = 60$.
 
 \item 
 The sum of entries of $\boldm$ is $\bone^\tr \boldm = 22$.
 
 \item 
-We have $\displaystyle \lambda^* = \frac{\lambda}{\bone^\tr \boldm} = \frac{30}{11}$.
+We have $\displaystyle \lambda^* = {\lambda}/{\bone^\tr \boldm} = {30}/{11}$.
 
 \item 
 The cofactor sum is $\cof D[S] = 44$, so $\det[S] = \lambda^*(\cof D[S]) = 120$.
 \end{enumerate}
 \end{eg}
-It turns out that the entries of $\boldm$ are combinatorially meaningful (see Definition~\ref{dfn:m-vector}),
+It turns out that the entries of $\boldm$ are combinatorially meaningful (see \eqref{eq:m-vector}),
 which also gives combinatorial meaning to
-%The interesting part  of this expression will turn out to be in 
 the constant $\lambda$.
 
-\subsection{General case}
-Fix a tree $G = (V,E)$ with edge weights $\{\alpha_e : e \in E\}$ and a nonempty subset $S \subset V$.
+\subsection{The proofs}
+Fix a tree $G = (V,E)$ with edge lengths $\{\alpha_e \colon e \in E\}$ and a nonempty subset $S \subseteq V$.
 We first define a vector $\boldm$ which satisfies the relation $D[S] \boldm = \lambda \bone$ for some $\lambda$.
 
 \begin{dfn}
@@ -2085,58 +1365,55 @@ We first define a vector $\boldm$ which satisfies the relation $D[S] \boldm = \l
 Let $\boldm = \boldm(G;S)$ denote the vector in $\RR^S$ be defined by
 \begin{equation}
 \label{eq:m-vector}
-\boldm_v =  \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout(T,v))
+\boldm_v =  \sum_{T \in \trees(G;S)} w({T}) (2 - \outdeg(T,v))
 \qquad\text{for each }v \in S.
 \end{equation}
-where $w(\overline{T})$ is the co-weight of $T$ (see Section~\ref{sec:outdegree})
-and $\degout(T,v)$ is the outdegree of the $v$-component of $T$ (see Section~\ref{sec:outdegree}, equation~\eqref{eq:outdeg-forest}).
+where $\outdeg(T,v)$ is the outdegree of the $v$-component of $T$ (see \S\ref{sec:outdegree}).
+%$w({T})$ is the weight of $T$ (see Section~\ref{sec:outdegree}) and $
 \end{dfn}
 
-Let $\bone$ denote the all-ones vector.
+%Let $\bone$ denote the all-ones vector.
 \begin{prop}
 \label{prop:m-sum}
 Suppose $S$ is nonempty.
-For the vector $\boldm = \boldm(G; S)$ defined above, 
-\begin{enumerate}[(a)]
+For the vector $\boldm = \boldm(G; S)$ defined above, we have
+\begin{enumerate}[label=(\alph*)]
 \item 
-$\displaystyle \bone^\tr \boldm = 2 \,\sum_{T \in \trees(G;S)} w(\overline{T})$;
+$\displaystyle \bone^\tr \boldm = 2 \,\sum_{T \in \trees(G;S)} w({T})$.
 
 \item 
-if all edge weights $\alpha_e$ are positive, $\boldm$ is nonzero.
+$\boldm$ is nonzero.
 \end{enumerate}
 \end{prop}
 \begin{proof}
 (a)
-By Lemma~\ref{lem:outdeg-sum} we can express $\degout(T, s)$ as a sum over vertices in $T(s)$,
+By Lemma~\ref{lem:outdeg-sum} we can express $\outdeg(T, s)$ as a sum over vertices in $T(s)$,
 \[
-	\boldm_s = \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout (T,s))
-= \sum_{T \in \trees(G;S)} w(\overline{T}) \left( \sum_{v \in T(s)}(2 - \deg(v))\right).
+	\boldm_s = \sum_{T \in \trees(G;S)} w({T}) (2 - \outdeg (T,s))
+= \sum_{T \in \trees(G;S)} w({T}) \left( \sum_{v \in T(s)}(2 - \deg(v))\right).
 \]
 Then exchange the order of summation in $\bone^\tr \boldm$,
 \begin{align}
-	\bone^\tr \boldm = \sum_{s\in S} \boldm_s &= \sum_{s \in S} \left( \sum_{T \in \trees(G;S)} w(\overline{T}) \sum_{v \in T(s)}(2 - \deg(v)) \right) \\
-	&= \sum_{T \in \trees(G;S)} w(\overline{T}) \left( \sum_{s\in S} \sum_{v \in T(s)} (2 - \deg(v)) \right) .
+	\bone^\tr \boldm = \sum_{s\in S} \boldm_s &= \sum_{s \in S} \left( \sum_{T \in \trees(G;S)} w({T}) \sum_{v \in T(s)}(2 - \deg(v)) \right) \\
+	&= \sum_{T \in \trees(G;S)} w({T}) \left( \sum_{s\in S} \sum_{v \in T(s)} (2 - \deg(v)) \right) .
 \end{align}
 Observe that the inner double sum is simply a sum over $v \in V$,
 since the vertex sets of $T(s)$ for $s \in S$ form a partition of $V$ by definition of $S$-rooted spanning forest.
 Thus 
 \[
-	\bone^\tr \boldm = \sum_{T \in \trees} w(\overline{T}) \left( \sum_{v \in V} (2 - \deg(v))\right)
-	= \sum_{T \in \trees} w(\overline{T}) \cdot 2 
+	\bone^\tr \boldm = \sum_{T \in \trees(F;S)} w({T}) \left( \sum_{v \in V} (2 - \deg(v))\right)
+	= \sum_{T \in \trees(F;S)} w({T}) \cdot 2 
 \]
-where we apply 
-%Lemma~\ref{lem:outdeg-sum} 
-equation \eqref{eq:handshake} for the last equality.
-% as $\degout(G) = 0$.
+where we apply equation \eqref{eq:handshake} for the last equality.
 
 (b) 
-If all edge weights are positive, then $w(\overline{T}) > 0$ for all $T$, and $\trees(G; S)$ is nonempty as long as $S$ is nonempty. 
-Thus part (a) implies that $\bone^\tr \boldm > 0$.
+Since all edge lengths are positive, then $w({T}) > 0$ for all $T$, and $\trees(G; S)$ is nonempty as long as $S$ is nonempty. 
+Therefore, part (a) implies that $\bone^\tr \boldm > 0$.
 \end{proof}
 
-\begin{cor}
-If $G$ is a graph with unit edge weights $\alpha_e = 1$, then the vector $\boldm$ defined in \eqref{eq:m-vector} satisfies $\bone^\tr \boldm = 2\, \kappa(G;S)$.
-\end{cor}
+%\begin{cor}
+%If $G$ is a graph with unit edge lengths $\alpha_e = 1$, then the vector $\boldm$ defined in \eqref{eq:m-vector} satisfies $\bone^\tr \boldm = 2\, \kappa(G;S)$.
+%\end{cor}
 
 \begin{thm}
 \label{thm:m-distance-product}
@@ -2145,67 +1422,53 @@ $D[S] \boldm = \lambda \mathbf{1}$
 for the constant
 \begin{equation}
 \label{eq:lambda}
-	\lambda = \sum_{E(G)} \alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} w(\overline{F}) \, (2 - \degout(F,*))^2.
+	\lambda = \sum_{e \in E(G)} \alpha_e \sum_{T\in \trees(G;S)} w({T}) - \sum_{F \in \forests_2(G;S)} w({F}) \, (2 - \outdeg(F,*))^2.
 \end{equation}
-%where $\degout(F,w)$ is the out-degree of the $w$-component of $F$ (as a spanning forest).
 \end{thm}
 
 \begin{proof}
-For $e\in E$ and $v,w\in V$, let $\delta(e;v,w)$ denote the function defined in Section~\ref{sec:tree-splits}.
-%\[
-%  \delta(e;v,w) = \begin{cases}
-%  1 &\text{if $e$ separates  $v$ from $w$}, \\
-%  0 &\text{otherwise}.
-%  \end{cases}
-%\]
+For $e\in E$ and $v,w\in V$, let $\delta(e;v,w)$ denote the function defined in \S\ref{sec:tree-splits}.
 For any $v \in S$, we have
 \begin{align}
   (D[S] \boldm)_v &= \sum_{s \in S} d(v,s) \boldm_s \\
-  &= \sum_{s \in S} \left( \sum_{e \in E(G)} \alpha_e\, \delta(e; v,s) \right) \left( \sum_{T \in \trees(G;S)} (2 - \degout(T,s)) w(\overline{T}) \right) \\
-  &= \sum_{T\in \trees} w(\overline{T}) \sum_{e\in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) (2 - \degout(T, s)) \right) \\
-  % &= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \left( \sum_{s \in S \cap (G\setminus e)^{\overline v}} (2 - \degout(T, s)) \right) \\
-  &= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) \sum_{u \in T(s)} (2 - \deg(u)) \right). \label{eq:14-1}
+  &= \sum_{s \in S} \left( \sum_{e \in E(G)} \alpha_e\, \delta(e; v,s) \right) \left( \sum_{T \in \trees(G;S)} (2 - \outdeg(T,s)) w({T}) \right) \\
+  &= \sum_{T\in \trees(G;S)} w({T}) \sum_{e\in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) (2 - \outdeg(T, s)) \right) \\
+  &= \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) \sum_{u \in T(s)} (2 - \deg(u)) \right). \label{eq:14-1}
 \end{align}
-%where
-%\[ 
-%	S \cap (G\setminus e)^{\overline v} = \{ s \in S : \text{$e$ separates $v$ from $s$}\}.
-%S^*(e,v) = \{ s \in S : \text{$e$ lies on path from $v$ to $s$}\}.
-%\]
-where in the last equality, we apply Lemma~\ref{lem:outdeg-sum} to the subgraph $H = T(s)$.
+The first equality follows from Proposition~\ref{prop:distance-sum} and \eqref{eq:m-vector}. The last equality follows from using Lemma~\ref{lem:outdeg-sum} for the subgraph $H = T(s)$.
 
 We introduce additional notation to handle the double sum in parentheses in \eqref{eq:14-1}.
-Each $S$-rooted spanning tree $T$ naturally induces a surjection $\pi_T: V \to S$, defined by 
+Each $S$-rooted spanning tree $T$ naturally induces a surjection $\pi_T\colon V \to S$, defined by 
 \[
 	\pi_T(u) = s \qquad\text{if and only if}\qquad u \in T(s).
 \]
 Using this notation,
 \begin{equation}
 \label{eq:9}
-	(D[S] \boldm)_v = \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,\pi_T(u)) \right)
+	(D[S] \boldm)_v = \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,\pi_T(u)) \right)
 \end{equation}
 We will compare the above expression with the one obtained after replacing $\delta(e; v,\pi_T(u))$ with $\delta(e; v, u)$.
+
 From Lemma~\ref{lem:outdeg-sum} (b), 
-%for any $v \in V$ and $e \in E$ 
 we have
 $\displaystyle
 	\sum_{u \in V} (2 - \deg(u)) \delta(e; v,u)
-	% = \sum_{u \in (G \setminus e)^{\overline v}} (2 - \deg(u))
-	% = 2 - \degout((G \setminus e)^{\overline v}) 
 	= 1. 
 $
 Thus
 \begin{equation}
 \label{eq:10}
-	\sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e
-	= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,u) \right) 
+	\sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e
+	= \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,u) \right) 
 \end{equation}
 By subtracting equation \eqref{eq:10} from \eqref{eq:9}, we obtain
 \[
-	(D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e 
-	= \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \Big(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \Big).
+\begin{split}
+	(D[S] \boldm)_v &- \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \\
+	&= \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \left(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \right).\\
+\end{split}
 \]
-When $e \in E$ and $v \in V$ are fixed, $u \mapsto \delta(e; v, u)$ is the indicator function of one component of the principal cut $G \setminus e$.
-%Recall that $\delta(e; \cdot,\cdot)$ is a $(0,1)$-valued pseudometric on $V$.
+%When $e \in E$ and $v \in V$ are fixed, $u \mapsto \delta(e; v, u)$ is the indicator function of one component of the principal cut $G \setminus e$.
 We have
 \begin{equation}
 \label{eq:delta-diff}
@@ -2218,13 +1481,14 @@ We have
 Now consider varying $u$ over all vertices, when $e$, $T$, and $v$ are fixed.
 We have the following three cases:
 
-Case 1: if $e \not \in T$, then $u$ and $\pi_T(u)$ are on the same side of the principal cut $G \setminus e$, for every vertex $u$.
+\begin{itemize}[leftmargin=*]
+\item Case 1: if $e \not \in T$, then $u$ and $\pi_T(u)$ are on the same side of the principal cut $G \setminus e$, for every vertex $u$.
 In this case $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot) = 0$.
 
-Case 2: if $e \in T$ and $\pi_T(e)$ is separated from $v$ by $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, left.
+\item Case 2: if $e \in T$ and $\pi_T(e)$ is separated from $v$ by $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, left.
 
-Case 3: if $e \in T$ and $\pi_T(e)$ is on the same component as $v$ from $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the negative of the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, right.
-
+\item Case 3: if $e \in T$ and $\pi_T(e)$ is on the same component as $v$ from $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the negative of the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, right.
+\end{itemize}
 \begin{figure}[h]
 \begin{minipage}{0.45\textwidth}
 \centering
@@ -2257,7 +1521,6 @@ Case 3: if $e \in T$ and $\pi_T(e)$ is on the same component as $v$ from $e$, th
 
 	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (B) -- (C);
 \end{tikzpicture}
-%\qquad\qquad
 \end{minipage}
 \begin{minipage}{0.45\textwidth}
 \centering
@@ -2295,51 +1558,41 @@ Case 3: if $e \in T$ and $\pi_T(e)$ is on the same component as $v$ from $e$, th
 \label{fig:e-delete-from-forest}
 \end{figure}
 
-Thus when multiplying the term \eqref{eq:delta-diff} by $(2 - \deg(u))$ and summing over all vertices $u$, we obtain
-\[
-	\sum_{u \in V} (2 - \deg(u)) \Big(\delta(e; v, \pi_T(u)) - \delta(e; v, u)\Big) 
-	= \begin{cases}
-	0 &\text{if } e \not \in T, \\
-	2 - \degout(T \setminus e, *) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 1, \\
-	-(2 - \degout(T \setminus e, *)) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 0 .
-	\end{cases}
-\]
-Thus
+Thus, when multiplying the term \eqref{eq:delta-diff} by $(2 - \deg(u))$ and summing over all vertices $u$, we obtain
 \begin{align}
-	&(D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e \\
-%	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} \alpha_e ( 2 - \degout(T\setminus e,*)) 
-%	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} \alpha_e (2 - \degout(T\setminus e,*) ) \right)\\
-%	&\qquad\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{e \in T} \alpha_e ( 2 - \degout(T\setminus e,*)) \left( \sum_{\substack{e \in T(s_0) \\ \delta(e;v,s_0) = 1}} 1
-%	- \sum_{\substack{e  \in T(s_0) \\ \delta(e;v,s_0) = 0}} 1 \right). \\
-	&\qquad = \sum_{T\in \trees} w(\overline{T}) \sum_{e \in T} \alpha_e ( 2 - \degout(T\setminus e,*)) \Big( \one(\delta(e; v, \pi_T(e)) = 1) - \one(\delta(e; v, \pi_T(e)) = 0) \Big).
-	\label{eq:45}
+	\sum_{u \in V} (2 - \deg(u)) &\left(\delta(e; v, \pi_T(u)) - \delta(e; v, u)\right) \\
+	&= \begin{cases}
+	0 &\text{if } e \not \in T, \\
+	2 - \outdeg(T \setminus e, *) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 1, \\
+	-(2 - \outdeg(T \setminus e, *)) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 0 .
+	\end{cases}
+\end{align}
+Therefore
+\begin{align}\label{eq:45}
+	(D[S] & \boldm)_v  - \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e 
+	= \sum_{T\in \trees(G;S)} \! w({T}) \times \\
+	& \sum_{e \in T} \alpha_e ( 2 - \outdeg(T\setminus e,*)) \Big( \one(\delta(e; v, \pi_T(e)) = 1) \! - \one(\delta(e; v, \pi_T(e)) = 0) \Big).
 \end{align}
 
 We now rewrite the above expression in terms of $\forests_2(G;S)$.
 For the rest of the argument, let
 \[
-	(\star) = (D[S] \boldm)_v - \sum_{T \in \trees} w(\overline{T}) \sum_{e \in E} \alpha_e.
+	(\star) = (D[S] \boldm)_v - \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e.
 \]
-Observe in \eqref{eq:45} that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, 
-% since $e \in T$, 
-and that the corresponding weights satisfy
+Observe in \eqref{eq:45} that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, and that the corresponding weights satisfy
 \[
-	w(\overline{F}) = \alpha_e \cdot w(\overline{T}) \qquad\text{if}\qquad F = T \setminus e.
+	w({F}) = \alpha_e \cdot w({T}) \qquad\text{if}\qquad F = T \setminus e.
 \]
 Note that $F = T \setminus e$ is equivalent to $T = F \cup e$, and in particular this only occurs when we choose the edge $e$ to be in the floating boundary $\partial F(*)$.
 
 Thus
 \begin{align*}
 	(\star) 
-	% &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*)) \sum_{T\in \trees} \sum_{s_0 \in S} \left( \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 1}} \one(F = T \setminus e) -  \sum_{\substack{e \in T(s_0) \\ \delta(e; v,s_0) = 0}} \one(F = T \setminus e) \right) \\
-	&= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F, *)) \sum_{e \in \partial F} \Big( \one(\delta(e; v, \pi_{(F \cup e)}(e)) = 1) - \one(\delta(e; v, \pi_{(F \cup e)}(e)) = 0) \Big) \\
-	&= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*)) \Bigg( \#\{e \in \partial F : \delta(e; v, \pi_T(e)) = 1 \text{ for } T = F \cup e \} \\
-	&\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad - \#\{e \in \partial F : \delta(e; v, \pi_T(e)) = 0 \text{ for } T = F \cup e\} \Bigg). \\
+	&= \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F, *)) \times \\
+	& \qquad \qquad \qquad \qquad   \sum_{e \in \partial F} \Big( \one(\delta(e; v, \pi_{(F \cup e)}(e)) = 1) - \one(\delta(e; v, \pi_{(F \cup e)}(e)) = 0) \Big) \\
+	&= \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F,*)) \Bigg( \#\{e \in \partial F \colon \delta(e; v, \pi_T(e)) = 1 \text{ for } T = F \cup e \} \\
+	&\qquad\qquad\qquad\qquad\qquad\qquad - \#\{e \in \partial F \colon \delta(e; v, \pi_T(e)) = 0 \text{ for } T = F \cup e\} \Bigg). \\
 \end{align*}
-%\begin{multline}
-%	\eqref{eq:1} = \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \sum_{e \in \partial F(*)} \Bigg( \sum_{\substack{s_0 \in S \\ \delta(e; v, s_0) = 0}} \; \sum_{\substack{T \in \trees \\ e \in T(s_0)}} \one(T = F \cup e) \\
-%	- \sum_{\substack{s_0 \in S \\ \delta(e; v, s_0) = 1}} \; \sum_{\substack{T \in \trees \\ e \in T(s_0)}} \one(T = F \cup e) \Bigg).
-%\end{multline}
 Now for any $e \not\in F$, let $\delta(e; v, F(*)) = \delta(e; v, x)$ for any $x \in F(*)$, i.e.
 \[
 	\delta(e; v, F(*)) = \begin{cases}
@@ -2347,31 +1600,26 @@ Now for any $e \not\in F$, let $\delta(e; v, F(*)) = \delta(e; v, x)$ for any $x
 	0 &\text{otherwise}.
 	\end{cases}
 \]
-The condition that
-% $F = T \setminus e$ for some $e \in T(s_0)$ with $\delta(e; v, s_0) = 1$ (resp. $\delta(e; v, s_0) = 0$) 
-$\delta(e; v, \pi_{(F \cup e)}(e)) = 1$ (respectively $\delta(e; v, \pi_{(F \cup e)}(e)) = 0$)
-is equivalent to 
-% $T = F \cup e$ for some $e \in \partial F(*)$ with 
-${\delta(e; v, F(*)) = 0}$ (respectively ${\delta(e; v, F(*)) = 1}$).
+The condition that $\delta(e; v, \pi_{(F \cup e)}(e)) = 1$ (respectively, $\delta(e; v, \pi_{(F \cup e)}(e)) = 0$)
+is equivalent to ${\delta(e; v, F(*)) = 0}$ (respectively, ${\delta(e; v, F(*)) = 1}$).
 For an illustration, compare Figures~\ref{fig:delta-floating} and \ref{fig:delta-edge-projection}.
-Thus
+Therefore
 \begin{multline}
-	(\star) = \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Bigg( \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 0 \}  \\
-	- \#\{e \in \partial F(*) : \delta(e; v, F(*)) = 1 \}  \Bigg).
+	(\star) = \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F,*))  \Bigg( \#\{e \in \partial F(*) \colon \delta(e; v, F(*)) = 0 \}  \\
+	- \#\{e \in \partial F(*) \colon \delta(e; v, F(*)) = 1 \}  \Bigg).
 \end{multline}
 Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
 there is exactly one edge $e$ in the boundary $\partial F(*)$ of the floating component which satisfies $\delta(e; v, F(*)) = 1$, namely the unique boundary edge on the path from the floating component $F(*)$ to $v$.
 Hence
 \begin{align*}
-	&\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 1 \} = 1,
+	&\#\{e \in \partial F(*) \colon \delta(e;v, F(*)) = 1 \} = 1,
 \qquad\text{and}\qquad \\
-	&\#\{e \in \partial F(*) : \delta(e;v, F(*)) = 0 \} = \degout(F,*) - 1 .
+	&\#\{e \in \partial F(*) \colon \delta(e;v, F(*)) = 0 \} = \outdeg(F,*) - 1 .
 \end{align*}
-Thus the previous expression $(\star)$ simplifies as
+Thus, the previous expression $(\star)$ simplifies as
 \begin{align*}
-	(\star) &= \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))  \Big( (\degout(F,*) - 1)  - (1) \Big) \\
-	% &\qquad - \sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*)) (1) \\
-	&= - \!\sum_{F \in \forests_2} w(\overline{F}) (2 - \degout(F,*))^2 .
+	(\star) &= \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F,*))  \Big( (\outdeg(F,*) - 1)  - (1) \Big) \\
+	&= - \!\sum_{F \in \forests_2} w({F}) (2 - \outdeg(F,*))^2 .
 \end{align*}
 as desired.
 \end{proof}
@@ -2497,58 +1745,40 @@ as desired.
 \label{fig:delta-edge-projection}
 \end{figure}
  
-%\note{MOVE TO REMARK? If $e \in \conv(G,S)$, then $S(G\backslash e)^{\overline v}$ is nonempty and }
-%
-%\begin{rmk} \,\note{consider deleting}
-%The set $\forests_2(G;S)$ of $(S,*)$-rooted spanning forests of $G$ can be partitioned into two types: ``active'' and ``inactive''.
-%\[
-%	\forests_2(G;S) = \forests_2^{in}(G;S) \sqcup \forests_2^{out}(G;S),
-%\]
-%where
-%\[
-%	\forests_2^{in}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \degout(*,F) \geq 2\},
-%\]
-%$$
-%\forests_2^{out}(G;S)  = \{ F \in \forests_2(G;S) \text{ such that } \degout(*,F) = 1\}.
-%$$
-%\end{rmk}
 
-Finally we can prove our main theorem: for any nonempty subset $S \subset V(G)$,
-\begin{equation}
-\label{eq:w-main-later}
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} w(\overline{F}) (\degout(F,*) - 2)^2 \right).
-\end{equation}
+%Finally we can prove our main theorem: for any nonempty subset $S \subseteq V$,
+%\begin{equation}
+%\label{eq:w-main-later}
+%	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} \!\! w({T}) - \!\!\!\! \sum_{\forests_2(G;S)} \!\! w({F}) (\outdeg(F,*) - 2)^2 \right).
+%\end{equation}
 \begin{proof}[Proof of Theorem~\ref{thm:w-main}]
 First, suppose $|S| = 1$.
 Then $D[S]$ is the zero matrix, and we must show that the right-hand side is zero.
-Since $G$ is a tree, $\trees(G; \{v\})$ consists of the tree $G$ itself, with co-weight $w(\overline{G}) = 1$.
+Since $G$ is a tree, $\trees(G; \{v\})$ consists of the tree $G$ itself, with weight $w({G}) = 1$.
 Moreover, the subgraphs in $\forests_2(G; \{v\})$ are precisely the tree splits $G \setminus e$, and for each $F = G \setminus e$ we have 
-$w(\overline{F}) = \alpha_e$ and
-$\degout(F, *) - 2 = -1$.
-This shows that the right-hand size of \eqref{eq:w-main-later} is zero.
+$w({F}) = \alpha_e$ and
+$\outdeg(F, *) - 2 = -1$.
+This shows that the right-hand side of \eqref{eq:w-main} is zero.
 
 Next, suppose $|S| \geq 2$.
-Proposition~\ref{prop:distance-sub-nonsingular} states that $D[S]$ is nonsingular, so we may use the inverse matrix identity
+Lemma~\ref{lem:distance-sub-nonsingular} states that $D[S]$ is nonsingular, so we may use the inverse matrix identity
 \begin{equation}\label{eq:cof-invsere-sum}
 	\bone^\tr D[S]^{-1} \bone =
 	\frac{\cof D[S]}{\det D[S]}. 
 \end{equation}
 Let $\boldm = \boldm(G; S)$ denote the vector \eqref{eq:m-vector}.
 By 
-Proposition~\ref{prop:m-sum} (a) and
-% Bapat--Sivasubramanian~\cite[Theorem X]{bapat-sivasubramanian},
-Theorem~\ref{thm:distance-sub-cof},
+Proposition~\ref{prop:m-sum} (a) and Theorem~\ref{thm:distance-sub-cof},
 \[
 	\bone^\tr \boldm 
-	= 2 \sum_{T \in \trees(G;S)} w(\overline{T})
+	= 2 \sum_{T \in \trees(G;S)} w({T})
 	= \frac{\cof D[S]}{(-1)^{1 - |S|} 2^{2 - |S|} }.
 \]
 Theorem~\ref{thm:m-distance-product} states that $D[S] \boldm = \lambda \bone$
 for some constant $\lambda$,
-which is nonzero since $D[S]$ is invertible and $\boldm$ is nonzero, c.f. Proposition~\ref{prop:m-sum} (b).
+which is nonzero since $D[S]$ is invertible (see Lemma~\ref{lem:distance-sub-nonsingular}) and $\boldm$ is nonzero (see Proposition~\ref{prop:m-sum} (b)).
 Hence
 \begin{equation}\label{eq:inverse-sum-entries}
-	% \frac{\cof D[S]}{\det D[S]} = 
 	\bone^\tr D[S]^{-1} \bone
 	= \lambda^{-1} \bone^\tr \boldm
 	= \frac{\cof D[S]}{(-1)^{|S| - 1} 2^{|S| - 1} \lambda} .
@@ -2558,21 +1788,20 @@ $\det D[S] = (-1)^{|S| - 1} 2^{|S| - 1} \lambda$.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:main}]
-Set all weights $\alpha_e$ to $1$ in Theorem~\ref{thm:w-main}.
-In this case, the weights $w(\overline{T}) = 1$ and $w(\overline{F}) = 2$ for all forests $T$ and $F$,
+Set all lengths $\alpha_e$ to $1$ in Theorem~\ref{thm:w-main}.
+In this case, the weights $w({T}) = 1$ and $w({F}) = 2$ for all forests $T$ and $F$,
 and 
 \[
 	\sum_{e \in E} \alpha_e = n - 1, 
-	\qquad \sum_{T \in \trees(G;S)} w(\overline{T}) = \kappa_1(G; S).
-	%\qquad \kappa_2(G; S) = | \forests_2(G; S)| .
+	\qquad \sum_{T \in \trees(G;S)} w({T}) = \kappa(G; S).
 	\qedhere
 \]
 \end{proof}
 
-\begin{rmk}
-It is worth observing that depending on the chosen subset $S \subset V$, the distances appearing in the submatrix $D[S]$ may ignore a large part of the ambient tree $G$.
+\begin{rmk}\farbod{perhaps drop this remark, or change and move it to introduction?}
+It is worth observing that depending on the chosen subset $S \subseteq V$, the distances appearing in the submatrix $D[S]$ may ignore a large part of the ambient tree $G$.
 We could instead replace $G$ by the subtree  $\conv(S,G)$ consisting of the union of all paths between vertices in $S$,
-which we call the {\em convex hull} of $S \subset G$.
+which we call the {\em convex hull} of $S$.
 To apply formula \eqref{eq:main} or \eqref{eq:w-main} ``efficiently,''
 we should replace $G$ on the right-hand side with the subtree $\conv(S,G)$.
 However, the formulas as stated are true even without this replacement due to cancellation of terms.
@@ -2581,7 +1810,7 @@ However, the formulas as stated are true even without this replacement due to ca
 
 
 \section{Examples}
-
+\label{sec:examples}
 \begin{eg}
 Suppose $G$ is a tree consisting of three edges joined at a central vertex.
 \[
@@ -2616,25 +1845,12 @@ The corresponding distance matrix is
 	b & a + b & 0 & b + c \\
 	c & a + c & b + c & 0
 	\end{pmatrix},
-%	\sim \begin{pmatrix}
-%	0 & a & b & c \\
-%	a & -a & a  & a \\
-%	b & b & -b & b \\
-%	c & c & c & -c
-%	\end{pmatrix}
-%	\sim \begin{pmatrix}
-%	0 & a & b & c \\
-%	a & -2a & 0 & 0 \\
-%	b & 0 & -2b & 0 \\
-%	c & 0 & 0 & -2c
-%	\end{pmatrix}.
 \]
 which has determinant
 $
 	\det D[S] = -4(a+b+c)abc.
 $
 
-% Suppose $\Gamma$ is a tripod with lengths $a,b,c$ and corresponding leaf vertices $u,v,w$.
 Next, suppose $S$ consists of the leaf vertices $ \{u,v,w\}$.
 Then 
 \[
@@ -2645,22 +1861,21 @@ Then
 	\end{pmatrix}
 \]
 which has determinant
-$
-	\det D[S] = 2(a+b)(a+c)(b+c) 
-	= 2\Big( (a+b+c)(ab + ac + bc) - abc \Big).
-$
+\[\det D[S] = 2(a+b)(a+c)(b+c) 
+	= 2\left( (a+b+c)(ab + ac + bc) - abc \right).
+\]
 The ``special vector'' that satisfies $D[S] \boldm = \lambda \mathbf{1}$ in this example is 
-$\displaystyle
+\[
 	\boldm = \begin{pmatrix} 
-	ab + ac \\ 
-	ab + bc \\
+	ab + ac & 
+	ab + bc &
 	ac + bc 
-	\end{pmatrix}.
-$
+	\end{pmatrix}^\tr.
+\]
 \end{eg}
 
 \begin{eg}
-Suppose $G$ is the tree with unit edge weights shown below, with five leaf vertices.
+Suppose $G$ is the tree with unit edge lengths shown below, with five leaf vertices.
 \[
 \begin{tikzpicture}[scale=0.8]
 	\coordinate (1) at (-2,0.7);
@@ -3057,12 +2272,12 @@ The determinant of the distance submatrix is
 	= (-1)^4 2^3 \left( 6 \cdot 11 - (3 \cdot 1^2 + 2 \cdot 2^2 + 1 \cdot 3^2) \right),
 \]
 and the special vector is $\boldm = \begin{pmatrix}
-5 \\ 5 \\ 4 \\ 4 \\ 4
-\end{pmatrix}.$
+5 & 5 & 4 & 4 & 4
+\end{pmatrix}^\tr.$
 \end{eg}
 
 \begin{eg}
-Suppose $G$ is the tree with edge weights shown in Figure~\ref{fig:tree-4}, with four leaf vertices and two internal vertices.
+Suppose $G$ is the tree with edge lengths shown in Figure~\ref{fig:tree-4}, with four leaf vertices and two internal vertices.
 Let $S$ denote the set of four leaf vertices.
 Then
 \[
@@ -3106,270 +2321,25 @@ $
 	\node[right=2pt] at (3) {$3$};
 	\node[right=2pt] at (4) {$4$};
 \end{tikzpicture}
-\caption{Tree with four leaves, and varying edge weights.}
+\caption{Tree with four leaves, and varying edge lengths.}
 \label{fig:tree-4}
 \end{figure}
 
 The determinant of the distance submatrix is
-\[
-	\begin{gathered}
-	\det D[S] 
-	= (-1)^3 2^2 \Big( (a + b + c + d + e) \cdot (abd + abe + acd + ace + ade + bcd + bce + bde) \\
-	- (1^2(abcd + abce + acde + bcde) + 2^2 (abde)) \Big).
-	\end{gathered}
-\]
+\begin{align}
+	& \det D[S] \\
+	&= (-1)^3 2^2 \Big( (a + b + c + d + e) (abd + abe + acd + ace + ade + bcd + bce + bde) \\
+	&- (1^2(abcd + abce + acde + bcde) + 2^2 (abde)) \Big).
+\end{align}
 \end{eg}
 
 
-\section*{Acknowledgements}
-The authors would like to thank Ravindra Bapat for helpful discussion,
-in particular for providing a proof of Proposition~\ref{prop:distance-sub-nonsingular}.
+
+
 
 
 \bibliography{tree-distance-ref} 
 \bibliographystyle{abbrv}
 
+\vspace{3mm}
 \end{document}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% END
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Physical interpretation}
-
-\subsection{Alternate proof}
-
-% Let $\mathbf{1}$ denote the all-ones vector.
-% When we choose a subset $S \subset V(G)$, we no longer have a single ``obvious'' replacement for $\boldm$ inside $\RR^S$.
-% Instead, we can take an average over $S$-rooted spanning forests.
-
-In the outline above, our first goal is to find a ``special'' vector $ \boldm\in \RR^S$ satisfying $D[S] \boldm = \lambda \mathbf{1}$.
-We can approach this first goal as follows: 
-consider $\RR^S$ inside the larger vector space $\RR^V = \RR^S \oplus \RR^{V\setminus S}$.
-% and let $\pi_S$ denote the projection from $\RR^V$ to $\RR^S$.
-We wish to find vectors $\mathbf{n}(i) \in \RR^{V}$ such that
-%$\pi_S( D \mathbf{n}(i)) = \lambda_i \mathbf{1}$.
-$D \mathbf{n}$ is constant on $S$.
-By finding sufficiently many such vectors $\mathbf{n}(i)$,
-we can hope to find a linear combination that lies inside $\RR^S \oplus \{0\}$;
-such a linear combination $\widetilde \boldm$ will also satisfy $D \widetilde \boldm$ is constant on $S$.
-% $D \mathbf{n} = (\lambda \mathbf{1}_S) \oplus (-)$.
-
-%\subsection{Warmup case: $S = V$}
-
-\begin{prop}
-\label{prop:m-distance-warmup}
-Let $\boldm \in \RR^V$ be the vector defined by $\boldm_v = 2 - \deg v$,
-%\[
-%	\boldm = \sum_{v \in V} (2 - \deg v) \bolddelta(v),
-%\]
-and let $D$ be the distance matrix of $G$.
-Then the entries of $D \boldm$
-are constant on $V(G)$.
-\end{prop}
-\begin{proof}
-It suffices to show that for each edge $e$, with endpoints $(e^+,e^-)$, we have
-$
-	(D \boldm)_{(e^+)} = (D \boldm)_{(e^-)} .
-$
-To compute $(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)}$, first observe that the distance function on $G$ satisfies
-\[
-	d(v,e^+) - d(v,e^-) = \begin{cases}
-	\alpha_e &\text{if $v$ is closer to $e^-$ than }e^+,\\
-	- \alpha_e &\text{if $v$ is closer to $e^+$ than }e^-.
-	\end{cases}
-\]
-Thus
-\begin{align}
-	(D \boldm)_{(e^+)} - (D \boldm)_{(e^-)} &= \sum_{v \in V} (d(v,e^+) - d(v,e^-)) (2 - \deg v) \\
-	&= \sum_{v\in (G\setminus e)^-}  \alpha_e (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} \alpha_e (2 - \deg v) \\
-	&= \alpha_e \left( \sum_{v\in (G\setminus e)^-}  (2 - \deg v)  - \sum_{v\in (G\setminus e)^+} (2 - \deg v)\right) 
-\label{eq:12-1}
-\end{align}
-For each sum in \eqref{eq:12-1}, we apply Lemma~\ref{lem:outdeg-sum} to obtain
-\begin{align}
-\sum_{v \in (G\setminus e)^-}  (2 - \deg v) &= (2 - \degout( (G\setminus e)^-) 
-= 1 ,
-\end{align}
-since each component of $(G \setminus e)$ has outdegree one.
-The same identity applies to the sum over $(G \setminus e)^+$, so $(D\boldm)_{(e^+)} = (D\boldm)_{(e^-)}$ as desired.
-\end{proof}
-
-\begin{prop}
-\label{prop:n-vector}
-Fix $v \in V \setminus S$.
-Consider the vector $\mathbf{n} = \mathbf{n}(G;S,v) \in \RR^V$ defined by
-\[
-	\mathbf{n} = \sum_{T \in \trees(G; S)} 
-	\Big( \bolddelta(v) - \bolddelta(\pi_T(v)) \Big) .
-\]
-Then $D\mathbf{n}$ is constant on $S$, i.e. $\pi_S( D \mathbf{n}) = \lambda \mathbf{1}$ for some $\lambda$.
-\end{prop}
-\begin{rmk}
-For each $s \in S$, let $\mu(v,s)$ denote the current flowing to $s$ when $G$ is grounded at $S$ and one unit of current enters $G$ at $v$.
-Then
-\[
-	\mu(v, s) = \frac{1}{\kappa(G; S)} \mathbf{n}(v)_{s} .
-\]
-\end{rmk}
-Explicitly, if $s = s_j$, then
-\begin{align}
-	\mu(v, s_j) 
-	= \frac{\sum_{\trees(G; S)} \mathds{1}(\pi_T(v) = s_j)}{\kappa(G; S)}
-	&= \frac{\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)}{\kappa(G; S))} 
-\end{align}
-where
-$\kappa_{r}(s_1|\cdots|s_j v| \cdots|s_r)$ is the number of $S$-rooted spanning forests of $G$ whose $s_j$-component contains $v$.
-
-\begin{proof}[Proof sketch]
-For any $s, s' \in S$, consider tracking the value of $D \mathbf{n}$ along path from $s$ to $s'$. 
-The value of $D \mathbf{n}$ changes according to current flow in the corresponding network, i.e. $D \mathbf{n}$ records electrical potential.
-The set $S$ is grounded by assumption, so $D\mathbf{n}$ takes the same value at $s$ and $s'$.
-\end{proof}
-
-\begin{thm}
-Let $G$ be a tree, $S$ a nonempty subset of vertices,
-and $D[S]$ the submatrix of the distance matrix of $G$.
-Suppose $\boldm = \boldm(G;S) \in \RR^{S}$ is defined by \eqref{eq:m-vector};
-\begin{equation}
-	\boldm(G;S)_s = \sum_{T \in \trees(G;S)} w(\overline{T}) \sum_{u \in T(s)} (2 - \deg u) 
-	= \sum_{T \in \trees(G;S)} w(\overline{T}) (2 - \degout(T,s)) .
-\end{equation}
-Then $D[S] \boldm = \lambda \bone$
-for some constant $\lambda$.
-\end{thm}
-\begin{proof}
-The vector $\boldm = \boldm(G;S)$ can be expressed as a linear combination of $\delta$-vectors
-\[
-	\boldm(G; S) = \sum_{T \in \trees(G; S)} w(\overline{T}) \sum_{u \in V} (2 - \deg(u)) \bolddelta(\pi_T(u)).
-\]
-Therefore
-\begin{align}
-	\boldm (G;S)
-	&= \sum_{T \in \trees} \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
-	- \sum_{T \in \trees} \sum_{v \in V} (2 - \deg v) (\bolddelta(v) - \bolddelta(\pi_T(v)) \\
-	&= \kappa(G; S) \sum_{v \in V}(2 - \deg v) {\bolddelta}(v) 
-	- \sum_{v \in V \setminus S} (2 - \deg v) \mathbf{n}(G;S,v) \\
-	&= \kappa(G;S) \boldm(G;V) - \sum_{v\in V\setminus S} (2 - \deg v) \boldn(G;S,v).
-\end{align}
-\note{TODO: elaborate on this equation?}
-From Proposition~\ref{prop:m-distance-warmup} we know that $D \boldm(G;V)$ is constant on $V$,
-and from Proposition~\ref{prop:n-vector} we know that  for each $v \in V \setminus S$ the product $D \boldn(G;S,v)$ is constant on $S$.
-Hence by linearity, $D \boldm(G;S)$ is constant on $S$.
-\end{proof}
-
-\begin{eg}
-If 
-$$
-D[S \cup t] = \begin{pmatrix}
-0 & a & b & c \\
-a & 0 & a + b & a + c \\
-b & a + b & 0 & b + c \\
-c & a + c & b + c & 0
-\end{pmatrix}
-$$
-then
-$$
- \begin{pmatrix}
-0 & a & b & c \\
-a & 0 & a + b & a + c \\
-b & a + b & 0 & b + c \\
-c & a + c & b + c & 0
-\end{pmatrix}
-\begin{pmatrix}
-ab + ac + bc \\ -bc \\ -ac \\ -ab 
-\end{pmatrix}
-= \begin{pmatrix}
--3abc \\ -abc \\ -abc \\ -abc
-\end{pmatrix}
-$$
-\end{eg}
-
-\section{Examples}
-\begin{eg}
-Suppose $G$ is a tree consisting of three edges joined at a central vertex.
-Let $S = V$.
-The full (weighted) distance matrix is
-\[
-	D[V] = \begin{pmatrix}
-	0 & a & b & c \\
-	a & 0 & a + b & a + c \\
-	b & a + b & 0 & b + c \\
-	c & a + c & b + c & 0
-	\end{pmatrix}.
-\]
-Following the steps outlined above:
-\begin{enumerate}[(i)]
-\item 
-The vector $\boldm = \begin{pmatrix} -1 \\ 1 \\ 1 \\ 1 \end{pmatrix}$ satisfies
-$
-D[S] \boldm = \lambda \mathbf{1}
-$
-where $\lambda = a + b + c$.
-
-\item 
-The sum of entries of $\boldm$ is $\mathbf{1}^\tr \boldm = 2$.
-% so $\boldu^* = \frac12 \boldm$.
-
-\item 
-We have 
-$\displaystyle
-	\lambda^* = \frac{\lambda}{\bone^\tr\boldm} = \frac{1}{2}(a + b + c) .
-$
-
-\item 
-The cofactor sum is
-$\cof D[S] = -8 abc$,
-so the determinant is
-\begin{align*}
-\det D[S] 
-= \lambda^* (\cof D[S])
-% = \frac{a + b + c}{2} (-8 abc)
-= -4(a + b + c) abc.
-\end{align*}
-\end{enumerate}
-\end{eg}
-
-\begin{eg}
-Suppose $G$ is a tree consisting of three paths joined at a central vertex.
-Let $S$ consist of the central vertex, and the three endpoints of the paths. 
-The corresponding submatrix of the distance matrix is
-\[
-	D[S] = \begin{pmatrix}
-	0 & a + b & a + c \\
-	a + b & 0 & b + c \\
-	a + c & b + c & 0
-	\end{pmatrix}.
-\]
-Following the steps outlined above:
-\begin{enumerate}[(i)]
-\item 
-The vector $\boldm = \begin{pmatrix} ab + ac \\ ab + bc \\ ac + bc \end{pmatrix}$ satisfies
-$
-D[S] \boldm = \lambda \mathbf{1}
-$
-where $\lambda = (a + b)(a + c)(b + c)$.
-
-\item 
-The sum of entries of $\boldm$ is $\mathbf{1}^\tr \boldm = 2(ab + ac + bc)$.
-% so $\boldu^* = \frac12 \boldm$.
-
-\item 
-We have 
-$\displaystyle
-	\lambda^* = \frac{\lambda}{\bone^\tr\boldm} = \frac{(a + b)(a + c)(b + c)}{2(ab + ac + bc)} .
-$
-
-\item 
-The cofactor sum  
-$\cof D[S]$ is $4(ab + ac + bc)$,
-so the determinant is
-\begin{align*}
-\det D[S] 
-= \lambda^* (\cof D[S])
-% = \frac{a + b + c}{2} (-8 abc)
-= 2(a + b)(a + c)(b + c).
-\end{align*}
-\end{enumerate}
-\end{eg}
-
