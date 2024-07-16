@@ -1,29 +1,33 @@
-%v1
-\documentclass{amsart}
+%\documentclass[12pt, draft]{amsart}
+\documentclass[12pt]{amsart}
+
 \usepackage{amssymb, amsmath, amsfonts, amsthm}
 \usepackage{graphics, enumerate, mathrsfs, mathtools,tikz-cd,soul,csquotes}
 \usepackage{bm,dsfont}
 \usetikzlibrary{positioning,arrows,scopes}
-\usepackage[
-	left=1.25in,
-			right=1.25in,
-			top=1.25in,
-			bottom=1.25in]{geometry}
-%\usepackage{fancyhdr}
-%\pagestyle{fancy}
+
+\usepackage[normalem]{ulem}
+\usepackage[left=3.5cm,top=3.5cm,right=3.5cm]{geometry}
+\setlength\marginparwidth{45pt}
+\setlength{\parskip}{.05em}
+\usepackage[shortlabels]{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
 
 \definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24}
 \usepackage[
 colorlinks, citecolor=cadmiumgreen,
-pagebackref,
+%pagebackref,
 pdfauthor={Harry Richman, Farbod Shokrieh, Chenxi Wu}, 
 pdfstartview ={FitV},
 ]{hyperref}
 \hypersetup{
-pdftitle={Minors of tree distance matrices},
+pdftitle={Principal minors of tree distance matrices},
 }
 
 \usepackage[
+alphabetic,
 %backrefs,
 msc-links,
 nobysame,
@@ -46,7 +50,9 @@ lite,
 \theoremstyle{definition}
 \newtheorem{prob}[thm]{Problem}
 \newtheorem{dfn}[thm]{Definition}
+\newtheorem*{dfn*}{Definition}
 \newtheorem{eg}[thm]{Example}
+\newtheorem*{eg*}{Example}
 \newtheorem{rmk}[thm]{Remark}
 \newtheorem{conj}[thm]{Conjecture}
 
@@ -62,44 +68,33 @@ lite,
 \newcommand{\cL}{\mathcal{L}}
 \newcommand{\cC}{\mathcal{C}}
 \newcommand{\cE}{\mathcal{E}}
-
-% indicator function
 \newcommand{\one}{\mathds{1}}
-% bold one
 \newcommand{\bone}{\mathbf{1}}
 \newcommand{\boldmu}{\bm{\mu}}
 \newcommand{\bolddelta}{\bm{\delta}}
 \newcommand{\boldm}{\mathbf{m}}
 \newcommand{\boldn}{\mathbf{n}}
 \newcommand{\boldu}{\mathbf{u}}
-% weighted distance matrix
-\newcommand{\Da}{{D^{(\alpha)}}}
-% weighted laplacian matrix
-\newcommand{\La}{L^{(\alpha)}}
+\newcommand{\Da}{{D}}
+\newcommand{\La}{L}
 
 % matrix transpose
 \newcommand{\tr}{\intercal}
-% sum of cofactors
 \DeclareMathOperator{\cof}{cof}
 % convex hull of vertex set
 \DeclareMathOperator{\conv}{conv}
 \DeclareMathOperator{\energy}{\cE}
 \DeclareMathOperator{\supp}{supp}
-%%%% capacity
 \DeclareMathOperator{\Capacity}{\textsc{cap}}
 \newcommand{\posCap}{c_{pos}}
 \DeclareMathOperator{\argmax}{argmax}
 \DeclareMathOperator{\argmin}{argmin}
 \DeclareMathOperator{\val}{val}
-%topological interior
 \DeclareMathOperator{\interior}{int}
-
 \DeclareMathOperator{\rspan}{row.span}
 \DeclareMathOperator{\Sym}{Sym}
-%\DeclareMathOperator{\ker}{ker}
 \DeclareMathOperator{\coker}{coker}
 \DeclareMathOperator{\PL}{PL}
-%%% use either \Delta or Div %%%
 \DeclareMathOperator{\zspan}{span}
 \DeclareMathOperator{\im}{im}
 \DeclareMathOperator{\Br}{Brk}
@@ -115,6 +110,7 @@ lite,
 \newcommand{\pderiv}[1]{\frac{\partial}{\partial{#1}}}
 \newcommand{\angles}[1]{\langle {#1} \rangle}
 \newcommand{\degout}{\deg^o}
+\DeclareMathOperator{\outdeg}{outdeg}
 \DeclareMathOperator{\indeg}{indeg}
 \newcommand{\coweight}[1]{w(\overline{#1})}
 \newcommand{\display}{\displaystyle}
@@ -123,17 +119,27 @@ lite,
 \newcommand{\note}[1]{{\color{red} \sf $\diamondsuit$  {#1} $\diamondsuit$ }}
 \newcommand{\todo}[1]{\note{#1}}
 \newcommand{\harry}[1]{{\color{red} \sf $\diamondsuit$  Harry: {#1} $\diamondsuit$ }}
+\newcommand\farbod[1]{\footnote{[\textcolor{orange}{(Farbod)} \textcolor{blue}{#1}]}}
+
 
 \begin{document}
-\title{Minors of tree distance matrices}
+\title{Principal minors of tree distance matrices}
 \author{Harry Richman}
+\email{\href{mailto:hrichman@uw.edu}{hrichman@uw.edu}}
 \author{Farbod Shokrieh}
+\email{\href{mailto:farbod@uw.edu}{farbod@uw.edu}}
 \author{Chenxi Wu}
-\date{v1, \today  \,(Preliminary draft, not for circulation).}
-%\thanks{This work was partially supported by ....}
+\email{\href{mailto:cwu367@math.wisc.edu}{cwu367@math.wisc.edu}}
+\date{\today}
 
-\subjclass[2020]{Primary 05C50; 
-Secondary 05C05, 05C12, 05C30, 31C15}
+\subjclass[2020]
+{
+\href{https://mathscinet.ams.org/msc/msc2020.html?t=05C50}{05C50},
+\href{https://mathscinet.ams.org/msc/msc2020.html?t=05C05}{05C05},
+\href{https://mathscinet.ams.org/msc/msc2020.html?t=05C12}{05C12},
+\href{https://mathscinet.ams.org/msc/msc2020.html?t=05C30}{05C30},
+\href{https://mathscinet.ams.org/msc/msc2020.html?t=31C15}{31C15}
+}
 
 % 05C50	Graphs and linear algebra (matrices, eigenvalues, etc.)
 % 05C05	Trees
@@ -145,7 +151,8 @@ Secondary 05C05, 05C12, 05C30, 31C15}
 We prove that the principal minors of the distance matrix of a tree satisfy a combinatorial expression 
 involving counts of rooted spanning forests of the underlying tree.
 This generalizes a result of Graham and Pollak.
-We also give such an expression for the case of edge-weighted trees.
+We also give such an expression for the case of trees with edge lengths.
+Our formulas can be expressed in terms of evaluations of Symanzik polynomials.
 \end{abstract}
 \maketitle
 
@@ -153,90 +160,70 @@ We also give such an expression for the case of edge-weighted trees.
 \tableofcontents
 
 \section{Introduction}
+\farbod{I say let's submit the paper to a journal around the same time as to arXiv...}
+\renewcommand*{\thethm}{\Alph{thm}}
 
 Suppose $G = (V,E)$ is a tree with $n$ vertices.
-Let $D$ denote the distance matrix of $G$.
-In~\cite{graham-pollak}, Graham and Pollak proved that
+Let $D$ denote the {\em distance matrix} of $G$, defined by setting the $(u,v)$-entry to the length of the unique path from $u$ to $v$.
+In~\cite{graham-pollak}, Graham and Pollak prove
 \begin{equation}\label{eq:full-det}
-\det D = (-1)^{n-1} 2^{n-2} (n-1). 
+	\det D = (-1)^{n-1} 2^{n-2} (n-1). 
 \end{equation}
 This identity is remarkable in that the result does not depend on the tree structure,
 beyond the number of vertices.
 The identity \eqref{eq:full-det} was motivated by a problem in data communication,
 and inspired much further research on distance matrices.
-%Self-contained proofs are also given in \cite{du-yeh,yan-yeh}.
 
 The main result of this paper is to generalize \eqref{eq:full-det} by replacing $\det D$ with any of its principal minors.
-For a subset $S \subset V(G)$, let $D[S]$ denote the submatrix consisting of the $S$-indexed rows and columns of $D$.
+For a subset $S \subseteq V$, let $D[S]$ denote the submatrix consisting of the $S$-indexed rows and columns of $D$.
 \begin{thm}
 \label{thm:main}
-Suppose $G$ is a tree with $n$ vertices, 
-and distance matrix $D$.
-Let $S \subset V(G)$ be a nonempty subset of vertices.
+Suppose $G$ is a tree with $n$ vertices whose distance matrix is $D$.
+Let $S \subseteq V$ be a nonempty subset of vertices.
 Then
 \begin{equation}\label{eq:main}
-\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( (n-1)\, \kappa(G;S)  - \sum_{\mathcal F_2(G;S)} \left(\degout(F,*) - 2\right)^2  \right),
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \Big( (n-1)\, \kappa(G;S)  - \!\!\! \sum_{F \in \forests_2(G;S)} \left(\outdeg(F,*) - 2\right)^2  \Big),
 \end{equation}
 where 
-%$G/S$ denotes the quotient graph that identifies together vertices in $S$,
 $\kappa(G;S)$ is the number of $S$-rooted spanning forests of $G$,
 $\forests_2(G;S)$ is the set of $(S,*)$-rooted spanning forests of $G$,
-%$k(F,*)$ is defined by
-%\begin{equation}
-%\label{eq:2-minus-deg}
-%k(F,*) 
-%%= \sum_{x \in V( F_{*})} {2 - \deg(x)} 
-%= 2 - \degout(F,*),
-%\end{equation}
 and
-$\degout(F,*)$ denotes the outdegree of the floating component of $F$.
-%the number of edges from the $*$-component of $F$ to a different component. 
+$\outdeg(F,*)$ denotes the outdegree of the floating component of $F$.
 \end{thm}
-For definitions of $(S,*)$-rooted spanning forests and other terminology, see Section~\ref{sec:graphs-matrices}.
-%Note that the quantity $\degout(F,*)$ 
-%satisfies the bounds
-%\[
-%1 \leq \degout(F,*) \leq |S|.
-%\]
-When $S = V$ is the full vertex set, the set of $V$-rooted spanning forests is a singleton, consisting of the subgraph with no edges, 
-so $\kappa(G; V) = 1$; and moreover the set $\forests_2(G; V)$ of $(V, *)$-rooted spanning forests is empty. 
-Thus \eqref{eq:main} recovers the Graham--Pollak identity \eqref{eq:full-det} when $S = V$.
+For definitions of rooted spanning forests as well as other terminology, see \S\ref{sec:graphs-matrices}.
+When $S = V$ is the full vertex set, the set of $V$-rooted spanning forests is a singleton (consisting of the subgraph with no edges) so $\kappa(G; V) = 1$. Moreover, the set $\forests_2(G; V)$ of $(V, *)$-rooted spanning forests is empty. 
+Thus Theorem~\ref{thm:main} recovers the Graham--Pollak identity \eqref{eq:full-det}.
 
-\subsection{Weighted trees}
-%Weighted version:
-If $\{\alpha_e : e\in E\}$ is a collection of positive edge weights,  the $\alpha$-distance matrix $\Da$ 
-%takes the distance along edge $e$ to be $\alpha_e$.
-%Namely, the $(v,w)$-entry of $\Da$ is 
-is defined by setting the $(u,v)$-entry to the sum of the weights $\alpha_e$ along the unique path from $u$ to $v$.
-The relation \eqref{eq:full-det}
-has an analogue for the weighted distance matrix, 
+\subsection{Trees with edge lengths}
+Assume the tree $G$ is endowed with a collection of positive real edge lengths $\alpha = \{\alpha_e \colon e\in E\}$. 
+The {\em distance matrix} (with respect to $\alpha$), which we will again denote by $\Da$, is defined by setting the $(u,v)$-entry to the sum of the edge lengths $\alpha_e$ along the unique path from $u$ to $v$.
+The relation \eqref{eq:full-det} has a generalization for the distance matrix for trees with edge lengths, proved by Bapat, Kirkland, and Neumann (\cite[Corollary 2.5]{bapat-kirkland-neumann}):
 \begin{equation}\label{eq:w-full-det}
-	\det \Da = (-1)^{n-1} 2^{n-2} \sum_{e \in E} \alpha_e \prod_{e \in E} \alpha_e ,
+	\det \Da = (-1)^{n-1} 2^{n-2} \Big(\sum_{e \in E} \alpha_e\Big) \Big( \prod_{e \in E} \alpha_e \Big).
 \end{equation}
-which was proved by Bapat--Kirkland--Neumann~\cite{bapat-kirkland-neumann}.
-The weighted identity \eqref{eq:w-full-det} reduces to \eqref{eq:full-det} when taking all unit weights, $\alpha_e = 1$.
-We prove the following weighted version of our main theorem.
+We, in fact, prove the following more general result. 
+For a subset $A \subseteq E$ let the {\em weight} of $A$ be $w(A) = \prod_{e \not\in A} \alpha_e$.
 \begin{thm}
 \label{thm:w-main}
-Suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$, and weighted distance matrix $D = \Da$. 
-For any nonempty subset $S \subset V$, we have
+Suppose $G = (V,E)$ is a finite tree with edge lengths $\{\alpha_e \colon e \in E\}$, and the corresponding distance matrix $\Da$. 
+For any nonempty subset $S \subseteq V$, we have
 \begin{equation}\label{eq:w-main}
-	\det \Da[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} w(\overline{T}) - \sum_{\forests_2(G;S)} w(\overline{F})\, (\degout(F,*) - 2)^2 \right),
+	\det \Da[S] = (-1)^{|S|-1} 2^{|S|-2} \Bigg( \sum_{e \in E}\alpha_e \!\!\!\! \sum_{T \in \trees(G;S)} \!\! w(T) - \!\!\!\!\sum_{F \in \forests_2(G;S)} \!\!w(F)\, (\outdeg(F,*) - 2)^2 \!\Bigg),
 \end{equation}
 where 
 $\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
 $\forests_2(G;S)$ is the set of $(S,*)$-rooted spanning forests of $G$,
-$w(\overline{T})$ and $w(\overline{F})$ denote the co-weights of the forests $T$ and $F$,
+$w(T)$ and $w(F)$ denote the weights of the forests $T$ and $F$,
 and 
-$\degout(F, *)$ is the outdegree of the floating component of $F$, as above.
+$\outdeg(F, *)$ is the outdegree of the floating component of $F$, as above.
 \end{thm}
-Theorem~\ref{thm:w-main} reduces to Theorem~\ref{thm:main} when taking all unit weights, $\alpha_e = 1$.
-We now demonstrate our main theorem on an example, in the unweighted case.
-\begin{eg}
-Suppose $G$ is the tree with unit edge weights shown in Figure~\ref{fig:tree-5}, with five leaf vertices and three internal vertices.
-Let $S$ denote the set of leaf vertices. 
+See \S\ref{sec:graphs-matrices} for the other terminology used here.
+
+\begin{eg*}
+Suppose $G$ is the tree with unit edge lengths shown in Figure~\ref{fig:tree-5}, with five leaf vertices and three internal vertices.
+Let $S=\{1,2,3,4,5\}$ be the set of leaf vertices. 
 The corresponding distance submatrix is
-$
+\[
 	D[S] = \begin{pmatrix}
 	0 & 2 & 3 & 4 & 4 \\
 	2 & 0 & 3 & 4 & 4 \\
@@ -244,8 +231,8 @@ $
 	4 & 4 & 3 & 0 & 2 \\
 	4 & 4 & 3 & 2 & 0
 	\end{pmatrix},
-$
-which has determinant $864$.
+\]
+whose determinant is $864$.
 
 \begin{figure}[h]
 \centering
@@ -279,93 +266,75 @@ which has determinant $864$.
 \end{figure}
 
 The tree $G$ has $7$ edges and $21$ $S$-rooted spanning forests.
-There are $19$ $(S, *)$-rooted spanning forests;
-of the floating components in these forests, $14$ have outdegree three, $4$ have outdegree four, and $1$ has outdegree five.
+There are $19$ $(S, *)$-rooted spanning forests. 
+Of the floating components in these forests, $14$ have outdegree three, $4$ have outdegree four, and $1$ has outdegree five.
 By Theorem~\ref{thm:main},
 \[
-	\det D[S] = 864
-	= (-1)^4\, 2^3 \Big( 7 \cdot 21 - (14 \cdot 1^2 + 4 \cdot 2^2 + 1 \cdot 3^2) \Big).
+	\det D[S] 
+	= (-1)^4\, 2^3 \left( 7 \cdot 21 - (14 \cdot 1^2 + 4 \cdot 2^2 + 1 \cdot 3^2) \right) = 864.
 \]
-\end{eg}
+\end{eg*}
 
-\subsection{Applications}
-Suppose we fix a tree distance matrix $D$.
-It is natural to ask, how do the expressions $\det D[S]$ vary as we vary the vertex subset $S$? 
-%Rather than address this directly, 
-%we have the following result, Theorem~\ref{thm:monotonic},
-To our knowledge there is no nice behavior among the determinants, but  as $S$ varies there is nice behavior of the ``normalized'' ratios 
-%$\displaystyle \frac{\det D[S]}{\cof D[S]}$ 
-$(\det D[S]) / (\cof D[S])$
-which we describe here.
+\subsection{Normalized principal minors}\label{sec:Normalized principal minors}
+One may ask how the expressions $\det D[S]$ vary, as we vary the vertex subset $S$.
+To our knowledge there is no nice behavior among the determinants but, as $S$ varies there is nice behavior of a ``normalized'' version which we describe here.
 
 Given a matrix $A$, let $\cof A$ denote the {\em sum of cofactors} of $A$, i.e. 
-\[
+\begin{equation}\label{eq:cof}
 	\cof A = \sum_{i = 1}^{|S|} \sum_{j = 1}^{|S|} (-1)^{i + j} \det A_{i,j} 
-\]
-where $A_{i,j}$ is the submatrix of $A$ that removes the $i$-th row and the $j$-th column.
-If $A$ is invertible, then $\cof A$ is 
-%related to 
-the sum of entries of the matrix inverse $A^{-1}$ multiplied by a factor of $\det A$, i.e. $\cof A = (\det A) (\bone^\tr A^{-1} \bone)$.
-In \cite{bapat-sivasubramanian}, Bapat and Sivasubramanian showed the following identity for 
-the sum of cofactors of a distance submatrix $D[S]$ of a tree,
-\begin{equation}\label{eq:cof-trees}
-	\cof D[S] = (-2)^{|S| - 1} \sum_{T \in \trees(G;S)} w(\overline{T}) .
 \end{equation}
-Using the Bapat--Sivasubramanian identity \eqref{eq:cof-trees}, an immediate corollary to Theorem~\ref{thm:w-main} is the following result:
-%\begin{thm}
-%suppose $G = (V,E)$ is a finite, weighted tree with edge weights $\{\alpha_e : e \in E\}$. Let $D = \Da$ denote the weighted distance matrix of $G$. 
-%For any nonempty subset $S \subset V$, we have
+where $A_{i,j}$ is the submatrix of $A$ that removes the $i$-th row and the $j$-th column.
+If $A$ is invertible, then $\cof A$ is the sum of entries of the matrix inverse $A^{-1}$ multiplied by a factor of $\det A$, i.e. $\cof A = (\det A) (\bone^\tr A^{-1} \bone)$.
+
+In \cite{bapat-sivasubramanian}, Bapat and Sivasubramanian show the following identity for the sum of cofactors of a distance submatrix $D[S]$ of a tree with edge lengths $\{\alpha_e \colon e \in E\}$,
+\begin{equation}\label{eq:cof-trees}
+	\cof D[S] = (-2)^{|S| - 1} \!\!\!\sum_{T \in \trees(G;S)} w(T) , 
+\end{equation}
+where $\trees(G;S)$ denotes the set of $S$-rooted spanning forests of $G$ (see \S\ref{sec:graphs-matrices} and Theorem~\ref{thm:distance-sub-cof}).
+An immediate consequence of Theorem~\ref{thm:w-main}, together with \eqref{eq:cof-trees}, is the identity
 \begin{equation}
 \label{eq:det-cof}
-	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(\overline{F}) \,(\degout(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(\overline{T})} \right).
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(F) \,(\outdeg(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(T)} \right).
 \end{equation}
-%\end{thm}
-The expression \eqref{eq:det-cof} satisfies a monotonicity condition as we vary the vertex set $S \subset V(G)$.
+
+We will refer to ${\det D[S]}/{\cof D[S]}$ as the {\em normalized principal minor} corresponding to the subset $S$. 
+It turns out normalized principal minors satisfy a monotonicity condition.
 
 \begin{thm}[Monotonicity of normalized principal minors]
 \label{thm:monotonic}
-If $A,B \subset V(G)$
+If $A,B \subseteq V$
 are nonempty subsets with
-$A \subset B$,
+$A \subseteq B$,
 then
 \begin{equation*}
 	\frac{\det D[A]}{\cof D[A]}  \leq \frac{\det D[B]}{\cof D[B]}.
 \end{equation*}
 \end{thm}
-[mention Devrient's thesis, Property 3.38]
-The essential observation behind this result is that $\det D[S] / \cof D[S]$ is calculated via the following quadratic optimization problem: for all vectors $ \boldu \in \RR^S$,
+
+The essential observation behind this result is an intriguing connection to the theory of quadratic optimization; we will show the normalized principal minor $\det D[S] / \cof D[S]$ is calculated via the following optimization problem: for all vectors $ \boldu \in \RR^S$,
 \begin{align}
 	\text{maximize objective function:} &\quad \boldu^\tr D[S] \boldu \\
 	\text{with constraint:} &\quad \bone^\tr \boldu = 1.
 \end{align}
-%\begin{prop}
-%If $D[S]$ is a principal submatrix of distance matrix indexed by $S$, then 
-%\[
-%	\frac{\det D[S]}{\cof D[S]} = \max \{\boldu^\tr D[S] \boldu : \boldu \in \RR^S,\, \bone^\tr \boldu = 1 \}
-%\]
-%where $\cof D[S]$ denotes the sum of cofactors of $D[S]$.
-%\end{prop}
-This result can be shown using Lagrange multipliers,
+This result is obtained using the method of Lagrange multipliers,
 and relies of knowledge of the signature of $D[S]$.
-For details, see Section~\ref{sec:optimization}.
+See \S\ref{sec:optimization}.
 
-If $S \subset V(G)$ is nonempty,
-the expression \eqref{eq:det-cof} immediately implies the bound
-\begin{equation*}
-0 \leq \frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{E(G)} \alpha_e .
-\end{equation*}
-We get refined bounds by making use of the monotonicity property, Theorem~\ref{thm:monotonic}.
+Note, for a nonempty subset $S$, the expression in \eqref{eq:det-cof} implies the bound
+\begin{equation}
+	0 \leq \frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{e \in E(G)} \alpha_e .
+\end{equation}
+We get refined bounds by making use of the monotonicity property, Theorem~\ref{thm:monotonic}. Let $\conv(S,G)$ denote the convex hull of $S$, i.e. the subtree of $G$ consisting of all paths between points of $S$.
 
 \begin{thm}[Bounds on principal minor ratios]
 \label{thm:det-cof-bounds}
-Suppose $G = (V,E)$ is a finite, weighted tree with distance matrix $\Da$.
-\begin{enumerate}[(a)]
+Suppose $G = (V,E)$ is a finite tree with edge lengths $\{\alpha_e \colon e \in E\}$ and with distance matrix $\Da$.
+\begin{enumerate}[label=(\alph*)]
 \item 
-If $\conv(S,G)$ denotes the subtree of $G$ consisting of all paths between points of $S \subset V(G)$,
+For a nonempty subset $S \subseteq V$,
 \begin{equation*}
- \frac{\det \Da[S]}{\cof \Da[S]} \leq \frac12 \sum_{E(\conv(S, G))} \alpha_e .
+	\frac{\det \Da[S]}{\cof \Da[S]} \leq \frac12 \sum_{e \in E(\conv(S, G))} \alpha_e .
 \end{equation*}
-
 \item 
 If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
 \begin{equation*}
@@ -374,49 +343,77 @@ If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
 \end{enumerate}
 \end{thm}
 
-%\begin{cor}[Nonsingular minors]
-%Let $G$ be a finite tree
-%with (weighted) distance matrix $D$,
-%and let $S \subset V(G)$ be a subset of vertices.
-%If $|S|\geq 2$ then $\det D[S] \neq 0$.
-%\end{cor}
+ \farbod{mention Devriendt thesis, e.g. Property 3.38?}
 
-\subsection{Further questions} 
-
-It is natural to ask whether our results for trees may be generalized to arbitrary finite graphs.
-We address this in \cite{richman-shokrieh-wu}, which involves more technical machinery.
-
-% For other related work, see \cite{richman-shokrieh-wu-2}.
-
-A formula for the inverse matrix $D^{-1}$ was found by Graham and Lov\'{a}sz in \cite{graham-lovasz}.
-Namely,
+\subsection{Connection with Symanzik polynomials}\label{sec:Symanzik}
+Recall, given a graph $G = (V, E)$, the {\em first Symanzik polynomial} is the homogeneous polynomial in edge-indexed variables $\underline{x} = \{x_e \colon e \in E\}$ defined by
 \[
-	D^{-1} = - \frac12 L + \frac1{2(n - 1)} \boldm \,\boldm^\tr
+	\psi_G(\underline{x}) = \sum_{T \in \trees(G)} \prod_{e \not \in T} x_e ,
 \]
-where $L$ is the Laplacian matrix and $\boldm$ is the vector $\boldm_v = 2 - \deg v$.
-There is also a weighted version, see equation~\eqref{eq:w-distance-inverse}.
-Does there exist a nice expression for the inverse of the matrix $D[S]$, or for the weighted version?
+where $\trees(G)$ denotes the set of spanning trees of $G$.
 
-%\section{Further work}
+A ``momentum function'' $p\colon V \to \RR$ satisfies the constraint $\sum_{v \in V} p(v) = 0$. The {\em second Symanzik polynomial} is
+\[
+	\varphi_G(p; \underline{x}) = \sum_{F \in \forests_2(G)} \Big(\sum_{v \in F_1} p(v) \Big)^2 \prod_{e \not\in F} x_e ,
+\]
+where $\forests_2(G)$ is the set of two-component spanning forests of $G$ and $F_1$ denotes one of the components of $F = F_1 \cup F_2$.
+Note that it does not matter which component we label as $F_1$, since the momentum constraint implies that
+$\sum_{v \in F_1} p(v)  = - \sum_{v \in F_2} p(v)$.
 
-%\subsection{Notation}
-%
-%$G$ a finite graph, 
-%loops and parallel edges allowed,
-%possibly disconnected
-%
-%$E(G)$ edge set of $G$
-%
-%$V(G)$ vertex set of $G$
-%
-%$\kappa(G; S)$ number of $S$-rooted spanning forests of $G$
-%
-%$\kappa_2(G; S)$ number of $(S, *)$-rooted spanning forests of $G$
-%
-%$\trees(G;S)$ the set of $S$-rooted spanning forests of $G$
-%
-%$\forests_2(G;S)$ the set of $(S,*)$-rooted spanning forests of $G$
 
+We note that the expressions in Theorem~\ref{thm:w-main} and \eqref{eq:det-cof} are closely related to Symanzik polynomials.
+Let $\psi_{(G/S)}$ and $\varphi_{(G/S)}$ denote the first and second Symanzik polynomials of the quotient graph $G/S$.
+Let $p_{\rm can}$ be the momentum function defined by $p_{\rm can}(v) = \deg(v) - 2$ for $v \not \in S$ and $p_{\rm can}(v_S) = -\sum_{v \not\in S} p_{\rm can}(v)$, where $v_S$ denotes the vertex obtained by collapsing $S$ to a vertex.
+
+The identity in Theorem~\ref{thm:w-main} can be written as follows
+\begin{equation}
+\label{eq:det-symanzik}
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \Big(\sum_{e \in E}\alpha_e \Big)\, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p_{\rm can}; \underline{\alpha}) \right) .
+\end{equation}
+
+Furthermore, the equality in \eqref{eq:det-cof} can be written as
+\begin{equation}
+\label{eq:det-cof-symanzik}
+	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p_{\rm can}; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right) .
+      \end{equation}
+
+\subsection{Related work}
+Karel, Amini, Brown, Khare, -- maybe the new preprint, but be careful.
+\farbod{should we have a "related work" subsection? one awkward thing is to address the work after our work... but  we can have the following paragraph, and also give Devriendt a better treatment...}
+It is natural to ask how our results for trees may be generalized to arbitrary finite graphs. We address this in an upcoming paper \cite{richman-shokrieh-wu}, which involves more technical machinery.
+\farbod{Harry: did you want to say something about phylogenetic stuff?}
+
+The first Symanzik polynomial can be computed using Kirchhoff's celebrated matrix-tree theorem.
+The second Symanzik polynomial can similarly be calculated via determinant of the Generalized Laplacian matrix; see 
+\cite[Section 1.1]{amini} and \cite[Theorem 7.1]{brown}.
+\farbod{give reference to \href{https://ems.press/journals/aihpd/articles/16097}{Amini} \cite{amini} and \href{https://link.springer.com/article/10.1007/s00220-023-04879-3}{Brown} \cite{brown} for compuational aspects, using determinants, of (second) Symanzik. Also: I believe Chenxi at some point thought one of Brown's identities might be related to our work...}
+
+\subsection*{Structure of the paper}\farbod{complete at the end...}
+In \S\ref{sec:graphs-matrices}
+
+In \S\ref{sec:distance_prelim}
+
+In \S\ref{sec:optimization} 
+Theorem~\ref{thm:monotonic} and Theorem~\ref{thm:det-cof-bounds} are proved in 
+
+
+
+
+In \S\ref{sec:distance_proofs}
+
+In \S\ref{sec:examples}
+
+
+
+\subsection*{Acknowledgements}
+The authors would like to thank Ravindra Bapat for helpful correspondence,
+in particular related to the results in \S~\ref{sec:signature}. We also thank Matt Baker, Apoorva Khare, and Sebastian Prillo for helpful discussions.
+
+ HR {\color{red}acknowledges lab}.
+ FS was partially supported by NSF CAREER DMS-2044564 grant.
+ CW was partially supported by Simons Collaboration Grant 850685.
+
+\renewcommand*{\thethm}{\arabic{section}.\arabic{thm}}
 
 \section{Graphs and spanning forests}
 \label{sec:graphs-matrices}
