@@ -408,7 +408,6 @@ Choudhury and Khare~\cite{choudhury-khare} prove a generalization of the Graham-
 Namely, they consider precisely those minors $\det D[S]$ which can be expressed in terms of data assigned to edges (weights, edge counts, etc.), without any reference to what edges are incident to others.
 In contrast, Theorems~\ref{thm:main} and \ref{thm:w-main} make evident use of the tree structure, via the spanning forests in $\forests_1(G; S)$ and $\forests_2(G; S)$.
 
-
 % \farbod{should we have a "related work" subsection? one awkward thing is to address the work after our work... but  we can have the following paragraph, and also give Devriendt a better treatment...}
 It is natural to ask how our results for trees may be generalized to arbitrary finite graphs. We address this in an upcoming paper \cite{richman-shokrieh-wu}, which involves more technical machinery.
 Certain ideas in this paper overlap with those developed concurrently and independently in~\cites{devriendt-thesis}.
@@ -417,7 +416,9 @@ On a tree, effective resistance is the same as (path-)distance.
 If $D$ is the distance matrix of a tree, then any principal minor $D[S]$ is the effective resistance matrix of some (edge-weighted) graph on the vertex set $S$.
 The quantity $(\det D[S] / \cof D[S])$ is referred to as the {\em resistance radius} of $S$ (up to a factor of $2$),
 and the vector $\boldm$ used in \S\ref{sec:distance_proofs} is called the {\em resistance curvature} (up to scaling) in Devriendt's terminology.
-The idea to consider an $\boldm$-like vector as a ``curvature'' also appears in \cite{steinerberger}, which motivates the idea by proving graph-theoretic analogues of some curvature-related theorems in differential geometry. 
+The idea to consider an $\boldm$-like vector as a ``curvature'' also appears in \cite{steinerberger}, which motivates the terminology by proving graph-theoretic analogues of some curvature-related theorems in differential geometry. 
+The results in \S\ref{sec:distance_prelim} regarding the signature of the matrices $D[S]$ can be considered special discrete cases of the {\em Dirichlet pairing} defined by
+Baker and Rumely~\cite{baker-rumely}.
 
 % Kassel--Kenyon--Wu~\cite{kassel-kenyon-wu}
 
@@ -1031,9 +1032,10 @@ Similarly, if $F$ is a $(S,*)$-rooted spanning forest of $G$, we let $\outdeg(F,
 		\end{tikzpicture}
 	\end{minipage}
 	\caption{An $S$-rooted spanning forest (left) and an $(S, *)$-rooted spanning forest (right).
-	Each forest component is labelled with its oudegree.}
+	Each forest component is labelled with its outdegree.}
 	\label{fig:outdeg}
 \end{figure}
+\noindent
 	In consideration of the next lemma, we also show $G$ labelled with $2 - \deg(v)$ on each vertex, below.
 \[
 \begin{tikzpicture}[xscale=0.6,yscale=0.5]
@@ -1146,6 +1148,7 @@ there are exactly $(|V| - |S|)$-many choices of pairs $(e, F) \in E(G) \times \f
 %In this section we recall some results on the distance matrix of a tree.
 Let $G=(V, E)$ be a tree with edge lengths $\alpha = \{\alpha_e \colon e\in E\}$. The {distance matrix} (with respect to $\alpha$) is symmetric, so it defines a symmetric bilinear forms on the vector space $\RR^V$.
 
+
 \subsection{Signature and invertibility}\label{sec:signature}
 
 For a subset of vertices $S$ with $|S| \geq 2$, the submatrix $D[S]$ has nonzero determinant. 
@@ -1153,7 +1156,7 @@ We give a proof in here, based on finding the signature of $D[S]$ as a bilinear 
 
 We first recall a celebrated result of Cauchy.
 %, which states that the eigenvalues of $M[\overline{i}]$ ``interlace'' the eigenvalues of $M$.
-Let $M[\overline{i}]$ denotes the matrix obtained from $M$ by deleting the $i$-th row and column.
+Let $M[\overline{i}]$ denote the matrix obtained from $M$ by deleting the $i$-th row and column.
 
 \begin{prop}[Cauchy interlacing]
 \label{prop:cauchy-interlacing}
@@ -1451,36 +1454,39 @@ By Proposition~\ref{prop:full-det-cof-ratio} we have
 
 \section{Proof of Theorems~\ref{thm:main} and \ref{thm:w-main}}
 \label{sec:distance_proofs}
+
 In this section, we prove our main result, Theorem~\ref{thm:w-main}.
 Theorem~\ref{thm:main} is an immediate corollary.
+The arguments do not make use of \S\ref{sec:optimization}.
 
 \subsection{Outline of the proof}
 % \farbod{I was not happy with the subsection titles in this section, and my tweak hasn't helped...} 
 
-In \S\ref{sec:optimization}, we showed that $({\det D[S]}/{\cof D[S]})$ is the maximum value of the function $\boldu \mapsto \boldu^\tr D[S] \boldu$ on an affine hyperplane of $\RR^S$,
-and that the maximum is achieved when $D[S] \boldu^* = \lambda \bone$.
-Therefore, we can compute $\det D[S]$ via the following steps.
+We compute $\det D[S]$ via the following steps.
 
-\begin{enumerate}[label=(\roman*)]
+\begin{enumerate}[label=(\Roman*)]
 \item
-Find a vector $\boldm \in \RR^S$ such that $D[S]\boldm = \lambda \mathbf{1} \in \RR^S$.
+Find a vector $\boldm \in \RR^S$ such that $D[S]\boldm = \lambda \bone$.
+Find $\lambda$.
 
 \item 
-Compute the sum of entries of $\boldm$, i.e. $\mathbf{1}^\tr \boldm$, and normalize
-$\displaystyle
-	\boldu^* = \frac{\boldm}{\bone^\tr \boldm}.
-$
-This solves the optimization problem of \S\ref{sec:optimization}.
+Compute the sum of entries of $\boldm$, i.e. $\bone^\tr \boldm$.
 
 \item 
-Find the optimal objective value
-$\displaystyle
-	\lambda^* = \frac{\lambda}{\bone^\tr \boldm}.
-$
+Since $D[S]$ is nonsingular (Lemma~\ref{lem:dist-signature}), $\boldm = \lambda (D[S]^{-1} \bone)$ and
+\[
+	\bone^\tr \boldm = \lambda (\bone^\tr D[S]^{-1} \bone) = \lambda \frac{\cof D[S]}{\det D[S]}.
+\]
+Calculate $\displaystyle \frac{\det D[S]}{\cof D[S]} = \frac{\lambda}{\bone^\tr \boldm}$.
+
+% Find the optimal objective value
+% $\displaystyle
+% 	\lambda^* = \frac{\lambda}{\bone^\tr \boldm}.
+% $
 
 
 \item
-Use the expression for $\cof D[S]$ in Theorem~\ref{thm:distance-sub-cof} to compute $\det D[S] = \lambda^* (\cof D[S])$.
+Multiply previous expression by $\cof D[S]$, using expression in Theorem~\ref{thm:distance-sub-cof}, to compute $\det D[S]$.
 \end{enumerate}
 
 % \begin{eg}
@@ -1612,7 +1618,7 @@ The following computation is the technical heart of our main result.
 \begin{thm}
 \label{thm:m-distance-product}
 With $\boldm = \boldm(G;S)$ defined as in \eqref{eq:m-vector},
-$D[S] \boldm = \lambda \mathbf{1}$
+$D[S] \boldm = \lambda \bone$
 for the constant
 \begin{equation}
 \label{eq:lambda}
@@ -1657,14 +1663,14 @@ Thus
 	= \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,u) \right) 
 \end{equation}
 By subtracting equation \eqref{eq:10} from \eqref{eq:9}, we obtain
-\begin{multline}
+\begin{multline}\label{eq:subtract-delta-diff}
 	(D[S] \boldm)_v - \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \\
-	= \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \Big(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \Big).\\
+	= \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \sum_{u \in V} (2 - \deg(u)) \Big(\delta(e; v, \pi_T(u)) - \delta(e; v, u) \Big).
 \end{multline}
 For the rest of the argument, let
-\[
+$\displaystyle
 	(\star) = (D[S] \boldm)_v - \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e.
-\]
+$
 
 
 %When $e \in E$ and $v \in V$ are fixed, $u \mapsto \delta(e; v, u)$ is the indicator function of one component of the tree split $G \setminus e$.
@@ -1769,14 +1775,18 @@ Thus, when multiplying the term \eqref{eq:delta-diff} by $(2 - \deg(u))$ and sum
 	0 &\text{if } e \not \in T, \\
 	2 - \outdeg(T \setminus e, *) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 1, \\
 	-(2 - \outdeg(T \setminus e, *)) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 0 .
-	\end{cases}
+	\end{cases} \label{delta-diff-sum}
 \end{align}
-Therefore
+Therefore substituting \eqref{delta-diff-sum} into \eqref{eq:subtract-delta-diff} yields
 \begin{multline}\label{eq:45}
 	(\star)
 	= \sum_{T\in \trees(G;S)} \! w({T}) \sum_{e \in T} \alpha_e \times \\
-	( 2 - \outdeg(T\setminus e,*)) \Big( \one(\delta(e; v, \pi_T(e)) = 1) \! - \one(\delta(e; v, \pi_T(e)) = 0) \Big).
+	( 2 - \outdeg(T\setminus e,*)) \Big( \one(\delta(e; v, \pi_T(e)) = 1) \! - \one(\delta(e; v, \pi_T(e)) = 0) \Big),
 \end{multline}
+where we use the shorthand
+$\displaystyle
+	(\star) = (D[S] \boldm)_v - \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e.
+$
 
 We now rewrite the above expression in terms of $\forests_2(G;S)$.
 Observe in \eqref{eq:45} that the deletion $T \setminus e$ is an $(S,*)$-rooted spanning forest of $G$, and that the corresponding weights satisfy
@@ -1982,7 +1992,7 @@ Lemma~\ref{lem:distance-sub-nonsingular} states that $D[S]$ is nonsingular, so w
 	\bone^\tr D[S]^{-1} \bone =
 	\frac{\cof D[S]}{\det D[S]}. 
 \end{equation}
-Let $\boldm = \boldm(G; S)$ denote the vector \eqref{eq:m-vector}.
+Let $\boldm = \boldm(G; S)$ denote the equilibrium vector \eqref{eq:m-vector}.
 By 
 Proposition~\ref{prop:m-sum} (a) and Theorem~\ref{thm:distance-sub-cof},
 \[
@@ -2070,7 +2080,7 @@ which has determinant
 \[\det D[S] = 2(a+b)(a+c)(b+c) 
 	= 2\left( (a+b+c)(ab + ac + bc) - abc \right).
 \]
-The equilibrium vector (which satisfies $D[S] \boldm = \lambda \mathbf{1}$) in this example is 
+The equilibrium vector (which satisfies $D[S] \boldm = \lambda \bone$) in this example is 
 \[
 	\boldm = \begin{pmatrix} 
 	ab + ac & 
@@ -2629,7 +2639,7 @@ The determinant of $D[S]$ normalized by its sum of cofactors, is
 \begin{multline}
 	\frac{\det D[S]}{\cof D[S]} 
 	= \frac{1}{2} \Big( (a + b + c + d + e)  \\
-	 - \frac{(1^2(abcd + abce + acde + bcde) + 2^2 (abde))}{(abd + abe + acd + ace + ade + bcd + bce + bde)} \Big).
+	 - \frac{(abcd + abce + acde + bcde) + 4 (abde)}{(abd + abe + acd + ace + ade + bcd + bce + bde)} \Big).
 \end{multline}
 \end{eg}
 
