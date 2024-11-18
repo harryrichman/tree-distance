@@ -776,10 +776,6 @@ The {\em incidence matrix} of a graph $G = (V,E)$ (endowed with an arbitrary ori
 	B_{v, e} = \one(v = e^+) - \one(v = e^-).
 \]
 Here $\one(\cdot)$ denotes the indicator function.
-%Let $L \in \RR^{V \times V}$ denote the {\em Laplacian matrix} of $G$, which is defined by
-%$
-%	L = B B^\tr.
-%$
 
 Let $\{ \alpha_e \colon e \in E\}$ denote the edge lengths as before. 
 The Laplacian matrix is defined by
@@ -813,7 +809,6 @@ For a subset $A \subseteq E$ we define $w(A)$ as
 If $H$ is a subgraph of $G$, we use $H$ to also denote its subset of edges $E(H)$. So, in symbols, $w(H) = w\left(E(H)\right)$.
 
 Let 
-% $\kappa(G; S)$ denote the following sum over rooted spanning forests:
 \[
 	\kappa(G;S) = \sum_{T \in \trees(G; S)} w(T) .
 \]
@@ -824,11 +819,6 @@ If $G$ is a graph {\em without} edge lengths (so $\alpha_e=1$ for all $e \in E$)
 In this case, $\kappa(G;S)$ is also the number of spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex $v_S$.
 \end{rmk}
 
-%Let $\kappa(G;S)$ denote the number of $S$-rooted spanning forests of $G$, and let $\kappa_2(G; S)$ denote the number of $(S,*)$-rooted spanning forests.
-
-%Let $\kappa(G)$ denote the number of spanning trees of $G$, and let $\kappa_r(G)$ denote the number of $r$-component spanning forests.
-
-%Note that $\kappa(G;S)$ is also the number of spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex, i.e. $\kappa(G; S) =  \kappa(G/S)$.
 
 The {\em (principal minors) matrix-tree theorem} gives a determinantal formula for computing $\kappa(G;S)$, which we now explain. 
 Given $S \subseteq V$, let $L[\overline S]$ denote the matrix obtained from $L$ by removing the rows and columns indexed by $S$.
@@ -915,10 +905,7 @@ For a tree $G = (V,E)$ with edge lengths $\{\alpha_e \colon e \in E\}$, the corr
 \begin{proof}
 This follows from Remark~\ref{rmk:delta-properties} (iii).
 \end{proof}
-%For a tree without edge lengths, we can express the tree distance $d(v,w)$ as the (unweighted) sum
-%\begin{equation*}
-%	d(v,w) = \sum_{e \in E(G)} \delta(e; v,w).
-%\end{equation*}
+
 
 
 \subsection{Outdegree of forest components}
@@ -1172,16 +1159,10 @@ The the following extension of Lemma~\ref{lem:dist-signature} and its proof was 
 \begin{lem}
 \label{lem:distance-sub-nonsingular}
 Suppose $\Da$ is the distance matrix of a tree $G = (V,E)$ with edge lengths $\{\alpha_e \colon e \in E\}$. Let $S \subseteq V$ be a subset of size $|S| \geq 2$. 
-Then
-%\begin{enumerate}[label=(\alph*)]
-%\item 
-$\Da[S]$ has one positive eigenvalue and $|S| - 1$ negative eigenvalues;
-%\item 
+Then $\Da[S]$ has one positive eigenvalue and $|S| - 1$ negative eigenvalues.
 In particular, $\det \Da[S] \neq 0$.
-%\end{enumerate}
 \end{lem}
 \begin{proof}
-    %(a) 
 We apply decreasing induction on the size of $S$. 
 For $S = V$, we have Lemma~\ref{lem:dist-signature}.
 Now suppose $|S| = k$ where $2 \leq k < n$, and assume, by induction hypothesis, 
@@ -1191,7 +1172,6 @@ The inductive hypothesis states that $D[S^+]$ has $k$ negative eigenvalues and o
 so Cauchy interlacing (Proposition~\ref{prop:cauchy-interlacing}) from $D[S^+]$ implies that $D[S]$ has at least $k - 1$ negative eigenvalues. 
 Since all diagonal entries of $D[S]$ are zero, $D[S]$ has zero trace. 
 Thus the remaining eigenvalue of $D[S]$ must be positive.
-%(b) This follows from (a).
 \end{proof}
 
 \subsection{Negative definite hyperplane}
@@ -1236,8 +1216,6 @@ The result now follows from multiplying \eqref{eq:w-distance-inverse} by $\Da$ o
 Suppose $D$ is the distance matrix of a tree with edge lengths $\{\alpha_e \colon e \in E\}$.
 Let $S \subset V$ be a nonempty vertex subset.
 \begin{enumerate}[label=(\alph*)]
-% \item Let $H_0 \subset \RR^V$ be the hyperplane of vectors whose coordinates sum to zero.
-% The function $\boldu \mapsto \boldu^\tr D \boldu$  is concave on $H_0$.
 
 \item Let $H_{0, S} \subset \RR^S$ be the hyperplane of vectors whose coordinates sum to zero.
 Then the function $\boldu \mapsto \boldu^\tr D[S] \boldu$ is concave on $H_{0, S}$.
@@ -1464,71 +1442,11 @@ Since $D[S]$ is nonsingular (Lemma~\ref{lem:dist-signature}), $\boldm = \lambda 
 \]
 Calculate $\displaystyle \frac{\det D[S]}{\cof D[S]} = \frac{\lambda}{\bone^\tr \boldm}$.
 
-% Find the optimal objective value
-% $\displaystyle
-% 	\lambda^* = \frac{\lambda}{\bone^\tr \boldm}.
-% $
-
 
 \item
 Multiply previous expression by $\cof D[S]$, using expression in Theorem~\ref{thm:distance-sub-cof}, to compute $\det D[S]$.
 \end{enumerate}
 
-% \begin{eg}
-% Suppose $G$ is the tree with unit edge lengths shown below.
-% \[
-% \begin{tikzpicture}[scale=0.8]
-% 	\coordinate (1) at (0,0);
-% 	\coordinate (A) at (1,0);
-% 	\coordinate (B) at (2,0);
-% 	\coordinate (C) at (3,0);
-% 	\coordinate (D) at (4,0);
-% 	\coordinate (2) at (5,0);
-% 	\coordinate (3) at (2,1);
-	
-% 	\foreach \c in {1,2,3,A,B,C,D} {
-% 		\fill (\c) circle (2pt);
-% 	}
-% 	\foreach \c in {1,2,3} {
-% 		\draw (\c) circle (3pt);
-% 	}
-
-% 	\draw (1) -- (A);
-% 	\draw (A) -- (B);
-% 	\draw (B) -- (3);
-% 	\draw (B) -- (C);
-% 	\draw (C) -- (D);
-% 	\draw (D) -- (2);
-	
-% 	\foreach \c/\dir/\label in {1/left/v_2,2/right/v_3,3/right/v_1} {
-% 		\node[\dir=0.2] at (\c) {$\label$};
-% 	}
-% \end{tikzpicture}
-% \]
-% If $S$ is the set of leaf vertices, the distance submatrix is 
-% \[
-% D[S] = \begin{pmatrix}
-% 0 & 3 & 4 \\
-% 3 & 0 & 5 \\
-% 4 & 5 & 0
-% \end{pmatrix}.
-% \]
-% Following the steps outlined above:
-% \begin{enumerate}[label=(\roman*)]
-% \item
-% The vector $\boldm = \begin{pmatrix} 5 & 8 & 9 \end{pmatrix}^\tr$
-% satsifies $D[S] \boldm = \lambda \bone$ for $\lambda = 60$.
-
-% \item 
-% The sum of entries of $\boldm$ is $\bone^\tr \boldm = 22$.
-
-% \item 
-% We have $\displaystyle \lambda^* = {\lambda}/{\bone^\tr \boldm} = {30}/{11}$.
-
-% \item 
-% The cofactor sum is $\cof D[S] = 44$, so $\det[S] = \lambda^*(\cof D[S]) = 120$.
-% \end{enumerate}
-% \end{eg}
 
 It turns out that the entries of $\boldm$ are combinatorially meaningful (see \eqref{eq:m-vector}),
 which also gives combinatorial meaning to
@@ -1593,9 +1511,6 @@ All edge lengths are positive, so $w({T}) > 0$ for all $T$, and $\trees(G; S)$ i
 Therefore, part (a) implies that $\bone^\tr \boldm > 0$.
 \end{proof}
 
-%\begin{cor}
-%If $G$ is a graph with unit edge lengths $\alpha_e = 1$, then the vector $\boldm$ defined in \eqref{eq:m-vector} satisfies $\bone^\tr \boldm = 2\, \kappa(G;S)$.
-%\end{cor}
 
 The following computation is the technical heart of our main result.
 
@@ -1665,11 +1580,6 @@ Recall that
 \label{eq:delta-diff}
 	\delta(e; v, \pi_T(u)) - \delta(e; v, u) 
 	= \one(\pi_T(u) \in (G \setminus e)^{\overline v}) - \one( u \in (G \setminus e)^{\overline v}) ,
-	% = \begin{cases}
-	% 0 &\text{if } \delta(e; \pi_T(u), u) = 0 \\
-	% 1 &\text{if } \delta(e; \pi_T(u), u) = 1 \text{ and } \delta(e; v, \pi_T(u)) = 1 \\
-	% -1 &\text{if } \delta(e; \pi_T(u), u) = 1 \text{ and } \delta(e; v, \pi_T(u)) = 0 .
-	% \end{cases}
 \end{equation}
 c.f. Remark~\ref{rmk:delta-properties} (ii).
 Now consider varying $u$ over all vertices, when $e$, $T$, and $v$ are fixed.
@@ -2037,20 +1947,6 @@ Suppose $G$ is a tree consisting of three edges joined at a central vertex.
 	\node[right=3pt] at (w) {$w$};
 \end{tikzpicture}
 \]
-% First, suppose $S = V$.
-% The corresponding distance matrix is
-% \[
-% 	D[V] = \begin{pmatrix}
-% 	0 & a & b & c \\
-% 	a & 0 & a + b & a + c \\
-% 	b & a + b & 0 & b + c \\
-% 	c & a + c & b + c & 0
-% 	\end{pmatrix},
-% \]
-% which has determinant
-% $
-% 	\det D[S] = -4(a+b+c)abc.
-% $
 Suppose $S$ consists of the leaf vertices $ \{u,v,w\}$.
 Then 
 \[
