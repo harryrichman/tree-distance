@@ -350,11 +350,9 @@ If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
 The monotonicity result, Theorem~\ref{thm:monotonic}, was found independently by
 Devriendt~\cite{devriendt-thesis}*{Property 3.38},
 in the more general context of effective resistance matrices of graphs.
-% \farbod{mention Devriendt thesis, e.g. Property 3.38?}
 
 
 \begin{rmk*}
-	% \farbod{perhaps drop this remark, or change and move it to introduction?}
 	It is worth observing that the terms appearing in the submatrix $D[S]$ only depend on the lengths of edges which lie on some path between vertices in $S$.
 	Depending on the chosen subset $S \subseteq V$, these distances in $D[S]$ may ignore a large part of the ambient tree $G$.
 	However, the expression in Theorem~\ref{thm:w-main} involes all edge lengths.
@@ -408,7 +406,6 @@ Choudhury and Khare~\cite{choudhury-khare} prove a generalization of the Graham-
 Namely, they consider precisely those minors $\det D[S]$ which can be expressed in terms of data assigned to edges (weights, edge counts, etc.), without any reference to what edges are incident to others.
 In contrast, Theorems~\ref{thm:main} and \ref{thm:w-main} make evident use of the tree structure, via the spanning forests in $\forests_1(G; S)$ and $\forests_2(G; S)$.
 
-% \farbod{should we have a "related work" subsection? one awkward thing is to address the work after our work... but  we can have the following paragraph, and also give Devriendt a better treatment...}
 It is natural to ask how our results for trees may be generalized to arbitrary finite graphs. We address this in an upcoming paper \cite{richman-shokrieh-wu}, which involves more technical machinery.
 Certain ideas in this paper overlap with those developed concurrently and independently in~\cites{devriendt-thesis}.
 Some generalizations of our results, namely Theorem~\ref{thm:monotonic}, appear already in \cite{devriendt-thesis}*{Property 3.38}, which is concerned with effective resistances on graphs.
@@ -427,8 +424,7 @@ Amini's results apply for Symanzik polynomials on an arbitrary graph, in contras
 The first Symanzik polynomial can be computed using Kirchhoff's celebrated matrix-tree theorem.
 The second Symanzik polynomial can similarly be calculated via determinant of the generalized Laplacian matrix; see 
 \cite[Section 1.1]{amini} and \cite[Theorem 7.1]{brown}.
-% \farbod{give reference to \href{https://ems.press/journals/aihpd/articles/16097}{Amini} \cite{amini} and \href{https://link.springer.com/article/10.1007/s00220-023-04879-3}{Brown} \cite{brown} for compuational aspects, using determinants, of (second) Symanzik. 
-% Also: I believe Chenxi at some point thought one of Brown's identities might be related to our work...}
+
 
 In \cite{gutierrez-lillo}, Guti\'{e}rrez and Lillo observe that Theorem~\ref{thm:main} can be expressed as
 \begin{multline}
@@ -443,13 +439,11 @@ In phylogenetics, one aims to find the tree that best represents the evolutionar
 In this tree, leaf vertices represent modern-day species, while internal vertices represent ancestral species.
 There are standard methods for estimating pairwise distances between species along their evolutionary tree. 
 This means we can often predict the distance submatrix $D[S]$ of the target tree, in which $S$ is the set of leaf vertices, and we would like to use this information in reverse to decide what underlying tree best fits this distance data.
-% \farbod{Harry: did you want to say something about phylogenetic stuff?}
 Results such as Theorem~\ref{thm:monotonic} may lead to new tests for phylogenetic inference, or for evaluating tree instability~\cite{collienne-etal}.
 
 
 
 \subsection*{Structure of the paper}
-% \farbod{complete at the end...}
 
 In \S\ref{sec:graphs-matrices} we review terminology and notation concerning graphs, spanning forests, Laplacian matrices, and degree-related identities.
 In \S\ref{sec:distance_prelim} we recall some results on the spectral properties of the distance matrix and its principal submatrices.
@@ -508,7 +502,6 @@ Given $s \in S$ and a forest $F$, we let $F(s)$ denote the {\em $s$-component} o
 
 An {\em $(S,*)$-rooted spanning forest} of $G$ is a spanning forest which has $|S|+1$ components, where $|S|$ components each contain one vertex of $S$, and the additional component is disjoint from $S$.
 We call the component disjoint from $S$ the {\em floating component}, following terminology in \cite{kassel-kenyon-wu}.
-% \farbod{do we need ``following terminology in...''. kassel-kenyon-wu is used only for this sentence. if there is anything else about that paper that can be added, let's keep this and say more in the related work section}.
 For an $(S,*)$-rooted spanning forest $F$, we let $F(*)$ denote the floating component. We sometimes refer to the floating component as the $*$-component of $F$. Again, for $s \in S$, we let $F(s)$ denote the $s$-component of $F$.
 
 Let $\trees(G;S)$ denote the set of $S$-rooted spanning forests of $G$,
@@ -870,7 +863,6 @@ For any nonempty vertex set $S \subseteq V$,
 \end{thm}
 \begin{proof}
 See Tutte~\cite[Section VI.6, Equation (VI.6.7)]{tutte}.
-% or Chaiken~\cite{chaiken} or Bapat~\cite[Theorem 4.7]{bapat}\farbod{is it okay we only keep Tutte reference here?}.
 \end{proof}
 Note that the classical (Kirchhoff's) matrix-tree theorem is the special case, where $S$ is a singleton.
 
@@ -949,7 +941,6 @@ We define the {\em outdegree} of $H$ in $G$ as the number of edges in its edge b
 Note that the edge boundary and outdegree do not depend on the implicit orientation on $E$.
 
 We are especially interested in the following special cases. 
-% \farbod{$G$ is a tree now, right?}
 Let $G$ be a tree and $\emptyset \ne S \subseteq V$. 
 For an $S$-rooted spanning forest $F$ of $G$, and $s \in S$, we define the {\em outdegree} $\outdeg(F,s)$ as the number of edges which join $F(s)$ (the $s$-component of $F$) to a different component; i.e. outdegree of $F(s)$ in the tree $G$. 
 %\begin{equation}
@@ -959,7 +950,6 @@ For an $S$-rooted spanning forest $F$ of $G$, and $s \in S$, we define the {\em 
 %(Recall that $F(s)$ denotes the $s$-component of an $S$-rooted spanning forest $F$.)
 Similarly, if $F$ is a $(S,*)$-rooted spanning forest of $G$, we let $\outdeg(F,*)$ denote the outdegree of the floating component $F(*)$.
 % and $\partial F(*)$ denote its edge boundary.
-% \farbod{do we want an example here, perhaps continuing Example~\ref{eg:running}?}
 \begin{eg}\label{eg:outdegrees}
 	Consider the tree $G$ from Example~\ref{eg:running}, where $S$ is the set of three leaf vertices.
 	In Figure~\ref{fig:outdeg}, we show examples of rooted spanning forests of $G$, where each component is labelled by $\outdeg(F, s)$, for a leaf vertex $s$, or $\outdeg(F, *)$ for the floating component.
@@ -1218,9 +1208,7 @@ where $\boldm$ is the vector with components $\boldm_v = 2 - \deg v$.
 The special case of \eqref{eq:w-distance-inverse} for trees without edge lengths had appeared in an earlier work by Graham and Lov\'asz (\cite[Lemma 1]{graham-lovasz}).
 
 % \begin{rmk}
-% \farbod{do we want to keep this remark? Could it be that Devriendt has already answered this?}
 % % To our knowledge, a generalization of \eqref{eq:w-distance-inverse}, giving an expression for $D[S]^{-1}$ for a nonempty subset $S \subseteq V$, has not been obtained in the literature. This might be an interesting research problem.
-% In~\cite{devriendt-thesis} Karel Devrient
 % \end{rmk}
 
 \begin{prop}
@@ -1301,7 +1289,6 @@ the objective function $\boldu \mapsto \boldu^\tr D[S]\boldu$ is concave on the 
 To find the critical points using the method of Lagrange multipliers, we must compute the gradients of the objective function and the constraint.
 The gradient of the objective function (i.e. $\boldu^\tr D[S] \boldu$) is $2 D[S] \boldu$, 
 and the gradient of the constraint (i.e. $\bone^\tr \boldu$) is $\bone$.
-% \farbod{this could be clarified a bit}
 By the theory of Lagrange multipliers, the optimal solution $\boldu^*$ is a vector satisfying
 \[
 	D[S] \boldu^* = \lambda \bone \qquad\text{for some }\lambda \in \RR.
@@ -1329,7 +1316,6 @@ If we consider $G$ as a resistive electrical network, with each edge $e$ represe
 then the optimal vector $\boldu^*$
 has a physical interpretation as a current flow: 
 it records the currents in the network when external current enters the network in the amount $(\deg(v) - 2)/2$ for each $v \in V \backslash S$,
-% \farbod{is it okay backslash S}, 
 and exits from the nodes in $S$, and the network is grounded at all nodes in $S$.
 Indeed, we give an explicit combinatorial expression for $\boldu^*$, up to a normalizing constant, in \eqref{eq:m-vector}. It is a classical result in network theory that this gives the current flow as described; see, for example, Tutte~\cite[Section VI.6]{tutte}.
 \end{rmk}
@@ -1457,10 +1443,9 @@ By Proposition~\ref{prop:full-det-cof-ratio} we have
 
 In this section, we prove our main result, Theorem~\ref{thm:w-main}.
 Theorem~\ref{thm:main} is an immediate corollary.
-The arguments do not make use of \S\ref{sec:optimization}.
+The arguments do not make use of results in \S\ref{sec:optimization}.
 
 \subsection{Outline of the proof}
-% \farbod{I was not happy with the subsection titles in this section, and my tweak hasn't helped...} 
 
 We compute $\det D[S]$ via the following steps.
 
@@ -1490,7 +1475,6 @@ Multiply previous expression by $\cof D[S]$, using expression in Theorem~\ref{th
 \end{enumerate}
 
 % \begin{eg}
-% 	\farbod{should we keep this, drop it, or move it?}
 % Suppose $G$ is the tree with unit edge lengths shown below.
 % \[
 % \begin{tikzpicture}[scale=0.8]
