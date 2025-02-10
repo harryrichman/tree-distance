@@ -1291,12 +1291,18 @@ $
 \end{proof}
 
 \begin{rmk}
-If we consider $G$ as a resistive electrical network, with each edge $e$ representing a resistor of resistance $\alpha_e$,
-then the optimal vector $\boldu^*$
-has a physical interpretation as a current flow: 
-it records the currents in the network when external current enters the network in the amount $(\deg(v) - 2)/2$ for each $v \in V \backslash S$,
-and exits from the nodes in $S$, and the network is grounded at all nodes in $S$.
-Indeed, we give an explicit combinatorial expression for $\boldu^*$, up to a normalizing constant, in \eqref{eq:m-vector}. It is a classical result in network theory that this gives the current flow as described; see, for example, Tutte~\cite[Section VI.6]{tutte}.
+	If we consider $G$ as a resistive electrical network, with each edge $e$ representing a resistor of resistance $\alpha_e$,
+	then the optimal vector $\boldu^*$ has a physical interpretation as a current flow: 
+	it relates to the currents exiting from the nodes in $S$ when external current enters the network in the amount $(\deg(v) - 2)/2$ for each $v \in V \backslash S$, 
+	and the network is grounded at all nodes in $S$.
+	To be more precise, the entry of $\boldu^*$ at some $s \in S$ is equal to $(2 - \deg(s)) / 2$, minus the current described above.
+
+	Indeed, we give an explicit combinatorial expression for $\boldu^*$, up to a normalizing constant, in \eqref{eq:m-vector}. 
+	It is a classical result in network theory that this relates to the current flow as described; 
+	see, for example, Tutte~\cite[Section VI.6]{tutte}.
+
+	The vector in $\RR^V$ whose $v$-entry is $(2 - \deg(v))/2$ is called the {\em canonical measure} of the underlying tree by Chinburg--Rumely; see~\cite[Section 14]{baker-rumely}.
+	We may consider $\boldu^*$ as an analogue of the {canonical measure} for the vertex subset $S$.
 \end{rmk}
 
 We note the following restatement of Proposition~\ref{prop:optimization}, viewing $\RR^S$ as a subspace of $\RR^V$ 
