@@ -19,31 +19,32 @@
 
 \definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24}
 \usepackage[
-colorlinks, citecolor=cadmiumgreen,
-%pagebackref,
-pdfauthor={Harry Richman, Farbod Shokrieh, Chenxi Wu}, 
-pdfstartview ={FitV},
+	colorlinks, citecolor=cadmiumgreen,
+	%pagebackref,
+	pdfauthor={Harry Richman, Farbod Shokrieh, Chenxi Wu}, 
+	pdfstartview ={FitV},
 ]{hyperref}
 \hypersetup{
 pdftitle={Principal minors of tree distance matrices},
 }
 
 \usepackage[
-alphabetic,
-%backrefs,
-msc-links,
-nobysame,
-lite,
+	alphabetic,
+	%backrefs,
+	msc-links,
+	nobysame,
+	lite,
 ]{amsrefs} 
 
 % COMMENT OUT FOR FINAL VERSION
 %\usepackage{showkeys}
 
 % SHOW EQN LABELS ONLY IF REFERENCED
-\mathtoolsset{showonlyrefs}
+% \mathtoolsset{showonlyrefs}
 
 \newtheorem{thm}{Theorem}[section]
 \newtheorem*{thm*}{Theorem}
+\newtheorem{mainthm}{Theorem}
 \newtheorem{obs}[thm]{Observation}
 \newtheorem{prop}[thm]{Proposition}
 \newtheorem{lem}[thm]{Lemma}
@@ -78,6 +79,7 @@ lite,
 \newcommand{\boldm}{\mathbf{m}}
 \newcommand{\boldn}{\mathbf{n}}
 \newcommand{\boldu}{\mathbf{u}}
+\newcommand{\boldw}{\mathbf{w}}
 \newcommand{\Da}{{D}}
 \newcommand{\La}{L}
 % matrix transpose
@@ -125,7 +127,7 @@ lite,
 \begin{document}
 \title{Principal minors of tree distance matrices}
 \author{Harry Richman}
-\email{\href{mailto:hrichman@uw.edu}{hrichman@uw.edu}}
+\email{\href{mailto:hrichman@ncts.ntu.edu.tw}{hrichman@ncts.ntu.edu.tw}}
 \author{Farbod Shokrieh}
 \email{\href{mailto:farbod@uw.edu}{farbod@uw.edu}}
 \author{Chenxi Wu}
@@ -148,9 +150,9 @@ lite,
 % 31C15	Potentials and capacities on other spaces
 
 \begin{abstract}
-We prove that the principal minors of the distance matrix of a tree satisfy a combinatorial expression 
-involving counts of rooted spanning forests of the underlying tree.
-This generalizes a result of Graham and Pollak.
+We prove that the principal minors of the distance matrix of a tree satisfy a combinatorial expression involving counts of rooted spanning forests of the underlying tree.
+This generalizes a result of Graham and Pollak,
+and refines a result of Graham and Lov\'asz on the coefficients of the characteristic polynomial of the distance matrix.
 We also give such an expression for the case of trees with edge lengths.
 We use arguments motivated by potential theory on graphs.
 Our formulas can be expressed in terms of evaluations of Symanzik polynomials.
@@ -161,7 +163,7 @@ Our formulas can be expressed in terms of evaluations of Symanzik polynomials.
 \tableofcontents
 
 \section{Introduction}
-\renewcommand*{\thethm}{\Alph{thm}}
+\renewcommand*{\themainthm}{\Alph{mainthm}}
 
 Suppose $G = (V,E)$ is a tree with $n$ vertices.
 Let $D$ denote the {\em distance matrix} of $G$, defined by setting the $(u,v)$-entry to the length of the unique path from $u$ to $v$.
@@ -176,23 +178,25 @@ and inspired much further research on distance matrices.
 
 The main result of this paper is to generalize \eqref{eq:full-det} by replacing $\det D$ with any of its principal minors.
 For a subset $S \subseteq V$, let $D[S]$ denote the submatrix consisting of the $S$-indexed rows and columns of $D$.
-\begin{thm}
+\begin{mainthm}
 \label{thm:main}
-Suppose $G$ is a tree with $n$ vertices whose distance matrix is $D$.
-Let $S \subseteq V$ be a nonempty subset of vertices.
-Then
-\begin{equation}\label{eq:main}
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \Big( (n-1)\, \kappa(G;S)  - \!\!\! \sum_{F \in \forests_2(G;S)} \left(\outdeg(F,*) - 2\right)^2  \Big),
-\end{equation}
-where 
-$\kappa(G;S)$ is the number of $S$-rooted spanning forests of $G$,
-$\forests_2(G;S)$ is the set of $(S,*)$-rooted spanning forests of $G$,
-and
-$\outdeg(F,*)$ denotes the outdegree of the floating component of $F$.
-\end{thm}
+	Suppose $G$ is a tree with $n$ vertices whose distance matrix is $D$.
+	Let $S \subseteq V$ be a nonempty subset of vertices.
+	Then
+	\begin{equation}\label{eq:main}
+		\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \Big( (n-1)\, \kappa(G;S)  - \!\!\! \sum_{F \in \forests_2(G; S)} \left(\outdeg(F,*) - 2\right)^2  \Big),
+	\end{equation}
+	where 
+	$\kappa(G;S)$ is the number of $S$-rooted spanning forests of $G$,
+	$\forests_2(G;S)$ is the set of $(S,*)$-rooted spanning forests of $G$,
+	and
+	$\outdeg(F,*)$ denotes the outdegree of the floating component of $F$.
+\end{mainthm}
 For definitions of rooted spanning forests as well as other terminology, see \S\ref{sec:graphs-matrices}.
 When $S = V$ is the full vertex set, the set of $V$-rooted spanning forests is a singleton (consisting of the subgraph with no edges) so $\kappa(G; V) = 1$. Moreover, the set $\forests_2(G; V)$ of $(V, *)$-rooted spanning forests is empty. 
 Thus Theorem~\ref{thm:main} recovers the Graham--Pollak identity \eqref{eq:full-det}.
+
+% \todo{add mention of Graham-Lovasz result}
 
 \subsection{Trees with edge lengths}
 
@@ -206,87 +210,112 @@ We, in fact, prove the following more general result.
 For an edge subset $A \subseteq E$ 
 % let the {\em weight} of $A$ be $w(A) = \prod_{e \not\in A} \alpha_e$.
 let $w(A) = \prod_{e \not\in A} \alpha_e$.
-% \todo{decide on ``weight'' vs ``coweight'' terminology}
 (The quantity $w(A)$ is sometimes known as the ``weight'' of $A$, while other sources call it the ``coweight.'')
-\begin{thm}
-\label{thm:w-main}
-Suppose $G = (V,E)$ is a finite tree with edge lengths $\{\alpha_e \colon e \in E\}$, and corresponding distance matrix $\Da$. 
-For any nonempty subset $S \subseteq V$, we have
-\begin{equation}\label{eq:w-main}
-	\det \Da[S] = (-1)^{|S|-1} 2^{|S|-2} \Bigg( \sum_{e \in E}\alpha_e \!\!\!\! \sum_{T \in \trees(G;S)} \!\! w(T) - \!\!\!\!\sum_{F \in \forests_2(G;S)} \!\!w(F)\, (\outdeg(F,*) - 2)^2 \!\Bigg),
-\end{equation}
-where 
-$\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
-$\forests_2(G;S)$ is the set of $(S,*)$-rooted spanning forests of $G$,
-$w(T)$ and $w(F)$ denote the weights of the forests $T$ and $F$,
-and 
-$\outdeg(F, *)$ is the outdegree of the floating component of $F$, as above.
-\end{thm}
+\begin{mainthm}\label{thm:w-main}
+	Suppose $G = (V,E)$ is a finite tree with edge lengths $\{\alpha_e \colon e \in E\}$, and corresponding distance matrix $\Da$. 
+	For any nonempty subset $S \subseteq V$, we have
+	\begin{equation}\label{eq:w-main}
+		\det \Da[S] = (-1)^{|S|-1} 2^{|S|-2} \Bigg( \sum_{e \in E}\alpha_e \!\!\!\! \sum_{T \in \trees(G;S)} \!\! w(T) - \!\!\!\!\sum_{F \in \forests_2(G;S)} \!\!w(F)\, (\outdeg(F,*) - 2)^2 \!\Bigg),
+	\end{equation}
+	where 
+	$\trees(G;S)$ is the set of $S$-rooted spanning forests of $G$,
+	and other notation is as above in Theorem~\ref{thm:main}.
+%	$\forests_2(G;S)$ is the set of $(S,*)$-rooted spanning forests of $G$,
+%	and 
+%	$\outdeg(F, *)$ is the outdegree of the floating component of $F$, as above.
+\end{mainthm}
 See \S\ref{sec:graphs-matrices} for explanations of the other terminology used here.
+For examples of Theorem~\ref{thm:main} and \ref{thm:w-main} applied to specific trees, see \S\ref{sec:examples}.
 
-\begin{eg*}
-Suppose $G$ is the tree with unit edge lengths shown in Figure~\ref{fig:tree-5}, with five leaf vertices and three internal vertices.
-Let $S=\{1,2,3,4,5\}$ be the set of leaf vertices. 
-The corresponding distance submatrix is
+
+
+
+\subsection{Coefficients of the characteristic polynomial}
+
+In~\cite{graham-lovasz}, Graham and Lov\'asz study
+the characteristic polynomial 
+$
+    \det(D - \lambda I) = \sum_{i \geq 0} \delta_i\, \lambda^i
+$
+of the distance matrix of a tree.
+Note that $\delta_0 = \det D$.
+They generalize the determinant formula \eqref{eq:full-det} by finding a combinatorial formula for every coefficient $\delta_i = \delta_i(G)$ of the characteristic polynomial.
+Their expression for $\delta_i$ involves summing over all spanning forests of $G$ with $(i - 1)$, $i$, or $(i + 1)$-many edges.
+
+The simplest case of their theorem, beyond $\delta_0$, is~\cite[Equation (6), p. 63]{graham-lovasz}
+\begin{equation}\label{eq:delta-1-graham-lovasz}
+    \delta_1(G) = (-1)^{n - 1} 2^{n - 3} \left(4\cdot N_{2 P_1}(G) + 2\cdot N_{P_2}(G) + 4n - 8 \right)
+\end{equation}
+where $G$ is a tree on $n$ vertices, and $N_{2 P_1}(G)$ (resp. $N_{P_2}(G)$) denotes the number of subgraphs of $G$ isomorphic to two disjoint edges (resp. to a two-edge path).
+
+There is a well-known relationship between coefficients of the characteristic polynomial and principal minors, namely
+\begin{equation*}
+%\label{eq:sum-of-minors}
+    \delta_i = (-1)^i \sum_{\substack{|S| = n - i}} \det D[S].
+\end{equation*}
+By applying Theorem~\ref{thm:main} and summing over vertex subsets of fixed size,
+we obtain a new combinatorial expression for the coefficient $\delta_i$.
+
+\begin{mainthm}
+\label{thm:dist-poly-coeff}
+Let $G$ be a tree with unit edge lengths, 
+and let $\det(D - \lambda I) = \sum_{i} \delta_i \lambda^i$
+denote the characteristic polynomial of its distance matrix.
+Then % the coefficients satisfy
 \[
-	D[S] = \begin{pmatrix}
-	0 & 2 & 3 & 4 & 4 \\
-	2 & 0 & 3 & 4 & 4 \\
-	3 & 3 & 0 & 3 & 3 \\
-	4 & 4 & 3 & 0 & 2 \\
-	4 & 4 & 3 & 2 & 0
-	\end{pmatrix},
+	\delta_{n - k} = (-1)^{n - 1} 2^{k - 2} \left((n - 1) \sum_{\substack{F \in \mathcal F_{k}(G) }} \pi(F) - \sum_{\substack{F \in \mathcal F_{k + 1}(G) \\ F = C_1 \sqcup \cdots \sqcup C_{k + 1}}} \!\!\! \pi(F) \sum_{j = 1}^{k + 1}  \frac{(\outdeg(C_j) - 2)^2}{|V(C_j)|}\right),
 \]
-whose determinant is $864$.
+where 
+$\forests_k(G)$ denotes the set of $k$-component spanning forests of $G$,
+and $\pi(F) = \prod_{i = 1}^k |V(C_i)|$ 
+for a forest $F$ with components $C_1 \sqcup \cdots \sqcup C_k$.
+\end{mainthm}
+Compared to this expression for $\delta_{n - k}$,
+the main result of Graham--Lov\'asz~\cite[Equation (42), p. 81]{graham-lovasz}
+is longer since it involves sums over spanning forests in $G$ with $(k - 1)$ components, in addition to those with $k$ or $(k + 1)$ components.
+Their expression is also more complicated in each of the summands.
+Despite selling their result as a ``surprisingly simple'' coefficient expression, it requires three lines to fit on the page, which perhaps explains why the authors were hesitant to state the result earlier in their paper.
 
-\begin{figure}[h]
-\centering
-\begin{tikzpicture}[scale=0.6]
-	\coordinate (1) at (-2,0.7);
-	\coordinate (2) at (-2,-0.6);
-	\coordinate (3) at (0,-1);
-	\coordinate (4) at (2,-0.7);
-	\coordinate (5) at (2,0.7);
-	\coordinate (A) at (-1,0);
-	\coordinate (B) at (0,0);
-	\coordinate (C) at (1,0);
+%requiring three lines to fit on the page,
+%which perhaps explains why the authors were hesitant to state the result earlier in their paper despite selling their coefficient expression as ``surprisingly simple''.
 
-	\node[left=2pt] at (1) {$1$};
-	\node[left=2pt] at (2) {$2$};
-	\node[left=2pt] at (3) {$3$};
-	\node[right=2pt] at (4) {$4$};
-	\node[right=2pt] at (5) {$5$};
+It is not at all obvious that the Graham--Lov\'asz identity is equivalent to Theorem~\ref{thm:dist-poly-coeff}.
+Here, we elaborate on the case of $\delta_1$: % $k = n - 1$:
+each forest 
+%in $G$ with $n - 1$ components 
+in $\forests_{n - 1}(G)$ 
+contains exactly one edge of $G$, so $|\forests_{n - 1}(G)| = n - 1$ and each forest $F$ in $\forests_{n - 1}(G)$ has $\pi(F) = 2$.
+In $\forests_n(G)$ there is exactly one forest, with $\pi(F) = 1$, whose components are exactly the vertices of $G$.
+Thus
+\begin{equation}
+	\delta_1(G) = (-1)^{n - 1} 2^{n - 3} \left( 2(n - 1)^2 - \sum_{v \in V} (\deg(v) - 2)^2 \right).
+\end{equation}
+%if $S = V \setminus \{v\}$ contains $n - 1$ vertices, then
+%\[
+%    \kappa(G; S) = \deg(v), \qquad
+%    \kappa_2(G; S) = 1, \quad\text{and}\quad
+%    \degout(F, *) = \deg(v)
+%\]
+%for the unique forest $F \in \forests_2(G; S)$.
+%Summing over all vertex subsets with $|S| = n - 1$, we obtain
+%by \eqref{eq:sum-of-minors} and \eqref{eq:main} that
+%\begin{equation}
+%    \delta_1(G) = (-1)^{n - 1} 2^{n - 3} \left( (n - 1) \sum_{v \in V} \deg(v) - \sum_{v \in V} (\deg(v) - 2)^2 \right),
+%\end{equation}
+%which further simplifies to $
+%	\displaystyle \delta_1(G) = (-1)^{n - 1} 2^{n - 3} \left( 2(n - 1)^2 - \sum_{v \in V} (\deg(v) - 2)^2 \right)
+%$.
+Compare to \eqref{eq:delta-1-graham-lovasz}, which has a different combinatorial flavor.
+% The same phenomenon happens for higher $k$ as well.
 
-	\draw (B) -- (A) -- (1);
-	\draw (A) -- (2);
-	\draw (3) -- (B) -- (C) -- (4);
-	\draw (C) -- (5);
-	
-	\foreach \c in {1,2,3,4,5,A,B,C} {
-		\fill[black] (\c) circle (3pt);
-	}
-\end{tikzpicture}
-\caption{Tree with five leaves.}
-\label{fig:tree-5}
-\end{figure}
-
-The tree $G$ has $7$ edges and $21$ $S$-rooted spanning forests.
-There are $19$ $(S, *)$-rooted spanning forests. 
-Of the floating components in these forests, $14$ have outdegree three, $4$ have outdegree four, and $1$ has outdegree five.
-By Theorem~\ref{thm:main},
-\[
-	\det D[S] 
-	= (-1)^4\, 2^3 \left( 7 \cdot 21 - (14 \cdot 1^2 + 4 \cdot 2^2 + 1 \cdot 3^2) \right) = 864.
-\]
-\end{eg*}
 
 \subsection{Normalized principal minors}\label{sec:Normalized principal minors}
 One may ask how the expressions $\det D[S]$ vary, as we fix a tree distance matrix and vary the vertex subset $S$.
-To our knowledge there is no nice behavior among these determinants but, as $S$ varies there is nice behavior of a ``normalized'' version which we describe here.
+To our knowledge there is no nice behavior among these determinants but, as $S$ varies, there is nice behavior of a ``normalized'' version which we describe here.
 
 Given a matrix $A$, let $\cof A$ denote the {\em sum of cofactors} of $A$, i.e. 
 \begin{equation}\label{eq:cof}
-	\cof A = \sum_{i = 1}^{|S|} \sum_{j = 1}^{|S|} (-1)^{i + j} \det A_{i,j} 
+	\cof A = \sum_{i} \sum_{j} (-1)^{i + j} \det A_{i,j} 
 \end{equation}
 where $A_{i,j}$ is the submatrix of $A$ that removes the $i$-th row and the $j$-th column.
 If $A$ is invertible, then $\cof A$ is the sum of entries of the matrix inverse $A^{-1}$ multiplied by a factor of $\det A$, i.e. $\cof A = (\det A) (\bone^\tr A^{-1} \bone)$.
@@ -297,71 +326,56 @@ In \cite{bapat-sivasubramanian}, Bapat and Sivasubramanian show the following id
 \end{equation}
 where $\trees(G;S)$ denotes the set of $S$-rooted spanning forests of $G$ (see \S\ref{sec:graphs-matrices} and Theorem~\ref{thm:distance-sub-cof}).
 An immediate consequence of Theorem~\ref{thm:w-main}, together with \eqref{eq:cof-trees}, is the identity
-\begin{equation}
-\label{eq:det-cof}
+\begin{equation}\label{eq:det-cof}
 	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\sum_{F \in \forests_2(G; S)} w(F) \,(\outdeg(F,*) - 2)^2}{\sum_{T \in \trees(G; S)} w(T)} \right).
 \end{equation}
 
 We will refer to ${\det D[S]}/{\cof D[S]}$ as the {\em normalized principal minor} corresponding to the vertex subset $S$. 
 It turns out that normalized principal minors satisfy a monotonicity condition.
 
-\begin{thm}[Monotonicity of normalized principal minors]
+\begin{mainthm}[Monotonicity of normalized principal minors]
 \label{thm:monotonic}
-If $A,B \subseteq V$ are nonempty vertex subsets with $A \subseteq B$,
-then
-\begin{equation*}
-	\frac{\det D[A]}{\cof D[A]}  \leq \frac{\det D[B]}{\cof D[B]}.
-\end{equation*}
-\end{thm}
+	In the setting of Theorem~\ref{thm:w-main}, if $A, B \subseteq V$ are nonempty vertex subsets with $A \subseteq B$,
+	then
+	\begin{equation*}
+		\frac{\det D[A]}{\cof D[A]}  \leq \frac{\det D[B]}{\cof D[B]}.
+	\end{equation*}
+\end{mainthm}
 
 The essential observation behind this result is an intriguing connection to the theory of quadratic optimization; 
 we will show that the normalized principal minor $\det D[S] / \cof D[S]$ is the solution of the following optimization problem: for all vectors $ \boldu \in \RR^S$,
-\begin{align}
+\begin{align*}
 	\text{maximize objective function:} &\quad \boldu^\tr D[S] \boldu \\
 	\text{with constraint:} &\quad \bone^\tr \boldu = 1.
-\end{align}
+\end{align*}
 This result is obtained using the method of Lagrange multipliers,
 and relies on knowledge of the signature of $D[S]$.
 The proof is given in \S\ref{sec:optimization}.
 
 For a nonempty subset $S$, equation \eqref{eq:det-cof} implies the upper bound in
-\begin{equation}
-	0 \leq \frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{e \in E(G)} \alpha_e ,
-\end{equation}
+\begin{equation*}
+	0 \;\leq\; \frac{\det D[S]}{\cof D[S]} \;\leq\; \frac12 \sum_{e \in E(G)} \alpha_e ,
+\end{equation*}
 while the lower bound is implied by the quadratic optimization formulation.
-We get refined bounds by making use of the monotonicity property, Theorem~\ref{thm:monotonic}. Let $\conv(S,G)$ denote the convex hull of $S$, i.e. the subtree of $G$ consisting of all paths between points of $S$.
- 
-\begin{thm}[Bounds on principal minor ratios]
-\label{thm:det-cof-bounds}
-Suppose $G = (V,E)$ is a finite tree with edge lengths $\{\alpha_e \colon e \in E\}$ and with distance matrix $\Da$.
-\begin{enumerate}[label=(\alph*)]
-\item
-For a nonempty subset $S \subseteq V$,
-\begin{equation*}
-	\frac{\det \Da[S]}{\cof \Da[S]} \leq \frac12 \sum_{e \in E(\conv(S, G))} \alpha_e .
-\end{equation*}
-\item 
-If $\gamma$ is a simple path between vertices $s_0, s_1 \in S$, then
-\begin{equation*}
-	\frac12 \sum_{e \in \gamma} \alpha_e \leq \frac{\det \Da[S]}{\cof \Da[S]}.
-\end{equation*}
-\end{enumerate}
-\end{thm}
+We can use the monotonicity property to obtain refined bounds on $\det D[S] / \cof D[S]$, see Theorem~\ref{thm:det-cof-bounds}.
+
+
 
 The monotonicity result, Theorem~\ref{thm:monotonic}, was found independently by
 Devriendt~\cite{devriendt-thesis}*{Property 3.38},
 in the more general context of effective resistance matrices of graphs.
 
+\renewcommand*{\thethm}{\arabic{section}.\arabic{thm}}
 
-\begin{rmk*}
-	It is worth observing that the terms appearing in the submatrix $D[S]$ only depend on the lengths of edges which lie on some path between vertices in $S$.
+\begin{rmk}
+	The terms appearing in the submatrix $D[S]$ only depend on the lengths of edges which lie on some path between vertices in $S$.
 	Depending on the chosen subset $S \subseteq V$, these distances in $D[S]$ may ignore a large part of the ambient tree $G$.
-	However, the expression in Theorem~\ref{thm:w-main} involes all edge lengths.
+	However, the expression in Theorem~\ref{thm:w-main} involves all edge lengths.
 
 	To calculate $\det D[S]$ in this case, using Theorem~\ref{thm:w-main} ``efficiently,'' we could instead replace $G$ by the subtree  $\conv(S,G)$ consisting of the union of all paths between vertices in $S$,
 	which we call the {\em convex hull} of $S$.
 	However, the formulas as stated are true even without this replacement due to cancellation of terms.
-\end{rmk*}
+\end{rmk}
 	
 
 \subsection{Connection with Symanzik polynomials}\label{sec:symanzik}
@@ -376,7 +390,7 @@ The {\em second Symanzik polynomial} is
 \[
 	\varphi_G(p; \underline{x}) = \sum_{F \in \forests_2(G)} \Big(\sum_{v \in F_1} p(v) \Big)^2 \prod_{e \not\in F} x_e ,
 \]
-where $\forests_2(G)$ is the set of two-component spanning forests of $G$ and $F_1$ denotes one of the components of $F = F_1 \cup F_2$.
+where $\forests_2(G)$ is the set of two-component spanning forests of $G$ and $F_1$ denotes one of the components of $F = F_1 \sqcup F_2$.
 Note that it does not matter which component we label as $F_1$, since the momentum constraint implies that
 $\sum_{v \in F_1} p(v)  = - \sum_{v \in F_2} p(v)$.
 
@@ -386,18 +400,16 @@ Let $\psi_{(G/S)}$ and $\varphi_{(G/S)}$ denote the first and second Symanzik po
 Let $p_{\rm can}$ be the momentum function defined on $G/S$ by $p_{\rm can}(v) = \deg(v) - 2$ for $v \not \in S$ and $p_{\rm can}(v_S) = -\sum_{v \not\in S} p_{\rm can}(v)$, where $v_S$ denotes the vertex image of $S$ in the quotient.
 
 The identity in Theorem~\ref{thm:w-main} can be written as follows
-\begin{equation}
-\label{eq:det-symanzik}
-	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \Big(\sum_{e \in E}\alpha_e \Big)\, \psi_{(G/S)}(\underline{\alpha}) - \phi_{(G/S)}(p_{\rm can}; \underline{\alpha}) \right) .
+\begin{equation}\label{eq:det-symanzik}
+	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \Big(\sum_{e \in E}\alpha_e \Big)\, \psi_{(G/S)}(\underline{\alpha}) - \varphi_{(G/S)}(p_{\rm can}; \underline{\alpha}) \right) .
 \end{equation}
-The ``normalized'' ratio \eqref{eq:det-cof} can be written using Symanzik polynomials as
+The ``normalized'' principal minor \eqref{eq:det-cof} can be written using Symanzik polynomials as
 \begin{equation}\label{eq:det-cof-symanzik}
 	\frac{\det D[S]}{\cof D[S]} = \frac12 \left( \sum_{e \in E} \alpha_e - \frac{\varphi_{(G/S)}(p_{\rm can}; \underline{\alpha})}{\psi_{(G/S)}(\underline{\alpha})} \right) .
 \end{equation}
 
-\subsection{Related work}
 
-% \todo[inline]{Karel, Amini, Brown, Khare, -- maybe the new preprint, but be careful.}
+\subsection{Related work}
 
 The idea to study the ratio $({\det D}/{\cof D})$ appeared early on in the literature on distance matrices.
 In \cite{graham-hoffman-hosoya}, it is shown that this ratio is additive on wedge sums of graphs.
@@ -408,7 +420,8 @@ Namely, they consider precisely those minors $\det D[S]$ which can be expressed 
 In contrast, Theorems~\ref{thm:main} and \ref{thm:w-main} make evident use of the tree structure, via the spanning forests in $\forests_1(G; S)$ and $\forests_2(G; S)$.
 
 It is natural to ask how our results for trees may be generalized to arbitrary finite graphs. We address this in an upcoming paper \cite{richman-shokrieh-wu}, which involves more technical machinery.
-Certain ideas in this paper overlap with those developed concurrently and independently in~\cites{devriendt-thesis}.
+In another recent paper, we use related potential theoretic ideas to prove bounds on the number of two-component spanning forests in a graph~\cite{richman-shokrieh-wu-2}.
+Some ideas in the current paper overlap with those developed in~\cite{devriendt-thesis}.
 Some generalizations of our results, namely Theorem~\ref{thm:monotonic}, appear already in \cite{devriendt-thesis}*{Property 3.38}, which is concerned with effective resistances on graphs.
 On a tree, effective resistance is the same as (path-)distance.
 If $D$ is the distance matrix of a tree, then any principal minor $D[S]$ is the effective resistance matrix of some (edge-weighted) graph on the vertex set $S$.
@@ -421,7 +434,7 @@ Baker and Rumely~\cite{baker-rumely}.
 % Kassel--Kenyon--Wu~\cite{kassel-kenyon-wu}
 
 Amini studies ratios of Symanzik polynomials in \cite{amini}, similar to the ratio appearing in \eqref{eq:det-cof-symanzik}, motivated by quantum field theory and the calculation of Feynman amplitudes~\cite{amini-bloch-etal}.
-Amini's results apply for Symanzik polynomials on an arbitrary graph, in contrast to \eqref{eq:det-cof-symanzik} where the revelant graph is a vertex-quotient of a tree.
+Amini's results apply for Symanzik polynomials on an arbitrary graph, in contrast to \eqref{eq:det-cof-symanzik} where the relevant graph is a vertex-quotient of a tree.
 The first Symanzik polynomial can be computed using Kirchhoff's celebrated matrix-tree theorem.
 The second Symanzik polynomial can similarly be calculated via determinant of the generalized Laplacian matrix; see 
 \cite[Section 1.1]{amini} and \cite[Theorem 7.1]{brown}.
@@ -449,9 +462,10 @@ Results such as Theorem~\ref{thm:monotonic} may lead to new tests for phylogenet
 In \S\ref{sec:graphs-matrices} we review terminology and notation concerning graphs, spanning forests, Laplacian matrices, and degree-related identities.
 In \S\ref{sec:distance_prelim} we recall some results on the spectral properties of the distance matrix and its principal submatrices.
 In \S\ref{sec:optimization} we show that the normalized principal minor $(\det D[S] / \cof D[S])$ is the solution to some quadratic optimization problem involving the bilinear form $D[S]$.
-This observaton is used to prove
-Theorem~\ref{thm:monotonic} (monotonicity) and Theorem~\ref{thm:det-cof-bounds}.
+This observation is used to prove
+Theorem~\ref{thm:monotonic} (monotonicity).
 In \S\ref{sec:distance_proofs} we prove Theorems~\ref{thm:main} and \ref{thm:w-main}, which give a combinatorial expression for $\det D[S]$ in terms of rooted spanning forests.
+In \S\ref{sec:char-poly} we prove Theorem~\ref{thm:dist-poly-coeff} on the coefficients of the distance matrix characteristic polynomial.
 We end the paper with some examples in \S\ref{sec:examples} demonstrating Theorems~\ref{thm:main} and \ref{thm:w-main}.
 
 
@@ -462,18 +476,17 @@ We also thank Matt Baker, Karel Devriendt, Apoorva Khare, and Sebastian Prillo f
 We thank \'{A}lvaro Guti\'{e}rrez for helpful discussions regarding his follow-up to our work.
 
  HR was supported by the Howard Hughes Medical Institute and the Matsen Group at the Fred Hutchinson Cancer Center. 
- % \todo{acknowledges lab}
  FS was partially supported by NSF CAREER DMS-2044564 grant.
  CW was partially supported by Simons Collaboration Grant 850685.
 
 
-\renewcommand*{\thethm}{\arabic{section}.\arabic{thm}}
+% \renewcommand*{\thethm}{\arabic{section}.\arabic{thm}}
 
 \section{Graphs and spanning forests}
 \label{sec:graphs-matrices}
 
 Throughout, let $G = (V, E)$ be a finite graph with (positive, real) edge lengths $\{ \alpha_e \colon e \in E\}$. 
-A graph without edge lengths will be considered as a special case, with $\alpha_e=1$ for all $e \in E$.
+A graph without assignment of edge lengths will be considered as a special case, with $\alpha_e=1$ for all $e \in E$.
 
 We assume all graphs in the paper are equipped with an implicit (arbitrary) orientation. This means we fix a pair of functions $\mathrm{head}\colon E \to V$ and $\mathrm{tail}\colon E \to V$, such that $\mathrm{head}(e)$ and $\mathrm{tail}(e)$ are the endpoints of $e$. We abbreviate $\mathrm{head}(e)$ as $e^+$, and $\mathrm{tail}(e)$ as $e^-$.
 
@@ -496,10 +509,10 @@ and  contains all vertices of $G$.
 
 
 
-Given a set of vertices $S = \{v_1, v_2, \ldots, v_r\}$,
+Given a nonempty set of vertices $S$  % $S = \{v_1, v_2, \ldots, v_r\}$,
 an {\em $S$-rooted spanning forest} of $G$ 
 is a spanning forest which has exactly one vertex of $S$ in each connected component.
-Given $s \in S$ and a forest $F$, we let $F(s)$ denote the {\em $s$-component} of $F$, that is, the component of $F$ containing $s$.
+Given $s \in S$ and such a forest $F$, we let $F(s)$ denote the {\em $s$-component} of $F$, that is, the component of $F$ containing $s$.
 
 An {\em $(S,*)$-rooted spanning forest} of $G$ is a spanning forest which has $|S|+1$ components, where $|S|$ components each contain one vertex of $S$, and the additional component is disjoint from $S$.
 We call the component disjoint from $S$ the {\em floating component}, following terminology in \cite{kassel-kenyon-wu}.
@@ -780,8 +793,7 @@ Here $\one(\cdot)$ denotes the indicator function.
 
 Let $\{ \alpha_e \colon e \in E\}$ denote the edge lengths as before. 
 The Laplacian matrix is defined by
-\begin{equation}
-\label{eq:weighted-laplacian}
+\begin{equation}\label{eq:weighted-laplacian}
 	\La = B \begin{pmatrix}
 	\alpha_1^{-1} & & \\
 	& \ddots & \\
@@ -789,7 +801,6 @@ The Laplacian matrix is defined by
 	\end{pmatrix} B^\tr .
 \end{equation}
 It is clear that $\La$ is positive semidefinite, since edge lengths are positive. 
-
 Note that the incidence matrix depends on the choice of the orientation but the Laplacian matrix does not.
 
 
@@ -807,8 +818,8 @@ For a subset $A \subseteq E$ we define $w(A)$ as
 % \begin{equation} \label{weight-coweight}
 % 	w(A) = w'(A) \prod_{e \in E} \alpha_e 
 % \end{equation}
-If $H$ is a subgraph of $G$, we use $H$ to also denote its subset of edges $E(H)$. So, in symbols, $w(H) = w\left(E(H)\right)$.
-
+If $H$ is a subgraph of $G$, we use $w(H)$ to denote $w(E(H))$. 
+% So, in symbols, $w(H) = w\left(E(H)\right)$.
 Let 
 \[
 	\kappa(G;S) = \sum_{T \in \trees(G; S)} w(T) .
@@ -816,7 +827,7 @@ Let
 When all edge lengths are one, $\kappa(G; S)$ is the number of $S$-rooted spanning forests.
 
 \begin{rmk}
-If $G$ is a graph {\em without} edge lengths (so $\alpha_e=1$ for all $e \in E$), then $\kappa(G;S)$ is simply the number of $S$-rooted spanning forests of $G$.
+If $G$ is a graph {\em without} assignment of edge lengths (so $\alpha_e=1$ for all $e \in E$), then $\kappa(G;S)$ is simply the number of $S$-rooted spanning forests of $G$.
 In this case, $\kappa(G;S)$ is also the number of spanning trees of the quotient graph $G / S$, which ``glues together'' all vertices in $S$ as a single vertex $v_S$.
 \end{rmk}
 
@@ -830,7 +841,7 @@ Given $S \subseteq V$, let $L[\overline S]$ denote the matrix obtained from $L$ 
 %The following theorem relates minors of the Laplacian to (weighted) counts of rooted spanning forests.
 \begin{thm}
 \label{thm:matrix-tree}
-Let $G = (V,E)$ be a finite graph with edge lengths $\{ \alpha_e \colon e \in E\}$
+Let $G = (V,E)$ be a finite graph with edge lengths $\{ \alpha_e \colon e \in E\}$.
 %\begin{enumerate}[(a)]
 %\item 
 %Let $L$ denote the Laplacian matrix of $G$.
@@ -842,9 +853,9 @@ Let $G = (V,E)$ be a finite graph with edge lengths $\{ \alpha_e \colon e \in E\
 %\item 
 %Let $\La$ denote the Laplacian matrix of the graph $G$ with edge lengths $\{\alpha_e\}$. 
 For any nonempty vertex set $S \subseteq V$,
-\begin{equation}
+\begin{equation*}
 	\kappa( G ; S) = \left(\prod_{e \in E} \alpha_e \right) \det L[\overline S] .
-\end{equation}
+\end{equation*}
 %\begin{equation}
 %	\det \La[\overline S] = \sum_{T \in \trees(G; S)} w'(T)
 %	= \sum_{T \in \trees(G; S)} w({T}) \prod_{e \in E} \alpha_e^{-1}
@@ -855,7 +866,7 @@ For any nonempty vertex set $S \subseteq V$,
 \begin{proof}
 See Tutte~\cite[Section VI.6, Equation (VI.6.7)]{tutte}.
 \end{proof}
-Note that the classical (Kirchhoff's) matrix-tree theorem is the special case, where $S$ is a singleton.
+Note that the classical (Kirchhoff's) matrix-tree theorem is the special case where $S$ is a singleton.
 
 \subsection{Tree splits and tree distance}
 \label{sec:tree-splits}
@@ -865,17 +876,16 @@ Note that the classical (Kirchhoff's) matrix-tree theorem is the special case, w
 Fix a tree $G = (V,E)$ with edge lengths $\{ \alpha_e \colon e \in E\}$ (and endowed with an arbitrary orientation). Given an edge $e \in E$, the edge deletion $G \setminus e$ contains two connected components. This phenomenon is referred to as a {\em tree split}.
 
 Using the orientation on $e = (e^+,e^-)$,
-we let $(G \setminus e)^+$ denote the component that contains endpoint $e^+$, and let $(G\setminus e)^-$ denote the component that contains endpoint $e^-$.
-For any $e \in E$ and $v \in V$, we denote by $(G \setminus e)^{v}$ the component of $G\setminus e$ containing $v$, and $(G\setminus e)^{\overline v}$ the component not containing $v$.
+we denote by $(G \setminus e)^\pm$ the component that contains endpoint $e^\pm$. Similarly, given $e\in E$ and a vertex $v$, we denote by $(G \setminus e)^{v}$ the component of $G\setminus e$ containing $v$, and $(G\setminus e)^{\overline v}$ the other.
 
 Tree splits can be used to express the path distances between vertices in a tree as we explain next.
 Given an edge $e\in E$ and vertices $v,w \in V$, let 
-\begin{equation}
+\begin{equation*}
 \delta(e;v,w) = \begin{cases}
 	1 &\text{if $e$ separates  $v$ from $w$}, \\
 	0 &\text{otherwise}.
 \end{cases}
-\end{equation}
+\end{equation*}
 
 \begin{rmk}\label{rmk:delta-properties}
 \hfill
@@ -894,49 +904,43 @@ is the indicator function for the unique path between $v$ and $w$.
 \end{enumerate}
 \end{rmk}
 
-Recall the distance between vertices $v,w$ (with respect to edge lengths $\{ \alpha_e \colon e \in E\}$), denoted by $d(v,w)$, is defined as the sum of the edge lengths $\alpha_e$ along the unique path from $u$ to $v$. 
+Recall the distance between vertices $v,w$ (with respect to edge lengths $\{ \alpha_e \colon e \in E\}$), denoted by $d(v,w)$, is the sum of the edge lengths $\alpha_e$ along the unique path from $u$ to $v$. Now Remark~\ref{rmk:delta-properties} (iii) implies the following.
 
 \begin{prop}
 \label{prop:distance-sum}
-For a tree $G = (V,E)$ with edge lengths $\{\alpha_e \colon e \in E\}$, the corresponding distance function satisfies
+For a tree $G = (V,E)$ with edge lengths $\{\alpha_e \colon e \in E\}$, the distance function satisfies
 \[ 
 	d(v,w) = \sum_{e \in E} \alpha_e \, \delta(e; v,w) .
 \]
 \end{prop}
-\begin{proof}
-This follows from Remark~\ref{rmk:delta-properties} (iii).
-\end{proof}
-
-
 
 \subsection{Outdegree of forest components}
 \label{sec:outdegree}
 
 Given a vertex $v$ in a graph, the {\em degree} $\deg(v)$ is the number of edges incident to $v$.
 A consequence of the ``handshaking lemma'' in graph theory is that for any tree $G$, we have
-\begin{equation}
-\label{eq:handshake}
+\begin{equation}\label{eq:handshake}
 	\sum_{v \in V(G)} (2 - \deg(v)) = 2.
 \end{equation}
-We next state a slight generalization \eqref{eq:handshake}, which will be useful later.
+We next state a slight generalization of \eqref{eq:handshake}, which will be useful later.
 
 Given a connected subgraph $H \subseteq G$,
 we define the {\em edge boundary} $\partial H$ as the set of edges which join $H$ to its complement; i.e.
-\begin{equation}
+\begin{equation*}
 	\partial H = \{ e = \{a,b\} \in E \colon a \in V(H),\, b \not\in V(H)\}.
-\end{equation}
-We define the {\em outdegree} of $H$ in $G$ as the number of edges in its edge boundary, $\outdeg(H) = |\partial H|$. 
+\end{equation*}
+Define the {\em outdegree} of $H$ in $G$ as the number of edges in its edge boundary, $\outdeg(H) = |\partial H|$.
 Note that the edge boundary and outdegree do not depend on the implicit orientation on $E$.
 
 We are especially interested in the following special cases. 
 Let $G$ be a tree and $\emptyset \ne S \subseteq V$. 
-For an $S$-rooted spanning forest $F$ of $G$, and $s \in S$, we define the {\em outdegree} $\outdeg(F,s)$ as the number of edges which join $F(s)$ (the $s$-component of $F$) to a different component; i.e. outdegree of $F(s)$ in the tree $G$. 
+For an $S$-rooted spanning forest $F$ of $G$, and $s \in S$, define the {\em outdegree} $\outdeg(F,s)$ as the number of edges which join $F(s)$ (the $s$-component of $F$) to a different component; i.e. outdegree of $F(s)$ in the tree $G$.
 %\begin{equation}
 %\label{eq:outdeg-forest}
 %	\outdeg(F,s) = |\{ e = (a,b) \in E \colon a \in F(s),\, b \not\in F(s)\}|.
 %\end{equation}
 %(Recall that $F(s)$ denotes the $s$-component of an $S$-rooted spanning forest $F$.)
-Similarly, if $F$ is a $(S,*)$-rooted spanning forest of $G$, we let $\outdeg(F,*)$ denote the outdegree of the floating component $F(*)$.
+Similarly, if $F$ is a $(S,*)$-rooted spanning forest of $G$, let $\outdeg(F,*)$ denote the outdegree of the floating component $F(*)$.
 % and $\partial F(*)$ denote its edge boundary.
 \begin{eg}\label{eg:outdegrees}
 	Consider the tree $G$ from Example~\ref{eg:running}, where $S$ is the set of three leaf vertices.
@@ -1048,10 +1052,9 @@ Similarly, if $F$ is a $(S,*)$-rooted spanning forest of $G$, we let $\outdeg(F,
 \]
 \end{eg}
 
-\begin{lem}
-\label{lem:outdeg-sum}
+\begin{lem}\label{lem:outdeg-sum}
 Suppose $G$ is a tree.
-\begin{enumerate}[label=(\alph*)]
+\begin{enumerate}%[label=(\alph*)]
 \item
 If $H \subseteq G$ is a nonempty connected subgraph then
 \[
@@ -1064,23 +1067,21 @@ For any fixed edge $e$ and fixed vertex $u$ of $G$, we have
 \]
 \end{enumerate}
 \end{lem}
-\begin{proof}
-(a)
-This is straightforward to check by induction on $|V(H)|$,
+\begin{proof}\hspace{0pt}
+\begin{enumerate}
+\item This is straightforward to check by induction on $|V(H)|$,
 with base case $|V(H)| = 1$:
 if $H = \{v\}$ consists of a single vertex, then $\outdeg(H) = \deg(v)$.
-
-
-(b)
-Recall that $(G \setminus e)^{\overline u}$ denotes the component of the tree split $G \setminus e$ that does not contain $u$.
+\item Recall that $(G \setminus e)^{\overline u}$ denotes the component of the tree split $G \setminus e$ that does not contain $u$.
 Its vertices are precisely those $v$ that satisfy $\delta(e; u, v) = 1$ (see Remark~\ref{rmk:delta-properties} (iii)), so
 \[
 	\sum_{v \in V} (2 - \deg(v)) \delta(e; u,v)
 	= \sum_{v \in (G \setminus e)^{\overline u}} (2 - \deg(v)) .
-\] 
+\]
 Since the subgraph $(G \setminus e)^{\overline u}$ has a single edge separating it from its complement, we have
 $\outdeg((G \setminus e)^{\overline u}) = 1$.
-Apply part (a) to obtain the result.
+Apply part (1) to obtain the result.
+\end{enumerate}
 \end{proof}
 
 
@@ -1124,7 +1125,7 @@ there are exactly $(|V| - |S|)$-many choices of pairs $(e, F) \in E(G) \times \f
 \label{sec:distance_prelim}
 
 %In this section we recall some results on the distance matrix of a tree.
-Let $G=(V, E)$ be a tree with edge lengths $\alpha = \{\alpha_e \colon e\in E\}$. The {distance matrix} (with respect to $\alpha$) is symmetric, so it defines a symmetric bilinear forms on the vector space $\RR^V$.
+In the rest of this paper, let $G=(V, E)$ be a tree with edge lengths $\alpha = \{\alpha_e \colon e\in E\}$. The {distance matrix} (with respect to $\alpha$) is symmetric, so it defines a symmetric bilinear forms on the vector space $\RR^V$.
 
 
 \subsection{Signature and invertibility}\label{sec:signature}
@@ -1154,9 +1155,9 @@ Suppose $\Da$ is the distance matrix of a tree with $n$ vertices and edge length
 Then $\Da$ has one positive eigenvalue and $n - 1$ negative eigenvalues.
 \end{lem}
 \begin{rmk}
-The proof in \cite{bapat-book} is by induction on the number of vertices, and uses Cauchy interlacing (Proposition~\ref{prop:cauchy-interlacing}). Lemma 8.15 in \cite{bapat-book} is actually stated for trees without edge lengths. However, the same argument applies to trees with edge lengths if one applies Bapat, Kirkland, Neumann's result \cite[Corollary 2.5]{bapat-kirkland-neumann} (see \eqref{eq:w-full-det}). 
+The proof in \cite{bapat-book} is by induction on the number of vertices, and uses Cauchy interlacing (Proposition~\ref{prop:cauchy-interlacing}). Lemma 8.15 in \cite{bapat-book} is actually stated for trees with all edge lengths $1$. However, the same argument applies to trees with edge lengths if one applies Bapat, Kirkland, Neumann's result \cite[Corollary 2.5]{bapat-kirkland-neumann} (see \eqref{eq:w-full-det}).
 \end{rmk}
-The the following extension of Lemma~\ref{lem:dist-signature} and its proof was communicated to the authors by Bapat (personal communication).
+The following extension of Lemma~\ref{lem:dist-signature} and its proof was communicated to the authors by Bapat.
 \begin{lem}
 \label{lem:distance-sub-nonsingular}
 Suppose $\Da$ is the distance matrix of a tree $G = (V,E)$ with edge lengths $\{\alpha_e \colon e \in E\}$. Let $S \subseteq V$ be a subset of size $|S| \geq 2$. 
@@ -1166,27 +1167,24 @@ In particular, $\det \Da[S] \neq 0$.
 \begin{proof}
 We apply decreasing induction on the size of $S$. 
 For $S = V$, we have Lemma~\ref{lem:dist-signature}.
-Now suppose $|S| = k$ where $2 \leq k < n$, and assume, by induction hypothesis, 
-that the claim holds for all vertex subsets of size greater than $k$.
+Suppose $|S| = k$, where $2 \leq k < n$, and assume the claim holds for all vertex subsets of size greater than $k$.
 Let $S^+ \subseteq V$ be a set of $k + 1$ vertices containing $S$.
-The inductive hypothesis states that $D[S^+]$ has $k$ negative eigenvalues and one positive eigenvalue,
-so Cauchy interlacing (Proposition~\ref{prop:cauchy-interlacing}) from $D[S^+]$ implies that $D[S]$ has at least $k - 1$ negative eigenvalues. 
-Since all diagonal entries of $D[S]$ are zero, $D[S]$ has zero trace. 
-Thus the remaining eigenvalue of $D[S]$ must be positive.
+By induction hypothesis $D[S^+]$ has $k$ negative eigenvalues and one positive eigenvalue.
+By Cauchy interlacing (Proposition~\ref{prop:cauchy-interlacing}), $D[S]$ must have at least $k - 1$ negative eigenvalues. 
+Since all diagonal entries of $D[S]$ are zero, $D[S]$ has zero trace.  Thus the remaining eigenvalue of $D[S]$ must be positive.
 \end{proof}
 
 \subsection{Negative definite hyperplane}
 
-We next prove that any principal submatrix of $D$ induces a negative semidefinite quadratic form on the hyperplane of zero-sum vectors.
+We next prove that any principal submatrix of $D$ induces a negative semidefinite quadratic form on the hyperplane of zero-sum vectors. In other words, $D$ is a {\em conditionally} negative semidefinite matrix.
 %This will be used in Section~\ref{sec:optimization} on quadratic optimization.
 
 Bapat, Kirkland, and Neumann (\cite[Theorem 2.1]{bapat-kirkland-neumann}) prove that
-\begin{equation}
-\label{eq:w-distance-inverse}
+\begin{equation}\label{eq:w-distance-inverse}
 	(\Da)^{-1} \;=\; - \frac12 \La + \frac12 \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm\, \boldm^\tr
 \end{equation}
 where $\boldm$ is the vector with components $\boldm_v = 2 - \deg v$.
-The special case of \eqref{eq:w-distance-inverse} for trees without edge lengths had appeared in an earlier work by Graham and Lov\'asz (\cite[Lemma 1]{graham-lovasz}).
+The special case of \eqref{eq:w-distance-inverse} for trees with all edge lengths $1$ had appeared in an earlier work by Graham and Lov\'asz (\cite[Lemma 1]{graham-lovasz}).
 
 % \begin{rmk}
 % % To our knowledge, a generalization of \eqref{eq:w-distance-inverse}, giving an expression for $D[S]^{-1}$ for a nonempty subset $S \subseteq V$, has not been obtained in the literature. This might be an interesting research problem.
@@ -1203,7 +1201,7 @@ Then
 \begin{proof}
 Multiply \eqref{eq:w-distance-inverse} by the all-ones vector $\bone$; since $\La \bone = 0$ and $\boldm^\tr \bone = 2$ (see \eqref{eq:handshake}), we obtain 
 \[
-(\Da)^{-1} \bone \;=\; \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm .
+	(\Da)^{-1} \bone \;=\; \Big( \sum_{e \in E} \alpha_e\Big)^{-1} \boldm .
 \]
 Therefore, 
 \begin{equation}\label{eq:Dm}
@@ -1214,46 +1212,34 @@ The result now follows from multiplying \eqref{eq:w-distance-inverse} by $\Da$ o
 
 \begin{prop}
 \label{prop:negdef-hyperplane}
-Suppose $D$ is the distance matrix of a tree with edge lengths $\{\alpha_e \colon e \in E\}$.
+Suppose $D$ is a distance matrix as above. % of a tree with edge lengths $\{\alpha_e \colon e \in E\}$.
 Let $S \subset V$ be a nonempty vertex subset.
-\begin{enumerate}[label=(\alph*)]
-
-\item Let $H_{0, S} \subset \RR^S$ be the hyperplane of vectors whose coordinates sum to zero.
-Then the function $\boldu \mapsto \boldu^\tr D[S] \boldu$ is concave on $H_{0, S}$.
-
-\item Let $H_{c, S}$ be the affine hyperplane of vectors whose coordinates sum to $c$.
+Let $H_{c, S} \subset \RR^S$ be the affine hyperplane of vectors whose coordinates sum to $c$.
 Then the function $\boldu \mapsto \boldu^\tr D[S] \boldu$ is concave on $H_{c, S}$.
-
-\end{enumerate}
 \end{prop}
+% \todo{statement of the proposition is shorter, as well as the proof. double check. actually there is something fishy about definitions and D[S] here}
 \begin{proof}
-(a)
-Suppose $\boldu$ is in $H_{0, S}$, so that $\bone^\tr \boldu = 0$.
+Suppose $\boldu$ is in $H_{c, S}$, so that $\bone^\tr \boldu = c$.
+Let $\boldw \in \RR^V$ be image of $\boldu$ under the natural inclusion $\RR^S \to \RR^V$.
 Using Proposition~\ref{prop:dist-laplacian}, we obtain
 \[
-	\boldu^\tr D\boldu = - \frac12 \boldu^\tr DLD \boldu + 0.
+	\boldu^\tr D[S]\boldu = \boldw^\tr D \boldw = - \frac12 (D \boldw)^\tr L (D \boldw) + \frac12 \left(\sum \alpha_e\right) c^2.
 \]
-It is well-known that the Laplacian matrix $L$ is positive semidefinite (this readily follows from \eqref{eq:weighted-laplacian}). 
-Thus $\boldu \mapsto (D \boldu)^\tr L (D \boldu)$ is convex on $H_{0, S}$, so the claim follows.
-
-(b)
-For $\boldu$ in $H_{c, S}$, we have
-\[
-	\boldu^\tr D\boldu = - \frac12 \boldu^\tr DLD \boldu + \frac12 \left(\sum \alpha_e\right) c^2 .
-\]
-As $\boldu$ varies in $H_{c, S}$, the term $\frac12 \left(\sum \alpha_e\right) c^2$ remains constant.
-Thus the concavity depends only on the first term, which agrees with part (a).
+It is well-known (and readily follows from \eqref{eq:weighted-laplacian}) that the Laplacian matrix $L$ is positive semidefinite. Note that as $\boldu$ varies in $H_{c, S}$, the term $\frac12 \left(\sum \alpha_e\right) c^2$ remains constant.
 \end{proof}
 
 
 \section{Quadratic optimization}
 \label{sec:optimization}
 
-Here, we explain how the quantity $({\det D[S]}/{\cof D[S]})$, introduced in \S\ref{sec:Normalized principal minors} arises as the solution of a quadratic optimization problem.
+We explain how the quantity $({\det D[S]}/{\cof D[S]})$, introduced in \S\ref{sec:Normalized principal minors}, arises as the solution of a quadratic optimization problem.
+This is used to prove Theorem~\ref{thm:monotonic}.
+The material in this section is not used in the proofs of Theorems~\ref{thm:main} and \ref{thm:w-main}.
+
 \begin{prop}
 \label{prop:optimization}
 Suppose $D$ is the distance matrix of a tree with edge lengths $\{\alpha_e \colon e \in E\}$. 
-If $D[S]$ is a principal submatrix of a distance matrix indexed by a nonempty subset $S$ of vertices, then 
+If $D[S]$ is the principal submatrix of a distance matrix indexed by a nonempty subset $S$ of vertices, then
 \[
 	\frac{\det D[S]}{\cof D[S]} = \max \{\boldu^\tr D[S] \boldu \colon \boldu \in \RR^S,\, \bone^\tr \boldu = 1 \}.
 \]
@@ -1263,12 +1249,11 @@ If $D[S]$ is a principal submatrix of a distance matrix indexed by a nonempty su
 If $|S| = 1$ then $D[S]$ is the zero matrix and the statement is true trivially.
 
 Assume $|S| \geq 2$.
-Proposition~\ref{prop:negdef-hyperplane} (b) implies that 
+Proposition~\ref{prop:negdef-hyperplane} implies that 
 the objective function $\boldu \mapsto \boldu^\tr D[S]\boldu$ is concave on the domain $\bone^\tr \boldu = 1$, so any critical point is a global maximum.
-To find the critical points using the method of Lagrange multipliers, we must compute the gradients of the objective function and the constraint.
-The gradient of the objective function (i.e. $\boldu^\tr D[S] \boldu$) is $2 D[S] \boldu$, 
-and the gradient of the constraint (i.e. $\bone^\tr \boldu$) is $\bone$.
-By the theory of Lagrange multipliers, the optimal solution $\boldu^*$ is a vector satisfying
+To find the critical points using the method of Lagrange multipliers, we compute the gradients of the objective function and the constraint:
+\[\nabla(\boldu^\tr D[S] \boldu)=2 D[S] \boldu, \nabla(\bone^\tr \boldu)=\bone\]
+Then the optimal solution $\boldu^*$ is a vector satisfying
 \[
 	D[S] \boldu^* = \lambda \bone \qquad\text{for some }\lambda \in \RR.
 \]
@@ -1309,7 +1294,7 @@ We note the following restatement of Proposition~\ref{prop:optimization}, viewin
 where coordinates indexed by $V \setminus S$ are set to zero.
 \begin{cor}
 \label{cor:optimization}
-If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then 
+If $D$ is the distance matrix of a tree and  $S \subset V$, then
 \[
 	\frac{\det D[S]}{\cof D[S]} = \max \{\boldu^\tr D \boldu \colon \boldu \in \RR^V,\, \bone^\tr \boldu = 1,\, \boldu_v = 0 \text{ if } v \not\in S \}.
 \]
@@ -1322,7 +1307,7 @@ If $D[S]$ is a principal submatrix of a distance matrix indexed by $S$, then
 Next we recall a connection between minors of the Laplacian matrix and cofactor sums of the distance matrix, when $G$ is a tree.
 The result is essentially due to Bapat and Sivasubramanian (\cite{bapat-sivasubramanian}).
 
-Recall from \S\ref{sec:Normalized principal minors} that $\cof M$ denotes the {\em sum of cofactors} of $M$, i.e. 
+Recall from \S\ref{sec:Normalized principal minors} that $\cof M$ for a square matrix $M$ denotes the {\em sum of cofactors} of $M$, i.e.
 $\displaystyle
 	\cof M = \sum_{i = 1}^{n} \sum_{j = 1}^{n} (-1)^{i + j} \det M[\overline{i}, \overline{j}]
 $
@@ -1335,9 +1320,9 @@ Let $G = (V, E)$ be a tree with edge lengths $\{\alpha_e \colon e \in E\}$,
 and let $\Da$ be the distance matrix of $G$.
 Let $S \subseteq V$ be a nonempty subset of vertices. 
 Then
-\begin{equation}
+\begin{equation*}
 	\cof \Da[S] = (-2)^{|S| - 1} \kappa(G; S) .
-\end{equation}
+\end{equation*}
 \end{thm}
 \begin{proof}
 Bapat and Sivasubramanian (\cite[Theorem 11]{bapat-sivasubramanian})
@@ -1361,10 +1346,7 @@ The following result is a direct consequence of theorems of Bapat, Kirkland, Neu
 \begin{proof}
 Consider Theorem~\ref{thm:distance-sub-cof} with $S = V$.
 In this case $\trees(G; V)$ is a singleton consisting of the forest $T$ with no edges, so $w({T})$ is the product of all edge lengths.
-Thus
-\[
-	\cof \Da = (-2)^{n - 1} \prod_{e \in E} \alpha_e .
-\]
+Thus $\cof \Da = (-2)^{n - 1} \prod_{e \in E} \alpha_e$.
 Combining this with \eqref{eq:w-full-det} yields the result.
 \end{proof}
 
@@ -1372,7 +1354,7 @@ Combining this with \eqref{eq:w-full-det} yields the result.
 
 %As a consequence of Proposition~\ref{prop:optimization}, we show that the ratio $\displaystyle \frac{\det D[S]}{\cof D[S]}$ behaves monotonically in $S$, and deduce further bounds on $\displaystyle \frac{\det D[S]}{\cof D[S]}$.
 
-Using Proposition~\ref{prop:optimization}, we can now prove Theorem~\ref{thm:monotonic} and Theorem \ref{thm:det-cof-bounds}.
+Using Proposition~\ref{prop:optimization}, we can now prove Theorem~\ref{thm:monotonic}.
 
 \begin{proof}[Proof of Theorem~\ref{thm:monotonic}]
 %We are to show that for vertex subsets $A \subseteq B$, we have
@@ -1388,55 +1370,73 @@ $\displaystyle
 	\frac{\det D[B]}{\cof D[B]}
 $
 arise from optimizing the same objective function on an affine subspace of $\RR^V$, 
-but the subspace for $A$ is contained in the subspace for $B$.
+and the subspace for $A$ is contained in the subspace for $B$.
 \end{proof}
 
-\begin{proof}[Proof of Theorem \ref{thm:det-cof-bounds}]
-(a)
-%Recall that $\conv(S, G)$ denotes the subgraph of $G$ which is the union of all paths between vertices in $S$.
-To see
-\begin{equation*}
-	\frac{\det D[S]}{\cof D[S]} \leq \frac12 \sum_{e \in E(\conv(S, G))} \alpha_e ,
-\end{equation*}
-take $B$ as the set of all vertices in $\conv(S, G)$.
-Then $S \subseteq B$, and apply Theorem~\ref{thm:monotonic}.
-By Proposition~\ref{prop:full-det-cof-ratio} we have
-\[
-	\frac{\det D[B]}{\cof D[B]} = \frac12 \sum_{e \in E(\conv(S, G))} \alpha_e .
-\]
 
-(b) 
-Recall that $\gamma$ is a simple path between vertices $s_0, s_1 \in S$.
-To see
-\begin{equation*}
-	\frac12 \sum_{e \in \gamma} \alpha_e \leq \frac{\det D[S]}{\cof D[S]},
-\end{equation*}
-let $A=\{s_0, s_1\}$.
-Then $A \subseteq S$ by assumption. Now apply Theorem~\ref{thm:monotonic}.
-By Proposition~\ref{prop:full-det-cof-ratio} we have
+We get refined bounds by making use of the monotonicity property, Theorem~\ref{thm:monotonic}. 
+Let $\conv(S,G)$ denote the convex hull of $S$, i.e. the subtree of $G$ consisting of all paths between points of $S$.
+This is also known as the {\em Steiner tree} of the subset $S$.
+ 
+\begin{thm}[Bounds on normalized principal minors]
+\label{thm:det-cof-bounds}
+	% Suppose $G = (V,E)$ is a finite tree with edge lengths $\{\alpha_e \colon e \in E\}$ and with distance matrix $\Da$.
+	In the setting of Theorem~\ref{thm:monotonic}, we have the following.
+	\begin{enumerate}[label=(\alph*)]
+	\item
+	For a nonempty subset $S \subseteq V$,
+	\begin{equation*}
+		\frac{\det \Da[S]}{\cof \Da[S]} \;\leq\; \frac12 \sum_{e \in E(\conv(S, G))} \alpha_e .
+	\end{equation*}
+	\item 
+	For any vertices $s_0, s_1 \in S$,
+	if $\gamma$ is the path between $s_0$ and $s_1$, then
+	\begin{equation*}
+		\frac12 \sum_{e \in \gamma} \alpha_e \;\leq\; \frac{\det \Da[S]}{\cof \Da[S]}.
+	\end{equation*}
+	\end{enumerate}
+\end{thm}
+
+\begin{proof}
+\begin{enumerate}[label=(\alph*)]
+%Recall that $\conv(S, G)$ denotes the subgraph of $G$ which is the union of all paths between vertices in $S$.
+\item Take $B$ to be the set of all vertices in $\conv(S, G)$.
+Then $S \subseteq B$, so by Theorem~\ref{thm:monotonic}
+and Proposition~\ref{prop:full-det-cof-ratio}, we have
 \[
+	\frac{\det D[S]}{\cof D[S]} \leq \frac{\det D[B]}{\cof D[B]} = \frac12 \sum_{e \in E(\conv(S, G))} \alpha_e .
+\]
+\item 
+% Recall that $\gamma$ is a simple path between vertices $s_0, s_1 \in S$.
+Let $A=\{s_0, s_1\}$.
+Then $A \subseteq S$ by assumption. Now apply Theorem~\ref{thm:monotonic}
+and Proposition~\ref{prop:full-det-cof-ratio}, we have
+\[\frac{\det D[S]}{\cof D[S]}\geq
 	\frac{\det D[A]}{\cof D[A]}
 	= \frac12 d(s_0, s_1) 
 	= \frac12 \sum_{e \in \gamma} \alpha_e .
 	\qedhere
 \]
+\end{enumerate}
 \end{proof}
 
 
-\section{Proof of Theorems~\ref{thm:main} and \ref{thm:w-main}}
+% \section{Proof of Theorems~\ref{thm:main} and \ref{thm:w-main}}
+\section{Determinant identities}
 \label{sec:distance_proofs}
 
-In this section, we prove our main result, Theorem~\ref{thm:w-main}.
+In this section, we prove our main result, Theorem~\ref{thm:w-main}, on the determinant of the principal submatrix $D[S]$.
 Theorem~\ref{thm:main} is an immediate corollary.
 The arguments do not make use of results in \S\ref{sec:optimization}.
 
 \subsection{Outline of the proof}
+\label{sec:proof_outline}
 
 We compute $\det D[S]$ via the following steps.
 
 \begin{enumerate}[label=(\Roman*)]
 \item
-Find a vector $\boldm \in \RR^S$ such that $D[S]\boldm = \lambda \bone$.
+Find the vector $\boldm \in \RR^S$ such that $D[S]\boldm = \lambda \bone$.
 Find $\lambda$.
 
 \item 
@@ -1451,7 +1451,7 @@ Calculate $\displaystyle \frac{\det D[S]}{\cof D[S]} = \frac{\lambda}{\bone^\tr 
 
 
 \item
-Multiply previous expression by $\cof D[S]$, using expression in Theorem~\ref{thm:distance-sub-cof}, to compute $\det D[S]$.
+Multiply the previous expression by $\cof D[S]$, using the expression in Theorem~\ref{thm:distance-sub-cof}, to compute $\det D[S]$.
 \end{enumerate}
 
 
@@ -1467,8 +1467,7 @@ We first define a vector $\boldm$ which satisfies the relation $D[S] \boldm = \l
 \begin{dfn}
 \label{dfn:m-vector}
 Let $\boldm = \boldm(G;S)$ denote the vector in $\RR^S$ be defined by
-\begin{equation}
-\label{eq:m-vector}
+\begin{equation}\label{eq:m-vector}
 \boldm_v =  \sum_{T \in \trees(G;S)} w({T}) (2 - \outdeg(T,v))
 \qquad\text{for each }v \in S.
 \end{equation}
@@ -1477,7 +1476,7 @@ We call $\boldm$ the {\em equilibrium vector} of $(G; S)$.
 %$w({T})$ is the weight of $T$ (see Section~\ref{sec:outdegree}) and $
 \end{dfn}
 
-The choice of terminology ``equilibrium'' here is in reference to potential theory, c.f. \cite{Tsu}\cite{steinerberger}.
+The choice of terminology ``equilibrium'' here is in reference to potential theory, cf. \cite{Tsu, steinerberger}.
 
 %Let $\bone$ denote the all-ones vector.
 \begin{prop}
@@ -1500,18 +1499,17 @@ By Lemma~\ref{lem:outdeg-sum} we can express $\outdeg(T, s)$ as a sum over verti
 = \sum_{T \in \trees(G;S)} w({T}) \left( \sum_{v \in T(s)}(2 - \deg(v))\right).
 \]
 Then exchange the order of summation in $\bone^\tr \boldm$,
-\begin{align}
+\begin{align*}
 	\bone^\tr \boldm = \sum_{s\in S} \boldm_s &= \sum_{s \in S} \left( \sum_{T \in \trees(G;S)} w({T}) \sum_{v \in T(s)}(2 - \deg(v)) \right) \\
 	&= \sum_{T \in \trees(G;S)} w({T}) \left( \sum_{s\in S} \sum_{v \in T(s)} (2 - \deg(v)) \right) .
-\end{align}
+\end{align*}
 Observe that the inner double sum is simply a sum over $v \in V$,
-since the vertex sets $\{T(s) \text{ for } s \in S\}$ form a partition of $V$ by definition of $T$ being $S$-rooted spanning forest.
-Thus 
+since the vertex sets $\{T(s) \text{ for } s \in S\}$ form a partition of $V$ by definition of $T$ being an $S$-rooted spanning forest.
+Thus, using  equation \eqref{eq:handshake}, we obtain:
 \[
 	\bone^\tr \boldm = \sum_{T \in \trees(F;S)} w({T}) \left( \sum_{v \in V} (2 - \deg(v))\right)
 	= \sum_{T \in \trees(F;S)} w({T}) \cdot 2 
 \]
-where we apply equation \eqref{eq:handshake} for the last equality.
 
 (b) 
 All edge lengths are positive, so $w({T}) > 0$ for all $T$, and $\trees(G; S)$ is nonempty as long as $S$ is nonempty. 
@@ -1526,8 +1524,7 @@ The following computation is the technical heart of our main result.
 With $\boldm = \boldm(G;S)$ defined as in \eqref{eq:m-vector},
 $D[S] \boldm = \lambda \bone$
 for the constant
-\begin{equation}
-\label{eq:lambda}
+\begin{equation}\label{eq:lambda}
 	\lambda = \sum_{e \in E(G)} \alpha_e \sum_{T\in \trees(G;S)} w({T}) - \sum_{F \in \forests_2(G;S)} w({F}) \, (2 - \outdeg(F,*))^2.
 \end{equation}
 \end{thm}
@@ -1536,9 +1533,9 @@ for the constant
 For $e\in E$ and $v,w\in V$, let $\delta(e;v,w)$ denote the function defined in \S\ref{sec:tree-splits}.
 For any $v \in S$, we have
 \begin{align}
-  (D[S] \boldm)_v &= \sum_{s \in S} d(v,s) \boldm_s \\
-  &= \sum_{s \in S} \left( \sum_{e \in E(G)} \alpha_e\, \delta(e; v,s) \right) \left( \sum_{T \in \trees(G;S)} (2 - \outdeg(T,s)) w({T}) \right) \\
-  &= \sum_{T\in \trees(G;S)} w({T}) \sum_{e\in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) (2 - \outdeg(T, s)) \right) \\
+  (D[S] \boldm)_v &= \sum_{s \in S} d(v,s) \boldm_s \nonumber \\
+  &= \sum_{s \in S} \left( \sum_{e \in E(G)} \alpha_e\, \delta(e; v,s) \right) \left( \sum_{T \in \trees(G;S)} (2 - \outdeg(T,s)) w({T}) \right) \nonumber \\
+  &= \sum_{T\in \trees(G;S)} w({T}) \sum_{e\in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) (2 - \outdeg(T, s)) \right) \nonumber \\
   &= \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \left( \sum_{s \in S} \delta(e; v,s) \sum_{u \in T(s)} (2 - \deg(u)) \right). \label{eq:14-1}
 \end{align}
 The second line follows from Proposition~\ref{prop:distance-sum} and \eqref{eq:m-vector}. 
@@ -1549,9 +1546,14 @@ Each $S$-rooted spanning forest $T$ naturally induces a surjection $\pi_T\colon 
 \[
 	\pi_T(u) = s \qquad\text{if and only if}\qquad u \in T(s), \text{ the $s$-component of $T$}.
 \]
+We similarly extend $\pi_T$ to edges of $T$, by
+\[
+	\pi_T(e) = s \qquad\text{if and only if} \qquad e \in T(s),
+\]
+where we use the same symbol $\pi_T : E(T) \to S$ by some abuse of notation.
+
 Using this notation,
-\begin{equation}
-\label{eq:9}
+\begin{equation}\label{eq:9}
 	(D[S] \boldm)_v = \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,\pi_T(u)) \right)
 \end{equation}
 We will compare how the above expression changes after replacing $\delta(e; v,\pi_T(u))$ with $\delta(e; v, u)$.
@@ -1563,8 +1565,7 @@ $\displaystyle
 	= 1. 
 $
 Thus
-\begin{equation}
-\label{eq:10}
+\begin{equation}\label{eq:10}
 	\sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e
 	= \sum_{T \in \trees(G;S)} w({T}) \sum_{e \in E} \alpha_e \left( \sum_{u \in V} (2 - \deg(u)) \delta(e; v,u) \right) 
 \end{equation}
@@ -1580,25 +1581,24 @@ $
 
 
 %When $e \in E$ and $v \in V$ are fixed, $u \mapsto \delta(e; v, u)$ is the indicator function of one component of the tree split $G \setminus e$.
-We focus on the inner expression $\delta(e; v, \pi_T(u)) - \delta(e; v, u)$,
-where we suppose $e$, $v$, and $T$ are fixed.
+We focus on the inner expression $\delta(e; v, \pi_T(u)) - \delta(e; v, u)$.
+% where we suppose $e$, $v$, and $T$ are fixed.
 Recall that
-\begin{equation}
-\label{eq:delta-diff}
+\begin{equation}\label{eq:delta-diff}
 	\delta(e; v, \pi_T(u)) - \delta(e; v, u) 
 	= \one(\pi_T(u) \in (G \setminus e)^{\overline v}) - \one( u \in (G \setminus e)^{\overline v}) ,
 \end{equation}
-c.f. Remark~\ref{rmk:delta-properties} (ii).
-Now consider varying $u$ over all vertices, when $e$, $T$, and $v$ are fixed.
-We have the following three cases:
+cf. Remark~\ref{rmk:delta-properties} (ii).
+Now, consider varying $u$ over all vertices, when $e$, $T$, and $v$ are fixed.
+There are three cases:
 
 \begin{itemize}[leftmargin=*]
 \item Case 1: if $e \not \in T$, then $u$ and $\pi_T(u)$ are on the same side of the tree split $G \setminus e$, for every vertex $u$.
 In this case $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot) = 0$.
 
-\item Case 2: if $e \in T$ and $\pi_T(e)$ is separated from $v$ by $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, left.
+\item Case 2: if $e \in T$ and $e$ separates $\pi_T(e)$ from $v$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, left.
 
-\item Case 3: if $e \in T$ and $\pi_T(e)$ is on the same component as $v$ from $e$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the negative of the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, right.
+\item Case 3: if $e \in T$ and $e$ does not separate $\pi_T(e)$ from $v$, then $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot)$ is the negative of the indicator function for the floating component of $T \setminus e$. See Figure~\ref{fig:e-delete-from-forest}, right.
 \end{itemize}
 \begin{figure}[h]
 \begin{minipage}{0.45\textwidth}
@@ -1669,16 +1669,16 @@ In this case $\delta(e;v, \pi_T(\cdot)) - \delta(e; v, \cdot) = 0$.
 \label{fig:e-delete-from-forest}
 \end{figure}
 
-Thus, when multiplying the term \eqref{eq:delta-diff} by $(2 - \deg(u))$ and summing over all vertices $u$, we obtain
+Thus, upon multiplying the term \eqref{eq:delta-diff} by $(2 - \deg(u))$ and summing over all vertices $u$, and applying Lemma~\ref{lem:outdeg-sum}, we obtain
 \begin{align}
-	\sum_{u \in V} (2 - \deg(u)) &\left(\delta(e; v, \pi_T(u)) - \delta(e; v, u)\right) \\
+	\sum_{u \in V} (2 - \deg(u)) &\left(\delta(e; v, \pi_T(u)) - \delta(e; v, u)\right) \nonumber \\
 	&= \begin{cases}
 	0 &\text{if } e \not \in T, \\
-	2 - \outdeg(T \setminus e, *) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 1, \\
-	-(2 - \outdeg(T \setminus e, *)) &\text{if } e \in T(s_0) \text{ and } \delta(e; v, s_0) = 0 .
+	2 - \outdeg(T \setminus e, *) &\text{if } e \in T \text{ and } \delta(e; v, \pi_T(e)) = 1, \\
+	-(2 - \outdeg(T \setminus e, *)) &\text{if } e \in T \text{ and } \delta(e; v, \pi_T(e)) = 0 .
 	\end{cases} \label{delta-diff-sum}
 \end{align}
-Therefore substituting \eqref{delta-diff-sum} into \eqref{eq:subtract-delta-diff} yields
+Substituting \eqref{delta-diff-sum} into \eqref{eq:subtract-delta-diff} yields
 \begin{multline}\label{eq:45}
 	(\star)
 	= \sum_{T\in \trees(G;S)} \! w({T}) \sum_{e \in T} \alpha_e \times \\
@@ -1707,7 +1707,7 @@ Thus
 Now for any $e \not\in F$, let $\delta(e; v, F(*)) = \delta(e; v, x)$ for any $x \in F(*)$, i.e.
 \[
 	\delta(e; v, F(*)) = \begin{cases}
-	1 &\text{if $e$ lies on path from $v$ to $F(*)$}, \\
+	1 &\text{if $e$ lies on a path from $v$ to $F(*)$}, \\
 	0 &\text{otherwise}.
 	\end{cases}
 \]
@@ -1719,6 +1719,7 @@ Therefore
 	(\star) = \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F,*))  \Bigg( \#\{e \in \partial F(*) \colon \delta(e; v, F(*)) = 0 \}  \\
 	- \#\{e \in \partial F(*) \colon \delta(e; v, F(*)) = 1 \}  \Bigg).
 \end{multline}
+
 Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
 there is exactly one edge $e$ in the boundary $\partial F(*)$ of the floating component which satisfies $\delta(e; v, F(*)) = 1$, namely the unique boundary edge on the path from the floating component $F(*)$ to $v$.
 Hence
@@ -1757,7 +1758,7 @@ as desired.
 	}
 
 	\draw (1) -- (A);
-	\draw[dotted] (A) -- node[above] {$e$} (B);
+	\draw[dotted] (A) -- node[below] {$e$} (B);
 	\draw (B) -- (C);
 	\draw[dotted] (C) -- (D);
 	\draw (D) -- (2);
@@ -1795,6 +1796,7 @@ as desired.
 		\draw[dotted] (B) -- (3);
 
 		\node[above=0.1] at (2) {$v$};
+		\node[left] at (1) {$\pi_T(e)$};
 	\end{tikzpicture}
 \end{minipage}
 \caption{A forest $F \in \forests_2(G; S)$ and edge $e \in \partial F(*)$,
@@ -1827,12 +1829,12 @@ as desired.
 			\draw (1) -- (A);
 			\draw[dotted] (A) -- (B);
 			\draw (B) -- (C);
-			\draw[dotted] (C) -- node[above] {$e$} (D);
+			\draw[dotted] (C) -- node[below] {$e$} (D);
 			\draw (D) -- (2);
 			\draw[dotted] (B) -- (3);
 		
 			\node[above=0.1] at (2) {$v$};
-			\node[below=0.2] at (C) {$F(*)$};
+			\node[below=0.2] at (B) {$F(*)$};
 			
 			\draw[color=red, line width=12pt, cap=round, opacity=0.1] (B) -- (C);
 		\end{tikzpicture}
@@ -1863,6 +1865,7 @@ as desired.
 			\draw[dotted] (B) -- (3);
 
 			\node[above=0.1] at (2) {$v$};
+			\node[below right] at (2) {$\pi_T(e)$};
 		\end{tikzpicture}
 	\end{minipage}
 \caption{A forest $F \in \forests_2(G; S)$ and edge $e \in \partial F(*)$, with $\delta(e; v, F(*)) = 1$ (left). 
@@ -1878,17 +1881,18 @@ Finally we can prove our main theorems, giving combinatorial expressions for $\d
 %\label{eq:w-main-later}
 %	\det D[S] = (-1)^{|S|-1} 2^{|S|-2} \left( \sum_{E(G)}\alpha_e \sum_{\trees(G;S)} \!\! w({T}) - \!\!\!\! \sum_{\forests_2(G;S)} \!\! w({F}) (\outdeg(F,*) - 2)^2 \right).
 %\end{equation}
+The proof uses the argument outlined in \S\ref{sec:proof_outline}.
 \begin{proof}[Proof of Theorem~\ref{thm:w-main}]
 First, suppose $|S| = 1$.
 Then $D[S]$ is the zero matrix, and we must show that the right-hand side is zero.
 Since $G$ is a tree, $\trees(G; \{v\})$ consists of the tree $G$ itself, with weight $w({G}) = 1$.
-Moreover, the subgraphs in $\forests_2(G; \{v\})$ are precisely $G \setminus e$ for $e \in E$, and for each forest $F = G \setminus e$ we have 
+Moreover, the forests in $\forests_2(G; \{v\})$ are precisely $G \setminus e$ for every $e \in E$, and for $F = G \setminus e$ we have 
 $w({F}) = \alpha_e$ and
 $(\outdeg(F, *) - 2)^2 = 1$.
 This shows that the right-hand side of \eqref{eq:w-main} is zero.
 
-Next, suppose $|S| \geq 2$.
-Lemma~\ref{lem:distance-sub-nonsingular} states that $D[S]$ is nonsingular, so we may use the inverse matrix identity
+Now suppose $|S| \geq 2$.
+Lemma~\ref{lem:distance-sub-nonsingular} shows $D[S]$ is nonsingular, so we may use the inverse matrix identity
 \begin{equation}\label{eq:cof-invsere-sum}
 	\bone^\tr D[S]^{-1} \bone =
 	\frac{\cof D[S]}{\det D[S]}. 
@@ -1926,9 +1930,120 @@ and
 \end{proof}
 
 
+\section{Characteristic polynomial coefficients}\label{sec:char-poly}
+
+In this section we prove Theorem~\ref{thm:dist-poly-coeff}, on the coefficients of the characteristic polynomial of the distance matrix.
+For simplicity, we state the result for unit edge length trees, but it is clear that a similar result holds for arbitrary edge lengths.
+
+We make use of the following notation.
+For a positive integer $k$, we let $\forests_k(G)$ denote the set of spanning forests of $G$ that contain exactly $k$ connected components.
+If a forest $F$ has connected components $F = C_1 \sqcup \cdots \sqcup C_k$, then we let
+\[
+	\pi(F) := \prod_{i = 1}^k |V(C_i)|.
+\]
+Using this notation, recall that Theorem~\ref{thm:dist-poly-coeff} states that the $\lambda^{n - k}$-coefficient of the characteristic polynomial of $D$ is
+\begin{multline}\label{eq:dist-poly-coeff}
+	\delta_{n - k}
+	= (-1)^{n - 1} 2^{k - 2} \bigg((n - 1) \sum_{\substack{F \in \mathcal F_{k}(G) }} \pi(F) 
+	\\ - \sum_{\substack{F \in \mathcal F_{k + 1}(G) \\ F = C_1 \sqcup \cdots \sqcup C_{k + 1}}} \!\!\! \pi(F) \sum_{j = 1}^{k + 1}  \frac{(\outdeg(C_j) - 2)^2}{|V(C_j)|}\bigg) .
+\end{multline}
+\begin{proof}[Proof of Theorem~\ref{thm:dist-poly-coeff}]
+Let $\det(D - \lambda I) = \sum_{k = 0}^n \delta_{n - k} \lambda^{n - k}$.
+It is a standard result in matrix algebra that
+$\displaystyle \delta_{n - k} = (-1)^{n - k} \sum_{|S| = k} \det D[S]$.
+Using Theorem~\ref{thm:main},
+\begin{align}\label{eq:minor-sum}
+	\delta_{n - k} 
+	% &= (-1)^{n - k} \sum_{|S| = k} \det D[S] \\
+	&= (-1)^{n - 1} 2^{k - 2} \left( (n - 1)\sum_{|S| = k} \kappa(G; S) - \sum_{|S| = k} \sum_{\forests_2(G; S)} (\outdeg(F, *) - 2)^2 \right) .
+\end{align}
+Then, observe that
+\begin{align}
+	\sum_{|S| = k} \kappa(G; S) &= \sum_{\substack{S \subset V \\ |S| = k}} |\{F \in \forests_k(G) : \text{$F$ is rooted by $S$}\}| \label{eq:c-pf-term-1}\\
+	&= \sum_{F \in \forests_k(G)} |\{S \subset V : \text{$F$ is rooted by $S$}\}|
+	= \sum_{F \in \forests_k(G)} \pi(F), \nonumber
+\end{align}
+since $\pi(F) := \prod_{i = 1}^k |V(C_i)|$ is the number of ways of rooting the forest $F$ with components $C_1 \sqcup \cdots \sqcup C_k$.
+%\[
+%	\pi(F) := \prod_{i = 1}^k |V(C_i)| = |\{S \subset V : F \text{ is $S$-rooted}\}|.
+%\]
+Next, the summation of $ (\outdeg(F, *) - 2)^2$-terms over $\forests_2(G; S)$ can be similarly rearranged to
+\begin{equation}\label{eq:c-pf-term-2}
+	\sum_{|S| = k} \sum_{\forests_2(G; S)} (\outdeg(F, *) - 2)^2 = 
+	\sum_{\substack{F \in \forests_{k + 1}(G) \\ F = C_1 \sqcup \cdots \sqcup C_{k + 1}}} \sum_{j = 1}^{k + 1} \frac{\pi(F)}{|V(C_j)|} \cdot  (\outdeg(C_j) - 2)^2
+\end{equation}
+since each forest in $\forests_2(G; S)$ has $k + 1$ components and $\pi(F) / {|V(C_j)|} $ is the number of ways to mark $F$ as an $(S, *)$-rooted forest in which $C_j$ is the floating component.
+The desired result \eqref{eq:dist-poly-coeff} now follows from \eqref{eq:minor-sum}, \eqref{eq:c-pf-term-1}, and \eqref{eq:c-pf-term-2}.
+\end{proof}
+
+\begin{rmk}
+In~\cite{graham-szemeredi}, it is shown that when expressing $\delta_i$ as a linear combination of subforest counts, the resulting subforest coefficients are unique.
+At first glance, this seems to contradict the existence of both \cite{graham-lovasz} and Theorem~\ref{thm:dist-poly-coeff} as distinct expressions for $\delta_i$ in terms of subforest counts.
+
+This apparent contradiction is resolved by noting that in \eqref{eq:dist-poly-coeff}, the term $\outdeg(C_j)$ depends not only on the forest $F$, but on the embedding in the ambient tree $F \subset G$.
+The forests in \eqref{eq:dist-poly-coeff} also may have isolated vertices, which is disallowed by \cite{graham-szemeredi}.
+
+\end{rmk}
 
 \section{Examples}
 \label{sec:examples}
+
+\begin{eg}
+Suppose $G$ is the tree with unit edge lengths shown in Figure~\ref{fig:tree-5}, with five leaf vertices and three internal vertices.
+Let $S=\{1,2,3,4,5\}$ be the set of leaf vertices. 
+The corresponding distance submatrix is
+\[
+	D[S] = \begin{pmatrix}
+	0 & 2 & 3 & 4 & 4 \\
+	2 & 0 & 3 & 4 & 4 \\
+	3 & 3 & 0 & 3 & 3 \\
+	4 & 4 & 3 & 0 & 2 \\
+	4 & 4 & 3 & 2 & 0
+	\end{pmatrix},
+\]
+whose determinant is $864$.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=0.6]
+	\coordinate (1) at (-2,0.7);
+	\coordinate (2) at (-2,-0.6);
+	\coordinate (3) at (0,-1);
+	\coordinate (4) at (2,-0.7);
+	\coordinate (5) at (2,0.7);
+	\coordinate (A) at (-1,0);
+	\coordinate (B) at (0,0);
+	\coordinate (C) at (1,0);
+
+	\node[left=2pt] at (1) {$1$};
+	\node[left=2pt] at (2) {$2$};
+	\node[left=2pt] at (3) {$3$};
+	\node[right=2pt] at (4) {$4$};
+	\node[right=2pt] at (5) {$5$};
+
+	\draw (B) -- (A) -- (1);
+	\draw (A) -- (2);
+	\draw (3) -- (B) -- (C) -- (4);
+	\draw (C) -- (5);
+	
+	\foreach \c in {1,2,3,4,5,A,B,C} {
+		\fill[black] (\c) circle (3pt);
+	}
+\end{tikzpicture}
+\caption{Tree with five leaves.}
+\label{fig:tree-5}
+\end{figure}
+
+The tree $G$ has $7$ edges and $21$ $S$-rooted spanning forests.
+There are $19$ $(S, *)$-rooted spanning forests. 
+Of the floating components in these forests, $14$ have outdegree three, $4$ have outdegree four, and $1$ has outdegree five.
+By Theorem~\ref{thm:main},
+\[
+	\det D[S] 
+	= (-1)^4\, 2^3 \left( 7 \cdot 21 - (14 \cdot 1^2 + 4 \cdot 2^2 + 1 \cdot 3^2) \right) = 864.
+\]
+\end{eg}
+
 \begin{eg}
 Suppose $G$ is a tree consisting of three edges joined at a central vertex.
 \[
@@ -2530,6 +2645,7 @@ The determinant of $D[S]$ normalized by its sum of cofactors, is
 \end{multline}
 \end{eg}
 
+% \todo{mathscinet spells O. Amini and Omid Amini as is, we shouldn't have worried about the first two references. but I will keep the edits as is. We don't have reference to our AIHP paper actually, should we? I changed the year for RSW to 2026, should we do 2025? :)}
 
 \bibliography{tree-distance-ref} 
 \bibliographystyle{abbrv}
