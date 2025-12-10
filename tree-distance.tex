@@ -244,7 +244,7 @@ Their expression for $\delta_i$ involves summing over all spanning forests of $G
 
 The simplest case of their theorem, beyond $\delta_0$, is~\cite[Equation (6), p. 63]{graham-lovasz}
 \begin{equation}\label{eq:delta-1-graham-lovasz}
-    \delta_1(G) = (-1)^{n - 1} 2^{n - 3} \left(4\cdot N_{2 P_1}(G) + 2\cdot N_{P_2}(G) + 4n - 8 \right)
+    \delta_1(G) = (-1)^{n - 1} 2^{n - 3} \left(4\cdot N_{2 P_1}(G) + 2\cdot N_{P_2}(G) + 4n - 8 \right) ,
 \end{equation}
 where $G$ is a tree on $n$ vertices, and $N_{2 P_1}(G)$ (resp. $N_{P_2}(G)$) denotes the number of subgraphs of $G$ isomorphic to two disjoint edges (resp. to a two-edge path).
 
@@ -261,20 +261,18 @@ we obtain a new combinatorial expression for the coefficient $\delta_i$.
 Let $G$ be a tree with unit edge lengths, 
 and let $\det(D - \lambda I) = \sum_{i} \delta_i \lambda^i$
 denote the characteristic polynomial of its distance matrix.
-Then % the coefficients satisfy
+Then 
 \[
-	\delta_{n - k} = (-1)^{n - 1} 2^{k - 2} \left((n - 1) \sum_{\substack{F \in \mathcal F_{k}(G) }} \pi(F) - \sum_{\substack{F \in \mathcal F_{k + 1}(G) \\ F = C_1 \sqcup \cdots \sqcup C_{k + 1}}} \!\!\! \pi(F) \sum_{j = 1}^{k + 1}  \frac{(\outdeg(C_j) - 2)^2}{|V(C_j)|}\right),
+	\delta_{n - k} = (-1)^{n - 1} 2^{k - 2} \left((n - 1) \sum_{\substack{F \in \mathcal F_{k}(G) }} \!\!\! \pi(F) - \!\!\!\!\!\! \sum_{\substack{F \in \mathcal F_{k + 1}(G) \\ F = C_1 \sqcup \cdots \sqcup C_{k + 1}}} \!\!\!\!\!\! \pi(F) \sum_{j = 1}^{k + 1}  \frac{(\outdeg(C_j) - 2)^2}{|V(C_j)|}\right),
 \]
 where 
 $\forests_k(G)$ denotes the set of $k$-component spanning forests of $G$,
 and $\pi(F) = \prod_{i = 1}^k |V(C_i)|$ 
 for a forest $F$ with components $C_1 \sqcup \cdots \sqcup C_k$.
 \end{mainthm}
-Compared to this expression for $\delta_{n - k}$,
-the main result of Graham--Lov\'asz~\cite[Equation (42), p. 81]{graham-lovasz}
-is longer since it involves sums over spanning forests in $G$ with $(k - 1)$ components, in addition to those with $k$ or $(k + 1)$ components.
-Their expression is also more complicated in each of the summands.
-Despite selling their result as a ``surprisingly simple'' coefficient expression, it requires three lines to fit on the page, which perhaps explains why the authors were hesitant to state the result earlier in their paper.
+
+The expression in Theorem~\ref{thm:dist-poly-coeff} should be compared with the main result of Graham--Lov\'asz~\cite[Equation (42), p. 81]{graham-lovasz}, where the expression occupies three lines and it involves summing over spanning forests in $G$ with $(k - 1)$ components, as well as those with $k$ or $(k + 1)$ components.
+%Compared to this expression for $\delta_{n - k}$, the main result of Graham--Lov\'asz~\cite[Equation (42), p. 81]{graham-lovasz} is longer since it involves sums over spanning forests in $G$ with $(k - 1)$ components, in addition to those with $k$ or $(k + 1)$ components. Their expression is also more complicated in each of the summands. 
 
 %requiring three lines to fit on the page,
 %which perhaps explains why the authors were hesitant to state the result earlier in their paper despite selling their coefficient expression as ``surprisingly simple''.
@@ -361,8 +359,7 @@ We can use the monotonicity property to obtain refined bounds on $\det D[S] / \c
 
 
 
-The monotonicity result, Theorem~\ref{thm:monotonic}, was found independently by
-Devriendt~\cite{devriendt-thesis}*{Property 3.38},
+The monotonicity result in Theorem~\ref{thm:monotonic} was found independently by Devriendt \cite{devriendt-thesis}*{Property 3.38},
 in the more general context of effective resistance matrices of graphs.
 
 \renewcommand*{\thethm}{\arabic{section}.\arabic{thm}}
@@ -1700,9 +1697,9 @@ Thus
 \begin{align*}
 	(\star) 
 	&= \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F, *)) \times \\
-	& \qquad \qquad \qquad \qquad   \sum_{e \in \partial F(*)} \Big( \one(\delta(e; v, \pi_{(F \cup e)}(e)) = 1) - \one(\delta(e; v, \pi_{(F \cup e)}(e)) = 0) \Big) \\
-	&= \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F,*)) \times \\
-	& \qquad\qquad \Bigg( \#\{e \in \partial F(*) \colon \delta(e; v, \pi_{(F \cup e)}(e)) = 1\} - \#\{e \in \partial F(*) \colon \delta(e; v, \pi_{(F \cup e)}(e)) = 0\} \Bigg). \\
+	& \qquad\qquad\qquad   \sum_{e \in \partial F(*)} \Big( \one(\delta(e; v, \pi_{(F \cup e)}(e)) = 1) - \one(\delta(e; v, \pi_{(F \cup e)}(e)) = 0) \Big) .
+	% &= \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F,*)) \times \\
+	% & \Bigg(\! \#\{e \in \partial F(*) \colon \delta(e; v, \pi_{(F \cup e)}(e)) = 1\} - \!\#\{e \in \partial F(*) \colon \delta(e; v, \pi_{(F \cup e)}(e)) = 0\} \Bigg). 
 \end{align*}
 Now for any $e \not\in F$, let $\delta(e; v, F(*)) = \delta(e; v, x)$ for any $x \in F(*)$, i.e.
 \[
@@ -1715,9 +1712,17 @@ The condition that $\delta(e; v, \pi_{(F \cup e)}(e)) = 1$ (respectively, $\delt
 is equivalent to ${\delta(e; v, F(*)) = 0}$ (respectively, ${\delta(e; v, F(*)) = 1}$).
 For an illustration, compare Figures~\ref{fig:delta-floating-1} and \ref{fig:delta-floating-2}.
 Therefore
+% \begin{align}
+% 	(\star) 
+% 	&= \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F, *)) \times \nonumber\\
+% 	& \qquad\qquad\qquad   \sum_{e \in \partial F(*)} \Big( \one(\delta(e; v, F(*)) = 0) - \one(\delta(e; v, F(*)) = 1) \Big) \label{eq:penult-new}
+% 	% &= \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F,*)) \times \nonumber\\
+% 	% & \qquad \Bigg(\! \#\{e \in \partial F(*) \colon \delta(e; v, F(*)) = 1\} - \!\#\{e \in \partial F(*) \colon \delta(e; v, F(*)) = 0\} \Bigg). 
+% \end{align}
 \begin{multline}\label{eq:penult}
-	(\star) = \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F,*))  \Bigg( \#\{e \in \partial F(*) \colon \delta(e; v, F(*)) = 0 \}  \\
-	- \#\{e \in \partial F(*) \colon \delta(e; v, F(*)) = 1 \}  \Bigg).
+	(\star) 
+	= \sum_{F \in \forests_2} w({F}) (2 - \outdeg(F, *)) \times  \\
+	\sum_{e \in \partial F(*)} \Big( \one(\delta(e; v, F(*)) = 0) - \one(\delta(e; v, F(*)) = 1) \Big) .
 \end{multline}
 
 Finally, we observe that for any forest $F$ in $\forests_2(G;S)$,
@@ -1933,7 +1938,8 @@ and
 \section{Characteristic polynomial coefficients}\label{sec:char-poly}
 
 In this section we prove Theorem~\ref{thm:dist-poly-coeff}, on the coefficients of the characteristic polynomial of the distance matrix.
-For simplicity, we state the result for unit edge length trees, but it is clear that a similar result holds for arbitrary edge lengths.
+For simplicity, we have stated the result for trees with unit edge lengths. 
+It will be clear from the proof below that a similar result holds for trees with arbitrary edge lengths. 
 
 We make use of the following notation.
 For a positive integer $k$, we let $\forests_k(G)$ denote the set of spanning forests of $G$ that contain exactly $k$ connected components.
@@ -1977,10 +1983,10 @@ The desired result \eqref{eq:dist-poly-coeff} now follows from \eqref{eq:minor-s
 \end{proof}
 
 \begin{rmk}
-In~\cite{graham-szemeredi}, it is shown that when expressing $\delta_i$ as a linear combination of subforest counts, the resulting subforest coefficients are unique.
+In~\cite{graham-szemeredi}, it is shown that, when expressing $\delta_i$ as a linear combination of subforest counts, the resulting subforest coefficients are unique.
 At first glance, this seems to contradict the existence of both \cite{graham-lovasz} and Theorem~\ref{thm:dist-poly-coeff} as distinct expressions for $\delta_i$ in terms of subforest counts.
 
-This apparent contradiction is resolved by noting that in \eqref{eq:dist-poly-coeff}, the term $\outdeg(C_j)$ depends not only on the forest $F$, but on the embedding in the ambient tree $F \subset G$.
+This apparent contradiction is resolved by noting that, in \eqref{eq:dist-poly-coeff}, the term $\outdeg(C_j)$ depends not only on the forest $F$, but on the embedding in the ambient tree $F \subset G$.
 The forests in \eqref{eq:dist-poly-coeff} also may have isolated vertices, which is disallowed by \cite{graham-szemeredi}.
 
 \end{rmk}
