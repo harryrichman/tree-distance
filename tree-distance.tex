@@ -132,7 +132,7 @@ pdftitle={Principal minors of tree distance matrices},
 \begin{document}
 \title{Principal minors of tree distance matrices}
 \author{Harry Richman}
-\email{\href{mailto:hrichman@ncts.ntu.edu.tw}{hrichman@ncts.ntu.edu.tw}}
+\email{\href{mailto:hrichman@nycu.edu.tw}{hrichman@nycu.edu.tw}}
 \author{Farbod Shokrieh}
 \email{\href{mailto:farbod@uw.edu}{farbod@uw.edu}}
 \author{Chenxi Wu}
@@ -349,7 +349,15 @@ in the more general context of effective resistance matrices of graphs.
 	To calculate $\det D[S]$ in this case, using Theorem~\ref{thm:w-main} ``efficiently,'' we could instead replace $G$ by the subtree  $\conv(S,G)$ consisting of the union of all paths between vertices in $S$,
 	which we call the {\em convex hull} of $S$.
 	However, the formulas as stated are true even without this replacement due to cancellation of terms.
+
+	It is instructive to look at the Examples [x] and [x] 
+	\todo{fill in ex labels}
 \end{rmk}
+
+\todo[inline]{add remark: the expression in main identity has positive and negative terms in general, but any evaluation at positive arguments is positive, due to signature [ref].
+This gives some contraint on the average outdegree of floating components if $F_2$.
+
+See examples [x] later}
 	
 
 \subsection{Connection with Symanzik polynomials}\label{sec:symanzik}
@@ -1926,12 +1934,12 @@ whose determinant is $864$.
 
 \begin{figure}[h]
 \centering
-\begin{tikzpicture}[scale=0.6]
-	\coordinate (1) at (-2,0.7);
-	\coordinate (2) at (-2,-0.6);
-	\coordinate (3) at (0,-1);
-	\coordinate (4) at (2,-0.7);
-	\coordinate (5) at (2,0.7);
+\begin{tikzpicture}[scale=0.9]
+	\coordinate (1) at (-1.8,0.6);
+	\coordinate (2) at (-1.8,-0.6);
+	\coordinate (3) at (0,-0.8);
+	\coordinate (4) at (1.8,-0.6);
+	\coordinate (5) at (1.8,0.6);
 	\coordinate (A) at (-1,0);
 	\coordinate (B) at (0,0);
 	\coordinate (C) at (1,0);
@@ -1948,7 +1956,10 @@ whose determinant is $864$.
 	\draw (C) -- (5);
 	
 	\foreach \c in {1,2,3,4,5,A,B,C} {
-		\fill[black] (\c) circle (3pt);
+		\fill[black] (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3,4,5} {
+		\draw (\c) circle (4pt);
 	}
 \end{tikzpicture}
 \caption{Tree with five leaves.}
@@ -1965,7 +1976,89 @@ By Theorem~\ref{thm:main},
 \]
 \end{eg}
 
+
 \begin{eg}
+	Consider ...
+	\todo{fill in}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=0.9]
+	\coordinate (1) at (-1.8,0.6);
+	\coordinate (2) at (-1.8,-0.6);
+	\coordinate (3) at (0,-0.8);
+	\coordinate (4) at (1.8,-0.6);
+	\coordinate (5) at (1.8,0.6);
+	\coordinate (A) at (-1,0);
+	\coordinate (B) at (0,0);
+	\coordinate (C) at (1,0);
+
+	\node[left=2pt] at (1) {$1$};
+	\node[left=2pt] at (2) {$2$};
+	\node[left=2pt] at (3) {$3$};
+	\node[above left=2pt] at (C) {$4$};
+	\node[right=2pt] at (5) {$5$};
+
+	\draw (B) -- (A) -- (1);
+	\draw (A) -- (2);
+	\draw (3) -- (B) -- (C) -- (4);
+	\draw (C) -- (5);
+	
+	\foreach \c in {1,2,3,4,5,A,B,C} {
+		\fill[black] (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3,C,5} {
+		\draw (\c) circle (4pt);
+	}
+\end{tikzpicture}
+\caption{Modified vertex subset $S$ including one internal vertex.}
+\label{fig:tree-5-mod}
+\end{figure}
+The corresponding distance submatrix is
+\[
+	D[S] = \begin{pmatrix}
+	0 & 2 & 3 & 3 & 4 \\
+	2 & 0 & 3 & 3 & 4 \\
+	3 & 3 & 0 & 2 & 3 \\
+	3 & 3 & 2 & 0 & 1 \\
+	4 & 4 & 3 & 1 & 0
+	\end{pmatrix},
+\]
+whose determinant is $320$.
+
+We have
+\[
+	\det D[S] = (-1)^4 2^3 \left(7 \cdot 8 - (12 \cdot 1^2 + 1 \cdot 2^2) \right)
+	= 320
+\]
+
+\todo[inline]{explain decomposition along wedge sum}
+
+\begin{align*}
+	\frac{\det D[S]}{\cof D[S]} &= \frac{1}{2} \left(7 - \frac{12 \cdot 1^2 + 1 \cdot 2^2}{8}\right) \\
+	&= \frac{1}{2} \left(5 - \frac{?}{8}\right) + \frac{1}{2} \left(1 - \frac{0}{1}\right) + \frac{1}{2}\left(1 - \frac{1}{1}\right)
+\end{align*}
+\end{eg}
+
+\begin{rmk}
+	When the marked set $S$ contains an internal vertex $s$, we may express $G$ as a wedge sum of two subgraphs joined at $s$:
+	\[
+		(G, S) = (G_1, S_1) \vee (G_2, S_2).
+	\]
+	In this situation,
+	\[
+	\forests_1(G, S) \cong \forests_1(G_1, S_1) \times \forests_1(G_2, S_2)
+	\]
+	and
+	\[
+	\forests_2(G, S) \;\cong\; \forests_2(G_1, S_1) \times \forests_1(G_2, S_2) \;\sqcup\; \forests_1(G_1, S_1) \times \forests_2(G_2, S_2)
+	\]
+	These observations, along with the fact that $E(G) = E(G_1) \sqcup E(G_2)$, imply that
+	\[
+	\frac{\det D[S]}{\cof D[S]} = \frac{\det D[S_1]}{\cof D[S_1]} + \frac{\det D[S_2]}{\cof D[S_2]}
+	\]
+\end{rmk}
+
+\begin{eg}\label{eg:3-star}
 Suppose $G$ is a tree consisting of three edges joined at a central vertex.
 \[
 \begin{tikzpicture}
@@ -2013,7 +2106,276 @@ The equilibrium vector (which satisfies $D[S] \boldm = \lambda \bone$) in this e
 \]
 \end{eg}
 
+\[
+\begin{tikzpicture}[scale=1.0]
+	\coordinate (1) at (-1,0.37);
+	\coordinate (2) at (-1,-0.37);
+	\coordinate (3) at (0.25,0);
+	\coordinate (4) at (0.75,-0.5);
+	\coordinate (A) at (-0.5,0);
+	
+	\foreach \c in {1,2,3,4,A} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3} {
+		\draw (\c) circle (4pt);
+	}
+
+	\draw (A) -- (1);
+	\draw (A) -- (2);
+	\draw (3) -- (4);
+	\draw (A) -- (3);
+	
+	\foreach \c/\d in {1/left,2/left,3/above,4/right} {
+		\node[\d=0.2] at (\c) {$\c$};
+	}
+\end{tikzpicture}
+\]
+
+
 \begin{eg}
+	\todo[inline]{new example}
+Suppose $G$ is the tree with unit edge lengths shown below, with five leaf vertices.
+\[
+\begin{tikzpicture}[scale=1.0]
+	\coordinate (1) at (-1,0.37);
+	\coordinate (2) at (-1,-0.37);
+	\coordinate (4) at (0.75,-0.5);
+	\coordinate (B) at (1,0);
+	\coordinate (5) at (0.75,0.5);
+	\coordinate (A) at (-0.5,0);
+	\coordinate (3) at (0.25,0);
+	
+	\foreach \c in {1,2,3,4,5,A,B} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3,4,5} {
+		\draw (\c) circle (4pt);
+	}
+
+	\draw (A) -- (1);
+	\draw (A) -- (2);
+	\draw (3) -- (4);
+	\draw (3) -- (B);
+	\draw (3) -- (5);
+	\draw (A) -- (3);
+	
+	\foreach \c/\d in {1/left,2/left,3/above,4/right,5/right} {
+		\node[\d=0.2] at (\c) {$\c$};
+	}
+\end{tikzpicture}
+\]
+Let $S$ denote the set indciated in the figure. Then
+\[
+	D[S] = \begin{pmatrix}
+	0 & 2 & 2 & 3 & 3 \\
+	2 & 0 & 2 & 3 & 3 \\
+	2 & 2 & 0 & 1 & 1 \\
+	3 & 3 & 1 & 0 & 2 \\
+	3 & 3 & 1 & 2 & 0
+	\end{pmatrix}.
+\]
+There are $3$ forests in $\forests_1(G; S)$:
+\[
+\begin{tikzpicture}[scale=0.4]
+	\coordinate (1) at (-2,0.7);
+	\coordinate (2) at (-2,-0.7);
+	\coordinate (3) at (1.5,-1);
+	\coordinate (4) at (2,0);
+	\coordinate (5) at (1.5,1);
+	\coordinate (A) at (-1,0);
+	\coordinate (B) at (0.5,0);
+	
+	\foreach \c in {1,2,3,4,5,A,B} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3,B,5} {
+		\draw (\c) circle (4pt);
+	}
+
+	\draw (A) -- (1);
+	\draw[dotted] (A) -- (2);
+	\draw[dotted] (B) -- (3);
+	\draw (B) -- (4);
+	\draw[dotted] (B) -- (5);
+	\draw[dotted] (A) -- (B);
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[scale=0.4]
+	\coordinate (1) at (-2,0.7);
+	\coordinate (2) at (-2,-0.7);
+	\coordinate (3) at (1.5,-1);
+	\coordinate (4) at (2,0);
+	\coordinate (5) at (1.5,1);
+	\coordinate (A) at (-1,0);
+	\coordinate (B) at (0.5,0);
+	
+	\foreach \c in {1,2,3,4,5,A,B} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3,B,5} {
+		\draw (\c) circle (4pt);
+	}
+
+	\draw[dotted] (A) -- (1);
+	\draw (A) -- (2);
+	\draw[dotted] (B) -- (3);
+	\draw (B) -- (4);
+	\draw[dotted] (B) -- (5);
+	\draw[dotted] (A) -- (B);
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[scale=0.4]
+	\coordinate (1) at (-2,0.7);
+	\coordinate (2) at (-2,-0.7);
+	\coordinate (3) at (1.5,-1);
+	\coordinate (4) at (2,0);
+	\coordinate (5) at (1.5,1);
+	\coordinate (A) at (-1,0);
+	\coordinate (B) at (0.5,0);
+	
+	\foreach \c in {1,2,3,4,5,A,B} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3,B,5} {
+		\draw (\c) circle (4pt);
+	}
+
+	\draw[dotted] (A) -- (1);
+	\draw[dotted] (A) -- (2);
+	\draw[dotted] (B) -- (3);
+	\draw (B) -- (4);
+	\draw[dotted] (B) -- (5);
+	\draw (A) -- (B);
+\end{tikzpicture}
+\]
+There are $4$ forests in $\forests_2(G; S)$:
+\[
+\begin{tikzpicture}[scale=0.4]
+	\coordinate (1) at (-2,0.7);
+	\coordinate (2) at (-2,-0.7);
+	\coordinate (3) at (1.5,-1);
+	\coordinate (4) at (2,0);
+	\coordinate (5) at (1.5,1);
+	\coordinate (A) at (-1,0);
+	\coordinate (B) at (0.5,0);
+	
+	\foreach \c in {1,2,3,4,5,A,B} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3,B,5} {
+		\draw (\c) circle (4pt);
+	}
+
+	\draw[dotted] (A) -- (1);
+	\draw[dotted] (A) -- (2);
+	\draw[dotted] (B) -- (3);
+	\draw (B) -- (4);
+	\draw[dotted] (B) -- (5);
+	\draw[dotted] (A) -- (B);
+
+	% highlight floating component
+	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (A) -- (A);		
+
+\end{tikzpicture}
+\qquad\qquad\qquad
+\begin{tikzpicture}[scale=0.4]
+	\coordinate (1) at (-2,0.7);
+	\coordinate (2) at (-2,-0.7);
+	\coordinate (3) at (1.5,-1);
+	\coordinate (4) at (2,0);
+	\coordinate (5) at (1.5,1);
+	\coordinate (A) at (-1,0);
+	\coordinate (B) at (0.5,0);
+	
+	\foreach \c in {1,2,3,4,5,A,B} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3,B,5} {
+		\draw (\c) circle (4pt);
+	}
+
+	\draw (A) -- (1);
+	\draw[dotted] (A) -- (2);
+	\draw[dotted] (B) -- (3);
+	\draw[dotted] (B) -- (4);
+	\draw[dotted] (B) -- (5);
+	\draw[dotted] (A) -- (B);
+
+	% highlight floating component
+	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (4) -- (4);		
+
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[scale=0.4]
+	\coordinate (1) at (-2,0.7);
+	\coordinate (2) at (-2,-0.7);
+	\coordinate (3) at (1.5,-1);
+	\coordinate (4) at (2,0);
+	\coordinate (5) at (1.5,1);
+	\coordinate (A) at (-1,0);
+	\coordinate (B) at (0.5,0);
+	
+	\foreach \c in {1,2,3,4,5,A,B} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3,B,5} {
+		\draw (\c) circle (4pt);
+	}
+
+	\draw[dotted] (A) -- (1);
+	\draw (A) -- (2);
+	\draw[dotted] (B) -- (3);
+	\draw[dotted] (B) -- (4);
+	\draw[dotted] (B) -- (5);
+	\draw[dotted] (A) -- (B);
+
+	% highlight floating component
+	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (4) -- (4);		
+
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[scale=0.4]
+	\coordinate (1) at (-2,0.7);
+	\coordinate (2) at (-2,-0.7);
+	\coordinate (3) at (1.5,-1);
+	\coordinate (4) at (2,0);
+	\coordinate (5) at (1.5,1);
+	\coordinate (A) at (-1,0);
+	\coordinate (B) at (0.5,0);
+	
+	\foreach \c in {1,2,3,4,5,A,B} {
+		\fill (\c) circle (2pt);
+	}
+	\foreach \c in {1,2,3,B,5} {
+		\draw (\c) circle (4pt);
+	}
+
+	\draw[dotted] (A) -- (1);
+	\draw[dotted] (A) -- (2);
+	\draw[dotted] (B) -- (3);
+	\draw[dotted] (B) -- (4);
+	\draw[dotted] (B) -- (5);
+	\draw (A) -- (B);
+
+	% highlight floating component
+	\draw[color=red, line width=12pt, cap=round, opacity=0.1] (4) -- (4);		
+
+\end{tikzpicture}
+\]
+The floating components of the forests in $\forests_2(G; S)$ have outdegrees $3, 1, 1, 1$.
+
+We have
+\[
+	\det D[S] = 112 = (-1)^4 2^3 \left(6 \cdot 3 - (1 \cdot (3 - 2)^2 + 3 \cdot (1 - 2)^2) \right) ,
+\]
+and the equilibrium vector is
+$\boldm = \begin{pmatrix} 2 & 2 & -4 & 3 & 3 \end{pmatrix}^\tr$.
+\end{eg}
+
+\begin{eg}
+\todo[inline]{modify to add edge length variables; replace next example}
+
 Suppose $G$ is the tree with unit edge lengths shown below, with five leaf vertices.
 \[
 \begin{tikzpicture}[scale=1.0]
@@ -2223,6 +2585,7 @@ There are $11$ forests in $\trees(G;S)$:
 	\draw[dotted] (B) -- (4);
 	\draw[dotted] (B) -- (5);
 	\draw (A) -- (B);
+
 \end{tikzpicture}
 \qquad
 \begin{tikzpicture}[scale=0.4]
@@ -2565,6 +2928,77 @@ The determinant of $D[S]$ normalized by its sum of cofactors, is
 	 - \frac{(abcd + abce + acde + bcde) + 4 (abde)}{(abd + abe + acd + ace + ade + bcd + bce + bde)} \Big).
 \end{multline}
 \end{eg}
+
+\begin{eg}\label{eg:5-star}
+Suppose $G$ is the star graph with five leaf vertices as shown in Figure~\ref{fig:star-5}, with variable edge lengths.
+Let $S$ denote the set of leaf vertices.
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+		\coordinate (1) at (-1.05,0.6);
+		\coordinate (2) at (-1.05,-0.6);
+		\coordinate (3) at (0.5,-1.1);
+		\coordinate (4) at (1.2,0.0);
+		\coordinate (5) at (0.5,1.1);
+		\coordinate (A) at (0,0);
+	
+		\draw (1) -- node[above] {$a$} (A) 
+			-- node[below] {$b$} (2);
+		% \draw (A) -- node[above] {$c$} (B);
+		\draw (3) -- node[right] {$c$} (A) 
+			-- node[above] {$d$} (4);
+		\draw (5) -- node[above left=0.01] {$e$} (A);
+	
+		\foreach \c in {1, 2, 3, 4, 5, A} {
+			\fill[black] (\c) circle (2pt);
+		}
+		% mark vertices in S
+		\foreach \c in {1, 2, 3, 4, 5} {
+			\draw (\c) circle (4pt);
+		}
+		\node[left=2pt] at (1) {$1$};
+		\node[left=2pt] at (2) {$2$};
+		\node[right=2pt] at (3) {$3$};
+		\node[right=2pt] at (4) {$4$};
+		\node[right=2pt] at (5) {$5$};
+	\end{tikzpicture}
+	\caption{Star graph with five leaves, and varying edge lengths.}
+	\label{fig:star-5}
+\end{figure}
+
+Then 
+\[
+	D[S] = \begin{pmatrix}
+	0 & a + b & a + c & a + d & a + e \\
+	a + b & 0 & b + c & b + d & b + e \\
+	a + c & b + c & 0 & c + d & c + e \\
+	a + d & b + d & c + d & 0 & d + e\\
+	a + e & b + e & c + e & d + e & 0
+	\end{pmatrix}
+\]
+and the equilibrium vector is
+\begin{multline}
+	\boldm = 
+	abcd \begin{pmatrix} 1 \\ 1 \\ 1 \\ 1 \\ -2 \end{pmatrix} 
+	+ abce \begin{pmatrix} 1 \\ 1 \\ 1 \\ -2 \\ 1 \end{pmatrix} 
+	+ abde \begin{pmatrix} 1 \\ 1 \\ -2 \\ 1 \\ 1 \end{pmatrix} 
+	+ acde \begin{pmatrix} 1 \\ -2 \\ 1 \\ 1 \\ 1 \end{pmatrix} 
+	+ bcde \begin{pmatrix} -2 \\ 1 \\ 1 \\ 1 \\ 1 \end{pmatrix}  .
+\end{multline}
+
+The determinant of $D[S]$, normalized by its sum of cofactors, is
+\begin{multline}
+	\frac{\det D[S]}{\cof D[S]} 
+	= \frac{1}{2} \Big( (a + b + c + d + e) 
+	 - \frac{9 abcde}{(abcd + abce + abde + acde +  bcde)} \Big).
+\end{multline}
+Note that, in contrast to Example~\ref{eg:3-star}, when the above expression is simplified, we see that $\det D[S]$ has one term whose sign differs from the others, namely $abcde$.
+\end{eg}
+
+\todo[inline]{change above example to star with five leaves, show in computation that polynomial has negative terms (don't need to address directly in remark)}
+
+We remark that if the tree in [above ex] is replaced with [figure] that has one additional edge on the right, then the expression $\det / \cof$ will have some monomial terms with negative coefficients, after cancellation.
+\todo[inline]{fix blanks; need to keep?}
 
 
 \bibliography{tree-distance-ref} 
